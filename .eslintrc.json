@@ -16,7 +16,8 @@
     "ecmaFeatures": {
       "jsx": true,
       "experimentalObjectRestSpread": true
-    }
+    },
+    "project": ["./tsconfig.json", "./tsconfig.node.json"]
   },
   "env": {
     "browser": true,
