@@ -3,7 +3,10 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:prettier/recommended",
+    "eslint-config-prettier"
   ],
   "plugins": ["react", "react-hooks", "@typescript-eslint"],
   "parser": "@typescript-eslint/parser",
@@ -11,7 +14,8 @@
     "ecmaVersion": 2020,
     "sourceType": "module",
     "ecmaFeatures": {
-      "jsx": true
+      "jsx": true,
+      "experimentalObjectRestSpread": true
     }
   },
   "env": {
@@ -20,8 +24,7 @@
     "node": true
   },
   "rules": {
-    "react/react-in-jsx-scope": "off",
-    "quotes": ["error", "single"]
+    "react/react-in-jsx-scope": "off"
   },
   "settings": {
     "react": {
