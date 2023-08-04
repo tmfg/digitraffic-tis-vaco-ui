@@ -1,9 +1,48 @@
 #root {
-  max-width: 1280px;
+  /*max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  text-align: center;*/
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
+
+@font-face {
+    font-family: "PublicSans-Regular";
+    src: local("PublicSans-Regular"),
+    url("./fonts/static/PublicSans-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "PublicSans-ExtraBold";
+    src: local("PublicSans-ExtraBold"),
+    url("./fonts/static/PublicSans-ExtraBold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "PublicSans-Bold";
+    src: local("PublicSans-Bold"),
+    url("./fonts/static/PublicSans-Bold.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "PublicSans-Medium";
+    src: local("PublicSans-Medium"),
+    url("./fonts/static/PublicSans-Medium.ttf") format("truetype");
+}
+
+h1 {
+    font-family: "PublicSans-Regular", serif;
+    margin-top: 50px;
+    margin-left: 25px;
+}
+
+a { text-decoration: none; }
+a:visited { text-decoration: none; color: black; }
+a:hover { text-decoration: none; }
+a:focus { text-decoration: none; }
+a:hover, a:active { text-decoration: none; }
 
 .logo {
 
