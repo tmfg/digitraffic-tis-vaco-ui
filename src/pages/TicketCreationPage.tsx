@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { HttpClient } from '../HttpClient'
+import { EntryRequest } from '../types/EntryRequest'
+import { EntryResource } from '../types/EntryResource'
 
 const TicketCreationPage = () => {
-  const [creationResponse, setCreationResponse] = useState({})
+  const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
 
   const yikes = async () => {
-    const requestBody = {
+    const requestBody: EntryRequest = {
       url: 'http://localhost:8080/stuff.zip',
       format: 'gtfs',
       businessId: '2942108-7',
@@ -17,23 +19,22 @@ const TicketCreationPage = () => {
       }
     }
 
-    const response = await HttpClient.post('/queue', requestBody)
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    setCreationResponse(response.data)
+    const { data } = await HttpClient.post('/queue', requestBody)
+    setEntryResource(data)
   }
 
   return (
     <div>
       <h1>Create ticket</h1>
-      {creationResponse && Object.keys(creationResponse).length > 0 && (
+      {entryResource && (
         <div
           style={{
             fontFamily: 'PublicSans-Medium',
             marginLeft: 25
           }}
         >
-          <h2>Submitted! </h2>
-          <pre style={{ width: 600, whiteSpace: 'pre-wrap' }}>{JSON.stringify(creationResponse)}</pre>
+          <h2>Submitted! Ticket: {entryResource.data.publicId}</h2>
+          <pre style={{ width: 700, whiteSpace: 'pre-wrap' }}>{JSON.stringify(entryResource)}</pre>
         </div>
       )}
       <button
@@ -51,7 +52,7 @@ const TicketCreationPage = () => {
           cursor: 'pointer'
         }}
       >
-        Launch {Object.keys(creationResponse).length > 0 && 'again'}!
+        Launch {entryResource && 'again'}!
       </button>
     </div>
   )
