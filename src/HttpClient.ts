@@ -7,6 +7,9 @@ export const HttpClient = axios.create({
   headers: {
     post: {
       'Access-Control-Allow-Origin': '*'
+    },
+    get: {
+      'Access-Control-Allow-Origin': '*'
     }
   }
 })

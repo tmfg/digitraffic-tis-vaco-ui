@@ -26,7 +26,7 @@ const App = () => {
           element: <TicketCreationPage />
         },
         {
-          path: '/ticket/info/:publicId',
+          path: '/ticket/info/:ticketId',
           element: <TicketInfoPage />
         },
         {
