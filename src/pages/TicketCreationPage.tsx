@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { HttpClient } from '../HttpClient'
 import { EntryRequest } from '../types/EntryRequest'
 import { EntryResource } from '../types/EntryResource'
+import { Link } from 'react-router-dom'
 
 const TicketCreationPage = () => {
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
@@ -33,7 +34,10 @@ const TicketCreationPage = () => {
             marginLeft: 25
           }}
         >
-          <h2>Submitted! Ticket: {entryResource.data.publicId}</h2>
+          <h2>
+            Submitted! Ticket:{' '}
+            <Link to={'/ticket/info/' + entryResource.data.publicId}>{entryResource.data.publicId}</Link>
+          </h2>
           <pre style={{ width: 700, whiteSpace: 'pre-wrap' }}>{JSON.stringify(entryResource)}</pre>
         </div>
       )}
