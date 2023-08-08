@@ -1,0 +1,40 @@
+name: Verify Commit
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  checks: write  # required by scacap/action-surefire-report
+  contents: read  # required by scacap/action-surefire-report
+
+jobs:
+  build:
+    name: Verify Pull Request
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./digitraffic-tis-vaco-ui
+    strategy:
+      matrix:
+        node-version: [ 16.x, 18.x ]
+    steps:
+      - name: Checkout project files
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          path: digitraffic-tis-vaco-ui
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
+
+      - name: Publish Test Report
+        if: always()
+        uses: scacap/action-surefire-report@v1

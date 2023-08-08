@@ -35,7 +35,7 @@ const TicketCreationPage = () => {
           }}
         >
           <h2>
-            Submitted! Ticket:{' '}
+            Submitted! Ticket:
             <Link to={'/ticket/info/' + entryResource.data.publicId}>{entryResource.data.publicId}</Link>
           </h2>
           <pre style={{ width: 700, whiteSpace: 'pre-wrap' }}>{JSON.stringify(entryResource)}</pre>
