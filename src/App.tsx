@@ -7,6 +7,18 @@ import TicketCreationPage from './pages/TicketCreationPage'
 import TicketInfoPage from './pages/TicketInfoPage'
 import AppLayout from './AppLayout'
 
+// The way for components that don't need wrapping (e.g. one without our own custom events)
+// or while initial testing
+/*declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'fds-button': { label?: string; icon?: string }
+      'fds-test': {}
+      'fds-test2': {}
+    }
+  }
+}*/
+
 const App = () => {
   const router = createBrowserRouter([
     {

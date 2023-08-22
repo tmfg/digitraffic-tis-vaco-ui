@@ -3,11 +3,12 @@ import { HttpClient } from '../HttpClient'
 import { EntryRequest } from '../types/EntryRequest'
 import { EntryResource } from '../types/EntryResource'
 import { Link } from 'react-router-dom'
+import { FdsButtonComponent } from '../components/fds/FdsButtonComponent'
 
 const TicketCreationPage = () => {
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
 
-  const yikes = async () => {
+  const submitTicket = async () => {
     const requestBody: EntryRequest = {
       url: 'http://localhost:8080/stuff.zip',
       format: 'gtfs',
@@ -41,23 +42,7 @@ const TicketCreationPage = () => {
           <pre style={{ width: 700, whiteSpace: 'pre-wrap' }}>{JSON.stringify(entryResource)}</pre>
         </div>
       )}
-      <button
-        onClick={yikes}
-        style={{
-          marginTop: 25,
-          fontFamily: 'PublicSans-Medium',
-          backgroundColor: '#0034ac',
-          color: 'white',
-          width: 125,
-          marginLeft: 25,
-          paddingTop: 18,
-          paddingBottom: 18,
-          fontSize: '1.2rem',
-          cursor: 'pointer'
-        }}
-      >
-        Launch {entryResource && 'again'}!
-      </button>
+      <FdsButtonComponent onClick={submitTicket} label={`Launch${entryResource ? ' again' : ''}!`} />
     </div>
   )
 }
