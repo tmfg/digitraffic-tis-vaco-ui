@@ -1,41 +1,12 @@
+@import '@fintraffic-design/coreui-css/dist/coreui.css';
+@import '@fintraffic-design/coreui-css/dist/fonts-public-sans.css';
+@import '@fintraffic-design/coreui-css/dist/tokens.css';
+
 #root {
-  /*max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;*/
   margin: 0;
   padding: 0;
   height: 100%;
-}
-
-@font-face {
-    font-family: "PublicSans-Regular";
-    src: local("PublicSans-Regular"),
-    url("./fonts/static/PublicSans-Regular.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "PublicSans-ExtraBold";
-    src: local("PublicSans-ExtraBold"),
-    url("./fonts/static/PublicSans-ExtraBold.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "PublicSans-Bold";
-    src: local("PublicSans-Bold"),
-    url("./fonts/static/PublicSans-Bold.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "PublicSans-Medium";
-    src: local("PublicSans-Medium"),
-    url("./fonts/static/PublicSans-Medium.ttf") format("truetype");
-}
-
-h1 {
-    font-family: "PublicSans-Regular", serif;
-    margin-top: 50px;
-    margin-left: 25px;
+  font-family: 'Public Sans';
 }
 
 a { text-decoration: none; }
@@ -44,12 +15,11 @@ a:hover { text-decoration: none; }
 a:focus { text-decoration: none; }
 a:hover, a:active { text-decoration: none; }
 
-.logo {
-
+.app-layout {
+    display: flex;
+    flex-direction: column;
 }
-.logo:hover {
 
-}
-.logo.react:hover {
-
+.sub-page {
+    margin: 2rem 1.5rem;
 }

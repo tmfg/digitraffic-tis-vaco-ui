@@ -29,10 +29,10 @@ const TicketInfoPage = () => {
   }, [ticketId])
 
   return (
-    <div>
-      <h1>Ticket info</h1>
+    <div className={'sub-page'}>
+      <h2>Ticket info</h2>
       {ticket && (
-        <pre style={{ width: 900, whiteSpace: 'pre-wrap', marginLeft: 25 }}>
+        <pre style={{ width: 900, whiteSpace: 'pre-wrap' }}>
           <code> {JSON.stringify(ticket)}</code>
         </pre>
       )}

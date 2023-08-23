@@ -5,7 +5,7 @@ import Footer from './components/Footer'
 
 const AppLayout = () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div className={'app-layout'}>
       <FintrafficNavbar />
       <VacoNavbar />
       <Outlet />

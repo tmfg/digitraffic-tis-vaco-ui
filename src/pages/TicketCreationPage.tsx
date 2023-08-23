@@ -28,16 +28,11 @@ const TicketCreationPage = () => {
   }
 
   return (
-    <div>
-      <h1>Create ticket</h1>
+    <div className={'sub-page'}>
+      <h2>Create ticket</h2>
       {entryResource && (
-        <div
-          style={{
-            fontFamily: 'PublicSans-Medium',
-            marginLeft: 25
-          }}
-        >
-          <h2>
+        <div>
+          <h4>
             Submitted! Ticket:
             <Link
               onClick={() => {
@@ -54,7 +49,7 @@ const TicketCreationPage = () => {
             >
               {entryResource.data.publicId}
             </Link>
-          </h2>
+          </h4>
           <pre style={{ width: 700, whiteSpace: 'pre-wrap' }}>{JSON.stringify(entryResource)}</pre>
         </div>
       )}
