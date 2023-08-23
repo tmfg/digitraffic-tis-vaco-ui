@@ -13,8 +13,6 @@ import AppLayout from './AppLayout'
   namespace JSX {
     interface IntrinsicElements {
       'fds-button': { label?: string; icon?: string }
-      'fds-test': {}
-      'fds-test2': {}
     }
   }
 }*/
