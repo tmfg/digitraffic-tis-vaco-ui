@@ -10,27 +10,32 @@
 
 ## Required local dependencies
 
-- NodeJS (aiming for latest version)
+- NodeJS (v18.17.0)
 - npm
 - nvm (optional)
 - Fintraffic Design System repositories
 
-## Local development 
-
-Install dependencies:
-```
-npm install
-```
+## Local development
 
 Get Fintraffic Design System web components (temporary solution):
-```
+```shell
+cd ..
 git clone git@github.com:fintraffic-design/coreui-components.git
 git clone git@github.com:fintraffic-design/coreui-css.git
 ```
 
-In the cloned coreui-components and coreui-css directories:
+In the cloned coreui-components (important: node version should be set the same as digitraffic-tis-vaco-ui):
+```shell
+cd coreui-components
+nvm use v18.17.0
+npm i
+npm link
 ```
-nvm use <node version same as digitraffic-tis-vaco-ui>
+
+In the cloned coreui-css:
+```shell
+cd ../coreui-css
+nvm use v18.17.0
 npm i
 npm link
 ```
@@ -42,9 +47,11 @@ cd .nvm/versions/<node version>/lib/node_modules
 ```
 
 Back in digitraffic-tis-vaco-ui:
-```
+```shell
+cd ../digitraffic-tis-vaco-ui
 npm link @fintraffic-design/coreui-components
 npm link @fintraffic-design/coreui-css
+npm i
 ```
 
 Start local dev server:
