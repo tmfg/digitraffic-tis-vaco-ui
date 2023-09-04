@@ -1,12 +1,12 @@
 import { Outlet } from 'react-router-dom'
-import FintrafficBar from './components/FintrafficBar'
+import FintrafficNavbar from './components/FintrafficNavbar'
 import VacoNavbar from './components/VacoNavbar'
 import Footer from './components/Footer'
 
 const AppLayout = () => {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <FintrafficBar />
+    <div className={'app-layout'}>
+      <FintrafficNavbar />
       <VacoNavbar />
       <Outlet />
       <Footer />

@@ -3,11 +3,14 @@ import { HttpClient } from '../HttpClient'
 import { EntryRequest } from '../types/EntryRequest'
 import { EntryResource } from '../types/EntryResource'
 import { Link } from 'react-router-dom'
+import { FdsButtonComponent } from '../components/fds/FdsButtonComponent'
+import { FdsNavigationItem } from '@fintraffic-design/coreui-components/src/fds-navigation'
+import { vacoNavbarItems } from '../components/VacoNavbar'
 
 const TicketCreationPage = () => {
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
 
-  const yikes = async () => {
+  const submitTicket = async () => {
     const requestBody: EntryRequest = {
       url: 'http://localhost:8080/stuff.zip',
       format: 'gtfs',
@@ -25,39 +28,36 @@ const TicketCreationPage = () => {
   }
 
   return (
-    <div>
-      <h1>Create ticket</h1>
+    <div className={'sub-page'}>
+      <h2>Create ticket</h2>
       {entryResource && (
-        <div
-          style={{
-            fontFamily: 'PublicSans-Medium',
-            marginLeft: 25
-          }}
-        >
-          <h2>
+        <div>
+          <h4>
             Submitted! Ticket:
-            <Link to={'/ticket/info/' + entryResource.data.publicId}>{entryResource.data.publicId}</Link>
-          </h2>
+            <Link
+              onClick={() => {
+                // VACO navbar should update selected menu item:
+                const element = document.getElementsByTagName('fds-navigation-test')[1]
+                element?.dispatchEvent(
+                  new CustomEvent<FdsNavigationItem>('externalNavigation', {
+                    detail: vacoNavbarItems[3],
+                    bubbles: true
+                  })
+                )
+              }}
+              to={'/ticket/info/' + entryResource.data.publicId}
+            >
+              {entryResource.data.publicId}
+            </Link>
+          </h4>
           <pre style={{ width: 700, whiteSpace: 'pre-wrap' }}>{JSON.stringify(entryResource)}</pre>
         </div>
       )}
-      <button
-        onClick={yikes}
-        style={{
-          marginTop: 25,
-          fontFamily: 'PublicSans-Medium',
-          backgroundColor: '#0034ac',
-          color: 'white',
-          width: 125,
-          marginLeft: 25,
-          paddingTop: 18,
-          paddingBottom: 18,
-          fontSize: '1.2rem',
-          cursor: 'pointer'
-        }}
-      >
-        Launch {entryResource && 'again'}!
-      </button>
+      <FdsButtonComponent
+        icon={'alert-circle'}
+        onClick={submitTicket}
+        label={`Launch${entryResource ? ' again' : ''}!`}
+      />
     </div>
   )
 }

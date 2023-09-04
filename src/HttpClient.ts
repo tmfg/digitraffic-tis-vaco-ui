@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-export const VACO_URL = import.meta.env.DEV ? 'http://localhost:8080' : 'prod url at some point'
+const TIS_ENVIRONMENT = import.meta.env.DEV // change this one we actually have env variables...
+export const VACO_URL = TIS_ENVIRONMENT ? 'http://localhost:8080' : 'http://localhost:8080'
 
 export const HttpClient = axios.create({
   baseURL: VACO_URL,
