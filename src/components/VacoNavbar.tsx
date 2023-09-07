@@ -4,6 +4,8 @@ import {
 } from '@fintraffic-design/coreui-components/src/fds-navigation'
 import Navbar from './Navbar'
 import { FdsNavigationItem } from '@fintraffic-design/coreui-components/src/fds-navigation'
+import { useMsal } from '@azure/msal-react'
+import { useEffect, useState } from 'react'
 
 export const vacoNavbarItems: FdsNavigationItem[] = [
   {
@@ -35,7 +37,22 @@ export const vacoNavbarItems: FdsNavigationItem[] = [
 ]
 
 const VacoNavbar = () => {
-  return <Navbar variant={FdsNavigationVariant.secondary} items={vacoNavbarItems} barIndex={1} />
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { instance } = useMsal()
+  const [userName, setUserName] = useState<string | undefined>(undefined)
+
+  useEffect(() => {
+    // @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+    const account = instance.getAllAccounts()
+    if (account && !userName) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
+      setUserName(account.name)
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
+      vacoNavbarItems[4].label = account.name!
+    }
+  }, [userName])
+
+  return <Navbar variant={FdsNavigationVariant.secondary} items={userName ? vacoNavbarItems : []} barIndex={1} />
 }
 
 export default VacoNavbar
