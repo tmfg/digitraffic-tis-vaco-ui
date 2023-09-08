@@ -5,18 +5,23 @@ import { EntryResource } from '../types/EntryResource'
 import { Link } from 'react-router-dom'
 import { FdsButtonComponent } from '../components/fds/FdsButtonComponent'
 import { FdsNavigationItem } from '@fintraffic-design/coreui-components/src/fds-navigation'
-import { vacoNavbarItems } from '../components/VacoNavbar'
+import { vacoStaticNavbarItems } from '../components/VacoNavbar'
 
 const TicketCreationPage = () => {
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
 
   const submitTicket = async () => {
     const requestBody: EntryRequest = {
-      url: 'http://localhost:8080/stuff.zip',
+      url: 'https://tvv.fra1.digitaloceanspaces.com/249.zip',
       format: 'gtfs',
       businessId: '2942108-7',
       etag: 'etagg',
-      validation: {},
+      validation: [
+        {
+          name: 'gtfs.canonical.v4_0_0',
+          config: { lol: 'apua', muumi: 'pappa' }
+        }
+      ],
       metadata: {
         brewingEquipment: 'teapot',
         'capacity (ml)': 1500
@@ -40,7 +45,7 @@ const TicketCreationPage = () => {
                 const element = document.getElementsByTagName('fds-navigation-test')[1]
                 element?.dispatchEvent(
                   new CustomEvent<FdsNavigationItem>('externalNavigation', {
-                    detail: vacoNavbarItems[3],
+                    detail: vacoStaticNavbarItems[3],
                     bubbles: true
                   })
                 )

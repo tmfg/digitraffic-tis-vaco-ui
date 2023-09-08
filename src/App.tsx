@@ -1,6 +1,6 @@
 import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { MsalAuthenticationTemplate, useIsAuthenticated } from '@azure/msal-react'
+import { MsalAuthenticationTemplate } from '@azure/msal-react'
 import HomePage from './pages/HomePage'
 import NotFoundPage from './pages/errors/NotFoundPage'
 import DashboardPage from './pages/DashboardPage'
