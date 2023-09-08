@@ -4,8 +4,10 @@ import {
 } from '@fintraffic-design/coreui-components/src/fds-navigation'
 import Navbar from './Navbar'
 import { FdsNavigationItem } from '@fintraffic-design/coreui-components/src/fds-navigation'
+import { useMsal } from '@azure/msal-react'
+import { useEffect, useState } from 'react'
 
-export const vacoNavbarItems: FdsNavigationItem[] = [
+export const vacoStaticNavbarItems: FdsNavigationItem[] = [
   {
     label: 'VACO',
     value: '/'
@@ -21,21 +23,50 @@ export const vacoNavbarItems: FdsNavigationItem[] = [
   {
     label: 'View ticket',
     value: '/ticket/info'
-  },
-  {
-    label: 'Name Surname',
-    value: '',
-    position: FdsNavigationItemPosition.right
-  },
-  {
-    label: 'In English',
-    value: '',
-    position: FdsNavigationItemPosition.right
   }
 ]
 
+const userNavbarItem = {
+  label: '',
+  value: '',
+  position: FdsNavigationItemPosition.right
+}
+
+const languageNavbarItem = {
+  label: 'In English',
+  value: '',
+  position: FdsNavigationItemPosition.right
+}
+
 const VacoNavbar = () => {
-  return <Navbar variant={FdsNavigationVariant.secondary} items={vacoNavbarItems} barIndex={1} />
+  const { instance } = useMsal()
+  const [userName, setUserName] = useState<string | undefined>(undefined)
+  const vacoNavbarItems = [...vacoStaticNavbarItems]
+
+  useEffect(() => {
+    const account = instance.getActiveAccount()
+    if (account && !userName) {
+      setUserName(account.name)
+    }
+  }, [instance])
+
+  useEffect(() => {
+    // Later: getting the language selection from local storage or wherever
+    // Once everything is ready, time to add all "dynamic" navbar items
+    if (userName) {
+      userNavbarItem.label = userName
+      vacoNavbarItems.push(userNavbarItem)
+      vacoNavbarItems.push(languageNavbarItem)
+    }
+  }, [userName])
+
+  return (
+    <Navbar
+      variant={FdsNavigationVariant.secondary}
+      items={userName ? vacoNavbarItems : vacoStaticNavbarItems}
+      barIndex={1}
+    />
+  )
 }
 
 export default VacoNavbar
