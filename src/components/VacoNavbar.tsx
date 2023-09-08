@@ -39,16 +39,13 @@ const languageNavbarItem = {
 }
 
 const VacoNavbar = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { instance } = useMsal()
   const [userName, setUserName] = useState<string | undefined>(undefined)
   const vacoNavbarItems = [...vacoStaticNavbarItems]
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
     const account = instance.getActiveAccount()
     if (account && !userName) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
       setUserName(account.name)
     }
   }, [instance])

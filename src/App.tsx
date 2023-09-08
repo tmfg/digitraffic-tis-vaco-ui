@@ -55,7 +55,6 @@ const App = () => {
   ])
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     <MsalAuthenticationTemplate authenticationRequest={loginRequest} interactionType={InteractionType.Redirect}>
       <RouterProvider router={router} />
     </MsalAuthenticationTemplate>
