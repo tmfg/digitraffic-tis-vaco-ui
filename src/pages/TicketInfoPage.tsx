@@ -1,21 +1,36 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { HttpClient } from '../HttpClient'
+import { getHeaders, HttpClient } from '../HttpClient'
 import { EntryResource } from '../types/EntryResource'
+import { acquireToken } from '../hooks/auth'
+import { useMsal } from '@azure/msal-react'
 
 const TicketInfoPage = () => {
   const { ticketId } = useParams()
   const [ticket, setTicket] = useState<EntryResource | null>(null)
+  const { instance } = useMsal()
 
   useEffect(() => {
     let ignore = false
     setTicket(null)
     if (ticketId) {
-      HttpClient.get('/queue/' + ticketId).then(
-        (response) => {
-          if (!ignore) {
-            setTicket(response.data)
+      acquireToken(instance).then(
+        (tokenResult) => {
+          if (!tokenResult) {
+            // TODO: At some point, show some error notification
+            return
           }
+
+          HttpClient.get('/queue/' + ticketId, getHeaders(tokenResult.accessToken)).then(
+            (response) => {
+              if (!ignore) {
+                setTicket(response.data)
+              }
+            },
+            (error) => {
+              return Promise.reject(error)
+            }
+          )
         },
         (error) => {
           return Promise.reject(error)
@@ -26,7 +41,7 @@ const TicketInfoPage = () => {
         ignore = true
       }
     }
-  }, [ticketId])
+  }, [ticketId, instance])
 
   return (
     <div className={'sub-page'}>
