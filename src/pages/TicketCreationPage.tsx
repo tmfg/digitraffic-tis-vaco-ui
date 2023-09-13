@@ -1,16 +1,25 @@
 import { useState } from 'react'
-import { HttpClient } from '../HttpClient'
+import { getHeaders, HttpClient } from '../HttpClient'
 import { EntryRequest } from '../types/EntryRequest'
 import { EntryResource } from '../types/EntryResource'
 import { Link } from 'react-router-dom'
 import { FdsButtonComponent } from '../components/fds/FdsButtonComponent'
 import { FdsNavigationItem } from '@fintraffic-design/coreui-components/src/fds-navigation'
 import { vacoStaticNavbarItems } from '../components/VacoNavbar'
+import { useMsal } from '@azure/msal-react'
+import { acquireToken } from '../hooks/auth'
 
 const TicketCreationPage = () => {
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
+  const { instance } = useMsal()
 
   const submitTicket = async () => {
+    const tokenResult = await acquireToken(instance)
+    if (!tokenResult) {
+      // TODO: At some point, show some error notification
+      return
+    }
+
     const requestBody: EntryRequest = {
       url: 'https://tvv.fra1.digitaloceanspaces.com/249.zip',
       format: 'gtfs',
@@ -28,7 +37,7 @@ const TicketCreationPage = () => {
       }
     }
 
-    const { data } = await HttpClient.post('/queue', requestBody)
+    const { data } = await HttpClient.post('/queue', requestBody, getHeaders(tokenResult.accessToken))
     setEntryResource(data)
   }
 
