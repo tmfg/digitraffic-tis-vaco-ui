@@ -37,7 +37,7 @@ const TicketCreationPage = () => {
       }
     }
 
-    const { data } = await HttpClient.post('/queue', requestBody, getHeaders(tokenResult.accessToken))
+    const { data } = await HttpClient.post('/queue', requestBody, getHeaders(tokenResult.idToken))
     setEntryResource(data)
   }
 
