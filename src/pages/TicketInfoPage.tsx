@@ -21,7 +21,7 @@ const TicketInfoPage = () => {
             return
           }
 
-          HttpClient.get('/queue/' + ticketId, getHeaders(tokenResult.idToken)).then(
+          HttpClient.get('/api/queue/' + ticketId, getHeaders(tokenResult.idToken)).then(
             (response) => {
               if (!ignore) {
                 setTicket(response.data)

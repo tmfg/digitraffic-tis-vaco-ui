@@ -52,7 +52,7 @@ export const msalConfig: Configuration = {
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
  */
 export const loginRequest: RedirectRequest = {
-  scopes: ['User.Read', 'Group.Read.All']
+  scopes: ['api://57c1b8a0-f33e-4e47-840d-8c180d933c41/TestScope']
 }
 
 /**
