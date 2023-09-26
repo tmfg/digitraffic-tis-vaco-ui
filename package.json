@@ -12,7 +12,6 @@
   "dependencies": {
     "@azure/msal-browser": "^3.1.0",
     "@azure/msal-react": "^2.0.3",
-    "@fintraffic-design/coreui-css": "https://github.com/fintraffic-design/coreui-css.git#b71d3544a3b2538a73fe39faa21e171d17cd100c",
     "@lit-labs/react": "^2.0.1",
     "axios": "^1.4.0",
     "i18next": "^23.4.2",
