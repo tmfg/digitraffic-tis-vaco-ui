@@ -1,9 +1,12 @@
 name: "Build and push to ECR"
 on:
-  workflow_run:
-    workflows: [ "Release new version" ]
-    types:
-      - completed
+  push:
+    branches:
+      - main
+  #workflow_run:
+  #  workflows: [ "Release new version" ]
+  #  types:
+  #    - completed
 
 permissions:
   id-token: write
@@ -16,6 +19,7 @@ jobs:
   BuildAndPushImageToECR:
     name: "Build and Push to ECR"
     runs-on: ubuntu-latest
+    if: "startsWith(github.event.head_commit.message, 'RELEASE')"
 
     steps:
       - name: Checkout project files (pull request version)
@@ -31,15 +35,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Show git information
-        run: |
-          echo "Latest commit message: ${{ github.event.head_commit.message }}"
-          ls -al
-          git status
-          git log --no-color --graph --oneline -n 10
-          git tag --list
-          git log --format=%B -n1 | awk '{print $2}'
-
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -54,8 +49,8 @@ jobs:
       - name: Extract the latest version
         id: latestversion
         run: |
-          echo "LATESTVERSION=$(git log --format=%B -n1 | awk '{print $2}')" >> $GITHUB_OUTPUT
-          echo "Latest version: ${{ steps.latestversion.outputs.LATESTVERSION }}"
+          echo "LATESTVERSION=$(github.event.head_commit.message | awk '{print $2}')" >> $GITHUB_OUTPUT
+          echo "Latest version: ${{ steps.latestversion.outputs.LATESTVERSION }} / ${{ github.event.head_commit.message }} / $(github.event.head_commit.message | awk '{print $2}')" / $(${{github.event.head_commit.message}} | awk '{print $2}')" "
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image

@@ -15,6 +15,7 @@ jobs:
   build:
     name: Verify Pull Request
     runs-on: ubuntu-latest
+    if: "!startsWith(github.event.head_commit.message, 'RELEASE')"
     strategy:
       matrix:
         node-version: [ 18.x ]
