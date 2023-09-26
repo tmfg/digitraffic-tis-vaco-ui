@@ -9,9 +9,11 @@ permissions:
   id-token: write
   contents: read
 
+#env:
+#  commitmessage: $(git log --format=%B -n1 | awk '{print $1}')
+
 jobs:
   BuildAndPushImageToECR:
-    needs: build
     name: "Build and Push to ECR"
     runs-on: ubuntu-latest
 
@@ -44,6 +46,7 @@ jobs:
         id: latestversion
         run: |
           echo "LATESTVERSION=$(git log --format=%B -n1 | awk '{print $2}')" >> $GITHUB_OUTPUT
+          echo "Latest version: ${{ steps.latestversion.outputs.LATESTVERSION }}"
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
