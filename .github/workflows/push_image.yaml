@@ -10,7 +10,7 @@ on:
 
 permissions:
   id-token: write
-  contents: read
+  contents: write
 
 #env:
 #  commitmessage: $(git log --format=%B -n1 | awk '{print $1}')
@@ -46,11 +46,22 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Extract latest commit message
+        id: commitmessage
+        run: |
+          echo "MESSAGE=${{ github.event.head_commit.message }}" >> $GITHUB_OUTPUT
+          echo "Commit message: ${{ steps.commitmessage.outputs.MESSAGE }} / ${{ github.event.head_commit.message }}"
+
       - name: Extract the latest version
         id: latestversion
+        env:
+          version: ${{ github.event.head_commit.message }} | cut -d' ' -f2
         run: |
-          echo "LATESTVERSION=$(github.event.head_commit.message | awk '{print $2}')" >> $GITHUB_OUTPUT
-          echo "Latest version: ${{ steps.latestversion.outputs.LATESTVERSION }} / ${{ github.event.head_commit.message }} / $(github.event.head_commit.message | awk '{print $2}')" / $(${{github.event.head_commit.message}} | awk '{print $2}')" "
+          echo "LATESTVERSION=$(echo ${{ github.event.head_commit.message }} | cut -d' ' -f2)" >> $GITHUB_OUTPUT
+       #   { echo -n "LATESTVERSION=" && echo ${{ github.event.head_commit.message }} | cut -d' ' -f2 } >>  $GITHUB_OUTPUT
+        #echo "Latest version: ${{ steps.latestversion.outputs.LATESTVERSION }}"
+        #echo "Test: $( env.MESSAGE | awk '{print $2}') / $( ${{ env.MESSAGE }} | awk '{print $2}') / ${{ env.MESSAGE }} / ${{ env.MESSAGE | awk '{print $2} }} / ${{ $(env.MESSAGE | awk '{print $2}) }} "
+         #echo "Latest version: ${{ steps.latestversion.outputs.LATESTVERSION }} / ${{ github.event.head_commit.message }} / $(github.event.head_commit.message | awk '{print $2}')" / $(${{github.event.head_commit.message}} | awk '{print $2}')" "
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
@@ -59,6 +70,8 @@ jobs:
           ECR_REPOSITORY: "digitraffic-tis-ui"
           IMAGE_TAG: ${{ steps.latestversion.outputs.LATESTVERSION }}
         run: |
+          echo "Ta-da!! Version: ${{ steps.latestversion.outputs.LATESTVERSION }}"
+          docker build . -t $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker tag $ECR_REGISTRY/$ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
