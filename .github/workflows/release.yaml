@@ -72,7 +72,7 @@ jobs:
       - name: Generate new version
         id: version
         run: |
-          echo "VERSION=$(npm version ${{ env.VERSION_ADJUSTMENT }} -m "RELEASE %s")" >> $GITHUB_ENV
+          echo "VERSION=$(npm version ${{ env.VERSION_ADJUSTMENT }} -m "RELEASE %s [skip ci]")" >> $GITHUB_ENV
           echo "New version: ${{ env.VERSION }}"
 
       - name: Extract branch name
