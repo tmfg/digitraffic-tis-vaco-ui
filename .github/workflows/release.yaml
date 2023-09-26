@@ -1,0 +1,76 @@
+name: Release new version
+
+on:
+  workflow_dispatch:
+    inputs:
+      adjustment:
+        description: 'Release increment type. Defaults to "minor", available values are "major", "minor" and "patch"'
+        required: true
+        default: 'minor'
+  push:
+    branches:
+      - main
+  # If testing on PR, uncomment this:
+  #pull_request:
+  #  branches:
+  #    - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project files (pull request version)
+        uses: actions/checkout@v3
+        if: github.event_name == 'pull_request'
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Checkout project files (push version)
+        uses: actions/checkout@v3
+        if: github.event_name == 'push'
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+
+      - name: Show git information
+        run: |
+          git status
+          git log --no-color --graph --oneline -n 10
+          git tag --list
+
+      - name: Use provided version increment adjustment
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: echo "VERSION_ADJUSTMENT=${{ github.event.inputs.adjustment }}" >> $GITHUB_ENV
+
+      - name: Detect version increment adjustment
+        if: ${{ github.event_name != 'workflow_dispatch' }}
+        run: echo "VERSION_ADJUSTMENT=minor" >> $GITHUB_ENV
+
+      - name: Set git config
+        run: |
+          git config --global user.email fintraffic-github-actions-bot@solita.fi
+          git config --global user.name "Fintraffic GitHub Actions Bot"
+
+      - name: Generate new version
+        id: version
+        run: |
+          echo "VERSION=$(npm version ${{ env.VERSION_ADJUSTMENT }} -m "RELEASE %s")" >> $GITHUB_ENV
+
+      - name: Extract branch name
+        shell: bash
+        run: |
+          git branch
+          echo "BRANCH=${GITHUB_HEAD_REF}" >> $GITHUB_ENV
+
+      - name: Push
+        run: |
+          git push origin ${{ env.BRANCH }} --follow-tags
