@@ -21,38 +21,41 @@ import { loginRequest } from './authConfig'
 }*/
 
 const App = () => {
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <AppLayout />,
-      children: [
-        {
-          path: '/',
-          element: <HomePage />
-        },
-        {
-          path: '/dashboard',
-          element: <DashboardPage />
-        },
-        {
-          path: '/ticket/request',
-          element: <TicketCreationPage />
-        },
-        {
-          path: '/ticket/info/:ticketId',
-          element: <TicketInfoPage />
-        },
-        {
-          path: '/ticket/info',
-          element: <TicketInfoPage />
-        }
-      ]
-    },
-    {
-      path: '*',
-      element: <NotFoundPage />
-    }
-  ])
+  const router = createBrowserRouter(
+    [
+      {
+        path: '/',
+        element: <AppLayout />,
+        children: [
+          {
+            path: '/',
+            element: <HomePage />
+          },
+          {
+            path: '/dashboard',
+            element: <DashboardPage />
+          },
+          {
+            path: '/ticket/request',
+            element: <TicketCreationPage />
+          },
+          {
+            path: '/ticket/info/:ticketId',
+            element: <TicketInfoPage />
+          },
+          {
+            path: '/ticket/info',
+            element: <TicketInfoPage />
+          }
+        ]
+      },
+      {
+        path: '*',
+        element: <NotFoundPage />
+      }
+    ],
+    { basename: import.meta.env.BASE_URL }
+  )
 
   return (
     <MsalAuthenticationTemplate authenticationRequest={loginRequest} interactionType={InteractionType.Redirect}>
