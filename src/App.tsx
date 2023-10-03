@@ -24,11 +24,11 @@ const App = () => {
   const router = createBrowserRouter(
     [
       {
-        path: '/',
+        path: '',
         element: <AppLayout />,
         children: [
           {
-            path: '/',
+            path: '',
             element: <HomePage />
           },
           {
@@ -54,7 +54,9 @@ const App = () => {
         element: <NotFoundPage />
       }
     ],
-    { basename: '/ui' }
+    {
+      basename: import.meta.env.BASE_URL
+    }
   )
 
   return (
