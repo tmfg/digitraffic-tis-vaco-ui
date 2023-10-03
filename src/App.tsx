@@ -54,7 +54,9 @@ const App = () => {
         element: <NotFoundPage />
       }
     ],
-    { basename: '/ui' }
+    {
+      basename: import.meta.env.BASE_URL
+    }
   )
 
   return (

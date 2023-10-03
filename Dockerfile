@@ -5,7 +5,7 @@ RUN npm i
 RUN npm run build
 
 FROM nginx:alpine
-COPY --from=build /app/dist /var/www/html/
+COPY --from=build /app/dist /var/www/html/ui
 RUN rm /etc/nginx/conf.d/default.conf
 COPY ./nginx.conf /etc/nginx/conf.d
 EXPOSE 5173

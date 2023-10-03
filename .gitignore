@@ -22,3 +22,5 @@ scratch.*
 
 # LocalStack's volume directory
 volume/
+
+dist/
