@@ -10,7 +10,9 @@ export const msalConfig: Configuration = {
   auth: {
     clientId: '57c1b8a0-f33e-4e47-840d-8c180d933c41',
     authority: 'https://login.microsoftonline.com/d8536c71-f91f-4e54-b68c-215a7fd9510b',
-    redirectUri: 'http://localhost:5173' + import.meta.env.BASE_URL
+    redirectUri: import.meta.env.PROD
+      ? 'https://digitraffic-tis-dev.aws.fintraffic.cloud/ui/'
+      : 'http://localhost:5173' + import.meta.env.BASE_URL
   }
   // Leaving this for future inspiration:
   /*,
