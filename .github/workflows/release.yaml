@@ -23,14 +23,12 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
-          token: ${{ secrets.VACO_TOKEN }}
 
       - name: Checkout project files (push version)
         uses: actions/checkout@v3
         if: github.event_name == 'push'
         with:
           fetch-depth: 0
-          token: ${{ secrets.VACO_TOKEN }}
 
       - name: Set up Node
         uses: actions/setup-node@v3
