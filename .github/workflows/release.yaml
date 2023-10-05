@@ -23,12 +23,14 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.head.ref }}
+          ssh-key: "${{secrets.COMMIT_KEY}}"
 
       - name: Checkout project files (push version)
         uses: actions/checkout@v3
         if: github.event_name == 'push'
         with:
           fetch-depth: 0
+          ssh-key: "${{secrets.COMMIT_KEY}}"
 
       - name: Set up Node
         uses: actions/setup-node@v3
