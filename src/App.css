@@ -1,3 +1,7 @@
+@import '@fintraffic-design/coreui-css/dist/coreui.css';
+@import '@fintraffic-design/coreui-css/dist/fonts-public-sans.css';
+@import '@fintraffic-design/coreui-css/dist/tokens.css';
+
 #root {
   margin: 0;
   padding: 0;
