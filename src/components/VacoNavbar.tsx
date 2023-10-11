@@ -1,9 +1,9 @@
 import {
   FdsNavigationItemPosition,
   FdsNavigationVariant
-} from '@fintraffic-design/coreui-components/src/fds-navigation'
+} from '../../coreui-components/src/fds-navigation'
 import Navbar from './Navbar'
-import { FdsNavigationItem } from '@fintraffic-design/coreui-components/src/fds-navigation'
+import { FdsNavigationItem } from '../../coreui-components/src/fds-navigation'
 import { useMsal } from '@azure/msal-react'
 import { useEffect, useState } from 'react'
 

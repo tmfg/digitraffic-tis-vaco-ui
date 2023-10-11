@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { FdsNavigationItem, FdsNavigationVariant } from '@fintraffic-design/coreui-components/src/fds-navigation'
+import { FdsNavigationItem, FdsNavigationVariant } from '../../coreui-components/src/fds-navigation'
 import { FdsNavigationComponent } from './fds/FdsNavigationComponent'
 import { useNavigate } from 'react-router-dom'
 

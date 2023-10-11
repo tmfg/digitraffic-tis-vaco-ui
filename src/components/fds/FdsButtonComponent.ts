@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { createComponent, EventName } from '@lit-labs/react'
-import FdsButton from '@fintraffic-design/coreui-components/src/fds-button.ts'
+import FdsButton from '../../../coreui-components/src/fds-button.ts'
 
 export const FdsButtonComponent = createComponent({
   tagName: 'fds-button',

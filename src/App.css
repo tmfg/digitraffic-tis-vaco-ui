@@ -1,6 +1,6 @@
-@import '@fintraffic-design/coreui-css/dist/coreui.css';
-@import '@fintraffic-design/coreui-css/dist/fonts-public-sans.css';
-@import '@fintraffic-design/coreui-css/dist/tokens.css';
+@import '../coreui-css/css/coreui.css';
+@import '../coreui-css/css/fonts-public-sans.css';
+@import '../coreui-css/css/tokens.css';
 
 #root {
   margin: 0;

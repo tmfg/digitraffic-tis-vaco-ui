@@ -4,7 +4,7 @@ import { EntryRequest } from '../types/EntryRequest'
 import { EntryResource } from '../types/EntryResource'
 import { Link } from 'react-router-dom'
 import { FdsButtonComponent } from '../components/fds/FdsButtonComponent'
-import { FdsNavigationItem } from '@fintraffic-design/coreui-components/src/fds-navigation'
+import { FdsNavigationItem } from '../../coreui-components/src/fds-navigation'
 import { vacoStaticNavbarItems } from '../components/VacoNavbar'
 import { useMsal } from '@azure/msal-react'
 import { acquireToken } from '../hooks/auth'
@@ -51,7 +51,7 @@ const TicketCreationPage = () => {
             <Link
               onClick={() => {
                 // VACO navbar should update selected menu item:
-                const element = document.getElementsByTagName('fds-navigation-test')[1]
+                const element = document.getElementsByTagName('fds-navigation')[1]
                 element?.dispatchEvent(
                   new CustomEvent<FdsNavigationItem>('externalNavigation', {
                     detail: vacoStaticNavbarItems[3],
@@ -67,11 +67,7 @@ const TicketCreationPage = () => {
           <pre style={{ width: 700, whiteSpace: 'pre-wrap' }}>{JSON.stringify(entryResource)}</pre>
         </div>
       )}
-      <FdsButtonComponent
-        icon={'alert-circle'}
-        onClick={submitTicket}
-        label={`Launch${entryResource ? ' again' : ''}!`}
-      />
+      <FdsButtonComponent onClick={submitTicket} label={`Launch${entryResource ? ' again' : ''}!`} />
     </div>
   )
 }
