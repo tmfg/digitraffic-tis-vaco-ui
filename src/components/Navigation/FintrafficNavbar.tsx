@@ -1,4 +1,4 @@
-import { FdsNavigationItem, FdsNavigationVariant } from '../../coreui-components/src/fds-navigation'
+import { FdsNavigationItem, FdsNavigationVariant } from '../../../coreui-components/src/fds-navigation'
 
 import Navbar from './Navbar'
 
