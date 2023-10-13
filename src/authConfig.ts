@@ -1,18 +1,19 @@
 import { RedirectRequest } from '@azure/msal-browser'
 import { Configuration } from '@azure/msal-browser'
+import { Bootstrap } from "./types/Bootstrap.ts";
 
 /**
  * Configuration object to be passed to MSAL instance on creation.
  * For a full list of MSAL.js configuration parameters, visit:
  * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/configuration.md
  */
-export const msalConfig: Configuration = {
-  auth: {
-    clientId: '57c1b8a0-f33e-4e47-840d-8c180d933c41',
-    authority: 'https://login.microsoftonline.com/d8536c71-f91f-4e54-b68c-215a7fd9510b',
-    redirectUri: import.meta.env.PROD
-      ? 'https://digitraffic-tis-dev.aws.fintraffic.cloud/ui/'
-      : 'http://localhost:5173' + import.meta.env.BASE_URL
+export const msalConfig = (bootstrap:Bootstrap):Configuration => {
+  return {
+    auth: {
+      clientId: bootstrap.clientId,
+      authority: 'https://login.microsoftonline.com/' + bootstrap.tenantId,
+      redirectUri: (bootstrap.environment == 'local') ? 'http://localhost:5173/ui' : bootstrap.baseUrl + '/ui'
+    }
   }
   // Leaving this for future inspiration:
   /*,
