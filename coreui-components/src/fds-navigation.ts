@@ -15,9 +15,9 @@ export enum FdsNavigationVariant {
   secondary = 'secondary',
 }
 
-export interface FdsNavigationItem<T = string> {
+export interface FdsNavigationItem {
   label: string
-  value: T
+  value: unknown
   position?: FdsNavigationItemPosition
   icon?: FdsIconType
 }

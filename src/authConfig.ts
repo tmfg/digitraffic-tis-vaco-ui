@@ -54,7 +54,13 @@ export const msalConfig: Configuration = {
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
  */
 export const loginRequest: RedirectRequest = {
-  scopes: ['api://57c1b8a0-f33e-4e47-840d-8c180d933c41/TestScope']
+  scopes: ['api://57c1b8a0-f33e-4e47-840d-8c180d933c41/TestScope'],
+  prompt: 'select_account'
+}
+
+export const createAccountRequest: RedirectRequest = {
+  scopes: ['api://57c1b8a0-f33e-4e47-840d-8c180d933c41/TestScope'],
+  prompt: 'create'
 }
 
 /**

@@ -5,9 +5,10 @@ import { EntryResource } from '../types/EntryResource'
 import { Link } from 'react-router-dom'
 import { FdsButtonComponent } from '../components/fds/FdsButtonComponent'
 import { FdsNavigationItem } from '../../coreui-components/src/fds-navigation'
-import { vacoStaticNavbarItems } from '../components/VacoNavbar'
-import { useMsal } from '@azure/msal-react'
+import { vacoNavbarItems } from '../components/Navigation/VacoAuthenticatedNavbar'
+import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from "@azure/msal-react";
 import { acquireToken } from '../hooks/auth'
+import AuthRequiredPage from './errors/AuthRequiredPage'
 
 const TicketCreationPage = () => {
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
@@ -43,31 +44,36 @@ const TicketCreationPage = () => {
 
   return (
     <div className={'sub-page'}>
-      <h2>Create ticket</h2>
-      {entryResource && (
-        <div>
-          <h4>
-            Submitted! Ticket:
-            <Link
-              onClick={() => {
-                // VACO navbar should update selected menu item:
-                const element = document.getElementsByTagName('fds-navigation')[1]
-                element?.dispatchEvent(
-                  new CustomEvent<FdsNavigationItem>('externalNavigation', {
-                    detail: vacoStaticNavbarItems[3],
-                    bubbles: true
-                  })
-                )
-              }}
-              to={'/ticket/info/' + entryResource.data.publicId}
-            >
-              {entryResource.data.publicId}
-            </Link>
-          </h4>
-          <pre style={{ width: 700, whiteSpace: 'pre-wrap' }}>{JSON.stringify(entryResource)}</pre>
-        </div>
-      )}
-      <FdsButtonComponent onClick={submitTicket} label={`Launch${entryResource ? ' again' : ''}!`} />
+      <AuthenticatedTemplate>
+        <h2>Create ticket</h2>
+        {entryResource && (
+          <div>
+            <h4>
+              Submitted! Ticket:
+              <Link
+                onClick={() => {
+                  // VACO navbar should update selected menu item:
+                  const element = document.getElementsByTagName('fds-navigation')[1]
+                  element?.dispatchEvent(
+                    new CustomEvent<FdsNavigationItem>('externalNavigation', {
+                      detail: vacoNavbarItems[4],
+                      bubbles: true
+                    })
+                  )
+                }}
+                to={'/ticket/info/' + entryResource.data.publicId}
+              >
+                {entryResource.data.publicId}
+              </Link>
+            </h4>
+            <pre style={{ width: 700, whiteSpace: 'pre-wrap' }}>{JSON.stringify(entryResource)}</pre>
+          </div>
+        )}
+        <FdsButtonComponent onClick={submitTicket} label={`Launch${entryResource ? ' again' : ''}!`} />
+      </AuthenticatedTemplate>
+      <UnauthenticatedTemplate>
+        <AuthRequiredPage />
+      </UnauthenticatedTemplate>
     </div>
   )
 }
