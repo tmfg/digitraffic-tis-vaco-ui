@@ -1,20 +1,21 @@
-import {
-  FdsNavigationItemPosition,
-  FdsNavigationVariant
-} from '../../coreui-components/src/fds-navigation'
+import { FdsNavigationItemPosition, FdsNavigationVariant } from '../../../coreui-components/src/fds-navigation'
 import Navbar from './Navbar'
-import { FdsNavigationItem } from '../../coreui-components/src/fds-navigation'
+import { FdsNavigationItem } from '../../../coreui-components/src/fds-navigation'
 import { useMsal } from '@azure/msal-react'
 import { useEffect, useState } from 'react'
 
-export const vacoStaticNavbarItems: FdsNavigationItem[] = [
+export const vacoNavbarItems: FdsNavigationItem[] = [
   {
     label: 'VACO',
     value: '/'
   },
   {
-    label: 'Dashboard',
-    value: '/dashboard'
+    label: 'About',
+    value: '/about'
+  },
+  {
+    label: 'Support',
+    value: '/support'
   },
   {
     label: 'Create ticket',
@@ -38,10 +39,10 @@ const languageNavbarItem = {
   position: FdsNavigationItemPosition.right
 }
 
-const VacoNavbar = () => {
+const VacoAuthenticatedNavbar = () => {
   const { instance } = useMsal()
   const [userName, setUserName] = useState<string | undefined>(undefined)
-  const vacoNavbarItems = [...vacoStaticNavbarItems]
+  const [userNavbarItems, setUserNavbarItems] = useState([...vacoNavbarItems])
 
   useEffect(() => {
     const account = instance.getActiveAccount()
@@ -57,16 +58,17 @@ const VacoNavbar = () => {
       userNavbarItem.label = userName
       vacoNavbarItems.push(userNavbarItem)
       vacoNavbarItems.push(languageNavbarItem)
+      setUserNavbarItems([...vacoNavbarItems])
     }
   }, [userName])
 
   return (
     <Navbar
       variant={FdsNavigationVariant.secondary}
-      items={userName ? vacoNavbarItems : vacoStaticNavbarItems}
+      items={userName ? userNavbarItems : vacoNavbarItems}
       barIndex={1}
     />
   )
 }
 
-export default VacoNavbar
+export default VacoAuthenticatedNavbar
