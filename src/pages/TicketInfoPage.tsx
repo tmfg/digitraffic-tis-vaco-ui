@@ -5,16 +5,17 @@ import { EntryResource } from '../types/EntryResource'
 import { acquireToken } from '../hooks/auth'
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react'
 import AuthRequiredPage from './errors/AuthRequiredPage'
+import { InteractionStatus } from '@azure/msal-browser'
 
 const TicketInfoPage = () => {
   const { ticketId } = useParams()
   const [ticket, setTicket] = useState<EntryResource | null>(null)
-  const { instance } = useMsal()
+  const { instance, inProgress } = useMsal()
 
   useEffect(() => {
     let ignore = false
     setTicket(null)
-    if (ticketId) {
+    if (ticketId && inProgress === InteractionStatus.None) {
       acquireToken(instance).then(
         (tokenResult) => {
           if (!tokenResult) {
@@ -25,7 +26,7 @@ const TicketInfoPage = () => {
           HttpClient.get('/api/queue/' + ticketId, getHeaders(tokenResult.idToken)).then(
             (response) => {
               if (!ignore) {
-                setTicket(response.data)
+                setTicket(response.data as EntryResource)
               }
             },
             (error) => {
@@ -42,7 +43,7 @@ const TicketInfoPage = () => {
         ignore = true
       }
     }
-  }, [ticketId, instance])
+  }, [ticketId, instance, inProgress])
 
   return (
     <div className={'sub-page'}>
