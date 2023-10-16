@@ -36,10 +36,7 @@ export const logout = (msalInstance: IPublicClientApplication) => {
   const activeAccount = msalInstance.getActiveAccount()
   if (activeAccount) {
     const logoutRequest = {
-      account: msalInstance.getAccountByHomeId(activeAccount.homeAccountId),
-      postLogoutRedirectUri: import.meta.env.PROD
-        ? 'https://digitraffic-tis-dev.aws.fintraffic.cloud/ui/'
-        : 'http://localhost:5173' + import.meta.env.BASE_URL
+      account: msalInstance.getAccountByHomeId(activeAccount.homeAccountId)
     }
     msalInstance.logoutRedirect(logoutRequest).catch((error) => {
       console.log(error)

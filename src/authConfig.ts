@@ -1,18 +1,22 @@
-import { RedirectRequest } from '@azure/msal-browser'
-import { Configuration } from '@azure/msal-browser'
-import { Bootstrap } from "./types/Bootstrap.ts";
+import { Configuration, RedirectRequest } from '@azure/msal-browser'
+import { Bootstrap, Environment } from './types/Bootstrap.ts'
 
 /**
  * Configuration object to be passed to MSAL instance on creation.
  * For a full list of MSAL.js configuration parameters, visit:
  * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/configuration.md
  */
-export const msalConfig = (bootstrap:Bootstrap):Configuration => {
+export const msalConfig = (bootstrap: Bootstrap): Configuration => {
+  const baseUrl =
+    bootstrap.environment === Environment.Local
+      ? 'http://localhost:5173' + import.meta.env.BASE_URL
+      : bootstrap.baseUrl + import.meta.env.BASE_URL
   return {
     auth: {
       clientId: bootstrap.clientId,
       authority: 'https://login.microsoftonline.com/' + bootstrap.tenantId,
-      redirectUri: (bootstrap.environment == 'local') ? 'http://localhost:5173/ui' : bootstrap.baseUrl + '/ui'
+      redirectUri: baseUrl,
+      postLogoutRedirectUri: baseUrl
     }
   }
   // Leaving this for future inspiration:

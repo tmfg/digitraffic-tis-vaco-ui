@@ -1,6 +1,13 @@
 export interface Bootstrap {
-  environment: string;
-  baseUrl:     string;
-  tenantId:    string;
-  clientId:    string;
+  environment: Environment
+  baseUrl: string
+  tenantId: string
+  clientId: string
+}
+
+export enum Environment {
+  Local = 'local',
+  Dev = 'dev',
+  Test = 'tst',
+  Prod = 'prd'
 }

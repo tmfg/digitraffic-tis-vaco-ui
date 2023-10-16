@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { FdsButtonComponent } from '../components/fds/FdsButtonComponent'
 import { FdsNavigationItem } from '../../coreui-components/src/fds-navigation'
 import { vacoNavbarItems } from '../components/Navigation/VacoAuthenticatedNavbar'
-import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from "@azure/msal-react";
+import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react'
 import { acquireToken } from '../hooks/auth'
 import AuthRequiredPage from './errors/AuthRequiredPage'
 
