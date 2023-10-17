@@ -1,49 +1,54 @@
-import { RedirectRequest } from '@azure/msal-browser'
-import { Configuration } from '@azure/msal-browser'
+import { Configuration, RedirectRequest } from '@azure/msal-browser'
+import { Bootstrap, Environment } from './types/Bootstrap.ts'
 
 /**
  * Configuration object to be passed to MSAL instance on creation.
  * For a full list of MSAL.js configuration parameters, visit:
  * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/configuration.md
  */
-export const msalConfig: Configuration = {
-  auth: {
-    clientId: '57c1b8a0-f33e-4e47-840d-8c180d933c41',
-    authority: 'https://login.microsoftonline.com/d8536c71-f91f-4e54-b68c-215a7fd9510b',
-    redirectUri: import.meta.env.PROD
-      ? 'https://digitraffic-tis-dev.aws.fintraffic.cloud/ui/'
-      : 'http://localhost:5173' + import.meta.env.BASE_URL
-  },
-  cache: {
-    cacheLocation: 'localStorage' // This configures where your cache will be stored
-    //storeAuthStateInCookie: false // Set this to "true" if you are having issues on IE11 or Edge
-  }
-  // Leaving this for future inspiration:
-  /*system: {
-    loggerOptions: {
-      loggerCallback: (level, message, containsPii) => {
-        if (containsPii) {
-          return
-        }
-        switch (level) {
-          case LogLevel.Error:
-            console.error(message)
+export const msalConfig = (bootstrap: Bootstrap): Configuration => {
+  const baseUrl =
+    bootstrap.environment === Environment.Local
+      ? 'http://localhost:5173' + import.meta.env.BASE_URL
+      : bootstrap.baseUrl + import.meta.env.BASE_URL
+  return {
+    auth: {
+      clientId: bootstrap.clientId,
+      authority: 'https://login.microsoftonline.com/' + bootstrap.tenantId,
+      redirectUri: baseUrl,
+      postLogoutRedirectUri: baseUrl
+    },
+    cache: {
+      cacheLocation: 'localStorage' // This configures where your cache will be stored
+      //storeAuthStateInCookie: false // Set this to "true" if you are having issues on IE11 or Edge
+    }
+    // Leaving this for future inspiration:
+    /*system: {
+      loggerOptions: {
+        loggerCallback: (level, message, containsPii) => {
+          if (containsPii) {
             return
-          case LogLevel.Info:
-            console.info(message)
-            return
-          case LogLevel.Verbose:
-            console.debug(message)
-            return
-          case LogLevel.Warning:
-            console.warn(message)
-            return
-          default:
-            return
+          }
+          switch (level) {
+            case LogLevel.Error:
+              console.error(message)
+              return
+            case LogLevel.Info:
+              console.info(message)
+              return
+            case LogLevel.Verbose:
+              console.debug(message)
+              return
+            case LogLevel.Warning:
+              console.warn(message)
+              return
+            default:
+              return
+          }
         }
       }
-    }
-  }*/
+    }*/
+  }
 }
 
 /**
