@@ -10,7 +10,7 @@ export const msalConfig = (bootstrap: Bootstrap): Configuration => {
   const baseUrl =
     bootstrap.environment === Environment.Local
       ? 'http://localhost:5173' + import.meta.env.BASE_URL
-      : bootstrap.baseUrl + import.meta.env.BASE_URL
+      : bootstrap.baseUrl + import.meta.env.BASE_URL + '/'
   return {
     auth: {
       clientId: bootstrap.clientId,
