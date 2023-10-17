@@ -13,13 +13,12 @@ export const msalConfig: Configuration = {
     redirectUri: import.meta.env.PROD
       ? 'https://digitraffic-tis-dev.aws.fintraffic.cloud/ui/'
       : 'http://localhost:5173' + import.meta.env.BASE_URL
+  },
+  cache: {
+    cacheLocation: 'localStorage' // This configures where your cache will be stored
+    //storeAuthStateInCookie: false // Set this to "true" if you are having issues on IE11 or Edge
   }
   // Leaving this for future inspiration:
-  /*,
-  cache: {
-    cacheLocation: 'sessionStorage', // This configures where your cache will be stored
-    storeAuthStateInCookie: false // Set this to "true" if you are having issues on IE11 or Edge
-  } ,*/
   /*system: {
     loggerOptions: {
       loggerCallback: (level, message, containsPii) => {
