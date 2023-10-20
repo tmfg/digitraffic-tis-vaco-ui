@@ -46,7 +46,7 @@ const TicketInfoPage = () => {
   }, [ticketId, instance, inProgress])
 
   return (
-    <div className={'sub-page'}>
+    <div className={'page-content'}>
       <AuthenticatedTemplate>
         <h2>Ticket info</h2>
         {ticket && (
