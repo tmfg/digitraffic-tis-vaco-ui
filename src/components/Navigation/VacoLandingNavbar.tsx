@@ -6,15 +6,16 @@ import { createAccount, login } from '../../hooks/auth'
 export const vacoStaticNavbarItems: FdsNavigationItem[] = [
   {
     label: 'VACO',
-    value: '/'
+    value: '/',
+    bold: true
   },
   {
     label: 'About',
-    value: '/'
+    value: '/about'
   },
   {
     label: 'Support',
-    value: '/'
+    value: '/support'
   },
   {
     label: 'Login',
@@ -34,7 +35,15 @@ export const vacoStaticNavbarItems: FdsNavigationItem[] = [
 ]
 
 const VacoLandingNavbar = () => {
-  return <Navbar variant={FdsNavigationVariant.secondary} items={vacoStaticNavbarItems} barIndex={1} />
+  return (
+    <Navbar
+      variant={FdsNavigationVariant.secondary}
+      items={vacoStaticNavbarItems}
+      barIndex={1}
+      selectedItem={vacoStaticNavbarItems[0]}
+      isSelectedItemStatic={false}
+    />
+  )
 }
 
 export default VacoLandingNavbar

@@ -7,7 +7,8 @@ import { useEffect, useState } from 'react'
 export const vacoNavbarItems: FdsNavigationItem[] = [
   {
     label: 'VACO',
-    value: '/'
+    value: '/',
+    bold: true
   },
   {
     label: 'About',
@@ -67,6 +68,8 @@ const VacoAuthenticatedNavbar = () => {
       variant={FdsNavigationVariant.secondary}
       items={userName ? userNavbarItems : vacoNavbarItems}
       barIndex={1}
+      selectedItem={vacoNavbarItems[0]}
+      isSelectedItemStatic={false}
     />
   )
 }
