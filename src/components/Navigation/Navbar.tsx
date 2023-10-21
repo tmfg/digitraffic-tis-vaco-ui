@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { FdsNavigationItem, FdsNavigationVariant } from '../../../coreui-components/src/fds-navigation'
 import { FdsNavigationComponent } from '../fds/FdsNavigationComponent'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { MsalMethod } from '../../types/Auth'
 import { useMsal } from '@azure/msal-react'
 
@@ -9,23 +9,36 @@ interface NavbarProps {
   items: FdsNavigationItem[]
   barIndex: number
   variant: FdsNavigationVariant
-  selectedItem?: FdsNavigationItem
+  selectedItem: FdsNavigationItem
+  children?: React.ReactNode
+  isSelectedItemStatic?: boolean
 }
 
-const Navbar = ({ items, barIndex, variant, selectedItem }: NavbarProps) => {
+const Navbar = ({
+  items,
+  barIndex,
+  variant,
+  selectedItem: initialSelectedItem,
+  children,
+  isSelectedItemStatic
+}: NavbarProps) => {
   const navigate = useNavigate()
+  const location = useLocation()
   const { instance } = useMsal()
+  const [selectedItem, setSelectedItem] = useState<FdsNavigationItem>(initialSelectedItem)
 
   const useSelectListener: EventListenerOrEventListenerObject = (e: Event): void => {
     const detail = (e as CustomEvent).detail as FdsNavigationItem
 
     if (typeof detail.value !== 'string') {
+      // e.g. login or register
       const msalMethod = detail.value as MsalMethod
       msalMethod(instance)
       return
     }
 
-    const route = detail.value as string
+    setSelectedItem(detail)
+    const route = detail.value
     if (!route) {
       return
     } else if (route.startsWith('https')) {
@@ -47,13 +60,22 @@ const Navbar = ({ items, barIndex, variant, selectedItem }: NavbarProps) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (isSelectedItemStatic) {
+      return
+    }
+    setSelectedItem(items.filter((item) => item.value === location.pathname)[0])
+  }, [location, isSelectedItemStatic])
+
   return (
     <>
-      {selectedItem ? (
-        <FdsNavigationComponent variant={variant} items={items} selected={selectedItem} />
-      ) : (
-        <FdsNavigationComponent variant={variant} items={items} />
-      )}
+      <FdsNavigationComponent
+        variant={variant}
+        items={items}
+        selected={isSelectedItemStatic ? initialSelectedItem : selectedItem}
+      >
+        {children}
+      </FdsNavigationComponent>
     </>
   )
 }

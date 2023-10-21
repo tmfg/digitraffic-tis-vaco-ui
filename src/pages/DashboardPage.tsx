@@ -4,7 +4,7 @@ const DashboardPage = () => {
   const { t } = useTranslation()
 
   return (
-    <div className={'sub-page '}>
+    <div className={'page-content '}>
       <h2>{t('translations:dashboard')}</h2>
     </div>
   )

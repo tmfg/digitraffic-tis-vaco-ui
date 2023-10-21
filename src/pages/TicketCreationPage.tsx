@@ -39,11 +39,11 @@ const TicketCreationPage = () => {
     }
 
     const { data } = await HttpClient.post('/api/queue', requestBody, getHeaders(tokenResult.idToken))
-    setEntryResource(data)
+    setEntryResource(data as EntryResource)
   }
 
   return (
-    <div className={'sub-page'}>
+    <div className={'page-content'}>
       <AuthenticatedTemplate>
         <h2>Create ticket</h2>
         {entryResource && (

@@ -20,6 +20,7 @@ export interface FdsNavigationItem {
   value: unknown
   position?: FdsNavigationItemPosition
   icon?: FdsIconType
+  bold?: boolean
 }
 
 export enum FdsNavigationItemPosition {
@@ -74,7 +75,7 @@ export default class FdsNavigation extends LitElement {
       @click=${(): void => this.handleSelect(item)}
       class="item ${this.selected === item ? 'item--active' : ''}"
     >
-      <div class="item__label">
+      <div class="item__label ${item.bold ? 'item__label--bold' : ''}">
         ${item.icon && html`<fds-icon class="item__icon" .icon="${item.icon}"></fds-icon>`}
         <span>${item.label}</span>
       </div>
@@ -131,6 +132,10 @@ export default class FdsNavigation extends LitElement {
 
       .item__label {
         align-items: end;
+      }
+
+      .item__label--bold {
+        font-weight: 700;
       }
 
       .item__icon {
