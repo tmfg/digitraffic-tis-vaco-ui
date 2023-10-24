@@ -8,6 +8,7 @@ import {
   ChevronRight,
   ChevronUp,
   createElement,
+  Menu,
   Plus,
   PlusCircle,
   Trash2,
@@ -15,6 +16,7 @@ import {
   Settings,
   Pencil,
   CheckCircle,
+  User
 } from 'lucide'
 
 /**
@@ -26,6 +28,7 @@ export const FdsIcons = {
   'chevron-down': ChevronDown,
   'chevron-right': ChevronRight,
   'chevron-up': ChevronUp,
+  menu: Menu,
   pencil: Pencil,
   plus: Plus,
   'plus-circle': PlusCircle,
@@ -33,6 +36,7 @@ export const FdsIcons = {
   x: X,
   settings: Settings,
   'check-circle': CheckCircle,
+  user: User
 }
 
 export type FdsIconType = keyof typeof FdsIcons
@@ -48,6 +52,7 @@ export type FdsIconType = keyof typeof FdsIcons
  * - chevron-down
  * - chevron-right
  * - chevron-up
+ * - menu
  * - edit
  * - plus-circle
  * - trash-2
