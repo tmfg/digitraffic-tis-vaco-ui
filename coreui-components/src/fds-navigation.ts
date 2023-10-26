@@ -3,9 +3,10 @@ import {
   FdsColorBrandWhite,
   FdsColorNeutral100,
   FdsColorText300,
-  uiLabelTextClass,
+  FdsSizeToken,
+  uiLabelTextClass
 } from '../../coreui-css/lib'
-import { adoptStyles, css, CSSResult, html, LitElement, unsafeCSS } from 'lit'
+import { adoptStyles, css, CSSResult, html, LitElement, PropertyValues, unsafeCSS } from 'lit'
 import { nothing, TemplateResult } from 'lit-html'
 import { customElement, property, state } from 'lit/decorators.js'
 import './fds-icon'
@@ -24,7 +25,9 @@ export interface FdsNavigationItem {
   position?: FdsNavigationItemPosition
   mobileOrder?: number
   icon?: FdsIconType
+  iconSize?: FdsSizeToken
   bold?: boolean
+  dropDownItems?: FdsNavigationItem[]
 }
 
 export enum FdsNavigationItemPosition {
@@ -48,9 +51,11 @@ export default class FdsNavigation extends LitElement {
   @property() items: FdsNavigationItem[] = []
   @property() selected?: FdsNavigationItem
   @property({ attribute: 'mobile-nav-text' }) mobileNavText: string = ''
-  @property({ type: Number, attribute: 'mobile-width' }) mobileWidth = 0
+  @property({ type: Number, attribute: 'mobile-width' }) mobileWidth = -1
 
   @state() private _open = false
+  @state() private _dropdownItemOpen = false
+  @state() private _selectedDropdownItem = ''
 
   override connectedCallback(): void {
     super.connectedCallback()
@@ -73,8 +78,8 @@ export default class FdsNavigation extends LitElement {
       : nothing}
       <ul class="navigation__body ${this._open ? 'navigation__open' : ''}">
         ${itemsOnLeft
-      .map(item => this.renderItem(item))
-      .concat(
+        .map(item => this.renderItem(item))
+        .concat(
         itemsOnRight.map((item, index) => this.renderItem(item, index === 0 ? 'item__first-right' : ''))
       )}
       </ul>
@@ -110,18 +115,90 @@ export default class FdsNavigation extends LitElement {
     this._open = !this._open
   }
 
+  handleDropdownItemClick(item: FdsNavigationItem): void {
+    if (!(item.dropDownItems && item.dropDownItems.length > 0)) {
+      return
+    }
+
+    if (this._dropdownItemOpen && this._selectedDropdownItem !== item.label) {
+      this._selectedDropdownItem = item.label
+    } else {
+      this._dropdownItemOpen = !this._dropdownItemOpen
+      this._selectedDropdownItem = this._dropdownItemOpen ? item.label : ''
+      if (this._dropdownItemOpen) {
+        document.addEventListener('click', this._handleOutsideNavigationClick)
+      } else {
+        document.removeEventListener('click', this._handleOutsideNavigationClick)
+      }
+    }
+  }
+
+  public willUpdate(changedProperties: PropertyValues<this>) {
+    super.willUpdate(changedProperties)
+  }
+
+  private _handleOutsideNavigationClick = (e: MouseEvent) => {
+    const targets = e.composedPath() as Element[]
+    if (!this._dropdownItemOpen) {
+      return
+    }
+    if (
+      !targets.some((target) => {
+        return (
+          target.className &&
+          typeof target.className.includes !== 'undefined' &&
+          target.className.includes('item') &&
+          target.childElementCount === 2
+        )
+      })
+    ) {
+      const selectedItem = this.items.filter((i) => i.label === this._selectedDropdownItem)
+      selectedItem && selectedItem.length == 1 && this.handleDropdownItemClick(selectedItem[0])
+    }
+  }
+
   renderItem(item: FdsNavigationItem, clazz: string = ''): TemplateResult {
     const mobileOrder = item.mobileOrder ?? 0
-    return html` <li
-      @click=${(): void => this.handleSelect(item)}
+    const dropdownItemIcon =
+      this._dropdownItemOpen && this._selectedDropdownItem === item.label ? 'chevron-up' : 'chevron-down'
+
+    return html`<li
+      @click=${(): void => {
+        if (item.dropDownItems && item.dropDownItems.length > 0) {
+          this.handleDropdownItemClick(item)
+        } else {
+          //this.handleDropdownItemClick(item)
+          this.handleSelect(item)
+        }
+      }}
       class="item ${this.selected === item ? 'item--active' : ''} ${clazz}"
       style=${styleMap({ order: mobileOrder })}
     >
-      <div class="item__label ${item.bold ? 'item__label--bold' : ''}">
+      <div class=" item__label ${item.bold ? 'item__label--bold' : ''}">
         ${item.icon && html`<fds-icon class="item__icon" icon="${item.icon}"></fds-icon>`}
         <span>${item.label}</span>
+        ${item.dropDownItems &&
+        item.dropDownItems.length > 0 &&
+        html`<fds-icon class="item__icon--dropdown" icon=${dropdownItemIcon} />`}
       </div>
-    </li>`
+      ${item.dropDownItems && item.dropDownItems.length > 0 && this._dropdownItemOpen && this._selectedDropdownItem === item.label
+        ? html`<ul class="navigation__dropdown">
+            ${item.dropDownItems.map(
+              (opt: FdsNavigationItem) =>
+                html`<li
+                  @click=${(): void => {
+                    this.handleSelect(opt)
+                    this.handleDropdownItemClick(opt)
+                  }}
+                >
+                  ${opt.icon && html`<fds-icon class="item__icon" icon="${opt.icon}"></fds-icon>`}
+                  ${opt.label}
+                </li>`
+            )}
+          </ul>`
+        : ''}
+    </li>
+    `
   }
 
   handleSelect(item: FdsNavigationItem): void {
@@ -182,6 +259,12 @@ export default class FdsNavigation extends LitElement {
 
     .item__icon {
       margin-right: 6px;
+      margin-bottom: 3.5px;
+    }
+
+    .item__icon--dropdown {
+      margin-left: 10px;
+      margin-bottom: -0.5px;
     }
 
     .navigation__header ::slotted(*) {
@@ -217,6 +300,10 @@ export default class FdsNavigation extends LitElement {
       color: ${FdsColorText300};
     }
 
+    .navigation--primary .item--active {
+      justify-items: center;
+    }
+
     .navigation--primary .navigation__open .item--active .item__label:after {
       content: '';
       position: relative;
@@ -227,6 +314,10 @@ export default class FdsNavigation extends LitElement {
       border-bottom: 6px solid transparent;
       border-right: var(--element-vertical-padding--primary) solid ${FdsColorBrandWhite};
     }
+
+    .navigation--secondary .navigation__body {
+        padding: 0px 16px;
+     }
 
     .navigation--secondary {
       background-color: ${FdsColorBrandWhite};
@@ -330,7 +421,6 @@ export default class FdsNavigation extends LitElement {
         }
 
         .item {
-          justify-items: center;
           order: 0 !important;
         }
 
@@ -357,7 +447,33 @@ export default class FdsNavigation extends LitElement {
           display: none;
         }
 
+        .navigation__dropdown {
+            position: absolute;
+            top: 55px;
+            height: auto;
+            color: black;
+            background-color: white;
+            box-shadow: 0 4px 7px 0 rgba(0,0,0,0.3);
+            list-style-type: none;
+            padding: 0;
+            min-width: 100%;
+        }
+
+        .navigation__dropdown > li {
+          border-bottom: 1px solid var(--fds-color-neutral-100, #cdcdd7);
+          padding: var(--element-vertical-padding--primary) 16px;
+          width: auto;
+          list-style: none;
+          white-space: nowrap;
+        }
+
+        .navigation__dropdown > li:hover {
+          color: ${FdsColorText300};
+        }
+
         .navigation--secondary .item {
+          position: relative;
+          z-index: 2;
           padding-bottom: calc(
             var(--element-vertical-padding--secondary) - var(--item-border-bottom-width--secondary)
           );
