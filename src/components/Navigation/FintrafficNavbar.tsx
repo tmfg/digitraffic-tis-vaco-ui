@@ -16,7 +16,7 @@ const FintrafficNavbar = () => {
     },
     {
       label: 'Train Departures',
-      value: 'https://www.digitraffic.fi/'
+      value: 'https://junalahdot.fintraffic.fi/'
     },
     {
       label: 'Drone Services',

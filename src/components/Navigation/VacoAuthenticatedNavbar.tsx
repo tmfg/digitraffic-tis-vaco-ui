@@ -3,6 +3,8 @@ import Navbar from './Navbar'
 import { FdsNavigationItem } from '../../../coreui-components/src/fds-navigation'
 import { useMsal } from '@azure/msal-react'
 import { useEffect, useState } from 'react'
+import { FdsIconType } from '../../../coreui-components/src/fds-icon'
+import { logout } from '../../hooks/auth'
 
 export const vacoNavbarItems: FdsNavigationItem[] = [
   {
@@ -12,32 +14,84 @@ export const vacoNavbarItems: FdsNavigationItem[] = [
   },
   {
     label: 'About',
-    value: '/about'
+    value: '/about',
+    dropDownItems: [
+      {
+        label: 'VACO instructions',
+        value: 'https://www.fintraffic.fi/fi',
+        icon: 'external-link' as FdsIconType
+      },
+      {
+        label: 'Terms and conditions',
+        value: 'https://www.fintraffic.fi/fi',
+        icon: 'external-link' as FdsIconType
+      },
+      {
+        label: 'Privacy policy',
+        value: 'https://www.fintraffic.fi/fi',
+        icon: 'external-link' as FdsIconType
+      }
+    ]
   },
   {
     label: 'Support',
-    value: '/support'
+    value: '/support',
+    dropDownItems: [
+      {
+        label: 'Support channels',
+        value: 'https://www.fintraffic.fi/en/instructions-tos',
+        icon: 'external-link' as FdsIconType
+      }
+    ]
   },
   {
-    label: 'Create ticket',
-    value: '/ticket/request'
-  },
-  {
-    label: 'View ticket',
-    value: '/ticket/info'
+    label: 'My services',
+    value: '',
+    dropDownItems: [
+      {
+        label: 'Create ticket',
+        value: '/ticket/request'
+      },
+      {
+        label: 'View ticket',
+        value: '/ticket/info'
+      }
+    ]
   }
 ]
 
-const userNavbarItem = {
+const userNavbarItem: FdsNavigationItem = {
   label: '',
   value: '',
-  position: FdsNavigationItemPosition.right
+  position: FdsNavigationItemPosition.right,
+  icon: 'user' as FdsIconType,
+  dropDownItems: [
+    {
+      label: 'User account',
+      value: '/'
+    }
+  ]
 }
 
-const languageNavbarItem = {
+const languageNavbarItem: FdsNavigationItem = {
   label: 'In English',
   value: '',
-  position: FdsNavigationItemPosition.right
+  position: FdsNavigationItemPosition.right,
+  icon: 'globe' as FdsIconType,
+  dropDownItems: [
+    {
+      label: 'Suomeksi',
+      value: 'https://www.fintraffic.fi/en/instructions-tos'
+    },
+    {
+      label: 'På Svenska',
+      value: 'https://www.fintraffic.fi/en/instructions-tos'
+    },
+    {
+      label: 'In English',
+      value: 'https://www.fintraffic.fi/en/instructions-tos'
+    }
+  ]
 }
 
 const VacoAuthenticatedNavbar = () => {
@@ -57,6 +111,12 @@ const VacoAuthenticatedNavbar = () => {
     // Once everything is ready, time to add all "dynamic" navbar items
     if (userName) {
       userNavbarItem.label = userName
+      userNavbarItem.dropDownItems?.push({
+        label: 'Log out',
+        value: () => {
+          logout(instance)
+        }
+      })
       vacoNavbarItems.push(userNavbarItem)
       vacoNavbarItems.push(languageNavbarItem)
       setUserNavbarItems([...vacoNavbarItems])

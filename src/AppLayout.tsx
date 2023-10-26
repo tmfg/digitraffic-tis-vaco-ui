@@ -5,7 +5,7 @@ import { useIsAuthenticated, useMsal } from '@azure/msal-react'
 import VacoAuthenticatedNavbar from './components/Navigation/VacoAuthenticatedNavbar'
 import VacoLandingNavbar from './components/Navigation/VacoLandingNavbar'
 import { isUserInTransition } from './hooks/auth'
-import RedirectingPage from "./pages/RedirectingPage";
+import RedirectingPage from './pages/RedirectingPage'
 
 const AppLayout = () => {
   const isAuthenticated = useIsAuthenticated()

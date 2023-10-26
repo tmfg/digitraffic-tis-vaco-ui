@@ -1,4 +1,4 @@
-import { FdsTokenSize3, FdsSizeToken } from '../../coreui-css/lib'
+import { FdsSizeToken, FdsTokenSize2 } from "../../coreui-css/lib";
 import { css, LitElement } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import {
@@ -8,6 +8,7 @@ import {
   ChevronRight,
   ChevronUp,
   createElement,
+  Menu,
   Plus,
   PlusCircle,
   Trash2,
@@ -15,6 +16,9 @@ import {
   Settings,
   Pencil,
   CheckCircle,
+  User,
+  ExternalLink,
+  Globe
 } from 'lucide'
 
 /**
@@ -26,6 +30,7 @@ export const FdsIcons = {
   'chevron-down': ChevronDown,
   'chevron-right': ChevronRight,
   'chevron-up': ChevronUp,
+  menu: Menu,
   pencil: Pencil,
   plus: Plus,
   'plus-circle': PlusCircle,
@@ -33,6 +38,9 @@ export const FdsIcons = {
   x: X,
   settings: Settings,
   'check-circle': CheckCircle,
+  user: User,
+  'external-link': ExternalLink,
+  globe: Globe
 }
 
 export type FdsIconType = keyof typeof FdsIcons
@@ -48,6 +56,7 @@ export type FdsIconType = keyof typeof FdsIcons
  * - chevron-down
  * - chevron-right
  * - chevron-up
+ * - menu
  * - edit
  * - plus-circle
  * - trash-2
@@ -58,7 +67,7 @@ export type FdsIconType = keyof typeof FdsIcons
  */
 @customElement('fds-icon')
 export default class FdsIcon extends LitElement {
-  @property() size: FdsSizeToken = FdsTokenSize3
+  @property() size: FdsSizeToken = FdsTokenSize2
   @property() icon?: FdsIconType
 
   override render(): SVGElement | null {
@@ -68,8 +77,10 @@ export default class FdsIcon extends LitElement {
     }
 
     const svgElement = createElement(FdsIcons[this.icon])
-    svgElement.setAttribute('width', this.size.value)
-    svgElement.setAttribute('height', this.size.value)
+    // Temporarily like this... For some reason setting props from fds-navigation doesn't seem to have an effect
+    const size = this.icon.includes('chevron') ? '21px' : this.size.value
+    svgElement.setAttribute('width', size)
+    svgElement.setAttribute('height', size)
     return svgElement
   }
 
