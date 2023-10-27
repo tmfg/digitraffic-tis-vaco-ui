@@ -5,7 +5,7 @@ const DashboardPage = () => {
 
   return (
     <div className={'page-content '}>
-      <h2>{t('translations:dashboard')}</h2>
+      <h2>{t('translation:dashboard')}</h2>
     </div>
   )
 }

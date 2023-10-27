@@ -4,15 +4,15 @@ import { EntryRequest } from '../types/EntryRequest'
 import { EntryResource } from '../types/EntryResource'
 import { Link } from 'react-router-dom'
 import { FdsButtonComponent } from '../components/fds/FdsButtonComponent'
-import { FdsNavigationItem } from '../../coreui-components/src/fds-navigation'
-import { vacoNavbarItems } from '../components/Navigation/VacoAuthenticatedNavbar'
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react'
 import { acquireToken } from '../hooks/auth'
 import AuthRequiredPage from './errors/AuthRequiredPage'
+import { useTranslation } from 'react-i18next'
 
 const TicketCreationPage = () => {
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
   const { instance } = useMsal()
+  const { t } = useTranslation()
 
   const submitTicket = async () => {
     const tokenResult = await acquireToken(instance)
@@ -45,26 +45,12 @@ const TicketCreationPage = () => {
   return (
     <div className={'page-content'}>
       <AuthenticatedTemplate>
-        <h2>Create ticket</h2>
+        <h2>{t('services:testData:header')}</h2>
         {entryResource && (
           <div>
             <h4>
               Submitted! Ticket:
-              <Link
-                onClick={() => {
-                  // VACO navbar should update selected menu item:
-                  const element = document.getElementsByTagName('fds-navigation')[1]
-                  element?.dispatchEvent(
-                    new CustomEvent<FdsNavigationItem>('externalNavigation', {
-                      detail: vacoNavbarItems[4],
-                      bubbles: true
-                    })
-                  )
-                }}
-                to={'/ticket/info/' + entryResource.data.publicId}
-              >
-                {entryResource.data.publicId}
-              </Link>
+              <Link to={'/ticket/info/' + entryResource.data.publicId}>{entryResource.data.publicId}</Link>
             </h4>
             <pre style={{ width: 700, whiteSpace: 'pre-wrap' }}>{JSON.stringify(entryResource)}</pre>
           </div>

@@ -5,47 +5,49 @@ import ShortcutPanel from '../components/Shortcut/ShortcutPanel'
 import { ReactComponent as BookSvg } from '../assets/svg/book_open.svg'
 import { ReactComponent as BusSvg } from '../assets/svg/bus.svg'
 import { ReactComponent as TrainSvg } from '../assets/svg/train.svg'
+import { useTranslation } from 'react-i18next'
 
 const HomePage = () => {
   const { instance } = useMsal()
   const isAuthenticated = useIsAuthenticated()
+  const { t } = useTranslation()
 
   const landingShortcuts: Shortcut[] = [
     {
-      label: 'Login',
+      label: t('ad:login'),
       icon: <BookSvg />,
       to: '#',
       onClick: () => {
         login(instance)
       },
-      description: 'Log in to start using the service.'
+      description: t('home:shortcut:login:intro')
     },
     {
-      label: 'Create account',
+      label: t('ad:create'),
       icon: <BusSvg />,
       to: '#',
       onClick: () => {
         createAccount(instance)
       },
-      description: 'Create an account if new to the service.'
+      description: t('home:shortcut:create:intro')
     }
   ]
 
   const userShortcuts: Shortcut[] = [
     {
-      label: 'My data',
+      label: t('vaco:myData'),
       to: '/ui/ticket/info',
       icon: <BookSvg />,
-      description: 'Review your previous data submissions.'
+      description: t('home:shortcut:myData:intro')
     },
     {
-      label: 'Test data',
+      label: t('vaco:testData'),
       to: '/ui/ticket/request',
       icon: <BusSvg />,
-      description: 'Validate data, get compliance report and converted data.'
+      description: t('home:shortcut:testData:intro')
     },
     {
-      label: 'Log out',
+      label: t('ad:logout'),
       icon: <TrainSvg />,
       to: '#',
       onClick: () => {
@@ -57,7 +59,7 @@ const HomePage = () => {
 
   return (
     <div className={'page-content '}>
-      <h1>VACO - validation & conversion</h1>
+      <h1>{t('home:header')}</h1>
 
       <div style={{ paddingTop: '2.5em', paddingBottom: '4em', width: '100%' }}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -67,7 +69,7 @@ const HomePage = () => {
         laborum.
       </div>
 
-      <h1>Shortcuts</h1>
+      <h1>{t('home:shortcuts')}</h1>
       <ShortcutPanel items={isAuthenticated ? userShortcuts : landingShortcuts} />
     </div>
   )
