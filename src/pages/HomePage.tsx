@@ -16,7 +16,7 @@ const HomePage = () => {
     {
       label: t('ad:login'),
       icon: <BookSvg />,
-      to: '#',
+      to: '/',
       onClick: () => {
         login(instance)
       },
@@ -25,7 +25,7 @@ const HomePage = () => {
     {
       label: t('ad:create'),
       icon: <BusSvg />,
-      to: '#',
+      to: '/',
       onClick: () => {
         createAccount(instance)
       },
