@@ -2,8 +2,10 @@ import { useIsAuthenticated, useMsal } from '@azure/msal-react'
 import { createAccount, login, logout } from '../hooks/auth'
 import { Shortcut } from '../components/Shortcut/types'
 import ShortcutPanel from '../components/Shortcut/ShortcutPanel'
-import { ReactComponent as BookSvg } from '../assets/svg/book_open.svg'
-import { ReactComponent as BusSvg } from '../assets/svg/bus.svg'
+import { ReactComponent as LoginSvg } from '../assets/svg/login.svg'
+import { ReactComponent as NewUserSvg } from '../assets/svg/new_user.svg'
+import { ReactComponent as MyDataSvg } from '../assets/svg/my_data.svg'
+import { ReactComponent as TestDataSvg } from '../assets/svg/test_data.svg'
 import { ReactComponent as TrainSvg } from '../assets/svg/train.svg'
 import { useTranslation } from 'react-i18next'
 
@@ -15,7 +17,7 @@ const HomePage = () => {
   const landingShortcuts: Shortcut[] = [
     {
       label: t('ad:login'),
-      icon: <BookSvg />,
+      icon: <LoginSvg />,
       to: '/',
       onClick: () => {
         login(instance)
@@ -24,7 +26,7 @@ const HomePage = () => {
     },
     {
       label: t('ad:create'),
-      icon: <BusSvg />,
+      icon: <NewUserSvg />,
       to: '/',
       onClick: () => {
         createAccount(instance)
@@ -37,13 +39,13 @@ const HomePage = () => {
     {
       label: t('vaco:myData'),
       to: '/ticket/info',
-      icon: <BookSvg />,
+      icon: <MyDataSvg />,
       description: t('home:shortcut:myData:intro')
     },
     {
       label: t('vaco:testData'),
       to: '/ticket/request',
-      icon: <BusSvg />,
+      icon: <TestDataSvg />,
       description: t('home:shortcut:testData:intro')
     },
     {
