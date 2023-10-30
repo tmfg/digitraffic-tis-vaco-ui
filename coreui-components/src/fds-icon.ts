@@ -1,4 +1,4 @@
-import { FdsSizeToken, FdsTokenSize2 } from "../../coreui-css/lib";
+import { FdsSizeToken, FdsTokenSize2 } from '../../coreui-css/lib'
 import { css, LitElement } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import {
@@ -18,7 +18,7 @@ import {
   CheckCircle,
   User,
   ExternalLink,
-  Globe
+  Globe, Check
 } from 'lucide'
 
 /**
@@ -40,7 +40,8 @@ export const FdsIcons = {
   'check-circle': CheckCircle,
   user: User,
   'external-link': ExternalLink,
-  globe: Globe
+  globe: Globe,
+  check: Check
 }
 
 export type FdsIconType = keyof typeof FdsIcons

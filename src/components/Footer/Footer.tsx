@@ -1,7 +1,9 @@
 import './footer.scss'
 import { ReactComponent as FintrafficLogo } from '../../assets/svg/fintraffic_logo.svg'
+import { useTranslation } from 'react-i18next'
 
 const Footer = () => {
+  const { t } = useTranslation()
   return (
     <footer className={'footer'}>
       <div className={'footer__brand'}>
@@ -16,16 +18,16 @@ const Footer = () => {
         <div className={'footer__link-column'}>
           <ul>
             <li>
-              <a href="https://liikennetilanne.fintraffic.fi/pulssi/">Traffic Situation</a>
+              <a href="https://liikennetilanne.fintraffic.fi/pulssi/">{t('fintraffic:traffic')}</a>
             </li>
             <li>
-              <a href="https://www.palautevayla.fi/aspa/en/liikenteen-asiakaspalvelu-etsi-tietoa">Feedback Channel</a>
+              <a href="https://www.palautevayla.fi/aspa/en/liikenteen-asiakaspalvelu-etsi-tietoa">{t('fintraffic:feedback')}</a>
             </li>
             <li>
-              <a href="https://www.digitraffic.fi/">Train Departures</a>
+              <a href="https://www.digitraffic.fi/">{t('fintraffic:train')}</a>
             </li>
             <li>
-              <a href="https://skynavx.fi/#/drone">Drone Services</a>
+              <a href="https://skynavx.fi/#/drone">{t('fintraffic:drone')}</a>
             </li>
           </ul>
         </div>
@@ -46,14 +48,14 @@ const Footer = () => {
           <ul>
             <li>
               <a href="https://www.fintraffic.fi/en/fintraffic/contact-information-and-invoicing-instructions">
-                Contact information
+                {t('fintraffic:contact')}
               </a>
             </li>
             <li>
-              <a href="https://www.fintraffic.fi/fi/fintraffic/tietosuoja">Privacy policy</a>
+              <a href="https://www.fintraffic.fi/fi/fintraffic/tietosuoja">{t('fintraffic:privacy')}</a>
             </li>
             <li>
-              <a href="https://www.fintraffic.fi/fi/fintraffic/saavutettavuusseloste">Accessibility</a>
+              <a href="https://www.fintraffic.fi/fi/fintraffic/saavutettavuusseloste">{t('fintraffic:accessibility')}</a>
             </li>
           </ul>
         </div>

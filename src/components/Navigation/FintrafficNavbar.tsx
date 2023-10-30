@@ -2,24 +2,26 @@ import { FdsNavigationItem, FdsNavigationVariant } from '../../../coreui-compone
 import { ReactComponent as FintrafficLogo } from '../../assets/svg/fintraffic_logo.svg'
 
 import Navbar from './Navbar'
+import { useTranslation } from 'react-i18next'
 
 const FintrafficNavbar = () => {
+  const { t } = useTranslation()
   // TODO: add locale to links, wherever possible, once we have language selection functionality working
   const items: FdsNavigationItem[] = [
     {
-      label: 'Traffic Situation',
+      label: t('fintraffic:traffic'),
       value: 'https://liikennetilanne.fintraffic.fi/pulssi/'
     },
     {
-      label: 'Feedback Channel',
+      label: t('fintraffic:feedback'),
       value: 'https://www.palautevayla.fi/aspa/en/liikenteen-asiakaspalvelu-etsi-tietoa'
     },
     {
-      label: 'Train Departures',
+      label: t('fintraffic:train'),
       value: 'https://junalahdot.fintraffic.fi/'
     },
     {
-      label: 'Drone Services',
+      label: t('fintraffic:drone'),
       value: 'https://skynavx.fi/#/drone'
     },
     {
@@ -31,7 +33,7 @@ const FintrafficNavbar = () => {
       value: 'https://digitransit.fi/'
     },
     {
-      label: 'NAP',
+      label: t('fintraffic:nap'),
       value: 'https://finap.fi/#/'
     },
     {

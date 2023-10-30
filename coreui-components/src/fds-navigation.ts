@@ -28,6 +28,7 @@ export interface FdsNavigationItem {
   iconSize?: FdsSizeToken
   bold?: boolean
   dropDownItems?: FdsNavigationItem[]
+  isCheckable?: boolean
 }
 
 export enum FdsNavigationItemPosition {
@@ -186,6 +187,7 @@ export default class FdsNavigation extends LitElement {
             ${item.dropDownItems.map(
               (opt: FdsNavigationItem) =>
                 html`<li
+                  class="${opt.isCheckable && !opt.icon && 'checkable'}"
                   @click=${(): void => {
                     this.handleSelect(opt)
                     this.handleDropdownItemClick(opt)
@@ -264,7 +266,6 @@ export default class FdsNavigation extends LitElement {
 
     .item__icon--dropdown {
       margin-left: 10px;
-      margin-bottom: -0.5px;
     }
 
     .navigation__header ::slotted(*) {
@@ -467,8 +468,12 @@ export default class FdsNavigation extends LitElement {
           white-space: nowrap;
         }
 
+        .navigation__dropdown > .checkable {
+          padding-left: 42px;
+        }
+
         .navigation__dropdown > li:hover {
-          color: ${FdsColorText300};
+          background-color: rgba(205,205,215,0.2);
         }
 
         .navigation--secondary .item {

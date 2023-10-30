@@ -2,52 +2,56 @@ import { useIsAuthenticated, useMsal } from '@azure/msal-react'
 import { createAccount, login, logout } from '../hooks/auth'
 import { Shortcut } from '../components/Shortcut/types'
 import ShortcutPanel from '../components/Shortcut/ShortcutPanel'
-import { ReactComponent as BookSvg } from '../assets/svg/book_open.svg'
-import { ReactComponent as BusSvg } from '../assets/svg/bus.svg'
+import { ReactComponent as LoginSvg } from '../assets/svg/login.svg'
+import { ReactComponent as NewUserSvg } from '../assets/svg/new_user.svg'
+import { ReactComponent as MyDataSvg } from '../assets/svg/my_data.svg'
+import { ReactComponent as TestDataSvg } from '../assets/svg/test_data.svg'
 import { ReactComponent as TrainSvg } from '../assets/svg/train.svg'
+import { useTranslation } from 'react-i18next'
 
 const HomePage = () => {
   const { instance } = useMsal()
   const isAuthenticated = useIsAuthenticated()
+  const { t } = useTranslation()
 
   const landingShortcuts: Shortcut[] = [
     {
-      label: 'Login',
-      icon: <BookSvg />,
-      to: '#',
+      label: t('ad:login'),
+      icon: <LoginSvg />,
+      to: '/',
       onClick: () => {
         login(instance)
       },
-      description: 'Log in to start using the service.'
+      description: t('home:shortcut:login:intro')
     },
     {
-      label: 'Create account',
-      icon: <BusSvg />,
-      to: '#',
+      label: t('ad:create'),
+      icon: <NewUserSvg />,
+      to: '/',
       onClick: () => {
         createAccount(instance)
       },
-      description: 'Create an account if new to the service.'
+      description: t('home:shortcut:create:intro')
     }
   ]
 
   const userShortcuts: Shortcut[] = [
     {
-      label: 'My data',
-      to: '/ui/ticket/info',
-      icon: <BookSvg />,
-      description: 'Review your previous data submissions.'
+      label: t('vaco:myData'),
+      to: '/ticket/info',
+      icon: <MyDataSvg />,
+      description: t('home:shortcut:myData:intro')
     },
     {
-      label: 'Test data',
-      to: '/ui/ticket/request',
-      icon: <BusSvg />,
-      description: 'Validate data, get compliance report and converted data.'
+      label: t('vaco:testData'),
+      to: '/ticket/request',
+      icon: <TestDataSvg />,
+      description: t('home:shortcut:testData:intro')
     },
     {
-      label: 'Log out',
+      label: t('ad:logout'),
       icon: <TrainSvg />,
-      to: '#',
+      to: '/',
       onClick: () => {
         logout(instance)
       },
@@ -57,7 +61,7 @@ const HomePage = () => {
 
   return (
     <div className={'page-content '}>
-      <h1>VACO - validation & conversion</h1>
+      <h1>{t('home:header')}</h1>
 
       <div style={{ paddingTop: '2.5em', paddingBottom: '4em', width: '100%' }}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -67,7 +71,7 @@ const HomePage = () => {
         laborum.
       </div>
 
-      <h1>Shortcuts</h1>
+      <h1>{t('home:shortcuts')}</h1>
       <ShortcutPanel items={isAuthenticated ? userShortcuts : landingShortcuts} />
     </div>
   )
