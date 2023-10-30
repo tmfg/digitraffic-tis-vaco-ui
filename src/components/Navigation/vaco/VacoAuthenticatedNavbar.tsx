@@ -12,11 +12,6 @@ const VacoAuthenticatedNavbar = () => {
   const [userNavbarItems, setUserNavbarItems] = useState<FdsNavigationItem[]>([])
   const { i18n, t } = useTranslation()
 
-  useEffect(() => {
-    const selectedLocaleCode = i18n.resolvedLanguage || i18n.language
-    languageSelectionCallback(selectedLocaleCode)
-  }, [instance])
-
   const languageSelectionCallback = useCallback(
     (newLocaleCode: string) => {
       const vacoNavbarItems: FdsNavigationItem[] = [vacoItem(), aboutItem(t), supportItem(t), myServicesItem(t)]
@@ -35,8 +30,13 @@ const VacoAuthenticatedNavbar = () => {
       vacoNavbarItems.push(getSelectedLocaleItem(newLocaleCode, t))
       setUserNavbarItems(vacoNavbarItems)
     },
-    [instance]
+    [instance, t]
   )
+
+  useEffect(() => {
+    const selectedLocaleCode = i18n.resolvedLanguage || i18n.language
+    languageSelectionCallback(selectedLocaleCode)
+  }, [instance, i18n, languageSelectionCallback])
 
   return (
     <Navbar

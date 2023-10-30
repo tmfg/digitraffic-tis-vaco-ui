@@ -9,26 +9,29 @@ const VacoLandingNavbar = () => {
   const [userNavbarItems, setUserNavbarItems] = useState<FdsNavigationItem[]>([])
   const { i18n, t } = useTranslation()
 
+  const languageSelectionCallback = useCallback(
+    (newLocaleCode: string) => {
+      // This 't' from a hook has to be used because that's the only way to have
+      // these translation updated with user's actual selected language and not the default one
+      const vacoNavbarItems: FdsNavigationItem[] = [
+        vacoItem(),
+        aboutItem(t),
+        supportItem(t),
+        loginItem(t),
+        registerItem(t),
+        getSelectedLocaleItem(newLocaleCode, t)
+      ]
+      setUserNavbarItems(vacoNavbarItems)
+    },
+    [t]
+  )
+
   useEffect(() => {
     if (userNavbarItems.length === 0) {
       const selectedLocaleCode = i18n.resolvedLanguage || i18n.language
       languageSelectionCallback(selectedLocaleCode)
     }
-  }, [])
-
-  const languageSelectionCallback = useCallback((newLocaleCode: string) => {
-    // This 't' from a hook has to be used because that's the only way to have
-    // these translation updated with user's actual selected language and not the default one
-    const vacoNavbarItems: FdsNavigationItem[] = [
-      vacoItem(),
-      aboutItem(t),
-      supportItem(t),
-      loginItem(t),
-      registerItem(t),
-      getSelectedLocaleItem(newLocaleCode, t)
-    ]
-    setUserNavbarItems(vacoNavbarItems)
-  }, [])
+  }, [i18n, languageSelectionCallback, userNavbarItems])
 
   return (
     <Navbar

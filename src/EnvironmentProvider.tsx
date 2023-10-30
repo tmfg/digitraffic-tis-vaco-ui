@@ -4,7 +4,7 @@ import { MsalProvider } from '@azure/msal-react'
 import { initializeHttpClient } from './HttpClient.ts'
 import { Bootstrap } from './types/Bootstrap'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const BOOTSTRAP_PATH = '/api/ui/bootstrap'
 

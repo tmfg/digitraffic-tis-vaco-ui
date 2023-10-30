@@ -36,20 +36,20 @@ const HomePage = () => {
   const userShortcuts: Shortcut[] = [
     {
       label: t('vaco:myData'),
-      to: '/ui/ticket/info',
+      to: '/ticket/info',
       icon: <BookSvg />,
       description: t('home:shortcut:myData:intro')
     },
     {
       label: t('vaco:testData'),
-      to: '/ui/ticket/request',
+      to: '/ticket/request',
       icon: <BusSvg />,
       description: t('home:shortcut:testData:intro')
     },
     {
       label: t('ad:logout'),
       icon: <TrainSvg />,
-      to: '#',
+      to: '/',
       onClick: () => {
         logout(instance)
       },
