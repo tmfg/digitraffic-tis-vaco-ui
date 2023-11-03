@@ -22,6 +22,8 @@ export default defineConfig({
     css: true,
     // Exclude doesn't work without specifying this '...configDefaults.exclude' :old-man-yells-at-cloud:
     // And exclude had to be used in the first place because vitest can't deal with Playwright tests out of the box
-    exclude: [...configDefaults.exclude, 'src/test/e2e/tests/*']
+    exclude: [...configDefaults.exclude, 'src/test/e2e/tests/*'],
+    reporters: 'vitest-sonar-reporter',
+    outputFile: 'sonar-report.xml'
   }
 })
