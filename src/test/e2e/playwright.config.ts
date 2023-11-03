@@ -29,6 +29,13 @@ export default defineConfig({
     trace: 'on-first-retry'
   },
 
+  webServer: {
+    command: 'npm run build && npm run preview',
+    url: 'http://localhost:5173/ui',
+    timeout: 120 * 1000,
+    reuseExistingServer: true
+  },
+
   /* Configure projects for major browsers */
   projects: [
     {

@@ -2,7 +2,18 @@ import { test } from '../fixtures/i18n_setup'
 import { expect } from '@playwright/test'
 
 test('Test landing page contents are visible', async ({ page, i18n }) => {
-  await page.goto('/')
+  // Temporarily mocking this:
+  await page.route('http://localhost:8080/api/ui/bootstrap', async (route) => {
+    const json = {
+      environment: 'local',
+      baseUrl: 'http://localhost:8080',
+      tenantId: 'd8536c71-f91f-4e54-b68c-215a7fd9510b',
+      clientId: '57c1b8a0-f33e-4e47-840d-8c180d933c41'
+    }
+    await route.fulfill({ json })
+  })
+
+  await page.goto('/ui')
   await expect(page.getByRole('heading', { name: i18n.t('home:header') })).toBeVisible()
   await expect(page.getByRole('heading', { name: i18n.t('home:shortcuts') })).toBeVisible()
 
