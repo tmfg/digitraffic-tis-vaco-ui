@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import { getHeaders, HttpClient } from '../HttpClient'
-import { EntryRequest } from '../types/EntryRequest'
-import { EntryResource } from '../types/EntryResource'
+import { getHeaders, HttpClient } from '../../HttpClient'
+import { EntryRequest } from '../../types/EntryRequest'
+import { EntryResource } from '../../types/EntryResource'
 import { Link } from 'react-router-dom'
-import { FdsButtonComponent } from '../components/fds/FdsButtonComponent'
+import { FdsButtonComponent } from '../../components/fds/FdsButtonComponent'
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react'
-import { acquireToken } from '../hooks/auth'
-import AuthRequiredPage from './errors/AuthRequiredPage'
+import { acquireToken } from '../../hooks/auth'
+import AuthRequiredPage from '../Error/AuthRequiredPage'
 import { useTranslation } from 'react-i18next'
 
-const TicketCreationPage = () => {
+const TestDataPage = () => {
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
   const { instance } = useMsal()
   const { t } = useTranslation()
@@ -64,4 +64,4 @@ const TicketCreationPage = () => {
   )
 }
 
-export default TicketCreationPage
+export default TestDataPage

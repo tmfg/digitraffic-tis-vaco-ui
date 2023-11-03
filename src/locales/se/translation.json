@@ -71,10 +71,18 @@
     },
     "myData": {
       "header": "My data",
-      "intro": "Here one can find their latest data submissions."
+      "intro": "Here one can find their latest data submissions.",
+      "results": {
+        "header": "Data processing results"
+      }
     }
   },
   "adminPanel": {
 
+  },
+  "error": {
+    "notFound": "Error: nothing exists on the specified URL path.",
+    "authRequired": "Error: login required to proceed.",
+    "return": "Return to the home page"
   }
 }

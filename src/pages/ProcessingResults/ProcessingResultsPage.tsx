@@ -1,16 +1,18 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { getHeaders, HttpClient } from '../HttpClient'
-import { EntryResource } from '../types/EntryResource'
-import { acquireToken } from '../hooks/auth'
+import { getHeaders, HttpClient } from '../../HttpClient'
+import { EntryResource } from '../../types/EntryResource'
+import { acquireToken } from '../../hooks/auth'
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react'
-import AuthRequiredPage from './errors/AuthRequiredPage'
+import AuthRequiredPage from '../Error/AuthRequiredPage'
 import { InteractionStatus } from '@azure/msal-browser'
+import { useTranslation } from 'react-i18next'
 
-const TicketInfoPage = () => {
+const ProcessingResultsPage = () => {
   const { ticketId } = useParams()
   const [ticket, setTicket] = useState<EntryResource | null>(null)
   const { instance, inProgress } = useMsal()
+  const { t } = useTranslation()
 
   useEffect(() => {
     let ignore = false
@@ -48,7 +50,7 @@ const TicketInfoPage = () => {
   return (
     <div className={'page-content'}>
       <AuthenticatedTemplate>
-        <h2>Ticket info</h2>
+        <h2>{t('services:myData:results:header')}</h2>
         {ticket && (
           <pre style={{ width: 900, whiteSpace: 'pre-wrap' }}>
             <code> {JSON.stringify(ticket)}</code>
@@ -62,4 +64,4 @@ const TicketInfoPage = () => {
   )
 }
 
-export default TicketInfoPage
+export default ProcessingResultsPage
