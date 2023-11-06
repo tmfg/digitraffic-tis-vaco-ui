@@ -31,7 +31,7 @@ export default defineConfig({
       'coreui-css/*'
     ],
     reporters: 'vitest-sonar-reporter',
-    //outputFile: 'sonar-report.xml',
+    outputFile: 'sonar-report.xml',
     coverage: {
       reporters: 'lcov',
     }
