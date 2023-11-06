@@ -1,0 +1,14 @@
+{
+    "include": [
+        "**/*.tsx",
+        "**/*.ts"
+    ],
+    "exclude": [
+        "coreui-components/src/*",
+        "coreui-css/**/*.*",
+        "**/*.d.ts",
+        "**/*.test.ts",
+        "**/*.spec.ts",
+        "src/test/**"
+    ]
+}

@@ -5,7 +5,7 @@ import { MsalProvider } from '@azure/msal-react'
 import { describe, beforeEach, afterEach, it, expect } from 'vitest'
 import i18next from 'i18next'
 import TestDataPage from './TestDataPage'
-import { msalInitTester, resetTester } from '../../test/vitestSetup'
+import { msalInitTester, resetTester } from '../../test/unit/vitestSetup'
 
 describe('Processing Results Page', () => {
   let msalTester: MsalReactTester

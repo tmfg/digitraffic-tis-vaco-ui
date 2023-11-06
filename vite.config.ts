@@ -6,10 +6,31 @@ import react from '@vitejs/plugin-react'
 import svgr from 'vite-plugin-svgr'
 import pluginChecker from 'vite-plugin-checker'
 import { configDefaults } from 'vitest/config'
+import istanbul from 'vite-plugin-istanbul'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), svgr(), pluginChecker({ typescript: true })],
+  plugins: [
+    react(),
+    svgr(),
+    pluginChecker({ typescript: true }),
+    istanbul({
+      include: 'src/*',
+      exclude: [
+        'node_modules',
+        'src/test/*',
+        'src/test/e2e/tests/*',
+        'src/test/e2e/fixtures/*',
+        '**/node_modules/**',
+        '**/dist/**',
+        'coreui-components/src/**',
+        'coreui-css/lib/*',
+        'coreui-css/src/*'
+      ],
+      extension: ['.ts', '.tsx']
+      //requireEnv: true
+    })
+  ],
   base: '/ui',
   preview: {
     port: 5173
@@ -17,7 +38,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './src/test/vitestSetup.ts',
+    setupFiles: './src/test/unit/vitestSetup.ts',
     // you might want to disable it, if you don't have tests that rely on CSS since parsing CSS is slow
     css: true,
     // Exclude doesn't work without specifying this '...configDefaults.exclude' :old-man-yells-at-cloud:
@@ -27,13 +48,17 @@ export default defineConfig({
     exclude: [
       ...configDefaults.exclude,
       'src/test/e2e/tests/*',
+      'src/test/e2e/fixtures/*',
       '**/node_modules/**',
       '**/dist/**',
       'coreui-components/src/*',
-      'coreui-css/*'
+      'coreui-css/lib/**',
+      'coreui-css/src/**'
     ],
     coverage: {
-      reporter: ['text', 'lcov', 'html']
+      provider: 'istanbul',
+      reporter: ['json'],
+      reportsDirectory: './src/test/coverage'
     }
   }
 })

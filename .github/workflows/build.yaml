@@ -52,7 +52,7 @@ jobs:
         if: always()
         with:
           name: vitest-coverage
-          path: coverage/
+          path: src/test/coverage/
           retention-days: 30
 
       - name: SonarCloud Scan

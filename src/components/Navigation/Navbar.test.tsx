@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import { describe, it } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import Navbar from './Navbar'
 import { MemoryRouter } from 'react-router-dom'
 import { FdsNavigationItem, FdsNavigationVariant } from '../../../coreui-components/src/fds-navigation'
@@ -18,12 +18,14 @@ describe('Navbar component tests', () => {
       }
     ]
 
-    render(
+    const { container } = render(
       <MemoryRouter>
         <Navbar barIndex={0} variant={FdsNavigationVariant.primary} items={items} selectedItem={items[0]} />
       </MemoryRouter>
     )
 
     // Web components apparently can't be rendered, so can't assert the contents of the Navbar
+    const navElement = container.querySelector('fds-navigation')
+    expect(navElement).toBeTruthy()
   })
 })

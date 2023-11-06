@@ -1,4 +1,4 @@
-import { test } from '../fixtures/i18n_setup'
+import { test } from '../fixtures/base'
 import { expect } from '@playwright/test'
 
 test.describe(`Home Page, without authentication`, () => {

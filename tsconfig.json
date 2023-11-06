@@ -7,6 +7,7 @@
     "useDefineForClassFields": false,
     "experimentalDecorators": true,
     "types": [ "vitest/globals", "vite-plugin-svgr/client" ],
+    "esModuleInterop": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",

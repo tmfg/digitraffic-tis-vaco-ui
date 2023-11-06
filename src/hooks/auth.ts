@@ -6,7 +6,7 @@ import {
 } from '@azure/msal-browser'
 import { createAccountRequest, loginRequest } from '../authConfig'
 
-/* c8 ignore next 48 */
+/* istanbul ignore next 56 -- @preserve */
 export const acquireToken = (msalInstance: IPublicClientApplication): Promise<AuthenticationResult | void> => {
   return msalInstance
     .acquireTokenSilent(loginRequest)
@@ -22,18 +22,21 @@ export const acquireToken = (msalInstance: IPublicClientApplication): Promise<Au
     })
 }
 
+/* istanbul ignore next 56 -- @preserve */
 export const login = (msalInstance: IPublicClientApplication) => {
   msalInstance.loginRedirect(loginRequest).catch((error) => {
     console.log(error)
   })
 }
 
+/* istanbul ignore next 56 -- @preserve */
 export const createAccount = (msalInstance: IPublicClientApplication) => {
   msalInstance.loginRedirect(createAccountRequest).catch((error) => {
     console.log(error)
   })
 }
 
+/* istanbul ignore next 56 -- @preserve */
 export const logout = (msalInstance: IPublicClientApplication) => {
   const activeAccount = msalInstance.getActiveAccount()
   if (activeAccount) {
@@ -46,6 +49,7 @@ export const logout = (msalInstance: IPublicClientApplication) => {
   }
 }
 
+/* istanbul ignore next 56 -- @preserve */
 export const isUserInTransition = (status: InteractionStatus) => {
   return (
     status === InteractionStatus.Login ||
