@@ -35,8 +35,8 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run Vitest unit tests
-        run: npm run test
+      - name: Run Vitest unit tests and coverage
+        run: npm run coverage
 
       - name: Run Playwright tests
         run: npm run test:e2e
@@ -47,14 +47,14 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-  sonarcloud:
-    needs: build
-    name: SonarCloud
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+
+      - uses: actions/upload-artifact@v3
+        if: always()
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          name: vitest-coverage
+          path: coverage/
+          retention-days: 30
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
