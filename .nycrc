@@ -1,14 +1,16 @@
 {
-    "include": [
-        "**/*.tsx",
-        "**/*.ts"
-    ],
+    "extends": "@istanbuljs/nyc-config-typescript",
     "exclude": [
-        "coreui-components/src/*",
-        "coreui-css/**/*.*",
-        "**/*.d.ts",
-        "**/*.test.ts",
-        "**/*.spec.ts",
-        "src/test/**"
+            "node_modules",
+            "src/test/**",
+            "**/node_modules/**",
+            "**/dist/**",
+            "coreui-components/**",
+            "coreui-css/**",
+            "**coverage**",
+            "src/locales/**",
+            "src/types/**",
+            "vite.config.ts",
+            "**.d.ts"
     ]
 }

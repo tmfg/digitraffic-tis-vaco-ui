@@ -18,14 +18,16 @@ export default defineConfig({
       include: 'src/*',
       exclude: [
         'node_modules',
-        'src/test/*',
-        'src/test/e2e/tests/*',
-        'src/test/e2e/fixtures/*',
+        'src/test/**',
         '**/node_modules/**',
         '**/dist/**',
-        'coreui-components/src/**',
-        'coreui-css/lib/*',
-        'coreui-css/src/*'
+        'coreui-components/**',
+        'coreui-css/**',
+        '**coverage**',
+        'src/locales/**',
+        'src/types/**',
+        'vite.config.ts',
+        '**.d.ts'
       ],
       extension: ['.ts', '.tsx']
       //requireEnv: true
@@ -45,19 +47,10 @@ export default defineConfig({
     // And exclude had to be used in the first place because vitest can't deal with Playwright tests out of the box
     // It is possible, but then tests need to be wrapped with describe/test methods provided by vitest
     // and all the perks of Playwright are lost
-    exclude: [
-      ...configDefaults.exclude,
-      'src/test/e2e/tests/*',
-      'src/test/e2e/fixtures/*',
-      '**/node_modules/**',
-      '**/dist/**',
-      'coreui-components/src/*',
-      'coreui-css/lib/**',
-      'coreui-css/src/**'
-    ],
+    exclude: [...configDefaults.exclude, 'src/test/e2e/tests/*'],
     coverage: {
       provider: 'istanbul',
-      reporter: ['json'],
+      reporter: ['json', 'text'],
       reportsDirectory: './src/test/coverage'
     }
   }
