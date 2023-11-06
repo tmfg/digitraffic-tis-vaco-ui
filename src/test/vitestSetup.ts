@@ -2,7 +2,7 @@ import '@testing-library/jest-dom'
 import { beforeAll, afterEach } from 'vitest'
 //import matchers from '@testing-library/jest-dom/matchers'
 //expect.extend(matchers)
-import { MsalReactTesterPlugin } from 'msal-react-tester'
+import { MsalReactTester, MsalReactTesterPlugin } from "msal-react-tester";
 import { vi, expect } from 'vitest'
 import { ITestRunner } from 'msal-react-tester/dist/MsalReactTesterPlugin'
 import { cleanup } from '@testing-library/react'
@@ -27,3 +27,13 @@ beforeAll(async () => {
 afterEach(() => {
   cleanup()
 })
+
+export const msalInitTester = () => {
+  const msalTester = new MsalReactTester()
+  msalTester.spyMsal()
+  return msalTester
+}
+
+export const resetTester = (msalTester: MsalReactTester) => {
+  msalTester.resetSpyMsal()
+}

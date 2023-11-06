@@ -5,17 +5,17 @@ import { MsalProvider } from '@azure/msal-react'
 import { describe, beforeEach, afterEach, it, expect } from 'vitest'
 import i18next from 'i18next'
 import TestDataPage from './TestDataPage'
+import { msalInitTester, resetTester } from '../../test/vitestSetup'
 
 describe('Processing Results Page', () => {
   let msalTester: MsalReactTester
 
   beforeEach(() => {
-    msalTester = new MsalReactTester()
-    msalTester.spyMsal()
+    msalTester = msalInitTester()
   })
 
   afterEach(() => {
-    msalTester.resetSpyMsal()
+    resetTester(msalTester)
   })
 
   it('Processing Results page renders correctly when user is not logged in', async () => {

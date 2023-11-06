@@ -2,7 +2,6 @@ import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import HomePage from './pages/Home/HomePage'
 import NotFoundPage from './pages/Error/NotFoundPage'
-import DashboardPage from './pages/DashboardPage'
 import TicketCreationPage from './pages/TestData/TestDataPage'
 import TicketInfoPage from './pages/ProcessingResults/ProcessingResultsPage'
 import AppLayout from './AppLayout'
@@ -28,10 +27,6 @@ const App = () => {
           {
             path: '/',
             element: <HomePage />
-          },
-          {
-            path: '/dashboard',
-            element: <DashboardPage />
           },
           {
             path: '/ticket/request',

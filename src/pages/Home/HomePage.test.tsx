@@ -5,17 +5,17 @@ import HomePage from './HomePage'
 import { MsalProvider } from '@azure/msal-react'
 import { describe, beforeEach, afterEach, it, expect } from 'vitest'
 import i18next from 'i18next'
+import { msalInitTester, resetTester } from '../../test/vitestSetup'
 
 describe('Home Page', () => {
   let msalTester: MsalReactTester
 
   beforeEach(() => {
-    msalTester = new MsalReactTester()
-    msalTester.spyMsal()
+    msalTester = msalInitTester()
   })
 
   afterEach(() => {
-    msalTester.resetSpyMsal()
+    resetTester(msalTester)
   })
 
   it('Home page renders correctly when user is not logged in', async () => {

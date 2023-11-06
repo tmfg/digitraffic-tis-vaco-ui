@@ -6,6 +6,7 @@ import {
 } from '@azure/msal-browser'
 import { createAccountRequest, loginRequest } from '../authConfig'
 
+/* c8 ignore next 48 */
 export const acquireToken = (msalInstance: IPublicClientApplication): Promise<AuthenticationResult | void> => {
   return msalInstance
     .acquireTokenSilent(loginRequest)

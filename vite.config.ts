@@ -31,7 +31,7 @@ export default defineConfig({
       'coreui-css/*'
     ],
     coverage: {
-      reporter: ['text', 'lcov']
+      reporter: ['text', 'lcov', 'html']
     }
   }
 })
