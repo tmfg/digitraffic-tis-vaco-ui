@@ -38,8 +38,11 @@ jobs:
       - name: Run Vitest unit tests and coverage
         run: npm run coverage
 
-      - name: Run Playwright tests
+      - name: Run Playwright tests and coverage
         run: npm run test:e2e
+
+      - name: Aggregate all coverage results into nyc-based report
+        run: npm run nyc:coverage
 
       - uses: actions/upload-artifact@v3
         if: always()
