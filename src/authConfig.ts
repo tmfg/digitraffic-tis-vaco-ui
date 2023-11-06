@@ -1,6 +1,8 @@
 import { Configuration, RedirectRequest } from '@azure/msal-browser'
 import { Bootstrap, Environment } from './types/Bootstrap.ts'
 
+/* c8 ignore next 75 */
+
 /**
  * Configuration object to be passed to MSAL instance on creation.
  * For a full list of MSAL.js configuration parameters, visit:

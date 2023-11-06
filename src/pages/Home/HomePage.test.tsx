@@ -18,10 +18,7 @@ describe('Home Page', () => {
     resetTester(msalTester)
   })
 
-  it('Home page renders correctly when user is not logged in', async () => {
-    // Mock a guest user, not yet authenticated:
-    await msalTester.isNotLogged()
-
+  const renderComponent = async () => {
     await act(async () => {
       render(
         <MsalProvider instance={msalTester.client}>
@@ -31,7 +28,12 @@ describe('Home Page', () => {
         </MsalProvider>
       )
     })
+  }
 
+  it('Home page renders correctly when user is not logged in', async () => {
+    // Mock a guest user, not yet authenticated:
+    await msalTester.isNotLogged()
+    await renderComponent()
     await msalTester.waitForRedirect()
     expect(screen.getByText(i18next.t('ad:login'))).toBeInTheDocument()
     expect(screen.getByText(i18next.t('ad:create'))).toBeInTheDocument()
@@ -42,17 +44,7 @@ describe('Home Page', () => {
   it('Home page renders correctly when user got logged in', async () => {
     // Mock a guest user, not yet authenticated:
     await msalTester.isLogged()
-
-    await act(async () => {
-      render(
-        <MsalProvider instance={msalTester.client}>
-          <MemoryRouter>
-            <HomePage />
-          </MemoryRouter>
-        </MsalProvider>
-      )
-    })
-
+    await renderComponent()
     await msalTester.waitForRedirect()
     expect(screen.getByText(i18next.t('vaco:testData'))).toBeInTheDocument()
     expect(screen.getByText(i18next.t('vaco:testData'))).toBeInTheDocument()

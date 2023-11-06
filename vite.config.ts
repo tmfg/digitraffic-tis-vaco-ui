@@ -22,6 +22,8 @@ export default defineConfig({
     css: true,
     // Exclude doesn't work without specifying this '...configDefaults.exclude' :old-man-yells-at-cloud:
     // And exclude had to be used in the first place because vitest can't deal with Playwright tests out of the box
+    // It is possible, but then tests need to be wrapped with describe/test methods provided by vitest
+    // and all the perks of Playwright are lost
     exclude: [
       ...configDefaults.exclude,
       'src/test/e2e/tests/*',
