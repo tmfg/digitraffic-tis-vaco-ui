@@ -30,7 +30,7 @@ export default defineConfig({
   },
 
   webServer: {
-    command: 'npm run build && npm run preview',
+    command: 'npm run dev',
     url: 'http://localhost:5173/ui',
     timeout: 120 * 1000,
     reuseExistingServer: true

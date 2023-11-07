@@ -50,7 +50,7 @@ export default defineConfig({
     exclude: [...configDefaults.exclude, 'src/test/e2e/tests/*'],
     coverage: {
       provider: 'istanbul',
-      reporter: ['json', 'text'],
+      reporter: ['json', 'text', 'lcov'],
       reportsDirectory: './src/test/coverage'
     }
   }
