@@ -1,11 +1,14 @@
 import { Shortcut } from './types'
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 interface ShortcutCardProps {
   item: Shortcut
 }
 
 const ShortcutCard = ({ item }: ShortcutCardProps) => {
+  const { t } = useTranslation()
+
   return (
     <div className={'shortcut-card'}>
       <div className={'shortcut-card__icon'}>{item.icon}</div>
@@ -21,7 +24,7 @@ const ShortcutCard = ({ item }: ShortcutCardProps) => {
             }
           }}
         >
-          NAVIGATE
+          {t('home:shortcut:navigate').toUpperCase()}
         </Link>
       </div>
     </div>

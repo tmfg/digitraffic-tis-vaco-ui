@@ -7,7 +7,7 @@ on:
     branches:
       - main
     types: [opened, synchronize, reopened]
-    
+
 permissions:
   checks: write  # required by scacap/action-surefire-report
   contents: read  # required by scacap/action-surefire-report
@@ -31,15 +31,36 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run build --if-present
-  sonarcloud:
-    name: SonarCloud
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Vitest unit tests and coverage
+        run: npm run coverage
+
+      - name: Run Playwright tests and coverage
+        run: npm run test:e2e
+
+      - name: Aggregate all coverage results into nyc-based report
+        run: npm run nyc:coverage
+
+      - uses: actions/upload-artifact@v3
+        if: always()
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: vitest-coverage
+          path: src/test/coverage/
+          retention-days: 30
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
+        if: ${{ github.actor != 'dependabot[bot]' }} # GHA doesn't expose tokens to PRs from forks
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

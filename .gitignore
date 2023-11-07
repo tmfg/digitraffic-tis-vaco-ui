@@ -24,3 +24,9 @@ scratch.*
 volume/
 
 dist/
+/test-results/
+/playwright-report/
+/playwright/.cache/
+coverage
+.scannerwork
+sonar-report.xml

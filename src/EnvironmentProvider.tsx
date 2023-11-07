@@ -5,6 +5,7 @@ import { initializeHttpClient } from './HttpClient.ts'
 import { Bootstrap } from './types/Bootstrap'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { initI18n } from './i18n'
 
 const BOOTSTRAP_PATH = '/api/ui/bootstrap'
 
@@ -55,6 +56,10 @@ const EnvironmentProvider = ({ children }: Props) => {
         })
     }
   }, [msalInstance])
+
+  useEffect(() => {
+    initI18n().catch((err) => console.log('Failed to initialize i18n', err))
+  }, [])
 
   return <>{msalInstance && <MsalProvider instance={msalInstance}>{children}</MsalProvider>}</>
 }

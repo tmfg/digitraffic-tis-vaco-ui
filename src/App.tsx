@@ -1,12 +1,11 @@
 import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import HomePage from './pages/HomePage'
-import NotFoundPage from './pages/errors/NotFoundPage'
-import DashboardPage from './pages/DashboardPage'
-import TicketCreationPage from './pages/TicketCreationPage'
-import TicketInfoPage from './pages/TicketInfoPage'
+import HomePage from './pages/Home/HomePage'
+import NotFoundPage from './pages/Error/NotFoundPage'
+import TicketCreationPage from './pages/TestData/TestDataPage'
+import TicketInfoPage from './pages/ProcessingResults/ProcessingResultsPage'
 import AppLayout from './AppLayout'
-import AuthRequiredPage from './pages/errors/AuthRequiredPage'
+import AuthRequiredPage from './pages/Error/AuthRequiredPage'
 
 // The way for components that don't need wrapping (e.g. one without our own custom events)
 // or while initial testing
@@ -28,10 +27,6 @@ const App = () => {
           {
             path: '/',
             element: <HomePage />
-          },
-          {
-            path: '/dashboard',
-            element: <DashboardPage />
           },
           {
             path: '/ticket/request',

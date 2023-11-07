@@ -6,7 +6,8 @@
     "skipLibCheck": true,
     "useDefineForClassFields": false,
     "experimentalDecorators": true,
-    "types": [ "vite-plugin-svgr/client" ],
+    "types": [ "vitest/globals", "vite-plugin-svgr/client" ],
+    "esModuleInterop": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -23,6 +24,9 @@
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src"],
+  "include": [
+    "src",
+    "node_modules/vitest/globals.d.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

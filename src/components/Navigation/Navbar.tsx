@@ -36,7 +36,9 @@ const Navbar = ({
     async (value: string) => {
       const newLocaleCode = value.split('/')[2]
       await i18n.changeLanguage(newLocaleCode)
-      languageSelectionCallback && languageSelectionCallback(newLocaleCode)
+      if (languageSelectionCallback) {
+        languageSelectionCallback(newLocaleCode)
+      }
       localStorage.setItem(localStorageKey, newLocaleCode)
     },
     [languageSelectionCallback, i18n]
