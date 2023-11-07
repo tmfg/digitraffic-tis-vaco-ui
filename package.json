@@ -46,7 +46,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-react": "^7.33.1",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.3",
+    "eslint-plugin-react-refresh": "^0.4.4",
     "jsdom": "^22.1.0",
     "lit-html": "^2.8.0",
     "msal-react-tester": "^0.3.1",
