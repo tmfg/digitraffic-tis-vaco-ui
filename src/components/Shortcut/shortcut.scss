@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: row;
   justify-content: start;
-  padding-top: 2.5em;
   padding-bottom: 1rem;
 }
 
@@ -43,6 +42,10 @@
     font-style: normal;
     font-weight: 500;
     line-height: 150%;
+  }
+
+  a:hover {
+    filter: brightness(1.25);
   }
 }
 

@@ -61,12 +61,26 @@ export const en = {
   services: {
     testData: {
       header: 'Test your data',
-      intro: 'Here one can submit their data.',
-      formTitle: 'Create feed',
-      formSections: {
-        basic: 'Basic information',
-        rules: 'Validation rules',
-        metadata: 'Metadata'
+      shortIntro: 'Here one can submit their data.',
+      intro:
+        'Once the data is submitted, expect to receive an email with further detail and the link for accessing processing results.',
+      form: {
+        title: 'Create feed',
+        section: {
+          basic: 'Basic information',
+          rules: 'Validation rules',
+          metadata: 'Metadata'
+        },
+        feedName: 'Feed name',
+        feedNamePlaceHolder: 'Example: "data.zip - a bus stop fix"',
+        feedNameInfo:
+          "A meaningful name to identify submitted data. By default: data's file name.",
+        url: 'Data URL *',
+        urlInfo: 'URL containing the source data package',
+        etag: 'ETag',
+        format: 'Data format *',
+        submit: 'Submit',
+        choose: 'Choose'
       }
     },
     myData: {
@@ -82,5 +96,10 @@ export const en = {
     notFound: 'Error: nothing exists on the specified URL path.',
     authRequired: 'Error: login is required to proceed.',
     return: 'Return to the home page'
+  },
+  formValidation: {
+    isRequired: '{{value}} is required',
+    containsSpaces: '{{value}} should not contain spaces',
+    duplicate: 'Duplicate {{value}}s are not allowed'
   }
 }

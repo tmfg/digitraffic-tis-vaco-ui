@@ -41,12 +41,12 @@ export class FdsDropdownEvent<T> extends CustomEvent<FdsDropdownOption<T>> {
  * @property {string} placeholder - Placeholder text while no option is selected.
  */
 @customElement('fds-dropdown')
-export default class FdsDropdown<T> extends LitElement {
+export default class FdsDropdown<T = string> extends LitElement {
   constructor() {
     super()
     // Set attributes to host element
     this.addEventListener('blur', () => (this._open = false))
-    this.tabIndex = 0
+    //this.tabIndex = 0
   }
 
   @property() options: FdsDropdownOption<T>[] = []
@@ -54,6 +54,7 @@ export default class FdsDropdown<T> extends LitElement {
   @property() error: boolean = false
   @property() placeholder?: string
   @property() value?: FdsDropdownOption<T>
+  @property() label?: string
 
   @state() private _open: boolean = false
 
@@ -77,6 +78,7 @@ export default class FdsDropdown<T> extends LitElement {
     `
 
     return html`
+      ${this.label && html`<label for="input" class="input-label ui-label-text">${this.label}</label>`}
       <button
         @click=${(): boolean => (this._open = !this._open)}
         ?disabled=${this.disabled}
@@ -148,13 +150,15 @@ export default class FdsDropdown<T> extends LitElement {
 
         width: 100%;
         /* TODO: what values? */
-        height: 48px;
+        height: 56px;
         padding-left: 16px;
         padding-right: 8px;
         gap: 10px;
 
         background-color: ${FdsColorBrandWhite};
         border: 1px solid ${FdsColorNeutral200};
+        border-radius: 4px;
+        --margin-bottom: 24px;
       }
 
       button:disabled {
@@ -169,6 +173,7 @@ export default class FdsDropdown<T> extends LitElement {
 
       button.placeholder {
         color: ${FdsColorText300};
+        font-weight: 400 !important;
       }
 
       button.error {
@@ -177,6 +182,7 @@ export default class FdsDropdown<T> extends LitElement {
       }
 
       .options-list {
+        z-index: 2;
         cursor: pointer;
         display: block;
         position: absolute;
@@ -188,10 +194,16 @@ export default class FdsDropdown<T> extends LitElement {
         max-height: 80vw;
 
         box-shadow: ${FdsStyleElevation200};
+        border-radius: 4px;
       }
 
-      fds-icon {
+      .fds-icon {
         position: static;
+        color: ${FdsColorText1000};
+      }
+
+      .input-label {
+        padding-bottom: 8px;
         color: ${FdsColorText1000};
       }
 
@@ -214,9 +226,10 @@ export default class FdsDropdown<T> extends LitElement {
         white-space: nowrap;
 
         /* TODO: what values? */
-        height: 56px;
+        height: 50px;
         padding-left: 16px;
         padding-right: 8px;
+        z-index: 2;
 
         background-color: ${FdsColorBrandWhite};
         border-bottom: 1px solid ${FdsColorNeutral200};

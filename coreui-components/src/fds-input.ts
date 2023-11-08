@@ -51,8 +51,7 @@ export default class FdsInput extends LitElement {
       </div>
       ${this.message &&
       html`<span class="input-message ui-helper-text ${this.error ? 'input-message--error' : ''}"
-        >${this.message}</span
-      >`}
+        >${this.message}</span>`}
     `
   }
   private handleChange(event: Event): void {
@@ -96,8 +95,9 @@ export default class FdsInput extends LitElement {
         color: ${FdsColorText1000};
       }
 
-      input ::placeholder {
+      ::placeholder {
         color: ${FdsColorText300};
+        font-weight: 400 !important;
       }
 
       input:disabled {
@@ -114,6 +114,7 @@ export default class FdsInput extends LitElement {
       .input-message {
         padding-top: 8px;
         color: ${FdsColorText600};
+        filter: brightness(105%);
       }
 
       .input-message--error {

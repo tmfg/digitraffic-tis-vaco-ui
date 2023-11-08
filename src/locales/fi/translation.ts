@@ -61,12 +61,19 @@ export const fi = {
   services: {
     testData: {
       header: 'Testata tietoja',
-      intro: 'Here one can submit their data.',
-      formTitle: 'Create feed',
-      formSections: {
-        basic: 'Basic information',
-        rules: 'Validation rules',
-        metadata: 'Metadata'
+      intro: 'Täällä voi lähettää tietonsa.',
+      form: {
+        title: 'Luo syöte',
+        section: {
+          basic: 'Perustiedot',
+          rules: 'Validointisäännöt',
+          metadata: 'Metadata'
+        },
+        feedName: 'Syötteen nimi',
+        url: 'URL',
+        etag: 'Etag',
+        format: 'Datamuoto',
+        submit: 'Lähetä'
       }
     },
     myData: {
@@ -82,5 +89,10 @@ export const fi = {
     notFound: 'Error: nothing exists on the specified URL path.',
     authRequired: 'Error: login required to proceed.',
     return: 'Return to the home page'
+  },
+  formValidation: {
+    isRequired: '{{value}} is required',
+    containsSpaces: '{{value}} should not contain spaces',
+    duplicate: 'Duplicate {{value}}s are not allowed'
   }
 }

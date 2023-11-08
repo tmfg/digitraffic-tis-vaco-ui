@@ -19,3 +19,28 @@
 .page-content {
     padding: 3.5rem 6.5rem;
 }
+
+.much-padded {
+    padding-bottom: 2rem;
+}
+.less-padded {
+    padding-bottom: 1.5rem;
+}
+h2 {
+    padding-bottom: 2rem;
+}
+h3 {
+    padding-bottom: 1.5rem;
+}
+h4 {
+    padding-bottom: 1rem;
+}
+h5 {
+    font-size: 20px;
+    padding-bottom: 0.85rem;
+}
+
+.header-intro {
+    padding-bottom: 2.75rem;
+    width: 100%;
+}

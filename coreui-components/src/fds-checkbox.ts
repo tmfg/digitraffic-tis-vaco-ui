@@ -61,6 +61,7 @@ export default class FdsCheckbox extends LitElement {
         padding: 0 16px;
         position: relative;
         right: 7px;
+        margin-bottom: 16px;
       }
 
       label,
