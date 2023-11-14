@@ -6,15 +6,16 @@ import {
   FdsColorNeutral200,
   FdsColorNeutral50,
   FdsColorText1000,
-  FdsColorText300,
+  FdsColorText300, FdsColorText600,
   FdsStyleElevation200,
-  uiLabelTextClass,
-} from '../../coreui-css/lib'
+  uiLabelTextClass
+} from "../../coreui-css/lib";
 import { css, html, LitElement } from 'lit'
 import { TemplateResult } from 'lit-html'
 import { customElement, property, state } from 'lit/decorators.js'
 import { FdsIconType } from './fds-icon'
 import './global-types'
+import { FdsInputChange } from './fds-input'
 
 export interface FdsDropdownOption<T> {
   label: string
@@ -22,8 +23,8 @@ export interface FdsDropdownOption<T> {
   icon?: FdsIconType
 }
 
-export class FdsDropdownEvent<T> extends CustomEvent<FdsDropdownOption<T>> {
-  constructor(detail: FdsDropdownOption<T>) {
+export class FdsDropdownEvent extends CustomEvent<FdsInputChange> {
+  constructor(detail: FdsInputChange) {
     // composed allows event to bubble through shadow dom - false for now, but could be re-evaluated later.
     super('select', { detail, bubbles: true, cancelable: true, composed: false })
   }
@@ -39,6 +40,7 @@ export class FdsDropdownEvent<T> extends CustomEvent<FdsDropdownOption<T>> {
  * @property {boolean} disabled - Disable dropdown.
  * @property {boolean} error - Display error indicator on dropdown.
  * @property {string} placeholder - Placeholder text while no option is selected.
+ * @property {string} name - Name for the input.
  */
 @customElement('fds-dropdown')
 export default class FdsDropdown<T = string> extends LitElement {
@@ -54,7 +56,9 @@ export default class FdsDropdown<T = string> extends LitElement {
   @property() error: boolean = false
   @property() placeholder?: string
   @property() value?: FdsDropdownOption<T>
+  @property() name: string
   @property() label?: string
+  @property() message?: string
 
   @state() private _open: boolean = false
 
@@ -89,6 +93,9 @@ export default class FdsDropdown<T = string> extends LitElement {
         <div>${this.getLabel(this.value) ?? this.placeholder}</div>
         <fds-icon .icon=${this._open ? 'chevron-up' : 'chevron-down'}></fds-icon>
       </button>
+      ${!this._open ? this.message &&
+        html`<span class="input-message ui-helper-text ${this.error ? 'input-message--error' : ''}"
+          >${this.message}</span>` : ''}
       ${this._open ? optionsList : null}
     `
   }
@@ -102,7 +109,18 @@ export default class FdsDropdown<T = string> extends LitElement {
   private handleSelect(selectedOption: FdsDropdownOption<T>): void {
     this._open = false
     this.value = selectedOption
-    this.dispatchEvent(new FdsDropdownEvent(selectedOption))
+    const selectedInput: FdsInputChange = {
+      name: this.name,
+      value: selectedOption.value as string
+    }
+
+    this.dispatchEvent(
+      new CustomEvent<FdsInputChange>('select', {
+        detail: selectedInput,
+        bubbles: true,
+        cancelable: true,
+        composed: false, // Allows event to bubble through shadow dom - false for now, but could be re-evaluated later.
+      }))
   }
 
   private getLabel(option?: FdsDropdownOption<T>): TemplateResult | null {
@@ -150,7 +168,7 @@ export default class FdsDropdown<T = string> extends LitElement {
 
         width: 100%;
         /* TODO: what values? */
-        height: 56px;
+        height: 46px;
         padding-left: 16px;
         padding-right: 8px;
         gap: 10px;
@@ -226,7 +244,7 @@ export default class FdsDropdown<T = string> extends LitElement {
         white-space: nowrap;
 
         /* TODO: what values? */
-        height: 50px;
+        height: 46px;
         padding-left: 16px;
         padding-right: 8px;
         z-index: 2;
@@ -244,6 +262,24 @@ export default class FdsDropdown<T = string> extends LitElement {
         /* TODO: what color? */
         background-color: ${FdsColorInteractive200};
       }
+
+      .input-message {
+        padding-top: 8px;
+        color: ${FdsColorText600};
+      }
+
+      .input-message--error {
+        color: ${FdsColorDanger200};
+      }
+
+      .ui-helper-text {
+        display: var(--fds-typography-ui-helper-display, inline-block);
+        font-family: var(--fds-typography-ui-helper-font-family, 'Public Sans', 'PublicSans-Regular');
+        font-size: var(--fds-typography-ui-helper-font-size, 15px);
+        font-weight: var(--fds-typography-ui-helper-font-weight, 400);
+        letter-spacing: var(--fds-typography-ui-helper-letter-spacing, 0px);
+        line-height: var(--fds-typography-ui-helper-line-height, 100%);
+    }
     `,
   ]
 }

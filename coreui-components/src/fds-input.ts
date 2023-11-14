@@ -10,13 +10,19 @@ import {
   FdsColorNeutral50,
   FdsColorText1000,
   FdsColorText300,
-  FdsColorText600,
-} from '../../coreui-css/lib'
+  FdsColorText600
+} from "../../coreui-css/lib";
+
+export interface FdsInputChange {
+  name: string
+  value: string | boolean
+}
 
 /**
  * Input component.
  *
  * @property {string} label - Label for the input.
+ * @property {string} name - Name for the input.
  * @property {string} value - Set value for the input.
  * @property {string} placeholder - Placeholder for the input when there is no value.
  * @property {string} message - Helper/error message. Additional information or instructions about the purpose of the input field or the expected user input.
@@ -29,19 +35,23 @@ import {
 @customElement('fds-input')
 export default class FdsInput extends LitElement {
   @property() value: string = ''
+  @property() name: string = ''
   @property() label?: string
   @property() placeholder?: string
   @property() message?: string
   @property() error: boolean = false
   @property() disabled: boolean = false
+  @property() type?: string = 'text'
 
   override render(): TemplateResult {
     return html`
       ${this.label && html`<label for="input" class="input-label ui-label-text">${this.label}</label>`}
       <div class="input-container ui-label-text">
         <input
-          type="text"
+          name=${this.name}
+          type=${this.type}
           id="input"
+          onFocus=${() => { this.error = false }}
           placeholder=${ifDefined(this.placeholder)}
           class="ui-label-text ${this.error ? 'input--error' : ''}"
           .value=${this.value}
@@ -54,11 +64,16 @@ export default class FdsInput extends LitElement {
         >${this.message}</span>`}
     `
   }
+
   private handleChange(event: Event): void {
     const input = event.target as FdsInput
+    const detail: FdsInputChange = {
+      name: input.name,
+      value: input.value
+    }
     this.dispatchEvent(
-      new CustomEvent<string>('change', {
-        detail: input.value,
+      new CustomEvent<FdsInputChange>('change', {
+        detail,
         bubbles: true,
         cancelable: true,
         composed: false, // Allows event to bubble through shadow dom - false for now, but could be re-evaluated later.
@@ -93,6 +108,7 @@ export default class FdsInput extends LitElement {
         border: 1px solid ${FdsColorNeutral200};
         border-radius: 4px;
         color: ${FdsColorText1000};
+        box-sizing: border-box;
       }
 
       ::placeholder {
@@ -114,11 +130,14 @@ export default class FdsInput extends LitElement {
       .input-message {
         padding-top: 8px;
         color: ${FdsColorText600};
-        filter: brightness(105%);
       }
 
       .input-message--error {
         color: ${FdsColorDanger200};
+      }
+
+      input:focus {
+        border: 3px solid transparent;
       }
     `,
   ]

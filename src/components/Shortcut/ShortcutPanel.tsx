@@ -1,4 +1,4 @@
-import './shortcut.scss'
+import './_shortcut.scss'
 import ShortcutCard from './ShortcutCard'
 import { Shortcut } from './types'
 

@@ -48,8 +48,6 @@ const Navbar = ({
     (e: Event) => {
       const detail = (e as CustomEvent).detail as FdsNavigationItem
 
-      console.log('yikes', detail)
-
       if (typeof detail.value !== 'string') {
         // e.g. login or register
         const msalMethod = detail.value as MsalMethod

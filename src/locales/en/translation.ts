@@ -68,19 +68,27 @@ export const en = {
         title: 'Create feed',
         section: {
           basic: 'Basic information',
-          rules: 'Validation rules',
+          rules: 'Validation rules *',
           metadata: 'Metadata'
         },
         feedName: 'Feed name',
         feedNamePlaceHolder: 'Example: "data.zip - a bus stop fix"',
-        feedNameInfo:
-          "A meaningful name to identify submitted data. By default: data's file name.",
-        url: 'Data URL *',
+        feedNameInfo: "A meaningful name to identify submitted data. By default: data's file name.",
+        url: 'Data URL',
         urlInfo: 'URL containing the source data package',
         etag: 'ETag',
-        format: 'Data format *',
+        format: 'Data format',
         submit: 'Submit',
-        choose: 'Choose'
+        choose: 'Choose',
+        netex: {
+          codespace: 'Codespace',
+          ignorableNetexElements: 'Ignorable NeTEx Elements',
+          ignorableNetexElementsMessage: 'Separated by comma',
+          maximumErrors: 'Maximum number of errors',
+          reportId: 'Report ID'
+        },
+        error: 'The form contains errors. Please, fix the highlighted inputs.',
+        rulesRequired: 'At least one rule needs to be selected.'
       }
     },
     myData: {
@@ -98,8 +106,7 @@ export const en = {
     return: 'Return to the home page'
   },
   formValidation: {
-    isRequired: '{{value}} is required',
-    containsSpaces: '{{value}} should not contain spaces',
-    duplicate: 'Duplicate {{value}}s are not allowed'
+    isRequired: 'Specifying {{value}} is required.',
+    isInvalid: 'Provided {{value}} is invalid.'
   }
 }
