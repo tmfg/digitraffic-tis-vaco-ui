@@ -19,7 +19,7 @@
     "@azure/msal-react": "^2.0.3",
     "@lit-labs/react": "^2.0.1",
     "@popperjs/core": "^2.11.8",
-    "axios": "^1.5.1",
+    "axios": "^1.6.0",
     "i18next": "^23.6.0",
     "lit": "^3.0.2",
     "lucide": "^0.265.0",
