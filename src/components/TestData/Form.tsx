@@ -134,19 +134,19 @@ const Form = () => {
 
   useEffect(() => {
     // Thanks to the web components' shadow root, no easy way to get these elements narrowed down by input name
-    const feedNameElement = document.getElementsByTagName('fds-input')[0]
+    const feedNameElement = document.querySelector('[id="feedName"]')
     if (feedNameElement && feedNameElement.getAttribute('listener') !== 'true') {
       feedNameElement.addEventListener('change', useGeneralListener)
     }
-    const urlElement = document.getElementsByTagName('fds-input')[1]
+    const urlElement = document.querySelector('[id="url"]')
     if (urlElement && urlElement.getAttribute('listener') !== 'true') {
       urlElement.addEventListener('change', useUrlListener)
     }
-    const etagElement = document.getElementsByTagName('fds-input')[2]
+    const etagElement = document.querySelector('[id="etag"]')
     if (etagElement && etagElement.getAttribute('listener') !== 'true') {
       etagElement.addEventListener('change', useGeneralListener)
     }
-    const formatElement = document.getElementsByTagName('fds-dropdown')[0]
+    const formatElement = document.querySelector('[id="format"]')
     if (formatElement && formatElement.getAttribute('listener') !== 'true') {
       formatElement.addEventListener('select', useFormatListener)
     }
@@ -164,33 +164,38 @@ const Form = () => {
       return
     }
 
-    const previousInputs = 3
+    const ruleCheckboxes: Element[] = []
     const netexInputs: Element[] = []
-    rules.map((rule, i) => {
-      const checkbox = document.getElementsByTagName('fds-checkbox')[i]
-      console.log(i, rule)
+    rules.forEach((rule) => {
+      const checkbox = document.querySelector('[id="' + rule.data.identifyingName + '"]')
+      console.log('[id="' + rule.data.identifyingName + '"]')
       console.log(checkbox)
       if (checkbox && checkbox.getAttribute('listener') !== 'true') {
         checkbox.addEventListener('check', useRuleListener)
+        ruleCheckboxes.push(checkbox)
       }
 
       if (formData.format === 'NETEX') {
-        const codespaceElement = document.getElementsByTagName('fds-input')[previousInputs + i * 4]
+        const codespaceElement = document.querySelector('[id="' + rule.data.identifyingName + '-codespace' + '"]')
         if (codespaceElement && codespaceElement.getAttribute('listener') !== 'true') {
           codespaceElement.addEventListener('change', useGeneralListener)
           netexInputs.push(codespaceElement)
         }
-        const ignorableNetexElementsElement = document.getElementsByTagName('fds-input')[previousInputs + 1 + i * 4]
+        const ignorableNetexElementsElement = document.querySelector(
+          '[id="' + rule.data.identifyingName + '-ignorableNetexElements' + '"]'
+        )
         if (ignorableNetexElementsElement && ignorableNetexElementsElement.getAttribute('listener') !== 'true') {
           ignorableNetexElementsElement.addEventListener('change', useUrlListener)
           netexInputs.push(ignorableNetexElementsElement)
         }
-        const maximumErrorsElement = document.getElementsByTagName('fds-input')[previousInputs + 2 + i * 4]
+        const maximumErrorsElement = document.querySelector(
+          '[id="' + rule.data.identifyingName + '-maximumErrors' + '"]'
+        )
         if (maximumErrorsElement && maximumErrorsElement.getAttribute('listener') !== 'true') {
           maximumErrorsElement.addEventListener('change', useGeneralListener)
           netexInputs.push(maximumErrorsElement)
         }
-        const reportIdElement = document.getElementsByTagName('fds-input')[previousInputs + 3 + i * 4]
+        const reportIdElement = document.querySelector('[id="' + rule.data.identifyingName + '-reportId' + '"]')
         if (reportIdElement && reportIdElement.getAttribute('listener') !== 'true') {
           reportIdElement.addEventListener('change', useGeneralListener)
           netexInputs.push(reportIdElement)
@@ -199,11 +204,8 @@ const Form = () => {
     })
 
     return () => {
-      let i = 0
-      rules.forEach(() => {
-        const checkbox = document.getElementsByTagName('fds-checkbox')[i]
+      ruleCheckboxes.forEach((checkbox) => {
         checkbox?.removeEventListener('check', useRuleListener)
-        i++
       })
       netexInputs.forEach((input) => {
         input?.removeEventListener('select', useGeneralListener)
@@ -219,7 +221,7 @@ const Form = () => {
         <div className={'form-section'}>
           <h5>{t('services:testData:form:section:basic')}</h5>
 
-          <div className={'input-wrapper'}>
+          <div id={'feedName'} className={'input-wrapper'}>
             <FdsInputComponent
               name={'feedName'}
               placeholder={feedNamePlaceholder || t('services:testData:form:feedNamePlaceHolder')}
@@ -228,7 +230,7 @@ const Form = () => {
             />
           </div>
 
-          <div className={'input-wrapper'}>
+          <div id={'url'} className={'input-wrapper'}>
             <FdsInputComponent
               name={'url'}
               placeholder={'https://'}
@@ -238,11 +240,11 @@ const Form = () => {
             />
           </div>
 
-          <div className={'input-wrapper etag'}>
+          <div id={'etag'} className={'input-wrapper etag'}>
             <FdsInputComponent name={'etag'} label={t('services:testData:form:etag')} />
           </div>
 
-          <div className={'input-wrapper format'}>
+          <div id={'format'} className={'input-wrapper format'}>
             <FdsDropdownComponent
               name={'format'}
               label={t('services:testData:form:format') + ' *'}
@@ -259,13 +261,13 @@ const Form = () => {
 
             {rules.map((rule) => {
               return (
-                <div key={rule.data.identifyingName}>
+                <div id={rule.data.identifyingName} key={'rule-' + rule.data.identifyingName}>
                   <FdsCheckboxComponent name={rule.data.identifyingName} label={rule.data.description} />
 
                   {/* In future these per-format additional fields will come from API */}
                   {rule.data.identifyingName.toLowerCase().includes('netex') && formData[rule.data.identifyingName] && (
                     <div className={'format-config-wrapper'}>
-                      <div className={'format-config-input-wrapper'}>
+                      <div id={rule.data.identifyingName + '-codespace'} className={'format-config-input-wrapper'}>
                         <FdsInputComponent
                           name={rule.data.identifyingName + '-codespace'}
                           label={t('services:testData:form:netex:codespace') + ' *'}
@@ -273,21 +275,24 @@ const Form = () => {
                           error={!!formErrors[rule.data.identifyingName + '-codespace']}
                         />
                       </div>
-                      <div className={'format-config-input-wrapper'}>
+                      <div
+                        id={rule.data.identifyingName + '-ignorableNetexElements'}
+                        className={'format-config-input-wrapper'}
+                      >
                         <FdsInputComponent
                           name={rule.data.identifyingName + '-ignorableNetexElements'}
                           label={t('services:testData:form:netex:ignorableNetexElements')}
                           message={t('services:testData:form:netex:ignorableNetexElementsMessage')}
                         />
                       </div>
-                      <div className={'format-config-input-wrapper'}>
+                      <div id={rule.data.identifyingName + '-maximumErrors'} className={'format-config-input-wrapper'}>
                         <FdsInputComponent
                           name={rule.data.identifyingName + '-maximumErrors'}
                           label={t('services:testData:form:netex:maximumErrors')}
                           type={'number'}
                         />
                       </div>
-                      <div className={'format-config-input-wrapper'}>
+                      <div id={rule.data.identifyingName + '-reportId'} className={'format-config-input-wrapper'}>
                         <FdsInputComponent
                           name={rule.data.identifyingName + '-reportId'}
                           label={t('services:testData:form:netex:reportId')}

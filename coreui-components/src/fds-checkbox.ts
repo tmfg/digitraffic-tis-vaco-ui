@@ -48,7 +48,7 @@ export default class FdsCheckbox extends LitElement {
         value: this.checked
       }
       setTimeout(() => {
-        this.dispatchEvent(new CustomEvent<FdsInputChange>('check', { detail: change }))
+        this.dispatchEvent(new CustomEvent<FdsInputChange>('check', { detail: change, bubbles: true }))
       })
     }
   }
