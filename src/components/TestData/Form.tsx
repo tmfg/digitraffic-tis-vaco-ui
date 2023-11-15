@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { EntryResource } from '../../types/EntryResource'
 import { useMsal } from '@azure/msal-react'
 import { useTranslation } from 'react-i18next'
-import { acquireToken } from '../../hooks/auth'
+import { acquireToken, isUserInTransition } from '../../hooks/auth'
 
 import { getHeaders, HttpClient } from '../../HttpClient'
 import { FdsButtonComponent } from '../fds/FdsButtonComponent'
@@ -21,9 +21,9 @@ import { submitData } from './formActions'
 
 const Form = () => {
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
-  const { instance } = useMsal()
+  const { instance, inProgress } = useMsal()
   const navigate = useNavigate()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [formData, setFormData] = useState<Map>({})
   const formats: FdsDropdownOption<string>[] = [
     { label: 'GTFS', value: 'GTFS' },
@@ -35,6 +35,7 @@ const Form = () => {
     t('services:testData:form:feedNamePlaceHolder')
   )
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [email, setEmail] = useState<string>('')
 
   const closeModal = () => {
     setIsModalOpen(false)
@@ -75,7 +76,7 @@ const Form = () => {
           HttpClient.get('/api/rules?businessId=2942108-7', getHeaders(tokenResult.accessToken)).then(
             (response) => {
               const rules = response.data as RulesetResource[]
-              setRules(rules.filter((rule) => rule.data.format.toUpperCase() === detail.value))
+              setRules(rules.filter((rule) => rule.data.format.toUpperCase() === detail.value && rule.data.type.includes('VALIDATION')))
             },
             (error) => {
               return Promise.reject(error)
@@ -133,7 +134,15 @@ const Form = () => {
   )
 
   useEffect(() => {
-    // Thanks to the web components' shadow root, no easy way to get these elements narrowed down by input name
+    if (!isUserInTransition(inProgress)) {
+      const account = instance.getActiveAccount()
+      if (account) {
+        setEmail(account.username)
+      }
+    }
+  }, [instance, inProgress])
+
+  useEffect(() => {
     const feedNameElement = document.querySelector('[id="feedName"]')
     if (feedNameElement && feedNameElement.getAttribute('listener') !== 'true') {
       feedNameElement.addEventListener('change', useGeneralListener)
@@ -215,7 +224,14 @@ const Form = () => {
 
   return (
     <>
-      {entryResource && isModalOpen && <DataSubmittedModal close={closeModal} proceed={navigateToProcessingResult} />}
+      {entryResource && isModalOpen && (
+        <DataSubmittedModal
+          publicId={entryResource.data.publicId}
+          email={email}
+          close={closeModal}
+          proceed={navigateToProcessingResult}
+        />
+      )}
       <h3>{t('services:testData:form:title')}</h3>
       <form>
         <div className={'form-section'}>
@@ -262,7 +278,14 @@ const Form = () => {
             {rules.map((rule) => {
               return (
                 <div id={rule.data.identifyingName} key={'rule-' + rule.data.identifyingName}>
-                  <FdsCheckboxComponent name={rule.data.identifyingName} label={rule.data.description} />
+                  <FdsCheckboxComponent
+                    name={rule.data.identifyingName}
+                    label={
+                      i18n.exists('services:testData:form:rules:' + rule.data.identifyingName)
+                        ? t('services:testData:form:rules:' + rule.data.identifyingName)
+                        : rule.data.description
+                    }
+                  />
 
                   {/* In future these per-format additional fields will come from API */}
                   {rule.data.identifyingName.toLowerCase().includes('netex') && formData[rule.data.identifyingName] && (
@@ -313,7 +336,7 @@ const Form = () => {
             formErrors.rules ||
             (formData.format === 'NETEX' &&
               rules.filter((rule) => formErrors[rule.data.identifyingName + '-codespace']).length > 0)) && (
-            <div className={'form-section'}>
+            <div data-testid="error-alert" className={'form-section'}>
               <FdsAlertComponent icon={'alert-circle'}>{t('services:testData:form:error')}</FdsAlertComponent>
             </div>
           )}
@@ -321,7 +344,8 @@ const Form = () => {
         <div className={'form-section'}>
           <FdsButtonComponent
             onClick={(e) => {
-              submitData(e, instance, formData, setFormErrors, setEntryResource, setIsModalOpen, t, rules).catch(
+              e.preventDefault()
+              submitData(instance, formData, setFormErrors, setEntryResource, setIsModalOpen, t, rules).catch(
                 (err) => console.log('Data submission error', err)
                 // TODO: show some alert
               )

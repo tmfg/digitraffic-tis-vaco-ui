@@ -1,3 +1,10 @@
 .modal {
-  width: 80%; min-width: 30rem; max-width: 40rem; height: 260px;
+  h4 {
+    padding-bottom: 0.5rem;
+  }
+
+  ul {
+    padding-bottom: 2rem;
+    max-width: 35rem;
+  }
 }

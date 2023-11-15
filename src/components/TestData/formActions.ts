@@ -20,7 +20,7 @@ export const validateFormData = (
     try {
       new URL(formData.url as string)
     } catch (err) {
-      errors.url = translate('formValidation:isInvalid', { value: translate('services:testData:form:url') })
+      errors.url = translate('formValidation:isInvalid', { value: 'URL' })
     }
   }
 
@@ -48,7 +48,6 @@ export const validateFormData = (
 }
 
 export const submitData = async (
-  e: MouseEvent,
   instance: IPublicClientApplication,
   formData: Map,
   setFormErrors: (err: Map) => void,
@@ -57,7 +56,6 @@ export const submitData = async (
   translate: TFunction<'translation', undefined>,
   rules: RulesetResource[]
 ) => {
-  e.preventDefault()
   const tokenResult = await acquireToken(instance)
   if (!tokenResult) {
     // TODO: At some point, show some error notification

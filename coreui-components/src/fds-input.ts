@@ -50,7 +50,7 @@ export default class FdsInput extends LitElement {
         <input
           name=${this.name}
           type=${this.type}
-          id="input"
+          aria-label=${this.name}
           onFocus=${() => { this.error = false }}
           placeholder=${ifDefined(this.placeholder)}
           class="ui-label-text ${this.error ? 'input--error' : ''}"
