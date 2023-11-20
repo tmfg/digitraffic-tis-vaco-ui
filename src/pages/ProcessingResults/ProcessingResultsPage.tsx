@@ -9,7 +9,7 @@ import { InteractionStatus } from '@azure/msal-browser'
 import { useTranslation } from 'react-i18next'
 
 const ProcessingResultsPage = () => {
-  const { ticketId } = useParams()
+  const { entryId } = useParams()
   const [ticket, setTicket] = useState<EntryResource | null>(null)
   const { instance, inProgress } = useMsal()
   const { t } = useTranslation()
@@ -17,7 +17,7 @@ const ProcessingResultsPage = () => {
   useEffect(() => {
     let ignore = false
     setTicket(null)
-    if (ticketId && inProgress === InteractionStatus.None) {
+    if (entryId && inProgress === InteractionStatus.None) {
       acquireToken(instance).then(
         (tokenResult) => {
           if (!tokenResult) {
@@ -25,7 +25,7 @@ const ProcessingResultsPage = () => {
             return
           }
 
-          HttpClient.get('/api/queue/' + ticketId, getHeaders(tokenResult.idToken)).then(
+          HttpClient.get('/api/queue/' + entryId, getHeaders(tokenResult.accessToken)).then(
             (response) => {
               if (!ignore) {
                 setTicket(response.data as EntryResource)
@@ -45,7 +45,7 @@ const ProcessingResultsPage = () => {
         ignore = true
       }
     }
-  }, [ticketId, instance, inProgress])
+  }, [entryId, instance, inProgress])
 
   return (
     <div className={'page-content'}>

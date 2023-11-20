@@ -2,8 +2,8 @@ import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import HomePage from './pages/Home/HomePage'
 import NotFoundPage from './pages/Error/NotFoundPage'
-import TicketCreationPage from './pages/TestData/TestDataPage'
-import TicketInfoPage from './pages/ProcessingResults/ProcessingResultsPage'
+import TestDataPage from './pages/TestData/TestDataPage'
+import ProcessingResultsPage from './pages/ProcessingResults/ProcessingResultsPage'
 import AppLayout from './AppLayout'
 import AuthRequiredPage from './pages/Error/AuthRequiredPage'
 
@@ -29,16 +29,16 @@ const App = () => {
             element: <HomePage />
           },
           {
-            path: '/ticket/request',
-            element: <TicketCreationPage />
+            path: '/data/request',
+            element: <TestDataPage />
           },
           {
-            path: '/ticket/info/:ticketId',
-            element: <TicketInfoPage />
+            path: '/data/:entryId',
+            element: <ProcessingResultsPage />
           },
           {
-            path: '/ticket/info',
-            element: <TicketInfoPage />
+            path: '/data',
+            element: <ProcessingResultsPage />
           },
           {
             path: '*',

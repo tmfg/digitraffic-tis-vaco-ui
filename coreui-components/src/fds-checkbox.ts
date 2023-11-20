@@ -9,6 +9,7 @@ import { css, html, LitElement } from 'lit'
 import { TemplateResult } from 'lit-html'
 import { customElement, property } from 'lit/decorators.js'
 import './global-types'
+import { FdsInputChange } from "./fds-input";
 
 /**
  * Checkbox component.
@@ -21,6 +22,7 @@ import './global-types'
 @customElement('fds-checkbox')
 export default class FdsCheckbox extends LitElement {
   @property() label: string = ''
+  @property() name: string = ''
   @property() disabled: boolean = false
   @property() checked: boolean = false
 
@@ -29,6 +31,7 @@ export default class FdsCheckbox extends LitElement {
       <input
         type="checkbox"
         id="checkbox"
+        name=${this.name}
         .disabled=${this.disabled}
         .checked="${this.checked}"
         @change=${this.handleSelect}
@@ -40,8 +43,12 @@ export default class FdsCheckbox extends LitElement {
   private handleSelect(): void {
     if (!this.disabled) {
       this.checked = !this.checked
+      const change: FdsInputChange = {
+        name: this.name,
+        value: this.checked
+      }
       setTimeout(() => {
-        this.dispatchEvent(new CustomEvent<boolean>('select', { detail: this.checked }))
+        this.dispatchEvent(new CustomEvent<FdsInputChange>('check', { detail: change, bubbles: true }))
       })
     }
   }
@@ -61,6 +68,7 @@ export default class FdsCheckbox extends LitElement {
         padding: 0 16px;
         position: relative;
         right: 7px;
+        margin-bottom: 16px;
       }
 
       label,

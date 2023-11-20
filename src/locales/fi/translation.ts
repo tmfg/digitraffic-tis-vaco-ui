@@ -61,12 +61,43 @@ export const fi = {
   services: {
     testData: {
       header: 'Testata tietoja',
-      intro: 'Here one can submit their data.',
-      formTitle: 'Create feed',
-      formSections: {
-        basic: 'Basic information',
-        rules: 'Validation rules',
-        metadata: 'Metadata'
+      shortIntro: 'Täällä voi lähettää tietonsa.',
+      intro: 'Lisää infoa täällä.',
+      form: {
+        title: 'Luo syöte',
+        section: {
+          basic: 'Perustiedot',
+          rules: 'Validointisäännöt',
+          metadata: 'Metadata'
+        },
+        feedName: 'Syötteen nimi',
+        feedNamePlaceHolder: 'Esimerkki: "data.zip - bussipysäkin korjaus"',
+        feedNameInfo: 'Merkittävä nimi lähetettyjen tietojen tunnistamiseksi. Oletuksena: tietojen tiedostonimi',
+        url: 'URL',
+        urlInfo: 'URL-osoite, joka sisältää lähdetietopaketin',
+        etag: 'ETag',
+        format: 'Datamuoto',
+        submit: 'Lähetä',
+        rules: {
+          'gtfs.canonical.v4_1_0': 'Canonical GTFS Validator by MobilityData, versio v4.1.0',
+          'gtfs.canonical.v4_0_0': 'Canonical GTFS Validator by MobilityData, versio v4.0.0',
+          'netex.entur.v1_0_1': 'NeTEx Validator by Entur, versio v1.0.1'
+        },
+        netex: {
+          codespace: 'Codespace',
+          ignorableNetexElements: 'Huomattamattomia NeTEx elementtejä',
+          ignorableNetexElementsMessage: 'Pilkulla erotettuna',
+          maximumErrors: 'Virheiden enimmäismäärä',
+          reportId: 'Raportin ID'
+        },
+        error: 'Lomake sisältää virheitä. Ole hyvä ja korjaa korostetut tulot.',
+        rulesRequired: 'Vähintään yksi sääntö on valittava'
+      },
+      modal: {
+        title: 'Tiedot lähetetty!',
+        accessBy: 'Tietojen käsittelyyn pääsee käsiksi ID-lla: <strong>{{publicId}}</strong>',
+        notification: 'Käsittelyn päätyttyä lähetetään sähköposti-ilmoitus osoitteeseen <strong>{{email}}</strong>',
+        toProceed: 'Voit siirtyä tarkastelemaan käsittelyn edistymistä napsauttamalla "Jatka".'
       }
     },
     myData: {
@@ -79,8 +110,12 @@ export const fi = {
   },
   adminPanel: {},
   error: {
-    notFound: 'Error: nothing exists on the specified URL path.',
-    authRequired: 'Error: login required to proceed.',
-    return: 'Return to the home page'
+    notFound: 'Virhe: määritetyllä URL-polulla ei ole mitään.',
+    authRequired: 'Virhe: sisäänkirjautuminen vaaditaan jatkamiseksi.',
+    return: 'Palaa etusivulle'
+  },
+  formValidation: {
+    isRequired: 'Määritetään {{value}} on vaadittu',
+    isInvalid: 'Edellyttäen, että {{value}} on virheellinen.'
   }
 }

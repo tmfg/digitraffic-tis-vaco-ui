@@ -1,5 +1,6 @@
 import {
   AuthenticationResult,
+  BrowserAuthError,
   InteractionRequiredAuthError,
   InteractionStatus,
   IPublicClientApplication
@@ -15,7 +16,7 @@ export const acquireToken = (msalInstance: IPublicClientApplication): Promise<Au
     })
     .catch((error) => {
       console.log('Acquiring token failed', error)
-      if (error instanceof InteractionRequiredAuthError) {
+      if (error instanceof InteractionRequiredAuthError || error instanceof BrowserAuthError) {
         // fallback to interaction when silent call fails
         return msalInstance.acquireTokenRedirect(loginRequest)
       }

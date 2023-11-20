@@ -62,11 +62,20 @@ export const se = {
     testData: {
       header: 'Test your data - på Svenska',
       intro: 'Here one can submit their data.',
-      formTitle: 'Create feed',
-      formSections: {
-        basic: 'Basic information',
-        rules: 'Validation rules',
-        metadata: 'Metadata'
+      form: {
+        title: 'Create feed',
+        section: {
+          basic: 'Basic information',
+          rules: 'Validation rules',
+          metadata: 'Metadata'
+        },
+        feedName: 'Feed name',
+        feedNameInfo:
+          "A meaningful name to identify submitted data. If not provided, file's name will be used as a default.",
+        url: 'URL',
+        etag: 'Etag',
+        format: 'Data format',
+        submit: 'Submit'
       }
     },
     myData: {
@@ -82,5 +91,10 @@ export const se = {
     notFound: 'Error: nothing exists on the specified URL path.',
     authRequired: 'Error: login required to proceed.',
     return: 'Return to the home page'
+  },
+  formValidation: {
+    isRequired: '{{value}} is required',
+    containsSpaces: '{{value}} should not contain spaces',
+    duplicate: 'Duplicate {{value}}s are not allowed'
   }
 }

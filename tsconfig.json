@@ -8,6 +8,7 @@
     "experimentalDecorators": true,
     "types": [ "vitest/globals", "vite-plugin-svgr/client" ],
     "esModuleInterop": true,
+    "strictPropertyInitialization": false,
 
     /* Bundler mode */
     "moduleResolution": "bundler",
