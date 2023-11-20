@@ -38,13 +38,13 @@ const HomePage = () => {
   const userShortcuts: Shortcut[] = [
     {
       label: t('vaco:myData'),
-      to: '/ticket/info',
+      to: '/data',
       icon: <MyDataSvg />,
       description: t('home:shortcut:myData:intro')
     },
     {
       label: t('vaco:testData'),
-      to: '/ticket/request',
+      to: '/data/request',
       icon: <TestDataSvg />,
       description: t('home:shortcut:testData:intro')
     },
