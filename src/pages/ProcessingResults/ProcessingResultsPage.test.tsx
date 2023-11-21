@@ -34,7 +34,7 @@ describe('Processing Results Page', () => {
 
     await msalTester.waitForRedirect()
     expect(screen.getByText(i18next.t('error:authRequired'))).toBeInTheDocument()
-    expect(screen.queryByText(i18next.t('services:myData:results:header'))).toBeNull()
+    expect(screen.queryByText(i18next.t('services:processingResults:header'))).toBeNull()
   })
 
   it('Processing Results page renders correctly when user got logged in', async () => {
@@ -52,7 +52,7 @@ describe('Processing Results Page', () => {
     })
 
     await msalTester.waitForRedirect()
-    expect(screen.getByText(i18next.t('services:myData:results:header'))).toBeInTheDocument()
+    expect(screen.getByText(i18next.t('services:processingResults:header'))).toBeInTheDocument()
     expect(screen.queryByText(i18next.t('error:authRequired'))).toBeNull()
   })
 })

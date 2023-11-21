@@ -1,0 +1,41 @@
+.section {
+  margin-bottom: 3rem;
+}
+
+.header {
+  display: flex;
+  padding-bottom: 1.75rem;
+  align-self: center;
+}
+
+h3 {
+  display: inline;
+  padding-right: 1.85rem;
+  padding-bottom: 0;
+}
+
+.hide-control {
+  align-self: center;
+  cursor:pointer;
+  display: flex;
+
+  .text {
+    color: var(--interactive-200, #1777F8);
+    box-sizing: border-box;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+  }
+
+  .icon {
+    margin-left: 3px;
+  }
+}
+
+.hide-control:hover {
+  .text {
+    filter: brightness(1.25);
+  }
+}
+

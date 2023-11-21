@@ -39,17 +39,23 @@ const EnvironmentProvider = ({ children }: Props) => {
           initializeHttpClient(data)
 
           const pca: PublicClientApplication = new PublicClientApplication(msalConfig(data))
+          pca.initialize().then(
+            () => {
+              pca.addEventCallback((event: EventMessage) => {
+                if (event.eventType === EventType.LOGIN_SUCCESS) {
+                  const account: AccountInfo = event.payload as AccountInfo
+                  if (account) {
+                    pca.setActiveAccount(account)
+                  }
+                }
+              })
 
-          pca.addEventCallback((event: EventMessage) => {
-            if (event.eventType === EventType.LOGIN_SUCCESS) {
-              const account: AccountInfo = event.payload as AccountInfo
-              if (account) {
-                pca.setActiveAccount(account)
-              }
+              setMsalInstance(pca)
+            },
+            (err) => {
+              console.error('PublicClientApplication initialisation error', err)
             }
-          })
-
-          setMsalInstance(pca)
+          )
         })
         .catch((error) => {
           console.log(error)

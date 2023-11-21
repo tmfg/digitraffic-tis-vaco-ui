@@ -1,22 +1,27 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getHeaders, HttpClient } from '../../HttpClient'
-import { EntryResource } from '../../types/EntryResource'
 import { acquireToken } from '../../hooks/auth'
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react'
 import AuthRequiredPage from '../Error/AuthRequiredPage'
 import { InteractionStatus } from '@azure/msal-browser'
 import { useTranslation } from 'react-i18next'
+import Section from '../../components/ProcessingResults/Section'
+//import Summary from '../../components/ProcessingResults/Summary'
+import Reports from '../../components/ProcessingResults/Reports'
+import Conversion from '../../components/ProcessingResults/Conversion'
+import { EntryStateResource } from '../../types/EntryStateResource'
+import SubmittedData from '../../components/ProcessingResults/SubmittedData'
 
 const ProcessingResultsPage = () => {
   const { entryId } = useParams()
-  const [ticket, setTicket] = useState<EntryResource | null>(null)
+  const [entryState, setEntryState] = useState<EntryStateResource | null>(null)
   const { instance, inProgress } = useMsal()
   const { t } = useTranslation()
 
   useEffect(() => {
     let ignore = false
-    setTicket(null)
+    setEntryState(null)
     if (entryId && inProgress === InteractionStatus.None) {
       acquireToken(instance).then(
         (tokenResult) => {
@@ -25,18 +30,20 @@ const ProcessingResultsPage = () => {
             return
           }
 
-          HttpClient.get('/api/queue/' + entryId, getHeaders(tokenResult.accessToken)).then(
+          HttpClient.get('/api/ui/entry/' + entryId + '/state', getHeaders(tokenResult.accessToken)).then(
             (response) => {
               if (!ignore) {
-                setTicket(response.data as EntryResource)
+                setEntryState(response.data as EntryStateResource)
               }
             },
             (error) => {
+              // TODO: show alert
               return Promise.reject(error)
             }
           )
         },
         (error) => {
+          // TODO: show alert
           return Promise.reject(error)
         }
       )
@@ -50,11 +57,20 @@ const ProcessingResultsPage = () => {
   return (
     <div className={'page-content'}>
       <AuthenticatedTemplate>
-        <h2>{t('services:myData:results:header')}</h2>
-        {ticket && (
-          <pre style={{ width: 900, whiteSpace: 'pre-wrap' }}>
-            <code> {JSON.stringify(ticket)}</code>
-          </pre>
+        <h2>{t('services:processingResults:header')}</h2>
+        {!entryState && 'Loading!'}
+        {entryState && (
+          <div>
+            <SubmittedData entry={entryState.data.entry} />
+
+            <Section titleKey={'reports'}>
+              <Reports />
+            </Section>
+
+            <Section titleKey={'artifacts:conversion'}>
+              <Conversion />
+            </Section>
+          </div>
         )}
       </AuthenticatedTemplate>
       <UnauthenticatedTemplate>

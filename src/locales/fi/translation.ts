@@ -100,12 +100,21 @@ export const fi = {
         toProceed: 'Voit siirtyä tarkastelemaan käsittelyn edistymistä napsauttamalla "Jatka".'
       }
     },
+    processingResults: {
+      header: 'Tulosraportti',
+      summary: 'Yhteenveto',
+      reports: 'Erittelyn noudattamisraportit',
+      artifacts: {
+        validation: 'Vahvistusartefaktit',
+        conversion: 'Muunnosartefaktit'
+      },
+      hide: 'Piilottaa',
+      show: 'Näytä',
+      submissionDate: 'Jättöpäivämäärä'
+    },
     myData: {
       header: 'Minun tietoni',
       intro: 'Here one can find their latest data submissions.',
-      results: {
-        header: 'Tulosraportti'
-      }
     }
   },
   adminPanel: {},

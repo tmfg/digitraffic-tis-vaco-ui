@@ -6,6 +6,7 @@ import { EntryResource } from '../../types/EntryResource'
 import { IPublicClientApplication } from '@azure/msal-browser'
 import { TFunction } from 'i18next'
 import { RulesetResource } from '../../types/Ruleset'
+import { isUrl } from '../../util/url'
 
 export const validateFormData = (
   formData: Map,
@@ -16,12 +17,8 @@ export const validateFormData = (
 
   if (!formData.url) {
     errors.url = translate('formValidation:isRequired', { value: 'URL' })
-  } else {
-    try {
-      new URL(formData.url as string)
-    } catch (err) {
-      errors.url = translate('formValidation:isInvalid', { value: 'URL' })
-    }
+  } else if (!isUrl(formData.url as string)) {
+    errors.url = translate('formValidation:isInvalid', { value: 'URL' })
   }
 
   if (!formData.format) {
@@ -51,7 +48,7 @@ export const submitData = async (
   instance: IPublicClientApplication,
   formData: Map,
   setFormErrors: (err: Map) => void,
-  setEntryResource: (err: EntryResource) => void,
+  setEntryResource: (entry: EntryResource) => void,
   setIsModalOpen: (status: boolean) => void,
   translate: TFunction<'translation', undefined>,
   rules: RulesetResource[]
@@ -70,7 +67,7 @@ export const submitData = async (
   }
 
   if (!formData.feedName) {
-    const parts = (formData.url as string).split('/')
+    const parts = (formData.url as string).split('/').filter((part) => !!part)
     formData.feedName = parts[parts.length - 1]
   }
 
@@ -83,7 +80,7 @@ export const submitData = async (
           ignorableNetexElements: (formData[rule.data.identifyingName + '-ignorableNetexElements'] as string)
             ?.split(',')
             .filter((elem) => elem),
-          maximumErrors: formData[rule.data.identifyingName + '-maximumErrors'] || 500,
+          maximumErrors: Number(formData[rule.data.identifyingName + '-maximumErrors']) || 500,
           reportId: formData[rule.data.identifyingName + '-formData']
         }
       }

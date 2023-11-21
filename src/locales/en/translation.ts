@@ -68,7 +68,7 @@ export const en = {
         title: 'Create feed',
         section: {
           basic: 'Basic information',
-          rules: 'Validation rules *',
+          rules: 'Validation rules',
           metadata: 'Metadata'
         },
         feedName: 'Feed name',
@@ -102,12 +102,21 @@ export const en = {
         toProceed: 'You can navigate to view the processing progress by clicking "Proceed".'
       }
     },
+    processingResults: {
+      header: 'Data processing results',
+      summary: 'Summary',
+      reports: 'Specification Compliance reports',
+      artifacts: {
+        validation: 'Validation artifacts',
+        conversion: 'Conversion artifacts'
+      },
+      hide: 'Hide',
+      show: 'Show',
+      submissionDate: 'Submission date'
+    },
     myData: {
       header: 'My data',
-      intro: 'Here one can find their latest data submissions.',
-      results: {
-        header: 'Data processing results'
-      }
+      intro: 'Here one can find their latest data submissions.'
     }
   },
   adminPanel: {},
