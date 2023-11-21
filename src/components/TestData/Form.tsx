@@ -177,8 +177,6 @@ const Form = () => {
     const netexInputs: Element[] = []
     rules.forEach((rule) => {
       const checkbox = document.querySelector('[id="' + rule.data.identifyingName + '"]')
-      console.log('[id="' + rule.data.identifyingName + '"]')
-      console.log(checkbox)
       if (checkbox && checkbox.getAttribute('listener') !== 'true') {
         checkbox.addEventListener('check', useRuleListener)
         ruleCheckboxes.push(checkbox)
@@ -273,7 +271,7 @@ const Form = () => {
 
         {rules && rules.length > 0 && (
           <div className={'form-section'}>
-            <h5>{t('services:testData:form:section:rules')}</h5>
+            <h5>{t('services:testData:form:section:rules')} *</h5>
 
             {rules.map((rule) => {
               return (

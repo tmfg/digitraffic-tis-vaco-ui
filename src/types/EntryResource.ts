@@ -1,27 +1,31 @@
 import { Phase } from './Phase'
 import { Link } from './Link'
-import { Error } from './Error'
 
 export interface EntryResource {
-  data: EntryResourceData
+  data: Entry
   links: {
     self: Link
   }
 }
 
-export interface EntryResourceData {
+export interface Entry {
   publicId: string
+  name: string
   url: string
   format: string
   businessId: string
   etag: string
-  validation?: object
+  validations: ValidationInput[]
   conversion?: object
   metadata?: object
   phases: Phase[]
-  errors: Error[]
   created: string
   started: string
   updated: string
   completed: string
+}
+
+export interface ValidationInput {
+  name: string
+  config: object | null
 }
