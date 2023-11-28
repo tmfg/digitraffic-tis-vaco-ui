@@ -7,6 +7,7 @@ import { FdsCardElevation } from '../../../coreui-components/src/fds-card'
 import './_modal.scss'
 import { useTranslation } from 'react-i18next'
 import { Trans } from 'react-i18next'
+import { FdsTokenSize2 } from '../../../coreui-css/lib'
 
 interface ModalProps {
   close: () => void
@@ -41,10 +42,16 @@ const DataSubmittedModal = ({ close, proceed, email, publicId }: ModalProps) => 
               onClick={close}
               slot="separated"
               icon="x"
+              iconSize={FdsTokenSize2}
               variant={FdsButtonVariant.secondary}
               label={t('common:close')}
             />
-            <FdsButtonComponent onClick={proceed} label={t('common:proceed')} />
+            <FdsButtonComponent
+              icon="navigation"
+              iconSize={FdsTokenSize2}
+              onClick={proceed}
+              label={t('common:proceed')}
+            />
           </FdsActionSheetComponent>
         </FdsCardComponent>
       </FdsDialogComponent>

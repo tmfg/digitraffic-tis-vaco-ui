@@ -6,6 +6,7 @@ import TestDataPage from './pages/TestData/TestDataPage'
 import ProcessingResultsPage from './pages/ProcessingResults/ProcessingResultsPage'
 import AppLayout from './AppLayout'
 import AuthRequiredPage from './pages/Error/AuthRequiredPage'
+import MyDataPage from './pages/MyData/MyDataPage'
 
 // The way for components that don't need wrapping (e.g. one without our own custom events)
 // or while initial testing
@@ -38,7 +39,7 @@ const App = () => {
           },
           {
             path: '/data',
-            element: <ProcessingResultsPage />
+            element: <MyDataPage />
           },
           {
             path: '*',

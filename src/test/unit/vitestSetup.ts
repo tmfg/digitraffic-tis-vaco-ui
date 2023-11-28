@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { beforeAll, afterEach } from 'vitest'
+import { beforeAll, afterEach, afterAll } from 'vitest'
 //import matchers from '@testing-library/jest-dom/matchers'
 //expect.extend(matchers)
 import { MsalReactTester, MsalReactTesterPlugin } from 'msal-react-tester'
@@ -9,8 +9,19 @@ import { cleanup } from '@testing-library/react'
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import { resources } from '../../i18n'
+import { server } from './mocks/server'
+import { initializeHttpClient } from '../../HttpClient'
+import { Environment } from '../../types/Bootstrap'
 
 beforeAll(async () => {
+  initializeHttpClient({
+    environment: Environment.Local,
+    baseUrl: 'http://localhost:8080',
+    tenantId: 'd8536c71-f91f-4e54-b68c-215a7fd9510b',
+    clientId: '57c1b8a0-f33e-4e47-840d-8c180d933c41'
+  })
+  server.listen({ onUnhandledRequest: 'error' })
+
   await i18n.use(initReactI18next).init({
     lng: 'fi',
     resources: resources
@@ -25,8 +36,11 @@ beforeAll(async () => {
 })
 
 afterEach(() => {
+  server.resetHandlers()
   cleanup()
 })
+
+afterAll(() => server.close())
 
 export const msalInitTester = () => {
   const msalTester = new MsalReactTester()

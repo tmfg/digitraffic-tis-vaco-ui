@@ -1,11 +1,9 @@
 import { Phase } from './Phase'
-import { Link } from './Link'
+import { Links } from './Link'
 
 export interface EntryResource {
   data: Entry
-  links: {
-    self: Link
-  }
+  links: Links
 }
 
 export interface Entry {

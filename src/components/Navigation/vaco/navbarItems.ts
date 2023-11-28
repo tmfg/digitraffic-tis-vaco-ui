@@ -55,12 +55,12 @@ export const myServicesItem = (t: TFunction<'translation', undefined>): FdsNavig
     value: '',
     dropDownItems: [
       {
-        label: t('vaco:testData'),
-        value: '/data/request'
-      },
-      {
         label: t('vaco:myData'),
         value: '/data'
+      },
+      {
+        label: t('vaco:testData'),
+        value: '/data/request'
       }
     ]
   }

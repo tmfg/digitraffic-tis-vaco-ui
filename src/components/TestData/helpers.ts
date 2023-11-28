@@ -3,10 +3,11 @@ import { acquireToken } from '../../hooks/auth'
 import { EntryRequest } from './types'
 import { getHeaders, HttpClient } from '../../HttpClient'
 import { EntryResource } from '../../types/EntryResource'
-import { IPublicClientApplication } from '@azure/msal-browser'
+import { InteractionStatus, IPublicClientApplication } from '@azure/msal-browser'
 import { TFunction } from 'i18next'
 import { RulesetResource } from '../../types/Ruleset'
 import { isUrl } from '../../util/url'
+import { FdsInputChange } from '../../../coreui-components/src/fds-input'
 
 export const validateFormData = (
   formData: Map,
@@ -46,6 +47,7 @@ export const validateFormData = (
 
 export const submitData = async (
   instance: IPublicClientApplication,
+  inProgress: InteractionStatus,
   formData: Map,
   setFormErrors: (err: Map) => void,
   setEntryResource: (entry: EntryResource) => void,
@@ -53,7 +55,7 @@ export const submitData = async (
   translate: TFunction<'translation', undefined>,
   rules: RulesetResource[]
 ) => {
-  const tokenResult = await acquireToken(instance)
+  const tokenResult = await acquireToken(instance, inProgress)
   if (!tokenResult) {
     // TODO: At some point, show some error notification
     return
@@ -95,7 +97,7 @@ export const submitData = async (
   const requestBody: EntryRequest = {
     url: formData.url as string,
     name: formData.feedName as string,
-    format: formData.format as string,
+    format: (formData.format as string).toLowerCase(),
     businessId: '2942108-7',
     etag: formData.etag as string,
     validations: validations
@@ -104,4 +106,26 @@ export const submitData = async (
   const { data } = await HttpClient.post('/api/queue', requestBody, getHeaders(tokenResult.accessToken))
   setEntryResource(data as EntryResource)
   setIsModalOpen(true)
+}
+
+export const getFeedNameSuggestion = (url: string) => {
+  const parts = url.split('/').filter((part) => !!part)
+  return parts[parts.length - 1]
+}
+
+export const getNewFormState = (formData: Map, inputChange: FdsInputChange) => {
+  const newFormData: Map = {
+    ...formData
+  }
+  newFormData[inputChange.name] = inputChange.value
+  return newFormData
+}
+
+export const getNewFormErrorsState = (formErrors: Map, inputChange: FdsInputChange) => {
+  if (formErrors[inputChange.name] && inputChange.value) {
+    const newFormErrors = { ...formErrors }
+    newFormErrors[inputChange.name] = undefined
+    return newFormErrors
+  }
+  return formErrors
 }

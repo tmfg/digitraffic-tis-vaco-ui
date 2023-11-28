@@ -2,6 +2,7 @@ import './_section.scss'
 import Card, { CardItem, CardVariant } from '../Common/Card/Card'
 import { useTranslation } from 'react-i18next'
 import { Entry } from '../../types/EntryResource'
+import { formatDate } from '../../util/date'
 
 interface SubmittedDataProps {
   entry: Entry
@@ -24,7 +25,7 @@ const SubmittedData = ({ entry }: SubmittedDataProps) => {
     },
     {
       label: t('services:processingResults:submissionDate'),
-      value: new Date(entry.created).toLocaleString()
+      value: formatDate(entry.created)
     },
     {
       label: t('services:testData:form:url'),
@@ -36,7 +37,7 @@ const SubmittedData = ({ entry }: SubmittedDataProps) => {
     },
     {
       label: t('services:testData:form:format'),
-      value: entry.format
+      value: t('format:' + entry.format)
     },
     {
       label: t('services:testData:form:section:rules'),

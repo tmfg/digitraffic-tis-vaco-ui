@@ -8,15 +8,21 @@ import {
 import { createAccountRequest, loginRequest } from '../authConfig'
 
 /* istanbul ignore next 56 -- @preserve */
-export const acquireToken = (msalInstance: IPublicClientApplication): Promise<AuthenticationResult | void> => {
+export const acquireToken = (
+  msalInstance: IPublicClientApplication,
+  inProgress: InteractionStatus
+): Promise<AuthenticationResult | void> => {
   return msalInstance
     .acquireTokenSilent(loginRequest)
     .then((tokenResponse) => {
       return tokenResponse
     })
     .catch((error) => {
-      console.log('Acquiring token failed', error)
-      if (error instanceof InteractionRequiredAuthError || error instanceof BrowserAuthError) {
+      console.log('Acquiring token failed ', isUserInTransition(inProgress), error)
+      if (
+        (error instanceof InteractionRequiredAuthError || error instanceof BrowserAuthError) &&
+        !isUserInTransition(inProgress)
+      ) {
         // fallback to interaction when silent call fails
         return msalInstance.acquireTokenRedirect(loginRequest)
       }

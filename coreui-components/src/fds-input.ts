@@ -10,12 +10,14 @@ import {
   FdsColorNeutral50,
   FdsColorText1000,
   FdsColorText300,
-  FdsColorText600
-} from "../../coreui-css/lib";
+  FdsColorText600,
+  FdsTokenSize21
+} from '../../coreui-css/lib'
+import { FdsButtonVariant } from "./fds-button";
 
 export interface FdsInputChange {
   name: string
-  value: string | boolean
+  value: string | boolean | number
 }
 
 /**
@@ -42,6 +44,7 @@ export default class FdsInput extends LitElement {
   @property() error: boolean = false
   @property() disabled: boolean = false
   @property() type?: string = 'text'
+  @property() clearable?: boolean = false
 
   override render(): TemplateResult {
     return html`
@@ -58,6 +61,14 @@ export default class FdsInput extends LitElement {
           ?disabled=${this.disabled}
           @input=${this.handleChange}
         />
+        ${this.clearable && this.value
+          ? html`<fds-button
+              .iconSize=${FdsTokenSize21}
+              icon="x"
+              @click=${() => this.handleClear()}
+              variant=${FdsButtonVariant.clear}
+            />`
+          : ''}
       </div>
       ${this.message &&
       html`<span class="input-message ui-helper-text ${this.error ? 'input-message--error' : ''}"
@@ -70,6 +81,25 @@ export default class FdsInput extends LitElement {
     const detail: FdsInputChange = {
       name: input.name,
       value: input.value
+    }
+    this.value = input.value
+    this.dispatchEvent(
+      new CustomEvent<FdsInputChange>('change', {
+        detail,
+        bubbles: true,
+        cancelable: true,
+        composed: false, // Allows event to bubble through shadow dom - false for now, but could be re-evaluated later.
+      })
+    )
+  }
+
+  private handleClear() {
+    const inputElement = this.shadowRoot?.querySelector('input[name="' + this.name + '"]') as HTMLInputElement
+    inputElement.value = ''
+    this.value = ''
+    const detail: FdsInputChange = {
+      name: this.name,
+      value: ''
     }
     this.dispatchEvent(
       new CustomEvent<FdsInputChange>('change', {
@@ -97,6 +127,7 @@ export default class FdsInput extends LitElement {
 
       .input-container {
         display: inline-flex;
+        position: relative;
       }
 
       input {
@@ -104,6 +135,7 @@ export default class FdsInput extends LitElement {
         height: 46px;
         text-overflow: ellipsis;
         padding: 0px 16px;
+        padding-right: 30px;
         background-color: ${FdsColorBrandWhite};
         border: 1px solid ${FdsColorNeutral200};
         border-radius: 4px;
