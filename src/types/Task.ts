@@ -1,6 +1,7 @@
-export interface Phase {
+export interface Task {
   name: string
-  priority: number
+  priority?: number
+  created: string
   started: string
   updated: string
   completed: string

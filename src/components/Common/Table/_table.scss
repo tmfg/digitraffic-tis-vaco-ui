@@ -37,17 +37,40 @@ tr {
 
   a:hover {
     color: var(--interactive-200, #1777F8);
-    text-decoration: none;
+    text-decoration: underline;
     filter: brightness(1.25);
   }
 }
 
 td {
-  padding: 15px 35px 15px 0;
+  padding: 12px 35px 12px 0;
   max-width: 400px;
   overflow-wrap: break-word;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 150%;
+ // vertical-align: middle;
+}
+
+.row-expandable:hover {
+  background: #E8E8E8; //#ddf4ff; //#a5d6ff // b6e3ff
+  filter: brightness(1.05);
+  cursor: pointer;
+}
+
+.row-expanded {
+  background: #E8E8E8; //#ddf4ff; //#a5d6ff // b6e3ff
+  margin-top: 32px;
+  border-top: 1px solid #0c2d6b;
+}
+
+.expanded-content-container {
+  //width: 100%;
+  border-bottom: 1px solid #0c2d6b;
+}
+
+.expanded-content {
+  //width: calc(100% - 50px);
+  padding: 25px 45px;
 }

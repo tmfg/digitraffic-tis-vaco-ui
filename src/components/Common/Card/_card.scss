@@ -2,7 +2,7 @@
   display: flex;
 
   a {
-    text-decoration: underline;
+    text-decoration: none;
     color: var(--interactive-200, #1777F8);
     cursor: pointer;
   }
@@ -11,6 +11,26 @@
     color: var(--interactive-200, #1777F8);
     text-decoration: underline;
     filter: brightness(1.25);
+  }
+
+  .label-column-bigger {
+    margin-right: 3rem;
+
+    .label {
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 110%;
+      padding-bottom: 15px;
+    }
+  }
+
+  .value-bigger {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 110%;
+    padding-bottom: 15px;
   }
 
   .label-column-big {

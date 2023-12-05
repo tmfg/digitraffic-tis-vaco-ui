@@ -16,7 +16,7 @@ const SubmittedData = ({ entry }: SubmittedDataProps) => {
 
   const items: CardItem[] = [
     {
-      label: t('services:testData:form:feedName'),
+      label: t('services:testData:form:feedName') as string,
       value: entry.name
     },
     {
@@ -24,23 +24,23 @@ const SubmittedData = ({ entry }: SubmittedDataProps) => {
       value: entry.publicId
     },
     {
-      label: t('services:processingResults:submissionDate'),
+      label: t('services:processingResults:submissionDate') as string,
       value: formatDate(entry.created)
     },
     {
-      label: t('services:testData:form:url'),
+      label: t('services:testData:form:url') as string,
       value: entry.url
     },
     {
-      label: t('services:testData:form:etag'),
+      label: t('services:testData:form:etag') as string,
       value: entry.etag
     },
     {
-      label: t('services:testData:form:format'),
+      label: t('services:testData:form:format') as string,
       value: t('format:' + entry.format)
     },
     {
-      label: t('services:testData:form:section:rules'),
+      label: t('services:testData:form:section:rules') as string,
       value: <div>{rules}</div>
     }
   ]

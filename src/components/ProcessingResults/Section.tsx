@@ -6,9 +6,10 @@ import './_section.scss'
 interface SectionProps {
   titleKey: string
   children?: React.ReactNode
+  hidable: boolean
 }
 
-const Section = ({ titleKey, children }: SectionProps) => {
+const Section = ({ titleKey, children, hidable }: SectionProps) => {
   const [isOpen, setIsOpen] = useState(true)
   const { t } = useTranslation()
 
@@ -16,14 +17,14 @@ const Section = ({ titleKey, children }: SectionProps) => {
     <div className={'section'}>
       <div className={'header'}>
         <h3>{t('services:processingResults:' + titleKey)}</h3>
-        <span className={'hide-control'} onClick={() => setIsOpen(!isOpen)}>
-          <span className={'text'}>
-            {t('services:processingResults:' + (isOpen ? 'hide' : 'show'))}
+        {hidable && (
+          <span className={'hide-control'} onClick={() => setIsOpen(!isOpen)}>
+            <span className={'text'}>{t('services:processingResults:' + (isOpen ? 'hide' : 'show'))}</span>
+            <span className={'icon'}>
+              <FdsIconComponent icon={isOpen ? 'chevron-down' : 'chevron-up'} />
+            </span>
           </span>
-          <span className={'icon'}>
-            <FdsIconComponent icon={isOpen ? 'chevron-down' : 'chevron-up'} />
-          </span>
-        </span>
+        )}
       </div>
 
       <div>{isOpen && children}</div>
