@@ -17,7 +17,7 @@ import DataSubmittedModal from './DataSubmittedModal'
 import { useNavigate } from 'react-router-dom'
 import { RulesetResource } from '../../types/Ruleset'
 import { Map } from '../../types/Map'
-import { submitData } from './formActions'
+import { getFeedNameSuggestion, getNewFormErrorsState, getNewFormState, submitData } from './helpers'
 
 const Form = () => {
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
@@ -31,9 +31,6 @@ const Form = () => {
   ]
   const [rules, setRules] = useState<RulesetResource[]>([])
   const [formErrors, setFormErrors] = useState<Map>({})
-  const [feedNamePlaceholder, setFeedNamePlaceholder] = useState<string>(
-    t('services:testData:form:feedNamePlaceHolder')
-  )
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [email, setEmail] = useState<string>('')
 
@@ -44,29 +41,19 @@ const Form = () => {
     navigate('/data/' + entryResource?.data.publicId)
   }
 
-  const updateFormState = useCallback(
-    (detail: FdsInputChange) => {
-      const newFormData: Map = {
-        ...formData
-      }
-      newFormData[detail.name] = detail.value
-
-      if (formErrors[detail.name] && detail.value) {
-        const newFormErrors = { ...formErrors }
-        newFormErrors[detail.name] = undefined
-        setFormErrors(newFormErrors)
-      }
-
-      setFormData(newFormData)
-    },
-    [formData, formErrors]
-  )
+  const updateFormState = useCallback((newFormData: Map, newFormErrors: Map) => {
+    setFormData(newFormData)
+    setFormErrors(newFormErrors)
+  }, [])
 
   const useFormatListener: EventListenerOrEventListenerObject = useCallback(
     (e: Event) => {
       const detail = (e as CustomEvent).detail as FdsInputChange
-      updateFormState(detail)
-      acquireToken(instance).then(
+      const newFormState = getNewFormState(formData, detail)
+      const newFormErrors = getNewFormErrorsState(formErrors, detail)
+      updateFormState(newFormState, newFormErrors)
+
+      acquireToken(instance, inProgress).then(
         (tokenResult) => {
           if (!tokenResult) {
             // TODO: At some point, show some error notification
@@ -76,7 +63,11 @@ const Form = () => {
           HttpClient.get('/api/rules?businessId=2942108-7', getHeaders(tokenResult.accessToken)).then(
             (response) => {
               const rules = response.data as RulesetResource[]
-              setRules(rules.filter((rule) => rule.data.format.toUpperCase() === detail.value && rule.data.type.includes('VALIDATION')))
+              setRules(
+                rules.filter(
+                  (rule) => rule.data.format.toUpperCase() === detail.value && rule.data.type.includes('VALIDATION')
+                )
+              )
             },
             (error) => {
               return Promise.reject(error)
@@ -89,48 +80,61 @@ const Form = () => {
         }
       )
     },
-    [instance, updateFormState]
+    [instance, updateFormState, formData, formErrors]
   )
 
   const useUrlListener: EventListenerOrEventListenerObject = useCallback(
     (e: Event) => {
+      const previousUrl = formData.url
       const detail = (e as CustomEvent).detail as FdsInputChange
-      updateFormState(detail)
+      let newFormData = getNewFormState(formData, detail)
+      let newFormErrors = getNewFormErrorsState(formErrors, detail)
 
-      // Populating feedName placeholder if there nothing specified by user:
-      if (formData.feedName) {
-        return
+      // Populating feedName placeholder if there not customized by user:
+      if (detail.value && !formData.feedName) {
+        const newFeedName: FdsInputChange = {
+          name: 'feedName',
+          value: getFeedNameSuggestion(detail.value as string)
+        }
+        newFormData = getNewFormState(newFormData, newFeedName)
+        newFormErrors = getNewFormErrorsState(newFormErrors, newFeedName)
+      } else if (previousUrl && formData.feedName === getFeedNameSuggestion(previousUrl as string)) {
+        const newFeedName: FdsInputChange = {
+          name: 'feedName',
+          value: detail.value ? getFeedNameSuggestion(detail.value as string) : ''
+        }
+        newFormData = getNewFormState(newFormData, newFeedName)
+        newFormErrors = getNewFormErrorsState(newFormErrors, newFeedName)
       }
 
-      if (detail.value) {
-        const parts = (detail.value as string).split('/').filter((part) => !!part)
-        setFeedNamePlaceholder(parts[parts.length - 1])
-      } else {
-        setFeedNamePlaceholder(t('services:testData:form:feedNamePlaceHolder'))
-      }
+      updateFormState(newFormData, newFormErrors)
     },
-    [formData, feedNamePlaceholder, updateFormState, t]
+    [formData, formErrors, updateFormState]
   )
 
   const useRuleListener: EventListenerOrEventListenerObject = useCallback(
     (e: Event) => {
       const detail = (e as CustomEvent).detail as FdsInputChange
-      updateFormState(detail)
+      const newFormState = getNewFormState(formData, detail)
+      const newFormErrors = getNewFormErrorsState(formErrors, detail)
+      updateFormState(newFormState, newFormErrors)
       if (formErrors.rules && detail.value) {
         const newFormErrors = { ...formErrors }
         newFormErrors.rules = undefined
         setFormErrors(newFormErrors)
       }
     },
-    [updateFormState]
+    [updateFormState, formData, formErrors]
   )
 
   const useGeneralListener: EventListenerOrEventListenerObject = useCallback(
     (e: Event) => {
       const detail = (e as CustomEvent).detail as FdsInputChange
-      updateFormState(detail)
+      const newFormState = getNewFormState(formData, detail)
+      const newFormErrors = getNewFormErrorsState(formErrors, detail)
+      updateFormState(newFormState, newFormErrors)
     },
-    [updateFormState]
+    [updateFormState, formData, formErrors]
   )
 
   useEffect(() => {
@@ -218,7 +222,7 @@ const Form = () => {
         input?.removeEventListener('select', useGeneralListener)
       })
     }
-  }, [formData, rules, useGeneralListener])
+  }, [formData, rules, useGeneralListener, useRuleListener, useUrlListener])
 
   return (
     <>
@@ -237,15 +241,18 @@ const Form = () => {
 
           <div id={'feedName'} className={'input-wrapper'}>
             <FdsInputComponent
+              clearable={true}
               name={'feedName'}
-              placeholder={feedNamePlaceholder || t('services:testData:form:feedNamePlaceHolder')}
+              placeholder={t('services:testData:form:feedNamePlaceHolder')}
               label={t('services:testData:form:feedName')}
               message={t('services:testData:form:feedNameInfo')}
+              value={formData.feedName ? (formData.feedName as string) : ''}
             />
           </div>
 
           <div id={'url'} className={'input-wrapper'}>
             <FdsInputComponent
+              clearable={true}
               name={'url'}
               placeholder={'https://'}
               label={t('services:testData:form:url') + ' *'}
@@ -255,7 +262,7 @@ const Form = () => {
           </div>
 
           <div id={'etag'} className={'input-wrapper etag'}>
-            <FdsInputComponent name={'etag'} label={t('services:testData:form:etag')} />
+            <FdsInputComponent clearable={true} name={'etag'} label={t('services:testData:form:etag')} />
           </div>
 
           <div id={'format'} className={'input-wrapper format'}>
@@ -343,7 +350,16 @@ const Form = () => {
           <FdsButtonComponent
             onClick={(e) => {
               e.preventDefault()
-              submitData(instance, formData, setFormErrors, setEntryResource, setIsModalOpen, t, rules).catch(
+              submitData(
+                instance,
+                inProgress,
+                formData,
+                setFormErrors,
+                setEntryResource,
+                setIsModalOpen,
+                t,
+                rules
+              ).catch(
                 (err) => console.log('Data submission error', err)
                 // TODO: show some alert
               )

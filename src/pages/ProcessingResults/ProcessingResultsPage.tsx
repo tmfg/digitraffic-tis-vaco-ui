@@ -7,7 +7,6 @@ import AuthRequiredPage from '../Error/AuthRequiredPage'
 import { InteractionStatus } from '@azure/msal-browser'
 import { useTranslation } from 'react-i18next'
 import Section from '../../components/ProcessingResults/Section'
-//import Summary from '../../components/ProcessingResults/Summary'
 import Reports from '../../components/ProcessingResults/Reports'
 import Conversion from '../../components/ProcessingResults/Conversion'
 import { EntryStateResource } from '../../types/EntryStateResource'
@@ -22,15 +21,15 @@ const ProcessingResultsPage = () => {
   useEffect(() => {
     let ignore = false
     setEntryState(null)
-    if (entryId && inProgress === InteractionStatus.None) {
-      acquireToken(instance).then(
+    if (entryId && inProgress === InteractionStatus.None && !ignore) {
+      acquireToken(instance, inProgress).then(
         (tokenResult) => {
           if (!tokenResult) {
             // TODO: At some point, show some error notification
             return
           }
 
-          HttpClient.get('/api/ui/entry/' + entryId + '/state', getHeaders(tokenResult.accessToken)).then(
+          HttpClient.get('/api/ui/entries/' + entryId + '/state', getHeaders(tokenResult.accessToken)).then(
             (response) => {
               if (!ignore) {
                 setEntryState(response.data as EntryStateResource)
@@ -47,10 +46,9 @@ const ProcessingResultsPage = () => {
           return Promise.reject(error)
         }
       )
-
-      return () => {
-        ignore = true
-      }
+    }
+    return () => {
+      ignore = true
     }
   }, [entryId, instance, inProgress])
 

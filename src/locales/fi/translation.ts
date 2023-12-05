@@ -115,6 +115,19 @@ export const fi = {
     myData: {
       header: 'Minun tietoni',
       intro: 'Here one can find their latest data submissions.',
+      find: 'Find data',
+      searchWord: 'Search word',
+      latest: 'Latest submissions',
+      table: {
+        id: 'Submission ID',
+        feedName: 'Feed name',
+        format: 'Format',
+        dateCreated: 'Created',
+        dateStarted: 'Started',
+        dateUpdated: 'Updated',
+        dateCompleted: 'Completed',
+        status: 'Status'
+      }
     }
   },
   adminPanel: {},
@@ -126,5 +139,9 @@ export const fi = {
   formValidation: {
     isRequired: 'Määritetään {{value}} on vaadittu',
     isInvalid: 'Edellyttäen, että {{value}} on virheellinen.'
+  },
+  format: {
+    gtfs: 'GTFS',
+    netex: 'NeTEx'
   }
 }

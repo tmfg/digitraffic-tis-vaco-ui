@@ -1,0 +1,21 @@
+.header-wrapper__small {
+  margin-bottom: 1.5rem;
+}
+
+.header-wrapper__big {
+  margin-bottom: 3rem;
+}
+
+.searchEntries > form {
+  display: flex;
+
+  .search-input {
+    align-self: center;
+    margin-right: 1.6rem;
+    width: 25rem;
+  }
+
+  .search-button {
+    align-self: end;
+  }
+}

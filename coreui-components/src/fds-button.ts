@@ -4,12 +4,12 @@ import {
   FdsColorDanger300,
   FdsColorDanger400,
   FdsColorInteractive200,
-  FdsColorNeutral100,
+  FdsColorNeutral100, FdsColorNeutral200,
   FdsColorText300,
   FdsRadiusLarge,
-  FdsSize6,
+  FdsSize6, FdsSizeToken,
   uiLabelTextClass
-} from '../../coreui-css/lib'
+} from "../../coreui-css/lib";
 import { css, CSSResult, html, LitElement } from 'lit'
 import { TemplateResult } from 'lit-html'
 import { customElement, property } from 'lit/decorators.js'
@@ -21,6 +21,7 @@ export enum FdsButtonVariant {
   secondary = 'secondary',
   tertiary = 'tertiary',
   danger = 'danger',
+  clear = 'clear'
 }
 
 const variantColorMap: Record<FdsButtonVariant, CSSResult> = {
@@ -28,6 +29,7 @@ const variantColorMap: Record<FdsButtonVariant, CSSResult> = {
   secondary: FdsColorBrandBlack,
   tertiary: FdsColorBrandBlack,
   danger: FdsColorBrandWhite,
+  clear: FdsColorNeutral200,
 }
 
 /**
@@ -47,11 +49,12 @@ export default class FdsButton extends LitElement {
   @property() disabled: boolean = false
   @property() icon?: FdsIconType
   @property() label?: string
+  @property() iconSize?: FdsSizeToken
 
   override render(): TemplateResult {
     return html`
       <button class="button--${this.variant}" ?disabled="${this.disabled}">
-        ${this.icon && html`<fds-icon .icon="${this.icon}"></fds-icon>`}
+        ${this.icon && html`<fds-icon .size=${this.iconSize} .icon="${this.icon}"></fds-icon>`}
         ${this.label && html`<span class="ui-label-text">${this.label}</span>`}
       </button>
     `
@@ -108,12 +111,31 @@ export default class FdsButton extends LitElement {
         color: ${variantColorMap[FdsButtonVariant.danger]};
       }
 
+      .button--clear {
+        position: absolute;
+        right: 6px;
+        top: 10.5px;
+        bottom: 0;
+
+        background: transparent;
+        border-color: transparent;
+        color: ${variantColorMap[FdsButtonVariant.clear]};
+        padding: 0;
+        border-radius: 50%;
+        height: 24px;
+        align-self: center;
+      }
+
       .button--primary:hover,
       .button--secondary:hover,
       .button--tertiary:hover {
         background: ${FdsColorInteractive200};
         border-color: transparent;
         color: ${FdsColorBrandWhite};
+      }
+
+      .button--clear:hover {
+        color: ${FdsColorBrandBlack};
       }
 
       .button--danger:hover {

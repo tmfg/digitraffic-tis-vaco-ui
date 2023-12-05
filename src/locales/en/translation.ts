@@ -8,7 +8,7 @@ export const en = {
     login: 'Login',
     logout: 'Log out',
     register: 'Register',
-    create: 'Create account'
+    create: 'Register'
   },
   fintraffic: {
     traffic: 'Traffic Situation',
@@ -116,7 +116,20 @@ export const en = {
     },
     myData: {
       header: 'My data',
-      intro: 'Here one can find their latest data submissions.'
+      intro: 'Here one can find their latest data submissions.',
+      find: 'Find data',
+      searchWord: 'Search word',
+      latest: 'Latest submissions',
+      table: {
+        id: 'Submission ID',
+        feedName: 'Feed name',
+        format: 'Format',
+        dateCreated: 'Created',
+        dateStarted: 'Started',
+        dateUpdated: 'Updated',
+        dateCompleted: 'Completed',
+        status: 'Status'
+      }
     }
   },
   adminPanel: {},
@@ -131,6 +144,11 @@ export const en = {
   },
   common: {
     proceed: 'Proceed',
-    close: 'Close'
+    close: 'Close',
+    search: 'Search'
+  },
+  format: {
+    gtfs: 'GTFS',
+    netex: 'NeTEx'
   }
 }

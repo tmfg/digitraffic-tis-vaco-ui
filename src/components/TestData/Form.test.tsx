@@ -64,7 +64,6 @@ describe('Test Data Form', () => {
     // Mock a guest user, not yet authenticated:
     await msalTester.isLogged()
     await renderComponent()
-    //console.log('meh', container.baseElement)
     await msalTester.waitForRedirect()
 
     expect(screen.getByText(i18next.t('services:testData:form:title'))).toBeInTheDocument()

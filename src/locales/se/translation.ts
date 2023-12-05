@@ -80,10 +80,7 @@ export const se = {
     },
     myData: {
       header: 'My data',
-      intro: 'Here one can find their latest data submissions.',
-      results: {
-        header: 'Data processing results'
-      }
+      intro: 'Here one can find their latest data submissions.'
     }
   },
   adminPanel: {},
@@ -96,5 +93,9 @@ export const se = {
     isRequired: '{{value}} is required',
     containsSpaces: '{{value}} should not contain spaces',
     duplicate: 'Duplicate {{value}}s are not allowed'
+  },
+  format: {
+    gtfs: 'GTFS',
+    netex: 'NeTEx'
   }
 }

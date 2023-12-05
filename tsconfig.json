@@ -7,7 +7,7 @@
     "useDefineForClassFields": false,
     "experimentalDecorators": true,
     "types": [ "vitest/globals", "vite-plugin-svgr/client" ],
-    "esModuleInterop": true,
+    "esModuleInterop": true, // maybe false ?
     "strictPropertyInitialization": false,
 
     /* Bundler mode */

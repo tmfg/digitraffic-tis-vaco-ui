@@ -18,7 +18,9 @@ import {
   CheckCircle,
   User,
   ExternalLink,
-  Globe, Check
+  Globe,
+  Check,
+  Navigation
 } from 'lucide'
 
 /**
@@ -41,7 +43,8 @@ export const FdsIcons = {
   user: User,
   'external-link': ExternalLink,
   globe: Globe,
-  check: Check
+  check: Check,
+  navigation: Navigation
 }
 
 export type FdsIconType = keyof typeof FdsIcons
@@ -76,7 +79,6 @@ export default class FdsIcon extends LitElement {
       console.error(`invalid icon: '${this.icon}'`)
       return null
     }
-
     const svgElement = createElement(FdsIcons[this.icon])
     // Temporarily like this... For some reason setting props from fds-navigation doesn't seem to have an effect
     const size = this.icon.includes('chevron') ? '21px' : this.size.value

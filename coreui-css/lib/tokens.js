@@ -1,5 +1,6 @@
 export const FdsTokenSize1 = { name: "fds-size-1", value: "8px" }
 export const FdsTokenSize2 = { name: "fds-size-2", value: "16px" }
+export const FdsTokenSize21 = { name: "fds-size-21", value: "21px" }
 export const FdsTokenSize3 = { name: "fds-size-3", value: "24px" }
 export const FdsTokenSize4 = { name: "fds-size-4", value: "32px" }
 export const FdsTokenSize6 = { name: "fds-size-6", value: "48px" }
