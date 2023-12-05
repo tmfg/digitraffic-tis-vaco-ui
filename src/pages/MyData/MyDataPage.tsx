@@ -42,7 +42,7 @@ const MyDataPage = () => {
             return
           }
 
-          HttpClient.get('/api/ui/entries?businessId=2942108-7', getHeaders(tokenResult.accessToken)).then(
+          HttpClient.get('/api/ui/entries?businessId=2942108-7&full=false', getHeaders(tokenResult.accessToken)).then(
             (response) => {
               if (!ignore) {
                 const entries = response.data as EntryResource[]
