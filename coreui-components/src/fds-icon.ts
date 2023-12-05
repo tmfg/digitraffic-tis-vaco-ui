@@ -20,8 +20,9 @@ import {
   ExternalLink,
   Globe,
   Check,
-  Navigation
-} from 'lucide'
+  Navigation,
+  Download, RefreshCw
+} from "lucide";
 
 /**
  * Only the common icons needed in fds components are here to keep bundle size smaller
@@ -44,7 +45,9 @@ export const FdsIcons = {
   'external-link': ExternalLink,
   globe: Globe,
   check: Check,
-  navigation: Navigation
+  navigation: Navigation,
+  download: Download,
+  'refresh-cw': RefreshCw
 }
 
 export type FdsIconType = keyof typeof FdsIcons
@@ -81,7 +84,7 @@ export default class FdsIcon extends LitElement {
     }
     const svgElement = createElement(FdsIcons[this.icon])
     // Temporarily like this... For some reason setting props from fds-navigation doesn't seem to have an effect
-    const size = this.icon.includes('chevron') ? '21px' : this.size.value
+    const size = this.icon.includes('chevron') ? '21px' : this.size?.value || FdsTokenSize2.value
     svgElement.setAttribute('width', size)
     svgElement.setAttribute('height', size)
     return svgElement

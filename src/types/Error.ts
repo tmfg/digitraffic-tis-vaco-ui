@@ -1,8 +1,8 @@
 export interface Error {
-  publicId: string
-  entryId: bigint
-  phaseId: bigint
-  rulesetId: bigint
   message: string
-  raw: object
+  source: string
+  publicId: string
+  taskId: number
+  severity: string
+  raw: string
 }

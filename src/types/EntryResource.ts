@@ -1,4 +1,4 @@
-import { Phase } from './Phase'
+import { Task } from './Task'
 import { Links } from './Link'
 
 export interface EntryResource {
@@ -14,9 +14,9 @@ export interface Entry {
   businessId: string
   etag: string
   validations: ValidationInput[]
-  conversion?: object
+  conversions?: ConversionInput[]
   metadata?: object
-  phases: Phase[]
+  tasks?: Task[]
   created: string
   started: string
   updated: string
@@ -26,4 +26,8 @@ export interface Entry {
 export interface ValidationInput {
   name: string
   config: object | null
+}
+
+export interface ConversionInput {
+  name?: string
 }

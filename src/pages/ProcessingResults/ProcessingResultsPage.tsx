@@ -7,16 +7,21 @@ import AuthRequiredPage from '../Error/AuthRequiredPage'
 import { InteractionStatus } from '@azure/msal-browser'
 import { useTranslation } from 'react-i18next'
 import Section from '../../components/ProcessingResults/Section'
-import Reports from '../../components/ProcessingResults/Reports'
 import Conversion from '../../components/ProcessingResults/Conversion'
 import { EntryStateResource } from '../../types/EntryStateResource'
 import SubmittedData from '../../components/ProcessingResults/SubmittedData'
+import ValidationReport from '../../components/ProcessingResults/report/ValidationReport'
+import { FdsButtonComponent } from '../../components/fds/FdsButtonComponent'
+import { useNavigate } from 'react-router-dom'
+import PackageButton from '../../components/ProcessingResults/PackageButton'
 
 const ProcessingResultsPage = () => {
   const { entryId } = useParams()
+  const navigate = useNavigate()
   const [entryState, setEntryState] = useState<EntryStateResource | null>(null)
   const { instance, inProgress } = useMsal()
   const { t } = useTranslation()
+  const [processingProgress, setProcessingProgress] = useState<number>(100)
 
   useEffect(() => {
     let ignore = false
@@ -32,7 +37,16 @@ const ProcessingResultsPage = () => {
           HttpClient.get('/api/ui/entries/' + entryId + '/state', getHeaders(tokenResult.accessToken)).then(
             (response) => {
               if (!ignore) {
-                setEntryState(response.data as EntryStateResource)
+                const entryResource: EntryStateResource = response.data as EntryStateResource
+                setEntryState(entryResource)
+
+                const tasks = entryResource.data.entry.tasks
+                if (tasks) {
+                  const completeTasks: number = tasks.filter((task) => task.completed).length
+                  setProcessingProgress(completeTasks ? (completeTasks / tasks.length) * 100 : 0)
+                }
+
+                console.log(response.data as EntryStateResource)
               }
             },
             (error) => {
@@ -61,13 +75,36 @@ const ProcessingResultsPage = () => {
           <div>
             <SubmittedData entry={entryState.data.entry} />
 
-            <Section titleKey={'reports'}>
-              <Reports />
-            </Section>
+            {!entryState.data.entry.completed && processingProgress !== 100 && !entryState.error && (
+              <Section hidable={false} titleKey={'inProgress'}>
+                <div style={{ marginBottom: '1.75rem' }}>
+                  {t('services:processingResults:progress', { percentage: processingProgress })}
+                </div>
+                <FdsButtonComponent icon="refresh-cw" onClick={() => navigate(0)} label={t('common:refresh')} />
+              </Section>
+            )}
 
-            <Section titleKey={'artifacts:conversion'}>
-              <Conversion />
-            </Section>
+            {entryState.data.validationReports?.length > 0 && (
+              <Section hidable={true} titleKey={'reports'}>
+                {entryState.data.validationReports.map((report) => {
+                  return <ValidationReport key={'report-' + report.ruleName} report={report} />
+                })}
+              </Section>
+            )}
+
+            {entryState.data.validationPackages && entryState.data.validationPackages.length > 0 && (
+              <Section hidable={true} titleKey={'artifacts:validation'}>
+                {entryState.data.validationPackages.map((p) => {
+                  return <PackageButton key={'package-' + p.data.name} entryPackage={p} />
+                })}
+              </Section>
+            )}
+
+            {entryState.data.entry.conversions && entryState.data.entry.conversions.length > 0 && (
+              <Section hidable={true} titleKey={'artifacts:conversion'}>
+                <Conversion />
+              </Section>
+            )}
           </div>
         )}
       </AuthenticatedTemplate>

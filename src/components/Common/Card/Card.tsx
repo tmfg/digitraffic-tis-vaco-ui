@@ -15,7 +15,8 @@ interface CardProps {
 
 export enum CardVariant {
   small = 'small',
-  big = 'big'
+  big = 'big',
+  bigger = 'bigger'
 }
 
 const Card = ({ items, variant }: CardProps) => {

@@ -112,7 +112,34 @@ export const en = {
       },
       hide: 'Hide',
       show: 'Show',
-      submissionDate: 'Submission date'
+      submissionDate: 'Submission date',
+      validationRule: 'Validation rule',
+      inProgress: 'Processing progress',
+      progress: 'The processing is currently {{percentage}}% complete. Please, refresh the page for the latest data.',
+      packages: {
+        result: 'Input data',
+        all: 'All outputs',
+        debug: 'Debug logs',
+        report: 'Rule report'
+      },
+      reportStats: {
+        all: 'notices reported',
+        error: 'errors',
+        warning: 'warnings',
+        info: 'infos',
+        unknown: 'unknowns'
+      },
+      notices: {
+        code: 'Notice code',
+        severity: 'Severity',
+        total: 'Total'
+      },
+      severity: {
+        error: 'Error',
+        warning: 'Warning',
+        info: 'Info',
+        unknown: 'Unknown'
+      }
     },
     myData: {
       header: 'My data',
@@ -145,7 +172,8 @@ export const en = {
   common: {
     proceed: 'Proceed',
     close: 'Close',
-    search: 'Search'
+    search: 'Search',
+    refresh: 'Refresh'
   },
   format: {
     gtfs: 'GTFS',
