@@ -61,9 +61,9 @@ const HomePage = () => {
 
   return (
     <div className={'page-content '}>
-      <h1 className={'much-padded'}>{t('home:header')}</h1>
+      <h1>{t('home:header')}</h1>
 
-      <div className={'header-intro'}>
+      <div className={'page-intro'}>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
         magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
         consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
@@ -71,7 +71,7 @@ const HomePage = () => {
         laborum.
       </div>
 
-      <h2 className={'much-padded'} style={{marginTop: '0.95rem'}}>{t('home:shortcuts')}</h2>
+      <h2>{t('home:shortcuts')}</h2>
       <ShortcutPanel items={isAuthenticated ? userShortcuts : landingShortcuts} />
     </div>
   )

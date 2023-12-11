@@ -1,10 +1,11 @@
-import { FdsButtonComponent } from "../fds/FdsButtonComponent";
-import { acquireToken } from "../../hooks/auth";
-import { getHeaders, HttpClient } from "../../HttpClient";
-import { downloadFile } from "../../util/download";
-import { PackageResource } from "../../types/Package";
-import { useMsal } from "@azure/msal-react";
-import { useTranslation } from "react-i18next";
+import { FdsButtonComponent } from '../fds/FdsButtonComponent'
+import { acquireToken } from '../../hooks/auth'
+import { getHeaders, HttpClient } from '../../HttpClient'
+import { downloadFile } from '../../util/download'
+import { PackageResource } from '../../types/Package'
+import { useMsal } from '@azure/msal-react'
+import { useTranslation } from 'react-i18next'
+import { FdsButtonVariant } from '../../../coreui-components/src/fds-button'
 
 interface PackageButtonProps {
   entryPackage: PackageResource
@@ -17,6 +18,7 @@ const PackageButton = ({ entryPackage }: PackageButtonProps) => {
   return (
     <span style={{ marginRight: '2.5rem' }}>
       <FdsButtonComponent
+        variant={FdsButtonVariant.primary}
         icon="download"
         onClick={() => {
           acquireToken(instance, inProgress).then(
@@ -46,7 +48,7 @@ const PackageButton = ({ entryPackage }: PackageButtonProps) => {
         }}
         label={
           i18n.exists('services:processingResults:packages:' + entryPackage.data.name)
-            ? t('services:processingResults:packages:' + entryPackage.data.name) as string
+            ? t('services:processingResults:packages:' + entryPackage.data.name)
             : entryPackage.data.name
         }
       />

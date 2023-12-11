@@ -41,12 +41,6 @@ export const getTableHeaders = (t: TFunction<'translation', undefined>) => {
 }
 
 export const getTableRow = (entryResource: EntryResource, t: TFunction<'translation', undefined>): TableItem[] => {
-  let status = 'Received'
-  if (entryResource.data.completed) {
-    status = 'Completed'
-  } else if (entryResource.data.started) {
-    status = 'In progress'
-  }
   return [
     {
       name: 'submissionId',
@@ -76,10 +70,6 @@ export const getTableRow = (entryResource: EntryResource, t: TFunction<'translat
     {
       name: 'dateCompleted',
       value: formatDate(entryResource.data.completed)
-    },
-    {
-      name: 'status',
-      value: status
     }
   ]
 }

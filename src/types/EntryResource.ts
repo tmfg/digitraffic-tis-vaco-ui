@@ -21,6 +21,7 @@ export interface Entry {
   started: string
   updated: string
   completed: string
+  badge?: string
 }
 
 export interface ValidationInput {

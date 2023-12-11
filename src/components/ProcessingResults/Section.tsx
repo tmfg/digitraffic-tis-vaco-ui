@@ -16,7 +16,7 @@ const Section = ({ titleKey, children, hidable }: SectionProps) => {
   return (
     <div className={'section'}>
       <div className={'header'}>
-        <h3>{t('services:processingResults:' + titleKey)}</h3>
+        <h2>{t('services:processingResults:' + titleKey)}</h2>
         {hidable && (
           <span className={'hide-control'} onClick={() => setIsOpen(!isOpen)}>
             <span className={'text'}>{t('services:processingResults:' + (isOpen ? 'hide' : 'show'))}</span>

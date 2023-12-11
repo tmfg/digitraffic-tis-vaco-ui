@@ -39,13 +39,11 @@ const ProcessingResultsPage = () => {
                 const entryResource: EntryStateResource = response.data as EntryStateResource
                 setEntryState(entryResource)
 
-                const tasks = entryResource.data.entry.tasks
+                const tasks = entryResource.data.entry.data.tasks
                 if (tasks) {
                   const completeTasks: number = tasks.filter((task) => task.completed).length
                   setProcessingProgress(completeTasks ? (completeTasks / tasks.length) * 100 : 0)
                 }
-
-                console.log(response.data as EntryStateResource)
               }
             },
             (error) => {
@@ -68,13 +66,22 @@ const ProcessingResultsPage = () => {
   return (
     <div className={'page-content'}>
       <AuthenticatedTemplate>
-        <h2>{t('services:processingResults:header')}</h2>
-        {!entryState && 'Loading!'}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <h1 style={{ marginRight: '3rem' }}>{t('services:processingResults:header')}</h1>
+          {entryState?.data.entry.links.refs.badge && (
+            <img
+              style={{ width: '130px', marginTop: '-4px' }}
+              alt={'badge'}
+              src={entryState.data.entry.links.refs.badge.href}
+            />
+          )}
+        </div>
+        {!entryState && ''}
         {entryState && (
           <div>
-            <SubmittedData entry={entryState.data.entry} />
+            <SubmittedData entry={entryState.data.entry.data} />
 
-            {!entryState.data.entry.completed && processingProgress !== 100 && !entryState.error && (
+            {!entryState.data.entry.data.completed && processingProgress !== 100 && !entryState.error && (
               <Section hidable={false} titleKey={'inProgress'}>
                 <div style={{ marginBottom: '1.75rem' }}>
                   {t('services:processingResults:progress', { percentage: Math.round(processingProgress) })}
@@ -91,7 +98,7 @@ const ProcessingResultsPage = () => {
               </Section>
             )}
 
-            {entryState.data.entry.conversions && entryState.data.entry.conversions.length > 0 && (
+            {entryState.data.entry.data.conversions && entryState.data.entry.data.conversions.length > 0 && (
               <Section hidable={true} titleKey={'artifacts:conversion'}>
                 <Conversion />
               </Section>
