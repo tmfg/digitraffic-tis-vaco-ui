@@ -132,7 +132,10 @@ export const en = {
       notices: {
         code: 'Notice code',
         severity: 'Severity',
-        total: 'Total'
+        total: 'Total',
+        moreInfo: 'You can read more about this notice',
+        notAllNoticesShown:
+          'Only {{instancesLength}} instances out of {{noticeTotal}} are shown. The full list is available in the downloadable rule report below.'
       },
       severity: {
         error: 'Error',
@@ -156,7 +159,8 @@ export const en = {
         dateUpdated: 'Updated',
         dateCompleted: 'Completed',
         status: 'Status'
-      }
+      },
+      noDataFound: 'No data found'
     }
   },
   adminPanel: {},
@@ -173,7 +177,8 @@ export const en = {
     proceed: 'Proceed',
     close: 'Close',
     search: 'Search',
-    refresh: 'Refresh'
+    refresh: 'Refresh',
+    here: 'here'
   },
   format: {
     gtfs: 'GTFS',

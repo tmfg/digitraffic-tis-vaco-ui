@@ -7,7 +7,6 @@ export interface EntryStateResource {
   data: {
     entry: Entry
     validationReports: ValidationReport[]
-    validationPackages: PackageResource[]
   }
   error?: string | null
 }
@@ -17,6 +16,7 @@ export interface ValidationReport {
   ruleDescription: string
   counters: ItemCounter[]
   notices?: Notice[]
+  packages: PackageResource[]
 }
 
 export interface Notice {

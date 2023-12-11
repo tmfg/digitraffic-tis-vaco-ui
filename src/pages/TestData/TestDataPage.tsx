@@ -9,8 +9,8 @@ const TestDataPage = () => {
   return (
     <div className={'page-content'}>
       <AuthenticatedTemplate>
-        <h1 className={'less-padded'}>{t('services:testData:header')}</h1>
-        <div className={'header-intro'}>
+        <h2>{t('services:testData:header')}</h2>
+        <div className={'page-intro'}>
           {t('services:testData:shortIntro')}
           <br />
           {t('services:testData:intro')}

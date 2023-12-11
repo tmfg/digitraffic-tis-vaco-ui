@@ -34,7 +34,7 @@ const MyDataPage = () => {
       searchElement.addEventListener('change', useInputListener)
     }
 
-    if (inProgress === InteractionStatus.None) {
+    if (inProgress === InteractionStatus.None && !ignore) {
       acquireToken(instance, inProgress).then(
         (tokenResult) => {
           if (!tokenResult) {
@@ -76,11 +76,11 @@ const MyDataPage = () => {
     <div className={'page-content'}>
       <AuthenticatedTemplate>
         <h2>{t('services:myData:header')}</h2>
-        <div className={'header-wrapper__big'}>
+        <div className={'page-intro'}>
           {t('services:myData:intro')}
         </div>
         <h4 className={'header-wrapper__small'}>{t('services:myData:find')}</h4>
-        <div className={'header-wrapper__big searchEntries'}>
+        <div className={'searchEntries'}>
           <form>
             <div className={'search-input'}>
               <FdsInputComponent
@@ -103,12 +103,12 @@ const MyDataPage = () => {
             </div>
           </form>
         </div>
-        {!allEntryRows && 'Loading!'}
-        <h5 className={'header-wrapper__small'}>{t('services:myData:latest')}</h5>
+        {!allEntryRows && ''}
+        <h5 className={'header-wrapper__big'}>{t('services:myData:latest')}</h5>
         {entriesToShow && entriesToShow.length > 0 && (
           <Table tableTitle={'myData'} headerItems={headerItems} rows={entriesToShow} />
         )}
-        {allEntryRows && entriesToShow && entriesToShow.length === 0 && <div>No data found</div>}
+        {allEntryRows && entriesToShow && entriesToShow.length === 0 && <div>{t('services:myData:noDataFound')}</div>}
       </AuthenticatedTemplate>
       <UnauthenticatedTemplate>
         <AuthRequiredPage />
