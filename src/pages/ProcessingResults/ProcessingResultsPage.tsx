@@ -13,7 +13,6 @@ import SubmittedData from '../../components/ProcessingResults/SubmittedData'
 import ValidationReport from '../../components/ProcessingResults/report/ValidationReport'
 import { FdsButtonComponent } from '../../components/fds/FdsButtonComponent'
 import { useNavigate } from 'react-router-dom'
-import PackageButton from '../../components/ProcessingResults/PackageButton'
 
 const ProcessingResultsPage = () => {
   const { entryId } = useParams()
@@ -78,7 +77,7 @@ const ProcessingResultsPage = () => {
             {!entryState.data.entry.completed && processingProgress !== 100 && !entryState.error && (
               <Section hidable={false} titleKey={'inProgress'}>
                 <div style={{ marginBottom: '1.75rem' }}>
-                  {t('services:processingResults:progress', { percentage: processingProgress })}
+                  {t('services:processingResults:progress', { percentage: Math.round(processingProgress) })}
                 </div>
                 <FdsButtonComponent icon="refresh-cw" onClick={() => navigate(0)} label={t('common:refresh')} />
               </Section>
@@ -88,14 +87,6 @@ const ProcessingResultsPage = () => {
               <Section hidable={true} titleKey={'reports'}>
                 {entryState.data.validationReports.map((report) => {
                   return <ValidationReport key={'report-' + report.ruleName} report={report} />
-                })}
-              </Section>
-            )}
-
-            {entryState.data.validationPackages && entryState.data.validationPackages.length > 0 && (
-              <Section hidable={true} titleKey={'artifacts:validation'}>
-                {entryState.data.validationPackages.map((p) => {
-                  return <PackageButton key={'package-' + p.data.name} entryPackage={p} />
                 })}
               </Section>
             )}

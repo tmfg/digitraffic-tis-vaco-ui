@@ -6,14 +6,10 @@
 table {
   display: table;
   width: 100%;
-  //table-layout: fixed;
 }
 
 thead {
   border-bottom: 1px solid;
-  //position: sticky;
-  //position: -webkit-sticky;
-  //top: 0;
 }
 
 tbody {
@@ -50,27 +46,29 @@ td {
   font-style: normal;
   font-weight: 400;
   line-height: 150%;
- // vertical-align: middle;
 }
 
 .row-expandable:hover {
-  background: #E8E8E8; //#ddf4ff; //#a5d6ff // b6e3ff
+  background: #E8E8E8;
   filter: brightness(1.05);
   cursor: pointer;
 }
 
 .row-expanded {
-  background: #E8E8E8; //#ddf4ff; //#a5d6ff // b6e3ff
+  background: #E8E8E8;
   margin-top: 32px;
   border-top: 1px solid #0c2d6b;
 }
 
 .expanded-content-container {
-  //width: 100%;
   border-bottom: 1px solid #0c2d6b;
 }
 
 .expanded-content {
-  //width: calc(100% - 50px);
-  padding: 25px 45px;
+  padding: 1.5rem 2rem;
+}
+
+.expanded-icon {
+  margin-left: 2px;
+  margin-right: 10px;
 }

@@ -28,21 +28,15 @@
 .less-padded {
     padding-bottom: 1.5rem;
 }
-h2 {
-    padding-bottom: 2rem;
+
+.page-intro {
+    margin: 2.5rem 0;
+    width: 100%;
 }
+
 h3 {
     padding-bottom: 1.5rem;
 }
-h4 {
-    padding-bottom: 1rem;
-}
 h5 {
     font-size: 20px;
-    padding-bottom: 0.85rem;
-}
-
-.header-intro {
-    padding-bottom: 2.75rem;
-    width: 100%;
 }

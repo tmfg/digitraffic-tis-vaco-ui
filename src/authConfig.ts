@@ -18,11 +18,13 @@ export const msalConfig = (bootstrap: Bootstrap): Configuration => {
       clientId: bootstrap.clientId,
       authority: 'https://login.microsoftonline.com/' + bootstrap.tenantId,
       redirectUri: baseUrl,
-      postLogoutRedirectUri: baseUrl
+      postLogoutRedirectUri: baseUrl,
+      knownAuthorities: [],
+      navigateToLoginRequestUrl: true
     },
     cache: {
-      cacheLocation: 'localStorage' // This configures where your cache will be stored
-      //storeAuthStateInCookie: false // Set this to "true" if you are having issues on IE11 or Edge
+      cacheLocation: 'localStorage', // This configures where your cache will be stored
+      storeAuthStateInCookie: false // Set this to "true" if you are having issues on IE11 or Edge
     }
     // Leaving this for future inspiration:
     /*system: {

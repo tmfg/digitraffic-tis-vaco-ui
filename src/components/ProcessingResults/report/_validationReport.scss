@@ -1,8 +1,8 @@
 .report-container {
-  border-bottom: 1px solid black;
-  padding-bottom: 2rem;
+  padding: 3rem 2rem;
   margin-bottom: 2rem;
   margin-top: 0.5rem;
+  box-shadow: 0 2px 10px 0 rgba(0,0,0,0.1);
 }
 
 .report-stats {
@@ -37,12 +37,19 @@
     align-self: center;
   }
 
-
   .name {
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 150%;
     align-self: center;
+  }
+}
+
+.packages-container {
+  margin-top: 3rem;
+
+  h4 {
+    margin-bottom: 2rem;
   }
 }

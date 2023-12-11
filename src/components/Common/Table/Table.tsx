@@ -2,6 +2,10 @@ import './_table.scss'
 import { Link } from 'react-router-dom'
 import React, { useState } from 'react'
 import { Map } from '../../../types/Map'
+import { ReactComponent as ExpandSvg } from '../../../assets/svg/plus.svg'
+import { ReactComponent as HideSvg } from '../../../assets/svg/minus.svg'
+//import { ReactComponent as SortAscSvg } from '../../../assets/svg/sort_asc.svg'
+//import { ReactComponent as SortDescSvg } from '../../../assets/svg/sort_desc.svg'
 
 interface TableProps {
   tableTitle: string
@@ -21,7 +25,7 @@ export interface TableItem {
 export interface HeaderItem {
   name: string
   value: string
-  sortColumn?: string
+  sortable?: boolean
   filterable?: boolean
 }
 
@@ -29,10 +33,12 @@ const Table = ({ rows, headerItems, tableTitle, rowExpandable = false, rowExpand
   const [rowsExpandedState, setRowsExpandedState] = useState<Map>({})
 
   const getHeader = () => {
-    return headerItems.map((column) => <th key={tableTitle + '-header-' + column.name}>{column.value}</th>)
+    return headerItems.map((column) => (
+      <th key={tableTitle + '-header-' + column.name}>
+        <span>{column.value}</span>
+      </th>
+    ))
   }
-
-  console.log(rowExpandedContents)
 
   const getBody = () => {
     return rows.map((row, i) => (
@@ -60,20 +66,40 @@ const Table = ({ rows, headerItems, tableTitle, rowExpandable = false, rowExpand
     ))
   }
 
-  const getRow = (row: TableItem[], i: number) => {
-    return row.map((item) => getTd(item, i))
+  const getRow = (row: TableItem[], rowIndex: number) => {
+    return row.map((item, columnIndex) =>
+      rowExpandable && columnIndex == 0
+        ? getFirstTdInExpandableRow(item, rowIndex, columnIndex)
+        : getTd(item, rowIndex, columnIndex)
+    )
   }
 
-  const getTd = (item: TableItem, i: number) => {
+  const getTd = (item: TableItem, rowNumber: number, columnIndex: number) => {
     return (
-      <td className={`${item.href ? 'link' : ''}`} key={tableTitle + 'row-' + i + item.name}>
+      <td
+        className={`${item.href ? 'link' : ''}`}
+        key={tableTitle + 'row-' + rowNumber + '-column-' + columnIndex + '-' + item.name}
+      >
         {item.href ? (
-          <Link key={tableTitle + 'row-link' + i + item.name} to={item.href}>
+          <Link key={tableTitle + 'row-link' + rowNumber + item.name} to={item.href}>
             {item.value}
           </Link>
         ) : (
           item.value
         )}
+      </td>
+    )
+  }
+
+  const getFirstTdInExpandableRow = (item: TableItem, rowIndex: number, columnIndex: number) => {
+    return (
+      <td key={tableTitle + 'row-' + rowIndex + '-column-' + columnIndex + '-' + item.name}>
+        <div>
+          <span className={'expanded-icon'}>
+            {rowsExpandedState[tableTitle + '-row-' + rowIndex] ? <HideSvg /> : <ExpandSvg />}
+          </span>
+          <span>{item.value}</span>
+        </div>
       </td>
     )
   }
