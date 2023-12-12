@@ -1,4 +1,10 @@
-import { AccountInfo, EventMessage, EventType, PublicClientApplication } from '@azure/msal-browser'
+import {
+  AccountInfo,
+  EventMessage,
+  EventType,
+  IPublicClientApplication,
+  PublicClientApplication
+} from '@azure/msal-browser'
 import { msalConfig } from './authConfig'
 import { MsalProvider } from '@azure/msal-react'
 import { initializeHttpClient } from './HttpClient.ts'
@@ -30,34 +36,39 @@ type Props = {
 }
 
 const EnvironmentProvider = ({ children }: Props) => {
-  const [msalInstance, setMsalInstance] = useState<PublicClientApplication>()
+  const [msalInstance, setMsalInstance] = useState<IPublicClientApplication>()
+
+  const initializeMsal = async (data: Bootstrap) => {
+    const pca: IPublicClientApplication = await PublicClientApplication.createPublicClientApplication(msalConfig(data))
+    pca.addEventCallback((event: EventMessage) => {
+      if (event.eventType === EventType.LOGIN_SUCCESS) {
+        const account: AccountInfo = event.payload as AccountInfo
+        if (account) {
+          pca.setActiveAccount(account)
+        }
+      }
+    })
+    setMsalInstance(pca)
+  }
 
   useEffect(() => {
     if (!msalInstance) {
       getBootstrap()
         .then((data: Bootstrap) => {
           initializeHttpClient(data)
-
-          const pca: PublicClientApplication = new PublicClientApplication(msalConfig(data))
-          pca.addEventCallback((event: EventMessage) => {
-            if (event.eventType === EventType.LOGIN_SUCCESS) {
-              const account: AccountInfo = event.payload as AccountInfo
-              if (account) {
-                pca.setActiveAccount(account)
-              }
-            }
-          })
-
-          setMsalInstance(pca)
+          initializeMsal(data).then(
+            () => {},
+            (error) => console.error('Error while initializing PublicClientApplication', error)
+          )
         })
         .catch((error) => {
-          console.log(error)
+          console.error(error)
         })
     }
   }, [msalInstance])
 
   useEffect(() => {
-    initI18n().catch((err) => console.log('Failed to initialize i18n', err))
+    initI18n().catch((err) => console.error('Failed to initialize i18n', err))
   }, [])
 
   return <>{msalInstance && <MsalProvider instance={msalInstance}>{children}</MsalProvider>}</>
