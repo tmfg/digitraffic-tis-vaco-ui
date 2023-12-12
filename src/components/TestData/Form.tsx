@@ -219,7 +219,7 @@ const Form = () => {
         checkbox?.removeEventListener('check', useRuleListener)
       })
       netexInputs.forEach((input) => {
-        input?.removeEventListener('select', useGeneralListener)
+        input?.removeEventListener('change', useGeneralListener)
       })
     }
   }, [formData, rules, useGeneralListener, useRuleListener, useUrlListener])

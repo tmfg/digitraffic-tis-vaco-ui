@@ -1,11 +1,11 @@
 import './_table.scss'
 import { Link } from 'react-router-dom'
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import { Map } from '../../../types/Map'
 import { ReactComponent as ExpandSvg } from '../../../assets/svg/plus.svg'
 import { ReactComponent as HideSvg } from '../../../assets/svg/minus.svg'
-//import { ReactComponent as SortAscSvg } from '../../../assets/svg/sort_asc.svg'
-//import { ReactComponent as SortDescSvg } from '../../../assets/svg/sort_desc.svg'
+import SortComponent, { SortedColumn } from './SortComponent'
+import { sortTableAlphabetically, sortTableCustom, sortTableNumerically } from '../../../util/sort'
 
 interface TableProps {
   tableTitle: string
@@ -13,6 +13,7 @@ interface TableProps {
   rows: TableItem[][]
   rowExpandable?: boolean
   rowExpandedContents?: React.ReactNode[]
+  defaultSortedColumn?: SortedColumn
 }
 
 export interface TableItem {
@@ -27,22 +28,57 @@ export interface HeaderItem {
   value: string
   sortable?: boolean
   filterable?: boolean
+  type?: string
+  sortQualifier?: ((row: TableItem[]) => number) | undefined
 }
 
-const Table = ({ rows, headerItems, tableTitle, rowExpandable = false, rowExpandedContents }: TableProps) => {
+export const getTableItemByColumnName = (row: TableItem[], columnName: string): TableItem => {
+  return row.filter((item) => item.name === columnName)[0]
+}
+
+const Table = ({
+  rows,
+  headerItems,
+  tableTitle,
+  rowExpandable = false,
+  rowExpandedContents,
+  defaultSortedColumn
+}: TableProps) => {
   const [rowsExpandedState, setRowsExpandedState] = useState<Map>({})
+  const [selectedSortColumn, setSelectedSortColumn] = useState<SortedColumn | undefined>(defaultSortedColumn)
+  const [orderedRows, setOrderedRows] = useState<TableItem[][]>(rows)
+
+  const onSelectSortColumn = (newSortColumn: SortedColumn) => {
+    setSelectedSortColumn(newSortColumn)
+    if (newSortColumn.type === 'string') {
+      setOrderedRows(sortTableAlphabetically(rows, newSortColumn.name, newSortColumn.direction))
+    } else if (newSortColumn.type === 'numeric') {
+      setOrderedRows(sortTableNumerically(rows, newSortColumn.name, newSortColumn.direction))
+    } else if (newSortColumn.sortQualifier) {
+      setOrderedRows(sortTableCustom(rows, newSortColumn.direction, newSortColumn.sortQualifier))
+    }
+  }
 
   const getHeader = () => {
-    return headerItems.map((column) => (
-      <th key={tableTitle + '-header-' + column.name}>
-        <span>{column.value}</span>
+    return headerItems.map((column, index) => (
+      <th key={tableTitle + '-header-' + column.name} className={defaultSortedColumn ? 'th-sortable' : ''}>
+        <span style={{ marginRight: '1rem' }}>{column.value}</span>
+        {column.sortable && (
+          <SortComponent
+            tableTitle={tableTitle}
+            onSelectSortColumn={onSelectSortColumn}
+            selectedSortedColumn={selectedSortColumn}
+            column={column}
+            isLastColumn={index === headerItems.length - 1}
+          />
+        )}
       </th>
     ))
   }
 
   const getBody = () => {
-    return rows.map((row, i) => (
-      <>
+    return orderedRows.map((row, i) => (
+      <Fragment key={tableTitle + '-fragment-row-' + i}>
         <tr
           key={tableTitle + '-row-' + i}
           className={`${rowExpandable ? 'row-expandable' : ''} ${
@@ -62,7 +98,7 @@ const Table = ({ rows, headerItems, tableTitle, rowExpandable = false, rowExpand
         {rowsExpandedState[tableTitle + '-row-' + i] && rowExpandedContents && (
           <tr className={'expanded-content-container'}>{rowExpandedContents[i]}</tr>
         )}
-      </>
+      </Fragment>
     ))
   }
 
