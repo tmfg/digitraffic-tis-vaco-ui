@@ -31,7 +31,7 @@ export const en = {
     support: 'Support',
     channels: 'Support channels',
     services: 'My Services',
-    testData: 'Test data',
+    testData: 'Test your data',
     myData: 'My data',
     user: 'User account'
   },

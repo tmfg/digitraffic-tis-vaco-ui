@@ -1,11 +1,11 @@
-import { Entry } from './EntryResource'
+import { EntryResource } from './EntryResource'
 import { ItemCounter } from './ItemCounter'
 import { Error } from './Error'
 import { PackageResource } from './Package'
 
 export interface EntryStateResource {
   data: {
-    entry: Entry
+    entry: EntryResource
     validationReports: ValidationReport[]
   }
   error?: string | null

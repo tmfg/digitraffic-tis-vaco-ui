@@ -47,7 +47,14 @@ const MyDataPage = () => {
               if (!ignore) {
                 const entries = response.data as EntryResource[]
                 const entryRows: TableItem[][] = entries.map((entryResource: EntryResource) => {
-                  return getTableRow(entryResource, t)
+                  const row: TableItem[] = getTableRow(entryResource, t)
+                  if (entryResource.links.refs.badge) {
+                    row.push({
+                      name: 'status',
+                      value: <img alt={'badge'} src={entryResource.links.refs.badge.href} />
+                    })
+                  }
+                  return row
                 })
                 setAllEntryRows(entryRows)
                 setEntriesToShow(entryRows)
@@ -75,7 +82,7 @@ const MyDataPage = () => {
   return (
     <div className={'page-content'}>
       <AuthenticatedTemplate>
-        <h2>{t('services:myData:header')}</h2>
+        <h1>{t('services:myData:header')}</h1>
         <div className={'page-intro'}>
           {t('services:myData:intro')}
         </div>
