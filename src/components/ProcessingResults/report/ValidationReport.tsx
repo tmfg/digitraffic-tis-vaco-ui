@@ -23,7 +23,7 @@ const ValidationReport = ({ report }: ValidationReportProps) => {
     <div className={'report-container'}>
       <Card items={header} variant={CardVariant.bigger} />
       <ReportStats counters={report.counters} />
-      {report.notices && <NoticesTable notices={report.notices} />}
+      {report.notices && <NoticesTable notices={report.notices} ruleName={report.ruleName} />}
       {report.packages && report.packages.length > 0 && (
         <div className={'packages-container'}>
           <h4>{t('services:processingResults:artifacts:validation')}</h4>

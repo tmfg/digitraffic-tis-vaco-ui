@@ -10,9 +10,10 @@ import NoticeDetails from './NoticeDetails'
 
 interface NoticesTableProps {
   notices: Notice[]
+  ruleName: string
 }
 
-const NoticesTable = ({ notices }: NoticesTableProps) => {
+const NoticesTable = ({ notices, ruleName }: NoticesTableProps) => {
   const { t } = useTranslation()
   const headerItems: HeaderItem[] = getNoticesTableHeaders(t)
 
@@ -36,7 +37,7 @@ const NoticesTable = ({ notices }: NoticesTableProps) => {
         value: notice.code
       },
       {
-        name: 'feedName',
+        name: 'severity',
         value: (
           <div className={notice.severity}>
             {getSeverityIcon(notice.severity)} {'  '}
@@ -61,11 +62,12 @@ const NoticesTable = ({ notices }: NoticesTableProps) => {
   return (
     <>
       <Table
-        tableTitle={''}
+        tableTitle={'NoticesTable-' + ruleName}
         headerItems={headerItems}
         rows={noticesRowItems}
         rowExpandable={true}
         rowExpandedContents={expandables}
+        defaultSortedColumn={{ name: 'severity', direction: 'DESC', type: 'severity' }}
       />
     </>
   )
