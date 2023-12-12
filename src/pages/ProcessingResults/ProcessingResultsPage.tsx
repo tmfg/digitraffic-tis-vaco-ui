@@ -70,7 +70,7 @@ const ProcessingResultsPage = () => {
           <h1 style={{ marginRight: '3rem' }}>{t('services:processingResults:header')}</h1>
           {entryState?.data.entry.links.refs.badge && (
             <img
-              style={{ width: '130px', marginTop: '-4px' }}
+              style={{ width: '120px', marginTop: '-4px' }}
               alt={'badge'}
               src={entryState.data.entry.links.refs.badge.href}
             />
