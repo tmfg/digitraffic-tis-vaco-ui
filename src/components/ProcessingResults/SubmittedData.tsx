@@ -13,6 +13,9 @@ const SubmittedData = ({ entry }: SubmittedDataProps) => {
   const rules = entry.validations.map((item) => (
     <div key={item.name}>{t('services:testData:form:rules:' + item.name)}</div>
   ))
+  const conversionRules = entry.conversions?.map((item) => (
+    <div key={item.name}>{t('services:testData:form:rules:' + item.name)}</div>
+  ))
 
   const items: CardItem[] = [
     {
@@ -41,9 +44,16 @@ const SubmittedData = ({ entry }: SubmittedDataProps) => {
     },
     {
       label: t('services:testData:form:section:rules') as string,
-      value: <div>{rules}</div>
+      value: <div>{rules && rules.length > 0 ? rules : '-'}</div>
     }
   ]
+
+  if (conversionRules && conversionRules.length > 0) {
+    items.push({
+      label: t('services:testData:form:section:conversionRules') as string,
+      value: <div>{conversionRules}</div>
+    })
+  }
 
   return (
     <div className={'section'}>

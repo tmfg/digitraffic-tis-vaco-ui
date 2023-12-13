@@ -1,5 +1,5 @@
 const Conversion = () => {
-  return <div>Converted package coming soon !</div>
+  return <div></div>
 }
 
 export default Conversion

@@ -23,7 +23,7 @@
 
 .menu {
   position: absolute;
-  margin-top: 43px;
+  margin-top: 33px;
   margin-left: -7.5px;
   z-index: 2;
   background: white;
@@ -45,10 +45,10 @@
 }
 
 .menu > li {
-  font-size: 16px;
+  font-size: 15px;
   cursor: pointer;
   border-bottom: 1px solid var(--fds-color-neutral-100, #cdcdd7);
-  padding: 9px 12px;
+  padding: 8px 12px;
   width: auto;
   white-space: nowrap;
   list-style: none;

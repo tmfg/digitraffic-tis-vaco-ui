@@ -62,7 +62,7 @@ const Table = ({
   const getHeader = () => {
     return headerItems.map((column, index) => (
       <th key={tableTitle + '-header-' + column.name} className={defaultSortedColumn ? 'th-sortable' : ''}>
-        <span style={{ marginRight: '1rem' }}>{column.value}</span>
+        <span style={{ marginRight: '0.5rem' }}>{column.value}</span>
         {column.sortable && (
           <SortComponent
             tableTitle={tableTitle}
