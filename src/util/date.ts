@@ -7,6 +7,7 @@ export const formatDate = (timestamp: string) => {
     month: 'numeric',
     day: 'numeric',
     hour: 'numeric',
-    minute: 'numeric'
+    minute: 'numeric',
+    timeZone: 'Europe/Helsinki'
   }).format(new Date(timestamp))
 }
