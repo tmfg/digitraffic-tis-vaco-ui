@@ -69,7 +69,8 @@ export const en = {
         section: {
           basic: 'Basic information',
           rules: 'Validation rules',
-          metadata: 'Metadata'
+          metadata: 'Metadata',
+          conversionRules: 'Conversion rules'
         },
         feedName: 'Feed name',
         feedNamePlaceHolder: 'Example: "data.zip - a bus stop fix"',
@@ -82,7 +83,8 @@ export const en = {
         rules: {
           'gtfs.canonical.v4_1_0': 'Canonical GTFS Validator by MobilityData, version v4.1.0',
           'gtfs.canonical.v4_0_0': 'Canonical GTFS Validator by MobilityData, version v4.0.0',
-          'netex.entur.v1_0_1': 'NeTEx Validator by Entur, version v1.0.1'
+          'netex.entur.v1_0_1': 'NeTEx Validator by Entur, version v1.0.1',
+          'gtfs2netex.fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, version v1.12.0'
         },
         netex: {
           codespace: 'Codespace',

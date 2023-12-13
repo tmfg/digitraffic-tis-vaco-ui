@@ -31,4 +31,5 @@ export interface ValidationInput {
 
 export interface ConversionInput {
   name?: string
+  config: object | null
 }
