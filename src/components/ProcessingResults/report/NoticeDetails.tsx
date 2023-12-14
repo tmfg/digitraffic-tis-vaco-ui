@@ -1,5 +1,5 @@
 import { Notice } from '../../../types/EntryStateResource'
-import { Error as NoticeInstance } from '../../../types/Error'
+import { Finding as NoticeInstance } from '../../../types/Finding.ts'
 import Table, { HeaderItem, TableItem } from '../../Common/Table/Table'
 import { useTranslation } from 'react-i18next'
 import { decodeBase64 } from '../../../util/base64'
