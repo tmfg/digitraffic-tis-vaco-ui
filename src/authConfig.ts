@@ -1,4 +1,4 @@
-import { Configuration, RedirectRequest } from '@azure/msal-browser'
+import { AccountInfo, Configuration, RedirectRequest } from "@azure/msal-browser";
 import { Bootstrap, Environment } from './types/Bootstrap.ts'
 
 /* istanbul ignore next 75 -- @preserve */
@@ -19,8 +19,8 @@ export const msalConfig = (bootstrap: Bootstrap): Configuration => {
       authority: 'https://login.microsoftonline.com/' + bootstrap.tenantId,
       redirectUri: baseUrl,
       postLogoutRedirectUri: baseUrl,
-      knownAuthorities: [],
       navigateToLoginRequestUrl: true
+      //knownAuthorities: [],
     },
     cache: {
       cacheLocation: 'localStorage', // This configures where your cache will be stored
@@ -64,6 +64,13 @@ export const msalConfig = (bootstrap: Bootstrap): Configuration => {
 export const loginRequest: RedirectRequest = {
   scopes: ['api://57c1b8a0-f33e-4e47-840d-8c180d933c41/VACO.App'],
   prompt: 'select_account'
+}
+
+export const tokenRequest = (account: AccountInfo): RedirectRequest => {
+  return {
+    scopes: ['api://57c1b8a0-f33e-4e47-840d-8c180d933c41/VACO.App'],
+    account
+  }
 }
 
 export const createAccountRequest: RedirectRequest = {
