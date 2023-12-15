@@ -41,7 +41,7 @@ const NoticeDetails = ({ notice }: NoticeDetailsProps) => {
   }
 
   return (
-    <td colSpan={3} key={'expanded-content-' + notice.code} className={'expanded-content'}>
+    <td colSpan={6} key={'expanded-content-' + notice.code} className={'expanded-content'}>
       <div>
         <p>
           {t('services:processingResults:notices:moreInfo')}{' '}

@@ -1,4 +1,4 @@
-import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react'
+import { AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated, useMsal } from '@azure/msal-react'
 import AuthRequiredPage from '../Error/AuthRequiredPage'
 import { useTranslation } from 'react-i18next'
 import { useCallback, useEffect, useState } from 'react'
@@ -16,6 +16,7 @@ import { filterTableRowsBySearchWord, getTableHeaders, getTableRow } from './hel
 const MyDataPage = () => {
   const { instance, inProgress } = useMsal()
   const { t } = useTranslation()
+  const isAuthenticated = useIsAuthenticated()
   const [searchWord, setSearchWord] = useState<string | null>(null)
   const [allEntryRows, setAllEntryRows] = useState<TableItem[][] | null>(null)
   const [entriesToShow, setEntriesToShow] = useState<TableItem[][] | null>(null)
@@ -34,7 +35,7 @@ const MyDataPage = () => {
       searchElement.addEventListener('change', useInputListener)
     }
 
-    if (inProgress === InteractionStatus.None && !ignore) {
+    if (inProgress === InteractionStatus.None && !ignore && isAuthenticated) {
       acquireToken(instance, inProgress).then(
         (tokenResult) => {
           if (!tokenResult) {
@@ -83,9 +84,7 @@ const MyDataPage = () => {
     <div className={'page-content'}>
       <AuthenticatedTemplate>
         <h1>{t('services:myData:header')}</h1>
-        <div className={'page-intro'}>
-          {t('services:myData:intro')}
-        </div>
+        <div className={'page-intro'}>{t('services:myData:intro')}</div>
         <h4 className={'header-wrapper__small'}>{t('services:myData:find')}</h4>
         <div className={'searchEntries'}>
           <form>
@@ -93,7 +92,7 @@ const MyDataPage = () => {
               <FdsInputComponent
                 clearable={true}
                 name={'searchWord'}
-                placeholder={t('services:myData:table:id') + ' or ' + (t('services:myData:table:feedName') as string).toLowerCase()}
+                placeholder={t('services:myData:table:id') + ' or ' + t('services:myData:table:feedName').toLowerCase()}
                 label={t('services:myData:searchWord')}
               />
             </div>
