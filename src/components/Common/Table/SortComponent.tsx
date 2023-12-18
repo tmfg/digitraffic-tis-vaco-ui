@@ -1,4 +1,5 @@
 import './_sort.scss'
+import './_dropdown-menu.scss'
 import { ReactComponent as UnsortedSvg } from '../../../assets/svg/unsorted.svg'
 import { ReactComponent as SortAscSvg } from '../../../assets/svg/sort_desc.svg'
 import { ReactComponent as SortDescSvg } from '../../../assets/svg/sort_asc.svg'
@@ -6,33 +7,24 @@ import { ReactComponent as SortNumericDescSvg } from '../../../assets/svg/arrow-
 import { ReactComponent as SortNumericAscSvg } from '../../../assets/svg/arrow-down-0-1.svg'
 import { ReactComponent as SortStringDescSvg } from '../../../assets/svg/arrow-up-z-a.svg'
 import { ReactComponent as SortStringAscSvg } from '../../../assets/svg/arrow-down-a-z.svg'
-//import { ReactComponent as ChevronUpSvg } from '../../../assets/svg/chevron-up.svg'
-//import { ReactComponent as ChevronDownSvg } from '../../../assets/svg/chevron-down.svg'
 import { HeaderItem, TableItem } from './Table'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
-export interface SortedColumn {
+export interface SortColumn {
   name: string
   direction: string
   type: string
-  sortQualifier?: ((item: TableItem[]) => number) | undefined
+  sortByCustomOrder?: (item: TableItem[]) => number
 }
 
 interface SortComponentProps {
-  selectedSortedColumn: SortedColumn | undefined
+  selectedSortedColumn: SortColumn | undefined
   column: HeaderItem
-  onSelectSortColumn: (column: SortedColumn) => void
-  isLastColumn: boolean
+  sortCallback: (column: SortColumn) => void
   tableTitle: string
 }
 
-const SortComponent = ({
-  selectedSortedColumn,
-  column,
-  onSelectSortColumn,
-  isLastColumn,
-  tableTitle
-}: SortComponentProps) => {
+const SortComponent = ({ selectedSortedColumn, column, sortCallback, tableTitle }: SortComponentProps) => {
   const [isClicked, setIsClicked] = useState<boolean>(false)
 
   const getSortButton = () => {
@@ -41,9 +33,9 @@ const SortComponent = ({
     }
 
     if (selectedSortedColumn?.direction === 'ASC') {
-      return getAscSortIcon(column.type)
+      return <span className="sorted">{getAscSortIcon(column.type)}</span>
     } else {
-      return getDescSortIcon(column.type)
+      return <span className="sorted">{getDescSortIcon(column.type)}</span>
     }
   }
 
@@ -75,20 +67,23 @@ const SortComponent = ({
       : 'Sort'
   }
 
-  const handleOutsideNavigationClick = (e: Event) => {
-    const targets = e.composedPath() as Element[]
-    if (
-      !targets.some((target) => {
-        return (
-          target.id === tableTitle + '-sortBy-' + column.name ||
-          target.id === tableTitle + '-menu-sortBy-' + column.name
-        )
-      })
-    ) {
-      document.removeEventListener('click', handleOutsideNavigationClick)
-      setIsClicked(false)
-    }
-  }
+  const handleOutsideNavigationClick = useCallback(
+    (e: Event) => {
+      const targets = e.composedPath() as Element[]
+      if (
+        !targets.some((target) => {
+          return (
+            target.id === tableTitle + '-sortBy-' + column.name ||
+            target.id === tableTitle + '-menu-sortBy-' + column.name
+          )
+        })
+      ) {
+        document.removeEventListener('click', handleOutsideNavigationClick)
+        setIsClicked(false)
+      }
+    },
+    [column, tableTitle]
+  )
 
   useEffect(() => {
     const menu = document.querySelector('[id="' + tableTitle + '-menu-sortBy-' + column.name + '"]')
@@ -96,7 +91,7 @@ const SortComponent = ({
       document.addEventListener('click', handleOutsideNavigationClick)
     }
     return () => {}
-  }, [isClicked])
+  }, [isClicked, column, handleOutsideNavigationClick, tableTitle])
 
   return (
     <span id={tableTitle + '-sortBy-' + column.name} className={'sort-wrapper'}>
@@ -109,18 +104,15 @@ const SortComponent = ({
         {getSortButton()}
       </a>
       {isClicked && (
-        <ul
-          id={tableTitle + '-menu-sortBy-' + column.name}
-          className={'menu menu-aligned-' + (isLastColumn ? 'right' : 'left')}
-        >
+        <ul id={tableTitle + '-menu-sortBy-' + column.name} className={'menu'}>
           <li
             onClick={() => {
               setIsClicked(false)
-              onSelectSortColumn({
+              sortCallback({
                 name: column.name,
                 direction: 'ASC',
                 type: column.type as string,
-                sortQualifier: column.sortQualifier
+                sortByCustomOrder: column.sortByCustomOrder
               })
             }}
           >
@@ -130,11 +122,11 @@ const SortComponent = ({
           <li
             onClick={() => {
               setIsClicked(false)
-              onSelectSortColumn({
+              sortCallback({
                 name: column.name,
                 direction: 'DESC',
                 type: column.type as string,
-                sortQualifier: column.sortQualifier
+                sortByCustomOrder: column.sortByCustomOrder
               })
             }}
           >

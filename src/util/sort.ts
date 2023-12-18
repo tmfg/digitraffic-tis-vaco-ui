@@ -31,9 +31,9 @@ export const sortTableNumerically = (data: TableItem[][], property: string, dire
 export const sortTableCustom = (
   data: TableItem[][],
   direction: string,
-  sortQualifier: (item: TableItem[]) => number
+  sortByCustomOrder: (item: TableItem[]) => number
 ): typeof data => {
   return direction === 'ASC'
-    ? data.sort((a, b) => sortQualifier(a) - sortQualifier(b))
-    : data.sort((a, b) => sortQualifier(b) - sortQualifier(a))
+    ? data.sort((a, b) => sortByCustomOrder(a) - sortByCustomOrder(b))
+    : data.sort((a, b) => sortByCustomOrder(b) - sortByCustomOrder(a))
 }

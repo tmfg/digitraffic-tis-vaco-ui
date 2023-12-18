@@ -8,8 +8,15 @@ table {
   width: 100%;
 }
 
+.table-fixed {
+  table-layout: fixed !important;
+}
+
 thead {
   border-bottom: 1px solid;
+  //position: sticky;
+  //position: -webkit-sticky;
+  //top: 0;
 }
 
 tbody {

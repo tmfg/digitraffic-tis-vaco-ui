@@ -34,7 +34,9 @@ const NoticesTable = ({ notices, ruleName }: NoticesTableProps) => {
     return [
       {
         name: 'code',
-        value: notice.code
+        value: notice.code,
+        plainValue: notice.code,
+        colSpan: 3
       },
       {
         name: 'severity',
@@ -46,7 +48,8 @@ const NoticesTable = ({ notices, ruleName }: NoticesTableProps) => {
             </span>
           </div>
         ),
-        plainValue: notice.severity
+        plainValue: t('services:processingResults:severity:' + notice.severity.toLowerCase()) as string,
+        colSpan: 2
       },
       {
         name: 'total',
@@ -68,6 +71,7 @@ const NoticesTable = ({ notices, ruleName }: NoticesTableProps) => {
         rowExpandable={true}
         rowExpandedContents={expandables}
         defaultSortedColumn={{ name: 'severity', direction: 'DESC', type: 'severity' }}
+        isFixedLayout={true}
       />
     </>
   )

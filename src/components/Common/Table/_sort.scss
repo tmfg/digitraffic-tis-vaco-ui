@@ -1,6 +1,8 @@
+
 .sort-wrapper {
   display: inline-flex;
   flex-direction: column;
+  margin-right: 0.15rem;
 }
 
 .sort-button {
@@ -11,6 +13,17 @@
   border: none;
   background: none;
   color: black;
+
+  svg {
+    width: 20px;
+    stroke-width: 1.5;
+  }
+
+  .sorted {
+    svg {
+      stroke-width: 2 !important;
+    }
+  }
 }
 
 .sort-button:hover {
@@ -19,55 +32,18 @@
 
 .sort-button-clicked {
   color: #1777f8;
-}
 
-.menu {
-  position: absolute;
-  margin-top: 33px;
-  margin-left: -7.5px;
-  z-index: 2;
-  background: white;
-  height: auto;
-  color: black;
-  box-shadow: 0 4px 7px 0 rgba(0,0,0,0.3);
-  font-weight: 500;
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.menu-aligned-right {
-  // ......
-  margin-left: -7.5px;
-}
-
-.menu-aligned-left {
-  margin-left: -7.5px;
-}
-
-.menu > li {
-  font-size: 15px;
-  cursor: pointer;
-  border-bottom: 1px solid var(--fds-color-neutral-100, #cdcdd7);
-  padding: 8px 12px;
-  width: auto;
-  white-space: nowrap;
-  list-style: none;
-  display: flex;
-  align-items: center;
-}
-
-.menu > li:hover {
-  background-color: rgba(205,205,215,0.2);
-}
-
-.menu > li:before {
-  display: none;
+  svg {
+    stroke-width: 2 !important;
+  }
 }
 
 .li-sort-icon {
-  margin-right: 14px;
+  margin-right: 12px;
 }
 
 .li-sort-icon > svg {
   width: 18px;
+  stroke-width: 1.5;
+  color: black !important;
 }

@@ -7,26 +7,30 @@ export const getNoticesTableHeaders = (t: TFunction<'translation', undefined>): 
       name: 'code',
       value: t('services:processingResults:notices:code'),
       sortable: true,
-      type: 'string'
+      type: 'string',
+      filterable: true,
+      colSpan: 3
     },
     {
       name: 'severity',
       value: t('services:processingResults:notices:severity'),
       sortable: true,
+      filterable: true,
       type: 'custom',
-      sortQualifier: (row: TableItem[]): number => {
+      sortByCustomOrder: (row: TableItem[]): number => {
         const item: TableItem = getTableItemByColumnName(row, 'severity')
         switch (item.plainValue) {
-          case 'ERROR':
+          case t('services:processingResults:severity:error'):
             return 4
-          case 'WARNING':
+          case t('services:processingResults:severity:warning'):
             return 3
-          case 'INFO':
+          case t('services:processingResults:severity:info'):
             return 2
           default:
             return 1
         }
-      }
+      },
+      colSpan: 2
     },
     {
       name: 'total',

@@ -56,9 +56,8 @@ const EnvironmentProvider = ({ children }: Props) => {
       getBootstrap()
         .then((data: Bootstrap) => {
           initializeHttpClient(data)
-          initializeMsal(data).then(
-            () => {},
-            (error) => console.error('Error while initializing PublicClientApplication', error)
+          initializeMsal(data).catch((error) =>
+            console.error('Error while initializing PublicClientApplication', error)
           )
         })
         .catch((error) => {

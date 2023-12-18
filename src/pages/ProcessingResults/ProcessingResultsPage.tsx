@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getHeaders, HttpClient } from '../../HttpClient'
 import { acquireToken } from '../../hooks/auth'
-import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from '@azure/msal-react'
+import { AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated, useMsal } from '@azure/msal-react'
 import AuthRequiredPage from '../Error/AuthRequiredPage'
 import { InteractionStatus } from '@azure/msal-browser'
 import { useTranslation } from 'react-i18next'
@@ -19,13 +19,14 @@ const ProcessingResultsPage = () => {
   const navigate = useNavigate()
   const [entryState, setEntryState] = useState<EntryStateResource | null>(null)
   const { instance, inProgress } = useMsal()
+  const isAuthenticated = useIsAuthenticated()
   const { t } = useTranslation()
   const [processingProgress, setProcessingProgress] = useState<number>(100)
 
   useEffect(() => {
     let ignore = false
     setEntryState(null)
-    if (entryId && inProgress === InteractionStatus.None && !ignore) {
+    if (entryId && inProgress === InteractionStatus.None && !ignore && isAuthenticated) {
       acquireToken(instance, inProgress).then(
         (tokenResult) => {
           if (!tokenResult) {

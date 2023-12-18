@@ -26,8 +26,8 @@ const Form = () => {
   const { t, i18n } = useTranslation()
   const [formData, setFormData] = useState<Map>({})
   const formats: FdsDropdownOption<string>[] = [
-    { label: 'GTFS', value: 'GTFS' },
-    { label: 'NeTEx', value: 'NETEX' }
+    { label: 'GTFS', value: t('format:gtfs') },
+    { label: 'NeTEx', value: t('format:netex') }
   ]
   const [rules, setRules] = useState<RulesetResource[]>([])
   const [formErrors, setFormErrors] = useState<Map>({})

@@ -20,7 +20,9 @@ const HomePage = () => {
       icon: <LoginSvg />,
       to: '/',
       onClick: () => {
-        login(instance)
+        login(instance).catch((error) => {
+          console.log('Login error', error)
+        })
       },
       description: t('home:shortcut:login:intro')
     },

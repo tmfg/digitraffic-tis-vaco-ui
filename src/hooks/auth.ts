@@ -1,24 +1,31 @@
 import {
+  AccountInfo,
   AuthenticationResult,
   BrowserAuthError,
   InteractionRequiredAuthError,
   InteractionStatus,
   IPublicClientApplication
 } from '@azure/msal-browser'
-import { createAccountRequest, loginRequest } from '../authConfig'
+import { createAccountRequest, loginRequest, tokenRequest } from '../authConfig'
 
 /* istanbul ignore next 56 -- @preserve */
 export const acquireToken = (
   msalInstance: IPublicClientApplication,
   inProgress: InteractionStatus
 ): Promise<AuthenticationResult | void> => {
+  const account: AccountInfo | null = msalInstance.getActiveAccount()
+  if (!account) {
+    // Here could have been an attempt to login,
+    // but that (supposedly) should be handled but the <AuthenticatedTemplate> instead
+    return Promise.resolve()
+  }
   return msalInstance
-    .acquireTokenSilent(loginRequest)
+    .acquireTokenSilent(tokenRequest(account))
     .then((tokenResponse) => {
       return tokenResponse
     })
     .catch((error) => {
-      console.log('Acquiring token failed ', isUserInTransition(inProgress), error)
+      console.log('Acquiring token failed ', isUserInTransition(inProgress), error, msalInstance.getActiveAccount())
       if (
         (error instanceof InteractionRequiredAuthError || error instanceof BrowserAuthError) &&
         !isUserInTransition(inProgress)
@@ -31,15 +38,13 @@ export const acquireToken = (
 
 /* istanbul ignore next 56 -- @preserve */
 export const login = (msalInstance: IPublicClientApplication) => {
-  msalInstance.loginRedirect(loginRequest).catch((error) => {
-    console.log(error)
-  })
+  return msalInstance.loginRedirect(loginRequest)
 }
 
 /* istanbul ignore next 56 -- @preserve */
 export const createAccount = (msalInstance: IPublicClientApplication) => {
   msalInstance.loginRedirect(createAccountRequest).catch((error) => {
-    console.log(error)
+    console.log('Account creation error', error)
   })
 }
 
