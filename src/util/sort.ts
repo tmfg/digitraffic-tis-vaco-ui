@@ -37,3 +37,14 @@ export const sortTableCustom = (
     ? data.sort((a, b) => sortByCustomOrder(a) - sortByCustomOrder(b))
     : data.sort((a, b) => sortByCustomOrder(b) - sortByCustomOrder(a))
 }
+
+export const sortTableByDate = (data: TableItem[][], property: string, direction: string): typeof data => {
+  return direction === 'ASC'
+    ? data.sort((a, b) => getDateValue(a, property) - getDateValue(b, property))
+    : data.sort((a, b) => getDateValue(b, property) - getDateValue(a, property))
+}
+
+const getDateValue = (item: TableItem[], property: string) => {
+  const propertyValue = getTableItemByColumnName(item, property).plainValue
+  return propertyValue ? new Date(propertyValue as string).getTime() : 0
+}
