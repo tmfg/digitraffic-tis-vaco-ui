@@ -12,6 +12,12 @@ table {
   table-layout: fixed !important;
 }
 
+@media (max-width: 1470px) {
+  .table-fixed {
+    table-layout: auto !important;
+  }
+}
+
 thead {
   border-bottom: 1px solid;
   //position: sticky;
@@ -28,11 +34,13 @@ th {
   font-style: normal;
   font-weight: 700;
   line-height: 110%;
-  padding: 20px 20px 20px 0;
+  padding: 20px 25px 20px 0;
+  border-collapse: collapse;
+  white-space: nowrap;
 }
 
 .th-sortable {
-  padding: 12px 12px 12px 0 !important;
+  padding: 12px 25px 12px 0 !important;
 }
 
 tr {
@@ -50,9 +58,9 @@ tr {
 }
 
 td {
-  padding: 12px 35px 12px 0;
-  max-width: 400px;
+  padding: 12px 25px 12px 0;
   overflow-wrap: break-word;
+  max-width: 350px;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;

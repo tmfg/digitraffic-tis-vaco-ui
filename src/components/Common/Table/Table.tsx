@@ -5,7 +5,7 @@ import { Map } from '../../../types/Map'
 import { ReactComponent as ExpandSvg } from '../../../assets/svg/plus.svg'
 import { ReactComponent as HideSvg } from '../../../assets/svg/minus.svg'
 import SortComponent, { SortColumn } from './SortComponent'
-import { sortTableAlphabetically, sortTableCustom, sortTableNumerically } from '../../../util/sort'
+import { sortTableAlphabetically, sortTableByDate, sortTableCustom, sortTableNumerically } from '../../../util/sort'
 import FilterComponent from './FilterComponent'
 import { getUniqueValues } from '../../../util/array'
 
@@ -35,6 +35,7 @@ export interface HeaderItem {
   type?: string
   sortByCustomOrder?: ((row: TableItem[]) => number) | undefined
   colSpan?: number
+  customStyle?: Map
 }
 
 export const getTableItemByColumnName = (row: TableItem[], columnName: string): TableItem => {
@@ -70,6 +71,8 @@ const Table = ({
       setShownRows(sortTableNumerically(currentShownRows, newSortColumn.name, newSortColumn.direction))
     } else if (newSortColumn.type === 'custom' && newSortColumn.sortByCustomOrder) {
       setShownRows(sortTableCustom(currentShownRows, newSortColumn.direction, newSortColumn.sortByCustomOrder))
+    } else if (newSortColumn.type === 'date') {
+      setShownRows(sortTableByDate(currentShownRows, newSortColumn.name, newSortColumn.direction))
     }
   }
 
@@ -103,8 +106,9 @@ const Table = ({
         key={tableTitle + '-header-' + column.name}
         colSpan={column.colSpan ?? 1}
         className={defaultSortedColumn ? 'th-sortable' : ''}
+        style={column.customStyle ?? {}}
       >
-        <span style={{ marginRight: '1rem' }}>{column.value}</span>
+        <span style={{ marginRight: '0.25rem' }}>{column.value}</span>
         {column.sortable && (
           <SortComponent
             tableTitle={tableTitle}

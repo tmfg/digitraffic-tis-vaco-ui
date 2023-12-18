@@ -70,7 +70,7 @@ const NoticesTable = ({ notices, ruleName }: NoticesTableProps) => {
         rows={noticesRowItems}
         rowExpandable={true}
         rowExpandedContents={expandables}
-        defaultSortedColumn={{ name: 'severity', direction: 'DESC', type: 'severity' }}
+        defaultSortedColumn={{ name: 'severity', direction: 'DESC', type: 'custom' }}
         isFixedLayout={true}
       />
     </>
