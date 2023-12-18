@@ -1,4 +1,4 @@
-export interface Error {
+export interface Finding {
   message: string
   source: string
   publicId: string
