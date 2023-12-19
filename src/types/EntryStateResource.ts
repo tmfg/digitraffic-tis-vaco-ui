@@ -23,5 +23,5 @@ export interface Notice {
   code: string
   severity: string
   total: number
-  instances: Finding[]
+  findings: Finding[]
 }

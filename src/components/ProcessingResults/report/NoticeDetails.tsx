@@ -55,13 +55,13 @@ const NoticeDetails = ({ notice }: NoticeDetailsProps) => {
           .
         </p>
 
-        {notice.instances.length < notice.total && (
+        {notice.findings.length < notice.total && (
           <p>
-            {t('services:processingResults:notices:notAllNoticesShown', { instancesLength: notice.instances.length, noticeTotal: notice.total })}
+            {t('services:processingResults:notices:notAllNoticesShown', { instancesLength: notice.findings.length, noticeTotal: notice.total })}
           </p>
         )}
 
-        <div style={{ marginBottom: '1rem' }}>{getNoticeInstancesList(notice.instances)}</div>
+        <div style={{ marginBottom: '1rem' }}>{getNoticeInstancesList(notice.findings)}</div>
       </div>
     </td>
   )
