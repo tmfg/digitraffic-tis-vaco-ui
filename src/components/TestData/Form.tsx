@@ -49,6 +49,9 @@ const Form = () => {
   const useFormatListener: EventListenerOrEventListenerObject = useCallback(
     (e: Event) => {
       const detail = (e as CustomEvent).detail as FdsInputChange
+      if (!detail.value) {
+        return
+      }
       const newFormState = getNewFormState(formData, detail)
       const newFormErrors = getNewFormErrorsState(formErrors, detail)
       updateFormState(newFormState, newFormErrors)
@@ -65,7 +68,7 @@ const Form = () => {
               const rules = response.data as RulesetResource[]
               setRules(
                 rules.filter(
-                  (rule) => rule.data.format.toUpperCase() === detail.value && rule.data.type.includes('VALIDATION')
+                  (rule) => rule.data.format.toUpperCase() === (detail.value as string).toUpperCase() && rule.data.type.includes('VALIDATION')
                 )
               )
             },
