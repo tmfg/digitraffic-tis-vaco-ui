@@ -1,6 +1,6 @@
 import { EntryResource } from './EntryResource'
 import { ItemCounter } from './ItemCounter'
-import { Error } from './Error'
+import { Finding } from './Finding.ts'
 import { PackageResource } from './Package'
 
 export interface EntryStateResource {
@@ -23,5 +23,5 @@ export interface Notice {
   code: string
   severity: string
   total: number
-  instances: Error[]
+  findings: Finding[]
 }

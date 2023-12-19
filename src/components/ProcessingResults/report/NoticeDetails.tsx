@@ -1,5 +1,5 @@
 import { Notice } from '../../../types/EntryStateResource'
-import { Error as NoticeInstance } from '../../../types/Error'
+import { Finding as NoticeInstance } from '../../../types/Finding.ts'
 import Table, { HeaderItem, TableItem } from '../../Common/Table/Table'
 import { useTranslation } from 'react-i18next'
 import { decodeBase64 } from '../../../util/base64'
@@ -55,13 +55,13 @@ const NoticeDetails = ({ notice }: NoticeDetailsProps) => {
           .
         </p>
 
-        {notice.instances.length < notice.total && (
+        {notice.findings.length < notice.total && (
           <p>
-            {t('services:processingResults:notices:notAllNoticesShown', { instancesLength: notice.instances.length, noticeTotal: notice.total })}
+            {t('services:processingResults:notices:notAllNoticesShown', { instancesLength: notice.findings.length, noticeTotal: notice.total })}
           </p>
         )}
 
-        <div style={{ marginBottom: '1rem' }}>{getNoticeInstancesList(notice.instances)}</div>
+        <div style={{ marginBottom: '1rem' }}>{getNoticeInstancesList(notice.findings)}</div>
       </div>
     </td>
   )
