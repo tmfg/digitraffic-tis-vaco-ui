@@ -66,7 +66,7 @@ const FilterComponent = ({
     return () => {}
   }, [filterOptions, selectedFilterOptions, checkboxStates])
 
-  return filterOptions?.length > 1 ? (
+  return (
     <span id={tableTitle + '-filterBy-' + column.name} className={'filter-wrapper'}>
       <a
         onClick={() => {
@@ -98,8 +98,6 @@ const FilterComponent = ({
         </ul>
       )}
     </span>
-  ) : (
-    ''
   )
 }
 

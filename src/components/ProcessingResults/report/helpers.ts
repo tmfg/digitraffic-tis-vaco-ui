@@ -8,7 +8,6 @@ export const getNoticesTableHeaders = (t: TFunction<'translation', undefined>): 
       value: t('services:processingResults:notices:code'),
       sortable: true,
       type: 'string',
-      filterable: true,
       colSpan: 3
     },
     {

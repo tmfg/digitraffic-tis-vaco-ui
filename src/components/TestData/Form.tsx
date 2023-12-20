@@ -363,7 +363,7 @@ const Form = () => {
                 t,
                 rules
               ).catch(
-                (err) => console.log('Data submission error', err)
+                (err) => console.error('Data submission error', err)
                 // TODO: show some alert
               )
             }}
