@@ -12,7 +12,7 @@ import { FdsInputComponent } from '../../components/fds/FdsInputComponent'
 import './_mydata.scss'
 import { FdsInputChange } from '../../../coreui-components/src/fds-input'
 import { filterTableRowsBySearchWord, getTableHeaders, getTableRow } from './helpers'
-import { ReactComponent as ArrowUpRightSquare } from '../../assets/svg/arrow-up-right-square.svg'
+import Pagination from '../../components/Common/Pagination/Pagination'
 
 const MyDataPage = () => {
   const { instance, inProgress } = useMsal()
@@ -51,25 +51,11 @@ const MyDataPage = () => {
                 const entryRows: TableItem[][] = entries.map((entryResource: EntryResource) => {
                   const row: TableItem[] = getTableRow(entryResource, t)
 
-                  row.unshift({
-                    name: 'submissionId',
-                    value: (
-                      <span style={{ whiteSpace: 'nowrap' }}>
-                        <span style={{ marginRight: '5px' }}>
-                          <ArrowUpRightSquare />
-                        </span>
-                        <span>{entryResource.data.publicId}</span>
-                      </span>
-                    ),
-                    href: '/data/' + entryResource.data.publicId,
-                    colSpan: 4
-                  })
-
                   if (entryResource.links.refs.badge) {
                     row.push({
                       name: 'status',
                       value: <img alt={'badge'} src={entryResource.links.refs.badge.href} />,
-                      plainValue: entryResource.data.status
+                      plainValue: entryResource.data.status.charAt(0).toUpperCase() + entryResource.data.status.slice(1)
                     })
                   }
                   return row
@@ -129,13 +115,20 @@ const MyDataPage = () => {
         {!allEntryRows && ''}
         <h5 className={'header-wrapper__big'}>{t('services:myData:latest')}</h5>
         {entriesToShow && entriesToShow.length > 0 && (
-          <Table
+          <Pagination
+            itemsTotalCount={entriesToShow.length}
+            contentName={'Submissions'}
             tableTitle={'myData'}
-            headerItems={headerItems}
-            rows={entriesToShow}
-            isFixedLayout={true}
-            defaultSortedColumn={{ name: 'dateCreated', direction: 'DESC', type: 'date' }}
-          />
+            defaultItemsPerPage={10}
+          >
+            <Table
+              tableTitle={'myData'}
+              headerItems={headerItems}
+              rows={entriesToShow}
+              isFixedLayout={true}
+              defaultSortedColumn={{ name: 'dateCreated', direction: 'DESC', type: 'date' }}
+            />
+          </Pagination>
         )}
         {allEntryRows && entriesToShow && entriesToShow.length === 0 && <div>{t('services:myData:noDataFound')}</div>}
       </AuthenticatedTemplate>

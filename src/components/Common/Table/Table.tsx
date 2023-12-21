@@ -1,6 +1,6 @@
 import './_table.scss'
 import { Link } from 'react-router-dom'
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import { Map } from '../../../types/Map'
 import { ReactComponent as ExpandSvg } from '../../../assets/svg/plus.svg'
 import { ReactComponent as HideSvg } from '../../../assets/svg/minus.svg'
@@ -9,7 +9,7 @@ import { sortTableAlphabetically, sortTableByDate, sortTableCustom, sortTableNum
 import FilterComponent from './FilterComponent'
 import { getUniqueValues } from '../../../util/array'
 
-interface TableProps {
+export interface TableProps {
   tableTitle: string
   headerItems: HeaderItem[]
   rows: TableItem[][]
@@ -17,6 +17,13 @@ interface TableProps {
   rowExpandedContents?: React.ReactNode[]
   defaultSortedColumn?: SortColumn
   isFixedLayout?: boolean
+  paginationProps?: TablePaginationProps
+}
+
+export interface TablePaginationProps {
+  itemOffset: number
+  endOffset: number
+  resetCallback: (newCount: number) => void
 }
 
 export interface TableItem {
@@ -49,30 +56,51 @@ const Table = ({
   rowExpandable = false,
   rowExpandedContents,
   defaultSortedColumn,
-  isFixedLayout = false
+  isFixedLayout = false,
+  paginationProps
 }: TableProps) => {
   const [rowsExpandedState, setRowsExpandedState] = useState<Map>({})
   const [selectedSortColumn, setSelectedSortColumn] = useState<SortColumn | undefined>(defaultSortedColumn)
   const [shownRows, setShownRows] = useState<TableItem[][]>(rows)
   const [selectedFilters, setSelectedFilters] = useState<Map>()
 
+  useEffect(() => {
+    let newRows = rows
+    if (selectedFilters) {
+      newRows = getFilteredRows(selectedFilters)
+    }
+
+    if (selectedSortColumn) {
+      newRows = getOrderedRows([...newRows], selectedSortColumn)
+    }
+
+    setShownRows(newRows)
+    paginationProps?.resetCallback(shownRows.length)
+  }, [rows])
+
   const sortCallback = (newSortColumn: SortColumn) => {
     setSelectedSortColumn(newSortColumn)
-    orderRows([...shownRows], newSortColumn)
+    const orderedRows = getOrderedRows([...shownRows], newSortColumn)
+    if (orderedRows) {
+      setShownRows(orderedRows)
+    }
+    paginationProps?.resetCallback(shownRows.length)
   }
 
-  const orderRows = (currentShownRows: TableItem[][], newSortColumn: SortColumn) => {
+  const getOrderedRows = (currentShownRows: TableItem[][], newSortColumn: SortColumn): TableItem[][] => {
     if (!newSortColumn) {
-      return
+      return currentShownRows
     }
     if (newSortColumn.type === 'string') {
-      setShownRows(sortTableAlphabetically(currentShownRows, newSortColumn.name, newSortColumn.direction))
+      return sortTableAlphabetically(currentShownRows, newSortColumn.name, newSortColumn.direction)
     } else if (newSortColumn.type === 'numeric') {
-      setShownRows(sortTableNumerically(currentShownRows, newSortColumn.name, newSortColumn.direction))
+      return sortTableNumerically(currentShownRows, newSortColumn.name, newSortColumn.direction)
     } else if (newSortColumn.type === 'custom' && newSortColumn.sortByCustomOrder) {
-      setShownRows(sortTableCustom(currentShownRows, newSortColumn.direction, newSortColumn.sortByCustomOrder))
+      return sortTableCustom(currentShownRows, newSortColumn.direction, newSortColumn.sortByCustomOrder)
     } else if (newSortColumn.type === 'date') {
-      setShownRows(sortTableByDate(currentShownRows, newSortColumn.name, newSortColumn.direction))
+      return sortTableByDate(currentShownRows, newSortColumn.name, newSortColumn.direction)
+    } else {
+      return currentShownRows
     }
   }
 
@@ -93,11 +121,12 @@ const Table = ({
     newFilteringState[columnName] = selectedFilterOptions
     setSelectedFilters(newFilteringState)
 
-    const newRows = getFilteredRows(newFilteringState)
-    setShownRows(newRows)
+    let newRows = getFilteredRows(newFilteringState)
     if (selectedSortColumn) {
-      orderRows(newRows, selectedSortColumn)
+      newRows = getOrderedRows(newRows, selectedSortColumn)
     }
+    setShownRows(newRows)
+    paginationProps?.resetCallback(newRows.length)
   }
 
   const getHeader = () => {
@@ -135,7 +164,14 @@ const Table = ({
   }
 
   const getBody = () => {
-    return shownRows.map((row, i) => (
+    if (!shownRows) {
+      return
+    }
+    const finalRows =
+      paginationProps && Object.keys(paginationProps).length > 0
+        ? shownRows.slice(paginationProps.itemOffset, paginationProps.endOffset)
+        : shownRows
+    return finalRows.map((row, i) => (
       <Fragment key={tableTitle + '-fragment-row-' + i}>
         <tr
           key={tableTitle + '-row-' + i}
@@ -199,11 +235,11 @@ const Table = ({
     )
   }
 
-  const getNoFilterResults = () => {
+  const getNoResults = () => {
     return (
       <tr>
         <td colSpan={6} style={{ paddingTop: '1.5rem', textAlign: 'center', fontStyle: 'italic', color: '#555555' }}>
-          No results for selected filter values
+          No results found
         </td>
       </tr>
     )
@@ -215,7 +251,7 @@ const Table = ({
         <thead>
           <tr>{getHeader()}</tr>
         </thead>
-        <tbody>{shownRows && shownRows.length > 0 ? getBody() : getNoFilterResults()}</tbody>
+        <tbody>{shownRows && shownRows.length > 0 ? getBody() : getNoResults()}</tbody>
       </table>
     </div>
   )

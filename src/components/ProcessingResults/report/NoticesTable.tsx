@@ -7,6 +7,7 @@ import { ReactComponent as WarningSvg } from '../../../assets/svg/warning.svg'
 import { ReactComponent as InfoSvg } from '../../../assets/svg/info.svg'
 import React from 'react'
 import NoticeDetails from './NoticeDetails'
+import Pagination from '../../Common/Pagination/Pagination'
 
 interface NoticesTableProps {
   notices: Notice[]
@@ -48,7 +49,7 @@ const NoticesTable = ({ notices, ruleName }: NoticesTableProps) => {
             </span>
           </div>
         ),
-        plainValue: t('services:processingResults:severity:' + notice.severity.toLowerCase()) as string,
+        plainValue: t('services:processingResults:severity:' + notice.severity.toLowerCase()),
         colSpan: 2
       },
       {
@@ -63,7 +64,12 @@ const NoticesTable = ({ notices, ruleName }: NoticesTableProps) => {
   })
 
   return (
-    <>
+    <Pagination
+      itemsTotalCount={noticesRowItems.length}
+      contentName={'Notices'}
+      tableTitle={'NoticesTable-' + ruleName}
+      defaultItemsPerPage={10}
+    >
       <Table
         tableTitle={'NoticesTable-' + ruleName}
         headerItems={headerItems}
@@ -73,7 +79,7 @@ const NoticesTable = ({ notices, ruleName }: NoticesTableProps) => {
         defaultSortedColumn={{ name: 'severity', direction: 'DESC', type: 'custom' }}
         isFixedLayout={true}
       />
-    </>
+    </Pagination>
   )
 }
 

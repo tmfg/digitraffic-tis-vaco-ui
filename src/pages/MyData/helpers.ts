@@ -55,13 +55,19 @@ export const getTableHeaders = (t: TFunction<'translation', undefined>): HeaderI
       name: 'status',
       value: t('services:myData:table:status'),
       filterable: true,
-      customStyle: { width: '90px' }
+      customStyle: { width: '110px' }
     }
   ]
 }
 
 export const getTableRow = (entryResource: EntryResource, t: TFunction<'translation', undefined>): TableItem[] => {
   return [
+    {
+      name: 'submissionId',
+      value: entryResource.data.publicId,
+      href: '/data/' + entryResource.data.publicId,
+      colSpan: 4
+    },
     {
       name: 'feedName',
       value: entryResource.data.name,
