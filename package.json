@@ -57,7 +57,7 @@
     "playwright-i18next-fixture": "^1.0.0",
     "prettier": "^3.0.3",
     "sass": "^1.69.5",
-    "shadow-dom-testing-library": "^1.11.0",
+    "shadow-dom-testing-library": "^1.11.2",
     "source-map-support": "^0.5.21",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2",
