@@ -1,0 +1,94 @@
+[
+  {
+    "title": "agencies",
+    "type": "LIST",
+    "style": "DEFAULT",
+    "list": [
+      {
+        "value": "Linjaliikenne Martti Laurila Oy",
+        "nested": {
+          "type": "CARD",
+          "style": "DEFAULT",
+          "card": [
+            {
+              "label": "website",
+              "value": "https://oulu.fi"
+            },
+            {
+              "label": "phoneNumber",
+              "value": "-"
+            },
+            {
+              "label": "email",
+              "value": "-"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "title": "feedInfo",
+    "type": "CARD",
+    "style": "DEFAULT",
+    "card": [
+      {
+        "label": "publisherName",
+        "value": "Oulu"
+      },
+      {
+        "label": "language",
+        "value": "Finnish"
+      },
+      {
+        "label": "publisherURL",
+        "value": "https://oulu.fi"
+      }
+    ]
+  },
+  {
+    "title": "files",
+    "type": "LIST",
+    "style": "ORDERED",
+    "list": [
+      {
+        "value": "agencies.txt"
+      },
+      {
+        "value": "calendar.txt"
+      },
+      {
+        "value": "routes.txt"
+      }
+    ]
+  },
+  {
+    "title": "counts",
+    "type": "LIST",
+    "style": "DEFAULT",
+    "list": [
+      {
+        "value": "Agencies: 1"
+      },
+      {
+        "value": "Blocks: 177"
+      },
+      {
+        "value": "Shapes: 56"
+      },
+      {
+        "value": "Trips: 125"
+      },
+      {
+        "value": "Routes: 38"
+      }
+    ]
+  },
+  {
+    "title": "components",
+    "type": "COMPONENT",
+    "components": [
+      "Shapes", "Route Names", "Bike Allowance", "Blocks"
+    ]
+  }
+]

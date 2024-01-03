@@ -1,53 +1,16 @@
+import { ReactNode } from 'react'
 import './_card.scss'
-import { isUrl } from '../../../util/url'
-import React from 'react'
-
-export interface CardItem {
-  header?: string
-  label: string
-  value: string | number | React.ReactNode
-}
 
 interface CardProps {
-  items: CardItem[]
-  variant: CardVariant
+  title: string
+  children: ReactNode
 }
 
-export enum CardVariant {
-  small = 'small',
-  big = 'big',
-  bigger = 'bigger'
-}
-
-const Card = ({ items, variant }: CardProps) => {
-  const getValueElement = (value: string | number | React.ReactNode) => {
-    if (!(typeof value === 'string')) {
-      return value
-    }
-
-    if (isUrl(value)) {
-      return <a href={value}>{value}</a>
-    }
-    return value
-  }
-
+const Card = ({ title, children }: CardProps) => {
   return (
     <div className={'card'}>
-
-      <div className={'label-column-' + variant}>
-        {items.map((item, i) => (
-          <div className={'label'} key={'label-' + i + item.label}>
-            {item.label}:
-          </div>
-        ))}
-      </div>
-      <div>
-        {items.map((item, i) => (
-          <div className={'value-' + variant} key={'value-' + i}>
-            {item.value ? getValueElement(item.value) : '-'}
-          </div>
-        ))}
-      </div>
+      <div className={'title'}>{title}</div>
+      <div className={'content'}>{children}</div>
     </div>
   )
 }

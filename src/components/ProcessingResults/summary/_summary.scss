@@ -1,0 +1,36 @@
+.entry-summary {
+  display: table;
+  width: 100%;
+  border-spacing: 0 1em;
+}
+
+header {
+  border-bottom: 1px solid;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 110%;
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+}
+
+.row {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 150%;
+}
+
+.entry-summary > * {
+  display: table-row;
+  margin-bottom: 18px;
+}
+
+.entry-summary .col {
+  display: table-cell;
+  padding-bottom: 18px;
+}
+
+.row .col {
+  padding-top: 18px;
+}

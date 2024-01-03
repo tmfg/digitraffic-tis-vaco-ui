@@ -2,11 +2,13 @@ import { EntryResource } from './EntryResource'
 import { ItemCounter } from './ItemCounter'
 import { Finding } from './Finding.ts'
 import { PackageResource } from './Package'
+import { SummaryItem } from '../components/ProcessingResults/summary/types'
 
 export interface EntryStateResource {
   data: {
     entry: EntryResource
     validationReports: ValidationReport[]
+    summaries: SummaryItem[]
   }
   error?: string | null
 }

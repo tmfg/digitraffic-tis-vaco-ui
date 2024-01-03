@@ -13,6 +13,7 @@ import SubmittedData from '../../components/ProcessingResults/SubmittedData'
 import ValidationReport from '../../components/ProcessingResults/report/ValidationReport'
 import { FdsButtonComponent } from '../../components/fds/FdsButtonComponent'
 import { useNavigate } from 'react-router-dom'
+import Summary from '../../components/ProcessingResults/summary/Summary'
 
 const ProcessingResultsPage = () => {
   const { entryId } = useParams()
@@ -88,6 +89,12 @@ const ProcessingResultsPage = () => {
                   {t('services:processingResults:progress', { percentage: Math.round(processingProgress) })}
                 </div>
                 <FdsButtonComponent icon="refresh-cw" onClick={() => navigate(0)} label={t('common:refresh')} />
+              </Section>
+            )}
+
+            {entryState.data.summaries?.length > 0 && (
+              <Section hidable={true} titleKey={'summary'}>
+                <Summary summaries={entryState.data.summaries} />
               </Section>
             )}
 

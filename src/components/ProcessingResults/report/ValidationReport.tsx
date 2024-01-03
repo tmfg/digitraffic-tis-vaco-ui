@@ -1,5 +1,5 @@
 import { ValidationReport as ValidationReportResource } from '../../../types/EntryStateResource'
-import Card, { CardItem, CardVariant } from '../../Common/Card/Card'
+import KeyValuePairs, { KeyValuePairItem, KeyValuePairVariant } from '../../Common/KeyValuePairs/KeyValuePairs'
 import { useTranslation } from 'react-i18next'
 import './_validationReport.scss'
 import ReportStats from './ReportStats'
@@ -12,7 +12,7 @@ interface ValidationReportProps {
 
 const ValidationReport = ({ report }: ValidationReportProps) => {
   const { t } = useTranslation()
-  const header: CardItem[] = [
+  const header: KeyValuePairItem[] = [
     {
       label: t('services:processingResults:validationRule'),
       value: report.ruleDescription
@@ -21,7 +21,7 @@ const ValidationReport = ({ report }: ValidationReportProps) => {
 
   return (
     <div className={'report-container'}>
-      <Card items={header} variant={CardVariant.bigger} />
+      <KeyValuePairs items={header} variant={KeyValuePairVariant.bigger} />
       <ReportStats counters={report.counters} />
       {report.notices && <NoticesTable notices={report.notices} ruleName={report.ruleName} />}
       {report.packages && report.packages.length > 0 && (

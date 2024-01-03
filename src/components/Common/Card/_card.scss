@@ -1,75 +1,15 @@
 .card {
-  display: flex;
+  margin-bottom: 0.7rem;
+  width: fit-content;
 
-  a {
-    text-decoration: none;
-    color: var(--interactive-200, #1777F8);
-    cursor: pointer;
+  .title {
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+    width: fit-content;
   }
 
-  a:hover {
-    color: var(--interactive-200, #1777F8);
-    text-decoration: underline;
-    filter: brightness(1.25);
-  }
-
-  .label-column-bigger {
-    margin-right: 3rem;
-
-    .label {
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 110%;
-      padding-bottom: 15px;
-    }
-  }
-
-  .value-bigger {
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 110%;
-    padding-bottom: 15px;
-  }
-
-  .label-column-big {
-    margin-right: 3rem;
-
-    .label {
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 150%;
-      padding-bottom: 3px;
-    }
-  }
-
-  .value-big {
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%;
-    padding-bottom: 3px;
-  }
-
-  .label-column-small {
-    margin-right: 1rem;
-
-    .label {
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 150%;
-      padding-bottom: 2px;
-    }
-  }
-
-  .value-small {
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 150%;
-    padding-bottom: 2px;
+  .content {
+    margin-left: 1.25rem;
+    width: fit-content;
   }
 }

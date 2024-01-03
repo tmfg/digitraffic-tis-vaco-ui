@@ -1,5 +1,5 @@
 import './_section.scss'
-import Card, { CardItem, CardVariant } from '../Common/Card/Card'
+import KeyValuePairs, { KeyValuePairItem, KeyValuePairVariant } from '../Common/KeyValuePairs/KeyValuePairs'
 import { useTranslation } from 'react-i18next'
 import { Entry } from '../../types/EntryResource'
 import { formatDate } from '../../util/date'
@@ -17,7 +17,7 @@ const SubmittedData = ({ entry }: SubmittedDataProps) => {
     <div key={item.name}>{t('services:testData:form:rules:' + item.name)}</div>
   ))
 
-  const items: CardItem[] = [
+  const items: KeyValuePairItem[] = [
     {
       label: t('services:testData:form:feedName') as string,
       value: entry.name
@@ -57,7 +57,7 @@ const SubmittedData = ({ entry }: SubmittedDataProps) => {
 
   return (
     <div className={'section'}>
-      <Card items={items} variant={CardVariant.big} />
+      <KeyValuePairs items={items} variant={KeyValuePairVariant.big} />
     </div>
   )
 }

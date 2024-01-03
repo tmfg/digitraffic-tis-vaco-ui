@@ -144,6 +144,18 @@ export const en = {
         warning: 'Warning',
         info: 'Info',
         unknown: 'Unknown'
+      },
+      summaries: {
+        agencies: 'Agencies included',
+        feedInfo: 'Feed info',
+        files: 'Files included',
+        counts: 'Counts',
+        components: 'Components',
+        publisherName: 'Publisher name',
+        publisherUrl: 'Publisher URL',
+        feedLanguage: 'Feed language',
+        feedStartsDate: 'Feed start date',
+        feedEndDate: 'Feed end date'
       }
     },
     myData: {
