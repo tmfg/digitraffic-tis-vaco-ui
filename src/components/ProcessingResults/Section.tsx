@@ -21,7 +21,7 @@ const Section = ({ titleKey, children, hidable }: SectionProps) => {
           <span className={'hide-control'} onClick={() => setIsOpen(!isOpen)}>
             <span className={'text'}>{t('services:processingResults:' + (isOpen ? 'hide' : 'show'))}</span>
             <span className={'icon'}>
-              <FdsIconComponent icon={isOpen ? 'chevron-down' : 'chevron-up'} />
+              <FdsIconComponent icon={!isOpen ? 'chevron-down' : 'chevron-up'} />
             </span>
           </span>
         )}

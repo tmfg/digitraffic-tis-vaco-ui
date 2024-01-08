@@ -43,6 +43,7 @@ const MyDataPage = () => {
             // TODO: At some point, show some error notification
             return
           }
+          console.log(tokenResult.accessToken)
 
           HttpClient.get('/api/ui/entries?businessId=2942108-7&full=false', getHeaders(tokenResult.accessToken)).then(
             (response) => {
@@ -119,7 +120,7 @@ const MyDataPage = () => {
             itemsTotalCount={entriesToShow.length}
             contentName={'Submissions'}
             tableTitle={'myData'}
-            defaultItemsPerPage={10}
+            defaultItemsPerPage={25}
           >
             <Table
               tableTitle={'myData'}
