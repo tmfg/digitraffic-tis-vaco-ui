@@ -23,7 +23,7 @@ export const validateFormData = (
   }
 
   if (!formData.format) {
-    errors.format = translate('formValidation:isRequired', {
+    errors.format = translate('services:testData:form:formatRequired', {
       value: translate('services:testData:form:format').toLowerCase()
     })
   }
@@ -32,12 +32,10 @@ export const validateFormData = (
     errors.rules = translate('services:testData:form:rulesRequired')
   }
 
-  if (formData.format === 'NETEX') {
+  if ((formData.format as string)?.toLowerCase() === 'netex') {
     selectedRules.forEach((rule) => {
       if (!formData[rule.data.identifyingName + '-codespace']) {
-        errors[rule.data.identifyingName + '-codespace'] = translate('formValidation:isRequired', {
-          value: translate('services:testData:form:netex:codespace').toLowerCase()
-        })
+        errors[rule.data.identifyingName + '-codespace'] = translate('services:testData:form:netex:codespaceRequired')
       }
     })
   }
@@ -74,7 +72,7 @@ export const submitData = async (
   }
 
   const validations = selectedRules.map((rule) => {
-    if (formData.format === 'NETEX') {
+    if ((formData.format as string)?.toLowerCase() === 'netex') {
       return {
         name: rule.data.identifyingName,
         config: {
@@ -83,7 +81,7 @@ export const submitData = async (
             ?.split(',')
             .filter((elem) => elem),
           maximumErrors: Number(formData[rule.data.identifyingName + '-maximumErrors']) || 500,
-          reportId: formData[rule.data.identifyingName + '-formData']
+          reportId: formData[rule.data.identifyingName + '-reportId']
         }
       }
     }

@@ -26,7 +26,8 @@ const ValidationReport = ({ report }: ValidationReportProps) => {
       {report.notices && <NoticesTable notices={report.notices} ruleName={report.ruleName} />}
       {report.packages && report.packages.length > 0 && (
         <div className={'packages-container'}>
-          <h5>{t('services:processingResults:artifacts:validation')}</h5>
+          <h5>{t('services:processingResults:packages:header')}</h5>
+          <div className={'intro'}>{t('services:processingResults:packages:intro')}</div>
           {report.packages.map((p) => {
             return <PackageButton key={'package-' + p.data.name} entryPackage={p} />
           })}

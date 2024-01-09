@@ -66,7 +66,7 @@ const NoticesTable = ({ notices, ruleName }: NoticesTableProps) => {
   return (
     <Pagination
       itemsTotalCount={noticesRowItems.length}
-      contentName={'Notices'}
+      contentName={t('pagination:content:notices')}
       tableTitle={'NoticesTable-' + ruleName}
       defaultItemsPerPage={10}
     >

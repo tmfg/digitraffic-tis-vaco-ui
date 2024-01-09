@@ -5,6 +5,7 @@ import { ReactComponent as NextSvg } from '../../../assets/svg/arrow-right-circl
 import { FdsDropdownComponent } from '../../fds/FdsDropdownComponent'
 import { FdsDropdownOption } from '../../../../coreui-components/src/fds-dropdown'
 import { FdsInputChange } from '../../../../coreui-components/src/fds-input'
+import { useTranslation } from 'react-i18next'
 
 interface PaginationProps {
   itemsTotalCount: number
@@ -20,6 +21,7 @@ const Pagination = ({ itemsTotalCount, children, contentName, tableTitle, defaul
   const [endOffset, setEndOffset] = useState<number>(defaultItemsPerPage)
   const [itemsCount, setItemsCount] = useState<number>(itemsTotalCount)
   const [itemsPerPage, setItemsPerPage] = useState<number>(defaultItemsPerPage)
+  const { t } = useTranslation()
 
   const getPageCount = () => {
     return Math.ceil(itemsTotalCount / (itemsPerPage || defaultItemsPerPage))
@@ -45,7 +47,7 @@ const Pagination = ({ itemsTotalCount, children, contentName, tableTitle, defaul
     { label: '25', value: '25' },
     { label: '50', value: '50' }
   ].filter((opt) => (opt.value as unknown as number) < itemsTotalCount)
-  itemsPerPageOpts.push({ label: 'Show all', value: itemsTotalCount as unknown as string })
+  itemsPerPageOpts.push({ label: t('pagination:showAll'), value: itemsTotalCount as unknown as string })
 
   const handlePageClick = (selectedPage: number) => {
     setSelectedPage(selectedPage)
@@ -80,7 +82,7 @@ const Pagination = ({ itemsTotalCount, children, contentName, tableTitle, defaul
         style={{ marginRight: '2rem' }}
         className={'page-panel-item'}
       >
-        <PreviousSvg /> previous
+        <PreviousSvg /> {t('pagination:previous')}
       </span>
     )
   }
@@ -99,7 +101,7 @@ const Pagination = ({ itemsTotalCount, children, contentName, tableTitle, defaul
         style={{ marginLeft: '2rem' }}
         className={'page-panel-item'}
       >
-        next <NextSvg />
+        {t('pagination:next')} <NextSvg />
       </span>
     )
   }
@@ -157,10 +159,11 @@ const Pagination = ({ itemsTotalCount, children, contentName, tableTitle, defaul
     <>
       <div className={'pagination-summary'}>
         <div style={{ marginRight: '10rem' }}>
-          {contentName} {itemOffset + 1} - {endOffset < itemsCount ? endOffset : itemsCount} (total {itemsCount})
+          {contentName} {itemOffset + 1} - {endOffset < itemsCount ? endOffset : itemsCount} ({t('pagination:total')}{' '}
+          {itemsCount})
         </div>
         <div>
-          <span style={{ marginRight: '1rem' }}>Items per page: </span>
+          <span style={{ marginRight: '1rem' }}>{t('pagination:perPage')}:</span>
         </div>
         <div>
           <FdsDropdownComponent

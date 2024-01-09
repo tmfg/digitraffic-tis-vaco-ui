@@ -4,12 +4,6 @@ export const en = {
     fi: 'Suomeksi',
     se: 'På Svenska'
   },
-  ad: {
-    login: 'Login',
-    logout: 'Log out',
-    register: 'Register',
-    create: 'Register'
-  },
   fintraffic: {
     traffic: 'Traffic Situation',
     feedback: 'Feedback Channel',
@@ -30,29 +24,41 @@ export const en = {
     privacy: 'Privacy Policy',
     support: 'Support',
     channels: 'Support channels',
-    services: 'My Services',
-    testData: 'Test your data',
+    services: 'My services',
+    testData: 'Test and validate',
     myData: 'My data',
-    user: 'User account'
+    user: 'My account',
+    login: 'Log in',
+    logout: 'Log out',
+    register: 'Register'
   },
   home: {
-    header: 'VACO - validation & conversion',
-    intro: '',
+    header: 'VACO - National validator of essential traffic service data',
+    intro: {
+      p1: 'VACO is part of the NAP Transportation Service Catalogue.',
+      p2: 'VACO validates the APIs for essential data and, when necessary, helps traffic service providers correct or improve their published datasets. Its aim is to develop the availability and usability of data in traffic services by increasing the quality of datasets and open APIs.',
+      p3: 'VACO’s primary purpose is to validate and coordinate the APIs published in NAP, but all registered users can use VACO to validate standardised travel datasets (GTFS and NeTEx). Registered users can also use VACO to check the quality and compatibility of the relevant data publications they have listed on NAP against the requirements presented in EU and domestic legislation.'
+    },
     shortcuts: 'Shortcuts',
     shortcut: {
       login: {
+        label: 'Log in',
         intro: 'Log in to start using the service.'
       },
-      create: {
+      register: {
+        label: 'Register',
         intro: 'Create an account if you are new to the service.'
       },
       testData: {
+        label: 'Test your data',
         intro: 'Validate data, get compliance report and converted data.'
       },
       myData: {
+        label: 'My data',
         intro: 'Review your previous data submissions.'
       },
       admin: {
+        label: '',
         intro: ''
       },
       navigate: 'Navigate'
@@ -60,10 +66,9 @@ export const en = {
   },
   services: {
     testData: {
-      header: 'Test your data',
-      shortIntro: 'Here one can submit their data.',
+      header: 'Test and validate your travel data publication',
       intro:
-        'Once the data is submitted, expect to receive an email with further detail and the link for accessing processing results.',
+        'The validator on this page can be used to validate standard travel data. Currently, the validator supports NeTEx Nordic and GTFS-formatted publications. Remember to always publish your travel data primarily in the Finap.fi Transportation Service Catalogue, in which case the validation process and feedback reports are provided automatically. The validator on this page can be used to review and develop data publications. ',
       form: {
         title: 'Create feed',
         section: {
@@ -76,9 +81,10 @@ export const en = {
         feedNamePlaceHolder: 'Example: "data.zip - a bus stop fix"',
         feedNameInfo: "A meaningful name to identify submitted data. By default: data's file name",
         url: 'Data URL',
-        urlInfo: 'URL containing the source data package',
+        urlInfo: 'URL containing the data file',
         etag: 'ETag',
         format: 'Data format',
+        formatRequired: 'Specifying format is required',
         submit: 'Submit',
         rules: {
           'gtfs.canonical.v4_1_0': 'Canonical GTFS Validator by MobilityData, version v4.1.0',
@@ -88,6 +94,7 @@ export const en = {
         },
         netex: {
           codespace: 'Codespace',
+          codespaceRequired: 'Specifying codespace is required',
           ignorableNetexElements: 'Ignorable NeTEx elements',
           ignorableNetexElementsMessage: 'Separated by comma',
           maximumErrors: 'Maximum number of errors',
@@ -98,7 +105,7 @@ export const en = {
       },
       modal: {
         title: 'Data submitted!',
-        accessBy: 'The data processing can by accessed by ID: <strong>{{publicId}}</strong>',
+        accessBy: 'The data processing can be accessed by ID: <strong>{{publicId}}</strong>',
         notification:
           'An email notification will be sent to <strong>{{email}}</strong> after the processing is complete.',
         toProceed: 'You can navigate to view the processing progress by clicking "Proceed".'
@@ -109,7 +116,6 @@ export const en = {
       summary: 'Summary',
       reports: 'Specification Compliance reports',
       artifacts: {
-        validation: 'Validation artifacts',
         conversion: 'Conversion artifacts'
       },
       hide: 'Hide',
@@ -119,10 +125,13 @@ export const en = {
       inProgress: 'Processing progress',
       progress: 'The processing is currently {{percentage}}% complete. Please, refresh the page for the latest data.',
       packages: {
+        header: 'Produced packages',
+        intro:
+          'Here are the produced packages, including the validation report. Package format is HTML or JSON depending on the used validator.',
         result: 'Input data',
         all: 'All outputs',
         debug: 'Debug logs',
-        report: 'Rule report'
+        report: 'Validation report'
       },
       reportStats: {
         all: 'notices reported',
@@ -137,7 +146,7 @@ export const en = {
         total: 'Total',
         moreInfo: 'You can read more about this notice',
         notAllNoticesShown:
-          'Only {{instancesLength}} instances out of {{noticeTotal}} are shown. The full list is available in the downloadable rule report below.'
+          'Only {{instancesLength}} instances out of {{noticeTotal}} are shown. The full list is available in the downloadable validation report below.'
       },
       severity: {
         error: 'Error',
@@ -155,14 +164,25 @@ export const en = {
         publisherUrl: 'Publisher URL',
         feedLanguage: 'Feed language',
         feedStartsDate: 'Feed start date',
-        feedEndDate: 'Feed end date'
+        feedEndDate: 'Feed end date',
+        website: 'Website',
+        email: 'Email',
+        phone: 'Phone number',
+        showAllItem: {
+          agencies: 'agencies'
+        },
+        showLessItem: {
+          agencies: 'agencies'
+        }
       }
     },
     myData: {
-      header: 'My data',
-      intro: 'Here one can find their latest data submissions.',
+      header: 'My data publications',
+      intro:
+        'On this page, you can find all your travel data publications and the related reports. If you are an administrator or developer of the travel data provided by several organisations, you can also search for organisation-specific reports.',
       find: 'Find data',
       searchWord: 'Search word',
+      searchWordPlaceholder: 'Submission ID or feed name',
       latest: 'Latest submissions',
       table: {
         id: 'Submission ID',
@@ -177,25 +197,40 @@ export const en = {
       noDataFound: 'No data found'
     }
   },
-  adminPanel: {},
   error: {
     notFound: 'Error: nothing exists on the specified URL path.',
     authRequired: 'Error: login is required to proceed.',
     return: 'Return to the home page'
   },
   formValidation: {
-    isRequired: 'Specifying {{value}} is required.',
-    isInvalid: 'Provided {{value}} is invalid.'
+    isRequired: 'Specifying {{value}} is required',
+    isInvalid: 'Provided {{value}} is invalid'
   },
   common: {
     proceed: 'Proceed',
     close: 'Close',
     search: 'Search',
     refresh: 'Refresh',
-    here: 'here'
+    here: 'here',
+    showAll: 'Show all {{values}}',
+    showLess: 'Show less {{values}}'
   },
   format: {
     gtfs: 'GTFS',
     netex: 'NeTEx'
+  },
+  pagination: {
+    content: {
+      notices: 'Notices',
+      submissions: 'Submissions'
+    },
+    total: 'total',
+    perPage: 'Items per page',
+    next: 'next',
+    previous: 'previous',
+    showAll: 'Show all'
+  },
+  sorting: {
+
   }
 }

@@ -4,12 +4,6 @@ export const fi = {
     en: 'In English',
     se: 'På Svenska'
   },
-  ad: {
-    login: 'Kirjaudu',
-    logout: 'Kirjaudu ulos',
-    register: 'Rekisteröidy',
-    create: 'Luo käyttäjätili'
-  },
   fintraffic: {
     traffic: 'Liikennetilanne',
     feedback: 'Palauteväylä',
@@ -24,35 +18,47 @@ export const fi = {
   },
   vaco: {
     vaco: 'VACO',
-    about: 'Tietoa palvelusta',
+    about: 'Tietoja palvelusta',
     instructions: 'VACO-ohjeet ja -tiedotteet',
     terms: 'Käyttöehdot',
     privacy: 'Tietosuojaseloste',
     support: 'Tuki',
     channels: 'Tuki kanavat',
     services: 'Omat palvelut',
-    testData: 'Testata tietoja',
-    myData: 'Oma tietoja',
-    user: 'Käyttäjätili'
+    testData: 'Testaa ja validoi',
+    myData: 'Omat datajulkaisut',
+    user: 'Omat tiedot',
+    login: 'Kirjaudu',
+    logout: 'Kirjaudu ulos',
+    register: 'Rekisteröidy'
   },
   home: {
-    header: 'VACO - validointi & muuntaminen',
-    intro: '',
-    shortcuts: 'Pikakuvakkeet',
+    header: 'VACO - Liikennepalveluiden olennaisten tietojen valtakunnallinen validaattori',
+    intro: {
+      p1: 'VACO olennaisten tietojen valtakunnallinen validaattori on osa NAP-liikkumispalvelukatalogia.',
+      p2: 'VACO validoi olennaisten tietojen rajapinnat ja ohjaa liikkumispalveluiden tuottajia tarvittaessa korjaamaan tai parantamaan aineistojulkaisujaan. Tavoitteena on entistä laadukkaampien aineistojen ja avoimien rajapintojen avulla kehittää liikennepalveluiden tietojen saatavuutta ja hyödynnettävyyttä.',
+      p3: 'VACO:n pääkäyttötarkoitus on validoida ja yhteensovittaa NAP:ssa julkaistuja rajapintoja, mutta kenellä tahansa rekisteröityneellä käyttäjällä on mahdollisuus validoida standardimuotoisia matkatietoaineistoja (GTFS ja NeTEx). Rekisteröityneillä käyttäjillä on mahdollisuus tarkastaa NAP-liikkumispalvelukatalogiin listaamiensa olennaisten tietojen julkaisujen laatua ja yhteensopivuutta vasten EU:n ja kotimaisen lainsäädännön vaatimuksia.'
+    },
+    shortcuts: 'Pikavalinnat',
     shortcut: {
       login: {
-        intro: 'Kirjaudu sisään aloittaaksesi palvelun käytön.'
+        label: 'Kirjaudu',
+        intro: 'Aloita palvelun käyttö kirjautumalla sisään.'
       },
-      create: {
-        intro: 'Luo tili, jos olet uusi palvelussa.'
+      register: {
+        label: 'Rekisteröidy',
+        intro: 'Luo tili, jos olet uusi käyttäjä.'
       },
       testData: {
-        intro: 'Vahvista tiedot, hanki vaatimustenmukaisuusraportti ja muunnetut tiedot.'
+        label: 'Testaa datasi',
+        intro: 'Validoi datasi, niin saat yhteensopivuusraportin ja konvertoidun datan.'
       },
       myData: {
-        intro: 'Tarkista aikaisemmat tiedot.'
+        label: 'Omat datajulkaisut',
+        intro: 'Tarkista aiemmat datajulkaisusi.'
       },
       admin: {
+        label: '',
         intro: ''
       },
       navigate: 'Navigoida'
@@ -60,9 +66,9 @@ export const fi = {
   },
   services: {
     testData: {
-      header: 'Testata tietoja',
-      shortIntro: 'Täällä voi lähettää tietonsa.',
-      intro: 'Lisää infoa täällä.',
+      header: 'Testaa ja validoi matkatietojulkaisusi',
+      intro:
+        'Tällä sivulla olevaa validaattoria voit käyttää standardimuotoisen matkatiedon validointiin. Tällä hetkellä validaattori tukee NeTEx Nordic ja GTFS muotoisia julkaisuja. Muista julkaista matkatietosi aina ensisijaisesti Finap.fi liikkumispalvelukatalogissa, jolloin validointiprosessi ja palauteraportit ovat automaattisia. Tältä sivustolta löytyvää validaattoria voit käyttää datajulkaisujen tarkastamiseen ja kehittämiseen. ',
       form: {
         title: 'Luo syöte',
         section: {
@@ -71,77 +77,155 @@ export const fi = {
           metadata: 'Metadata'
         },
         feedName: 'Syötteen nimi',
-        feedNamePlaceHolder: 'Esimerkki: "data.zip - bussipysäkin korjaus"',
-        feedNameInfo: 'Merkittävä nimi lähetettyjen tietojen tunnistamiseksi. Oletuksena: tietojen tiedostonimi',
-        url: 'URL',
-        urlInfo: 'URL-osoite, joka sisältää lähdetietopaketin',
+        feedNamePlaceHolder: 'Esimerkki: "data.zip - pysäkkien korjaus"',
+        feedNameInfo: 'Lähetetyn datan yksilöllinen nimi. Oletus: datatiedoston nimi',
+        url: 'Datan URL-osoite',
+        urlInfo: 'URL-osoite, joka sisältää datatiedoston',
         etag: 'ETag',
-        format: 'Datamuoto',
-        submit: 'Lähetä',
+        format: 'Dataformaatti',
+        formatRequired: 'Dataformaatti on määritettävä',
+        submit: 'Julkaise',
         rules: {
           'gtfs.canonical.v4_1_0': 'Canonical GTFS Validator by MobilityData, versio v4.1.0',
           'gtfs.canonical.v4_0_0': 'Canonical GTFS Validator by MobilityData, versio v4.0.0',
-          'netex.entur.v1_0_1': 'NeTEx Validator by Entur, versio v1.0.1'
+          'netex.entur.v1_0_1': 'NeTEx Validator by Entur, versio v1.0.1',
+          'gtfs2netex.fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, versio v1.12.0'
         },
         netex: {
           codespace: 'Codespace',
-          ignorableNetexElements: 'Huomattamattomia NeTEx elementtejä',
-          ignorableNetexElementsMessage: 'Pilkulla erotettuna',
-          maximumErrors: 'Virheiden enimmäismäärä',
-          reportId: 'Raportin ID'
+          codespaceRequired: 'Codespace on määritettävä',
+          ignorableNetexElements: 'Ohitettavat NeTEx-elementit',
+          ignorableNetexElementsMessage: 'Erota pilkuilla',
+          maximumErrors: 'Ilmoitusten enimmäismäärä',
+          reportId: 'Raportin tunnus'
         },
-        error: 'Lomake sisältää virheitä. Ole hyvä ja korjaa korostetut tulot.',
-        rulesRequired: 'Vähintään yksi sääntö on valittava'
+        error: 'Lomakkeessa on virheitä. Korjaa korostetut kohdat.',
+        rulesRequired: 'Valitse vähintään yksi sääntö'
       },
       modal: {
-        title: 'Tiedot lähetetty!',
-        accessBy: 'Tietojen käsittelyyn pääsee käsiksi ID-lla: <strong>{{publicId}}</strong>',
+        title: 'Data lähetetty!',
+        accessBy: 'Datan käsittelyyn pääsee käsiksi ID-lla: <strong>{{publicId}}</strong>',
         notification: 'Käsittelyn päätyttyä lähetetään sähköposti-ilmoitus osoitteeseen <strong>{{email}}</strong>',
-        toProceed: 'Voit siirtyä tarkastelemaan käsittelyn edistymistä napsauttamalla "Jatka".'
+        toProceed: 'Voit siirtyä tarkastelemaan käsittelyn edistymistä napsauttamalla "Siirry".'
       }
     },
     processingResults: {
-      header: 'Tulosraportti',
+      header: 'Datajulkaisun tulokset',
       summary: 'Yhteenveto',
-      reports: 'Erittelyn noudattamisraportit',
+      reports: 'Määritystenmukaisuusraportit',
       artifacts: {
-        validation: 'Vahvistusartefaktit',
-        conversion: 'Muunnosartefaktit'
+        conversion: 'Conversion artifacts'
       },
-      hide: 'Piilottaa',
+      hide: 'Piilota',
       show: 'Näytä',
-      submissionDate: 'Jättöpäivämäärä'
+      submissionDate: 'Julkaisun päivämäärä',
+      validationRule: 'Käytetty validointisääntö',
+      inProgress: 'Käsittelyn edistyminen',
+      progress: 'Käsittely on tällä hetkellä {{percentage}}% valmis. Päivitä sivu saadaksesi uusimmat tiedot.',
+      packages: {
+        header: 'Valmistetut paketit',
+        intro:
+          'Tässä näet valmistetut paketit validointiraportteineen. Paketti on HTML- tai JSON-muodossa validaattorista riippuen.',
+        result: 'Syötetyt tiedot',
+        all: 'Kaikki ulostulot',
+        debug: 'Debug lokit',
+        report: 'Validointiraportti'
+      },
+      reportStats: {
+        all: 'ilmoitusta raportoitu',
+        error: 'virhettä',
+        warning: 'varoitusta',
+        info: 'tiedoksiantoa',
+        unknown: 'tuntematonta'
+      },
+      notices: {
+        code: 'Ilmoituksen koodi',
+        severity: 'Vakavuusaste',
+        total: 'Yhteensä',
+        moreInfo: 'Voit lukea lisää tästä ilmoituksesta',
+        notAllNoticesShown:
+          'Datapaketissa on liian monta löydöstä: vain {{instancesLength}} löydöstä {{noticeTotal}}:sta näytetään. Täydellinen luettelo on saatavilla alla ladattavassa validointiraportissa.'
+      },
+      severity: {
+        error: 'Virhe',
+        warning: 'Varoitus',
+        info: 'Tiedoksianto',
+        unknown: 'Tuntematon'
+      },
+      summaries: {
+        agencies: 'Toimijat',
+        feedInfo: 'Syötteen tiedot',
+        files: 'Tiedostot',
+        counts: 'Lukumäärät',
+        components: 'Komponentit',
+        publisherName: 'Julkaisijan nimi',
+        publisherUrl: 'Julkaisijan URL-osoite',
+        feedLanguage: 'Syötteen kieli',
+        feedStartsDate: 'Syötteen aloituspäivä',
+        feedEndDate: 'Syötteen päättymispäivä',
+        website: 'Verkkosivusto',
+        email: 'Sähköpostiosoite',
+        phone: 'Puhelinnumero',
+        showAllItem: {
+          agencies: 'toimijat'
+        },
+        showLessItem: {
+          agencies: 'toimijoita'
+        }
+      }
     },
     myData: {
-      header: 'Minun tietoni',
-      intro: 'Here one can find their latest data submissions.',
-      find: 'Find data',
-      searchWord: 'Search word',
-      latest: 'Latest submissions',
+      header: 'Omat datajulkaisut',
+      intro:
+        'Tältä sivustolta löydät kaikki matkatietodatojesi julkaisut ja niihin liittyvät raportit. Mikäli olet usean organisaation matkatietojen ylläpitäjä tai kehittäjä, voit myös hakea organisaatiokohtaisia raportteja.  ',
+      find: 'Hae datajulkaisuista',
+      searchWord: 'Hakusana',
+      searchWordPlaceholder: 'Julkaisun tunnus tai syötteen nimi',
+      latest: 'Uusimmat julkaisut',
       table: {
-        id: 'Submission ID',
-        feedName: 'Feed name',
-        format: 'Format',
-        dateCreated: 'Created',
-        dateStarted: 'Started',
-        dateUpdated: 'Updated',
-        dateCompleted: 'Completed',
-        status: 'Status'
-      }
+        id: 'Julkaisun tunnus',
+        feedName: 'Syötteen nimi',
+        format: 'Formaatti',
+        dateCreated: 'Luotu',
+        dateStarted: 'Aloitettu',
+        dateUpdated: 'Päivitetty',
+        dateCompleted: 'Valmis',
+        status: 'Tila'
+      },
+      noDataFound: 'Dataa ei löytynyt'
     }
   },
-  adminPanel: {},
   error: {
     notFound: 'Virhe: määritetyllä URL-polulla ei ole mitään.',
     authRequired: 'Virhe: sisäänkirjautuminen vaaditaan jatkamiseksi.',
     return: 'Palaa etusivulle'
   },
   formValidation: {
-    isRequired: 'Määritetään {{value}} on vaadittu',
-    isInvalid: 'Edellyttäen, että {{value}} on virheellinen.'
+    isRequired: '{{value}} on määritettävä',
+    isInvalid: 'Annettu {{value}} ei kelpaa'
+  },
+  common: {
+    proceed: 'Siirry',
+    close: 'Sulje',
+    search: 'Hae',
+    refresh: 'Päivitä',
+    here: 'täältä',
+    showAll: 'Näytä kaikki {{values}}',
+    showLess: 'Näytä vähemmän {{values}}'
   },
   format: {
     gtfs: 'GTFS',
     netex: 'NeTEx'
+  },
+  pagination: {
+    content: {
+      notices: 'Ilmoitukset',
+      submissions: 'Julkaiset'
+    },
+    total: 'yhteensä',
+    perPage: 'Kohteita sivulla',
+    next: 'seuraava',
+    previous: 'edellinen',
+    showAll: 'Näytä kaikki'
   }
 }

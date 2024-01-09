@@ -23,7 +23,7 @@ const SubmittedData = ({ entry }: SubmittedDataProps) => {
       value: entry.name
     },
     {
-      label: 'ID',
+      label: t('services:myData:table:id') as string,
       value: entry.publicId
     },
     {

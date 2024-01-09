@@ -20,10 +20,10 @@ test.describe(`Home Page, without authentication`, () => {
     await expect(page.getByRole('heading', { name: i18n.t('home:shortcuts') })).toBeVisible()
 
     // Shortcuts:
-    await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('ad:login')}`)).toBeVisible()
-    await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('ad:create')}`)).toBeVisible()
-    await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('vaco:myData')}`)).not.toBeVisible()
-    await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('vaco:testData')}`)).not.toBeVisible()
+    await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('vaco:login')}`)).toBeVisible()
+    await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('vaco:register')}`)).toBeVisible()
+    await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('home:shortcut:myData:label')}`)).not.toBeVisible()
+    await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('home:shortcut:testData:label')}`)).not.toBeVisible()
 
     // VACO menu:
     await expect(page.locator(`.item__label--bold >> span >> text=${i18n.t('vaco:vaco')}`)).toBeVisible()
@@ -35,10 +35,10 @@ test.describe(`Home Page, without authentication`, () => {
     await expect(page.locator(`li >> text=${i18n.t('vaco:privacy')}`)).toHaveCount(2)
 
     await expect(page.locator(`span >> text=${i18n.t('vaco:support')}`)).toBeVisible()
-    await expect(page.locator(`span >> text=${i18n.t('ad:login')}`)).toBeVisible()
-    await expect(page.locator(`span >> text=${i18n.t('ad:register')}`)).toBeVisible()
-    await expect(page.locator(`span >> text=${i18n.t('vaco:myData')}`)).not.toBeVisible()
-    await expect(page.locator(`span >> text=${i18n.t('vaco:testData')}`)).not.toBeVisible()
+    await expect(page.locator(`span >> text=${i18n.t('vaco:login')}`)).toBeVisible()
+    await expect(page.locator(`span >> text=${i18n.t('vaco:register')}`)).toBeVisible()
+    await expect(page.locator(`span >> text=${i18n.t('home:shortcut:myData:label')}`)).not.toBeVisible()
+    await expect(page.locator(`span >> text=${i18n.t('home:shortcut:testData:label')}`)).not.toBeVisible()
 
     await expect(page.locator(`span >> text=${i18n.t('locales:fi')}`)).toBeVisible()
     await page.locator(`span >> text=${i18n.t('locales:fi')}`).click()

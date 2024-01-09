@@ -83,7 +83,7 @@ export const userItem = (t: TFunction<'translation', undefined>): FdsNavigationI
 
 export const loginItem = (t: TFunction<'translation', undefined>): FdsNavigationItem => {
   return {
-    label: t('ad:login'),
+    label: t('vaco:login'),
     value: login,
     position: FdsNavigationItemPosition.right
   }
@@ -91,7 +91,7 @@ export const loginItem = (t: TFunction<'translation', undefined>): FdsNavigation
 
 export const registerItem = (t: TFunction<'translation', undefined>): FdsNavigationItem => {
   return {
-    label: t('ad:register'),
+    label: t('vaco:register'),
     value: createAccount,
     position: FdsNavigationItemPosition.right
   }
