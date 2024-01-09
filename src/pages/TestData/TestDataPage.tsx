@@ -10,11 +10,7 @@ const TestDataPage = () => {
     <div className={'page-content'}>
       <AuthenticatedTemplate>
         <h1>{t('services:testData:header')}</h1>
-        <div className={'page-intro'}>
-          {t('services:testData:shortIntro')}
-          <br />
-          {t('services:testData:intro')}
-        </div>
+        <div className={'page-intro'}>{t('services:testData:intro')}</div>
         <Form />
       </AuthenticatedTemplate>
       <UnauthenticatedTemplate>

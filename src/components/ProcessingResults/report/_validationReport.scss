@@ -6,8 +6,8 @@
 }
 
 .report-stats {
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2.5rem;
   display: flex;
 
   .counter {
@@ -47,9 +47,11 @@
 }
 
 .packages-container {
-  margin-top: 3rem;
-
   h5 {
+    margin-bottom: 1.5rem;
+  }
+
+  .intro {
     margin-bottom: 2rem;
   }
 }

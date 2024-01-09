@@ -133,6 +133,7 @@ const Form = () => {
   const useGeneralListener: EventListenerOrEventListenerObject = useCallback(
     (e: Event) => {
       const detail = (e as CustomEvent).detail as FdsInputChange
+      console.log('yikes!!!', detail)
       const newFormState = getNewFormState(formData, detail)
       const newFormErrors = getNewFormErrorsState(formErrors, detail)
       updateFormState(newFormState, newFormErrors)
@@ -189,7 +190,7 @@ const Form = () => {
         ruleCheckboxes.push(checkbox)
       }
 
-      if (formData.format === 'NETEX') {
+      if ((formData.format as string)?.toLowerCase() === 'netex') {
         const codespaceElement = document.querySelector('[id="' + rule.data.identifyingName + '-codespace' + '"]')
         if (codespaceElement && codespaceElement.getAttribute('listener') !== 'true') {
           codespaceElement.addEventListener('change', useGeneralListener)
@@ -342,7 +343,7 @@ const Form = () => {
           (formErrors.url ||
             formErrors.format ||
             formErrors.rules ||
-            (formData.format === 'NETEX' &&
+            ((formData.format as string)?.toLowerCase() === 'netex' &&
               rules.filter((rule) => formErrors[rule.data.identifyingName + '-codespace']).length > 0)) && (
             <div data-testid="error-alert" className={'form-section'}>
               <FdsAlertComponent icon={'alert-circle'}>{t('services:testData:form:error')}</FdsAlertComponent>

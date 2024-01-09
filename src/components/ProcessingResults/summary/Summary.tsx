@@ -18,19 +18,20 @@ const Summary = ({ summaries }: SummaryProps) => {
   const getSummaryContent = (summary: SummaryItem) => {
     if (summary.type === 'cards') {
       const cards: SummaryCard[] = summary.content as SummaryCard[]
-      /* if (cards.length > 3) {
-        const currentShowAllStates = { ...showAllStates }
-        currentShowAllStates[summary.title] = false
-        setShowAllStates(currentShowAllStates)
-      }*/
       const shownCards = cards.length > 3 ? (showAllStates[summary.title] ? cards : cards.slice(0, 3)) : cards
       return (
         <div>
           {shownCards.map((card) => {
             const cardContent: KeyValuePairItem[] = card.content
+            const localized: KeyValuePairItem[] = cardContent.map((pair) => {
+              return {
+                label: t('services:processingResults:summaries:' + pair.label) as string,
+                value: pair.value
+              }
+            })
             return (
               <Card key={'card-' + card.title} title={card.title}>
-                <KeyValuePairs items={cardContent} variant={KeyValuePairVariant.small} />
+                <KeyValuePairs items={localized} variant={KeyValuePairVariant.small} />
               </Card>
             )
           })}
@@ -44,7 +45,9 @@ const Summary = ({ summaries }: SummaryProps) => {
               }}
             >
               <span className={'text'}>
-                {showAllStates[summary.title] ? 'Show less ' + summary.title : 'Show all ' + summary.title}
+                {showAllStates[summary.title]
+                  ? t('common:showLess', { values: t('services:processingResults:summaries:showLessItem:' + summary.title )})
+                  : t('common:showAll', { values: t('services:processingResults:summaries:showAllItem:' + summary.title ) })}
               </span>
               <span className={'icon'}>
                 <FdsIconComponent icon={showAllStates[summary.title] ? 'chevron-up' : 'chevron-down'} />

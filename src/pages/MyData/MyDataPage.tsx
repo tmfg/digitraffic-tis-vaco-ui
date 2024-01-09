@@ -43,7 +43,6 @@ const MyDataPage = () => {
             // TODO: At some point, show some error notification
             return
           }
-          console.log(tokenResult.accessToken)
 
           HttpClient.get('/api/ui/entries?businessId=2942108-7&full=false', getHeaders(tokenResult.accessToken)).then(
             (response) => {
@@ -96,7 +95,7 @@ const MyDataPage = () => {
               <FdsInputComponent
                 clearable={true}
                 name={'searchWord'}
-                placeholder={t('services:myData:table:id') + ' or ' + t('services:myData:table:feedName').toLowerCase()}
+                placeholder={t('services:myData:searchWordPlaceholder')}
                 label={t('services:myData:searchWord')}
               />
             </div>
@@ -118,7 +117,7 @@ const MyDataPage = () => {
         {entriesToShow && entriesToShow.length > 0 && (
           <Pagination
             itemsTotalCount={entriesToShow.length}
-            contentName={'Submissions'}
+            contentName={t('pagination:content:submissions')}
             tableTitle={'myData'}
             defaultItemsPerPage={25}
           >

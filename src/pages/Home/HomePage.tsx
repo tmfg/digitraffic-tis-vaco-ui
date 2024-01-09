@@ -1,12 +1,11 @@
 import { useIsAuthenticated, useMsal } from '@azure/msal-react'
-import { createAccount, login, logout } from '../../hooks/auth'
+import { createAccount, login } from '../../hooks/auth'
 import { Shortcut } from '../../components/Shortcut/types'
 import ShortcutPanel from '../../components/Shortcut/ShortcutPanel'
 import { ReactComponent as LoginSvg } from '../../assets/svg/login.svg'
 import { ReactComponent as NewUserSvg } from '../../assets/svg/new_user.svg'
 import { ReactComponent as MyDataSvg } from '../../assets/svg/my_data.svg'
 import { ReactComponent as TestDataSvg } from '../../assets/svg/test_data.svg'
-import { ReactComponent as TrainSvg } from '../../assets/svg/train.svg'
 import { useTranslation } from 'react-i18next'
 
 const HomePage = () => {
@@ -16,7 +15,7 @@ const HomePage = () => {
 
   const landingShortcuts: Shortcut[] = [
     {
-      label: t('ad:login'),
+      label: t('vaco:login'),
       icon: <LoginSvg />,
       to: '/',
       onClick: () => {
@@ -27,37 +26,28 @@ const HomePage = () => {
       description: t('home:shortcut:login:intro')
     },
     {
-      label: t('ad:create'),
+      label: t('vaco:register'),
       icon: <NewUserSvg />,
       to: '/',
       onClick: () => {
         createAccount(instance)
       },
-      description: t('home:shortcut:create:intro')
+      description: t('home:shortcut:register:intro')
     }
   ]
 
   const userShortcuts: Shortcut[] = [
     {
-      label: t('vaco:myData'),
+      label: t('home:shortcut:myData:label'),
       to: '/data',
       icon: <MyDataSvg />,
       description: t('home:shortcut:myData:intro')
     },
     {
-      label: t('vaco:testData'),
+      label: t('home:shortcut:testData:label'),
       to: '/data/request',
       icon: <TestDataSvg />,
       description: t('home:shortcut:testData:intro')
-    },
-    {
-      label: t('ad:logout'),
-      icon: <TrainSvg />,
-      to: '/',
-      onClick: () => {
-        logout(instance)
-      },
-      description: 'This is temporarily here till admin panel appears'
     }
   ]
 
@@ -66,11 +56,9 @@ const HomePage = () => {
       <h1>{t('home:header')}</h1>
 
       <div className={'page-intro'}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-        laborum.
+        <p>{t('home:intro:p1')}</p>
+        <p>{t('home:intro:p2')}</p>
+        <p>{t('home:intro:p3')}</p>
       </div>
 
       <h2>{t('home:shortcuts')}</h2>
