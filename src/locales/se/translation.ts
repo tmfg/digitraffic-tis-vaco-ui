@@ -60,8 +60,7 @@ export const se = {
       admin: {
         label: '',
         intro: ''
-      },
-      navigate: 'Navigera'
+      }
     }
   },
   services: {

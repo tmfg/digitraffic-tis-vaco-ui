@@ -60,8 +60,7 @@ export const fi = {
       admin: {
         label: '',
         intro: ''
-      },
-      navigate: 'Navigoida'
+      }
     }
   },
   services: {
