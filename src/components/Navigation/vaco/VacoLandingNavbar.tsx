@@ -4,6 +4,7 @@ import { FdsNavigationItem } from '../../../../coreui-components/src/fds-navigat
 import { aboutItem, getSelectedLocaleItem, loginItem, registerItem, supportItem, vacoItem } from './navbarItems'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { fallbackLng } from '../../../i18n'
 
 const VacoLandingNavbar = () => {
   const [userNavbarItems, setUserNavbarItems] = useState<FdsNavigationItem[]>([])
@@ -28,7 +29,7 @@ const VacoLandingNavbar = () => {
 
   useEffect(() => {
     if (userNavbarItems.length === 0) {
-      const selectedLocaleCode = i18n.resolvedLanguage || i18n.language
+      const selectedLocaleCode = i18n.resolvedLanguage || i18n.language || fallbackLng[0]
       languageSelectionCallback(selectedLocaleCode)
     }
   }, [i18n, languageSelectionCallback, userNavbarItems])

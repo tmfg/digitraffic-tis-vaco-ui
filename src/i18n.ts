@@ -3,14 +3,15 @@ import { initReactI18next } from 'react-i18next'
 
 import { en } from './locales/en/translation'
 import { fi } from './locales/fi/translation'
-import { se } from './locales/se/translation'
+import { sv } from './locales/sv/translation'
 
-const fallbackLng = ['fi']
+export const fallbackLng = ['fi']
+export const supportedLocales = ['fi', 'sv', 'en']
 export const localStorageKey = 'selectedLocaleCode'
 export const resources = {
   en: en,
   fi: fi,
-  se: se
+  sv: sv
 }
 
 export const initI18n = async () => {

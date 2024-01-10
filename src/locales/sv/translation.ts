@@ -1,6 +1,6 @@
-export const se = {
+export const sv = {
   locales: {
-    se: 'På Svenska',
+    sv: 'På Svenska',
     fi: 'Suomeksi',
     en: 'In English'
   },
