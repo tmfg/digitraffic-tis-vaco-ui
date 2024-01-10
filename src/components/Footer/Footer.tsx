@@ -1,9 +1,12 @@
 import './_footer.scss'
 import { ReactComponent as FintrafficLogo } from '../../assets/svg/fintraffic_logo.svg'
 import { useTranslation } from 'react-i18next'
+import { fallbackLng } from '../../i18n'
 
 const Footer = () => {
-  const { t } = useTranslation()
+  const { i18n, t } = useTranslation()
+  const selectedLocaleCode = i18n.resolvedLanguage || i18n.language || fallbackLng[0]
+
   return (
     <footer className={'footer'}>
       <div className={'footer__brand'}>
@@ -12,21 +15,29 @@ const Footer = () => {
             <FintrafficLogo />
           </div>
         </a>
-        <a href="https://www.fintraffic.fi/fi">fintraffic.fi</a>
+        <a href={'https://www.fintraffic.fi/' + selectedLocaleCode}>fintraffic.fi</a>
       </div>
       <div className={'footer__links-container'}>
         <div className={'footer__link-column'}>
           <ul>
             <li>
-              <a href="https://liikennetilanne.fintraffic.fi/pulssi/">{t('fintraffic:traffic')}</a>
+              <a href={'https://liikennetilanne.fintraffic.fi/pulssi/?lang=' + selectedLocaleCode}>
+                {t('fintraffic:traffic')}
+              </a>
             </li>
             <li>
-              <a href="https://www.palautevayla.fi/aspa/en/liikenteen-asiakaspalvelu-etsi-tietoa">
+              <a
+                href={
+                  'https://www.palautevayla.fi/aspa/en/liikenteen-asiakaspalvelu-etsi-tietoa?lang=' + selectedLocaleCode
+                }
+              >
                 {t('fintraffic:feedback')}
               </a>
             </li>
             <li>
-              <a href="https://www.digitraffic.fi/">{t('fintraffic:train')}</a>
+              <a href={'https://www.digitraffic.fi/lang=' + (selectedLocaleCode === 'sv' ? 'se' : selectedLocaleCode)}>
+                {t('fintraffic:train')}
+              </a>
             </li>
             <li>
               <a href="https://skynavx.fi/#/drone">{t('fintraffic:drone')}</a>
@@ -49,15 +60,19 @@ const Footer = () => {
         <div className={'footer__link-column'}>
           <ul>
             <li>
-              <a href="https://www.fintraffic.fi/en/fintraffic/contact-information-and-invoicing-instructions">
+              <a
+                href={`https://www.fintraffic.fi/${selectedLocaleCode}/fintraffic/contact-information-and-invoicing-instructions`}
+              >
                 {t('fintraffic:contact')}
               </a>
             </li>
             <li>
-              <a href="https://www.fintraffic.fi/fi/fintraffic/tietosuoja">{t('fintraffic:privacy')}</a>
+              <a href={`https://www.fintraffic.fi/${selectedLocaleCode}/fintraffic/tietosuoja`}>
+                {t('fintraffic:privacy')}
+              </a>
             </li>
             <li>
-              <a href="https://www.fintraffic.fi/fi/fintraffic/saavutettavuusseloste">
+              <a href={`https://www.fintraffic.fi/${selectedLocaleCode}/fintraffic/saavutettavuusseloste`}>
                 {t('fintraffic:accessibility')}
               </a>
             </li>

@@ -43,7 +43,7 @@ test.describe(`Home Page, without authentication`, () => {
     await expect(page.locator(`span >> text=${i18n.t('locales:fi')}`)).toBeVisible()
     await page.locator(`span >> text=${i18n.t('locales:fi')}`).click()
     await expect(page.locator(`li >> text=${i18n.t('locales:en')}`)).toBeVisible()
-    await expect(page.locator(`li >> text=${i18n.t('locales:se')}`)).toBeVisible()
+    await expect(page.locator(`li >> text=${i18n.t('locales:sv')}`)).toBeVisible()
     await expect(page.locator(`li >> text=${i18n.t('locales:fi')}`)).toHaveCount(2)
   })
 })

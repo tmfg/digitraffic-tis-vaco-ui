@@ -111,7 +111,7 @@ export const localeItem = (): FdsNavigationItem => {
       },
       {
         label: 'På Svenska',
-        value: '/locales/se',
+        value: '/locales/sv',
         isCheckable: true
       },
       {

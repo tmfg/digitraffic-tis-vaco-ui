@@ -2,7 +2,7 @@ export const en = {
   locales: {
     en: 'In English',
     fi: 'Suomeksi',
-    se: 'På Svenska'
+    sv: 'På Svenska'
   },
   fintraffic: {
     traffic: 'Traffic Situation',

@@ -20,7 +20,7 @@ const VacoAuthenticatedNavbar = () => {
         const user: FdsNavigationItem = userItem(t)
         user.label = account.name as string
         user.dropDownItems?.push({
-          label: 'Log out',
+          label: t('vaco:logout'),
           value: () => {
             logout(instance)
           }

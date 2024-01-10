@@ -3,22 +3,24 @@ import { ReactComponent as FintrafficLogo } from '../../assets/svg/fintraffic_lo
 
 import Navbar from './Navbar'
 import { useTranslation } from 'react-i18next'
+import { fallbackLng } from '../../i18n'
 
 const FintrafficNavbar = () => {
-  const { t } = useTranslation()
-  // TODO: add locale to links, wherever possible, once we have language selection functionality working
+  const { i18n, t } = useTranslation()
+  const selectedLocaleCode: string = i18n.resolvedLanguage || i18n.language || fallbackLng[0]
+
   const items: FdsNavigationItem[] = [
     {
       label: t('fintraffic:traffic'),
-      value: 'https://liikennetilanne.fintraffic.fi/pulssi/'
+      value: 'https://liikennetilanne.fintraffic.fi/pulssi/?lang=' + selectedLocaleCode
     },
     {
       label: t('fintraffic:feedback'),
-      value: 'https://www.palautevayla.fi/aspa/en/liikenteen-asiakaspalvelu-etsi-tietoa'
+      value: 'https://www.palautevayla.fi/aspa/en/liikenteen-asiakaspalvelu-etsi-tietoa?lang=' + selectedLocaleCode
     },
     {
       label: t('fintraffic:train'),
-      value: 'https://junalahdot.fintraffic.fi/'
+      value: 'https://junalahdot.fintraffic.fi/?lang=' + (selectedLocaleCode === 'sv' ? 'se' : selectedLocaleCode)
     },
     {
       label: t('fintraffic:drone'),
@@ -49,7 +51,7 @@ const FintrafficNavbar = () => {
       selectedItem={items[items.length - 1]}
       isSelectedItemStatic={true}
     >
-      <a href={'https://www.fintraffic.fi/'}>
+      <a href={'https://www.fintraffic.fi/' + selectedLocaleCode}>
         <div style={{ display: 'flex', alignItems: 'center', width: '100px', flexShrink: 0 }}>
           <FintrafficLogo />
         </div>
