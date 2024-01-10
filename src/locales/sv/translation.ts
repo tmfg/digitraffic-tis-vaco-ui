@@ -60,8 +60,7 @@ export const sv = {
       admin: {
         label: '',
         intro: ''
-      },
-      navigate: 'Navigera'
+      }
     }
   },
   services: {
