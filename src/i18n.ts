@@ -7,7 +7,7 @@ import { sv } from './locales/sv/translation'
 
 export const fallbackLng = ['fi']
 export const supportedLocales = ['fi', 'sv', 'en']
-export const localStorageKey = 'selectedLocaleCode'
+export const localStorageKey = 'vaco.selectedLocaleCode'
 export const resources = {
   en: en,
   fi: fi,
@@ -17,7 +17,7 @@ export const resources = {
 export const initI18n = async () => {
   await i18n.use(initReactI18next).init({
     fallbackLng,
-    lng: localStorage.getItem(localStorageKey) || 'fi',
+    lng: localStorage.getItem(localStorageKey) || fallbackLng[0],
     //debug: true,
     resources: resources
   })

@@ -8,7 +8,7 @@ import { isUserInTransition } from './hooks/auth'
 import RedirectingPage from './pages/RedirectingPage'
 import { useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
-import { supportedLocales } from './i18n'
+import { localStorageKey, supportedLocales } from './i18n'
 import { useTranslation } from 'react-i18next'
 
 const AppLayout = () => {
@@ -25,6 +25,10 @@ const AppLayout = () => {
       i18n
         .changeLanguage(langQueryParam)
         .catch(() => console.log('Error at attempt of changing i18n locale to ', langQueryParam))
+
+      if (!localStorage.getItem(localStorageKey)) {
+        localStorage.setItem(localStorageKey, langQueryParam)
+      }
     }
   }, [langQueryParam, selectedLocaleCode, i18n])
 

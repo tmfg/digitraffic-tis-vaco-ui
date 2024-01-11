@@ -1,11 +1,10 @@
 import './_footer.scss'
 import { ReactComponent as FintrafficLogo } from '../../assets/svg/fintraffic_logo.svg'
 import { useTranslation } from 'react-i18next'
-import { fallbackLng } from '../../i18n'
 
 const Footer = () => {
   const { i18n, t } = useTranslation()
-  const selectedLocaleCode = i18n.resolvedLanguage || i18n.language || fallbackLng[0]
+  const selectedLocaleCode = i18n.resolvedLanguage || i18n.language
 
   return (
     <footer className={'footer'}>
