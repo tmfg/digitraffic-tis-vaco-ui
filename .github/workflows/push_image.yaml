@@ -38,10 +38,8 @@ jobs:
       - name: Extract CURRENT version
         id: version
         if: ${{ github.event_name == 'workflow_run' }}
-        env:
-          version: ${{ github.event.head_commit.message }} | cut -d' ' -f2
         run: |
-          echo "version=$(echo ${{ github.event.head_commit.message }} | cut -d' ' -f2)" >> $GITHUB_OUTPUT
+          echo "version=$(echo ${{ github.event.workflow_run.head_commit.message }} | cut -d' ' -f2)" >> $GITHUB_OUTPUT
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
