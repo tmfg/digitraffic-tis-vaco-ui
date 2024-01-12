@@ -15,7 +15,6 @@ jobs:
   BuildAndPushImageToECR:
     name: "Build and Push to ECR"
     runs-on: ubuntu-latest
-    if: "startsWith(github.event.head_commit.message, 'RELEASE')"
 
     steps:
       - name: Checkout project files (pull request version)

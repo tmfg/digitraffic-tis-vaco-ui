@@ -10,8 +10,8 @@ on:
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
-    if: "!startsWith(github.event.head_commit.message, 'RELEASE')"
 
     steps:
       - name: Checkout project files (pull request version)
@@ -60,7 +60,7 @@ jobs:
       - name: Generate new version
         id: version
         run: |
-          echo "VERSION=$(npm version ${{ env.VERSION_ADJUSTMENT }} -m "RELEASE %s")" >> $GITHUB_ENV
+          echo "VERSION=$(npm version ${{ env.VERSION_ADJUSTMENT }} -m "RELEASE %s [skip ci]")" >> $GITHUB_ENV
           echo "New version: ${{ env.VERSION }}"
 
       - name: Extract branch name
