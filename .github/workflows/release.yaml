@@ -16,7 +16,6 @@ jobs:
     steps:
       - name: Checkout project files
         uses: actions/checkout@v4
-        if: github.event_name == 'push'
         with:
           fetch-depth: 0
           ssh-key: "${{secrets.COMMIT_KEY}}"
