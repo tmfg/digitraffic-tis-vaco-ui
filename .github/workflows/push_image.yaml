@@ -1,8 +1,11 @@
 name: "Build and push to ECR"
 on:
+  workflow_run:
+    workflows: [ "Release new version" ]
+    types:
+      - completed
   push:
-    branches:
-      - main
+    branches: ['main']
 
 permissions:
   id-token: write
@@ -39,25 +42,29 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
         with:
-          mask-password: 'true'        
+          mask-password: 'true'
 
-      - name: Extract the latest version
-        id: latestversion
+      - name: Extract CURRENT version
+        id: version
+        if: ${{ github.event_name == 'workflow_run' }}
         env:
           version: ${{ github.event.head_commit.message }} | cut -d' ' -f2
         run: |
-          echo "LATESTVERSION=$(echo ${{ github.event.head_commit.message }} | cut -d' ' -f2)" >> $GITHUB_OUTPUT
+          echo "version=$(echo ${{ github.event.head_commit.message }} | cut -d' ' -f2)" >> $GITHUB_OUTPUT
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: "digitraffic-tis-ui"
-          IMAGE_TAG: ${{ steps.latestversion.outputs.LATESTVERSION }}
+          IMAGE_TAG: ${{ steps.version.outputs.version }}
         run: |
-          echo "Version: ${{ steps.latestversion.outputs.LATESTVERSION }}"
           docker build . -t $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo "image_latest=$ECR_REGISTRY/$ECR_REPOSITORY:latest" >> $GITHUB_OUTPUT
+          if [[ -n "$IMAGE_TAG" ]]
+          then
+            docker tag $ECR_REGISTRY/$ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+            docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+            echo "image_versioned=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          fi
