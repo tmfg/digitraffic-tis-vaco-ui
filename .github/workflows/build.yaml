@@ -1,11 +1,9 @@
 name: Verify Commit
 on:
   push:
-    branches:
-      - main
+    branches: ['main']
   pull_request:
-    branches:
-      - main
+    branches: ['main']
     types: [opened, synchronize, reopened]
 
 permissions:
