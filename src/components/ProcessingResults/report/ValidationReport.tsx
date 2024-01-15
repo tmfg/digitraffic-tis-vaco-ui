@@ -1,13 +1,13 @@
-import { ValidationReport as ValidationReportResource } from '../../../types/EntryStateResource'
+import './_report.scss'
+import { RuleReport } from '../../../types/EntryStateResource'
 import KeyValuePairs, { KeyValuePairItem, KeyValuePairVariant } from '../../Common/KeyValuePairs/KeyValuePairs'
 import { useTranslation } from 'react-i18next'
-import './_validationReport.scss'
-import ReportStats from './ReportStats'
-import NoticesTable from './NoticesTable'
+import FindingCounters from './FindingCounters'
+import FindingsTable from './FindingsTable'
 import PackageButton from '../PackageButton'
 
 interface ValidationReportProps {
-  report: ValidationReportResource
+  report: RuleReport
 }
 
 const ValidationReport = ({ report }: ValidationReportProps) => {
@@ -22,8 +22,10 @@ const ValidationReport = ({ report }: ValidationReportProps) => {
   return (
     <div className={'report-container'}>
       <KeyValuePairs items={header} variant={KeyValuePairVariant.bigger} />
-      <ReportStats counters={report.counters} />
-      {report.notices && <NoticesTable notices={report.notices} ruleName={report.ruleName} />}
+      <FindingCounters counters={report.findingCounters} />
+      {report.findings && report.findings.length > 0 && (
+        <FindingsTable aggregatedFindings={report.findings} ruleName={report.ruleName} />
+      )}
       {report.packages && report.packages.length > 0 && (
         <div className={'packages-container'}>
           <h5>{t('services:processingResults:packages:header')}</h5>

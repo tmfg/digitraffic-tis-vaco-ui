@@ -133,7 +133,6 @@ const Form = () => {
   const useGeneralListener: EventListenerOrEventListenerObject = useCallback(
     (e: Event) => {
       const detail = (e as CustomEvent).detail as FdsInputChange
-      console.log('yikes!!!', detail)
       const newFormState = getNewFormState(formData, detail)
       const newFormErrors = getNewFormErrorsState(formErrors, detail)
       updateFormState(newFormState, newFormErrors)

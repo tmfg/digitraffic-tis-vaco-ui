@@ -112,13 +112,14 @@ export const fi = {
       header: 'Datajulkaisun tulokset',
       summary: 'Yhteenveto',
       reports: 'Määritystenmukaisuusraportit',
-      artifacts: {
-        conversion: 'Conversion artifacts'
+      results: {
+        conversion: 'Konversion tulokset'
       },
       hide: 'Piilota',
       show: 'Näytä',
       submissionDate: 'Julkaisun päivämäärä',
       validationRule: 'Käytetty validointisääntö',
+      conversionRule: 'Käytetty konversiosääntö',
       inProgress: 'Käsittelyn edistyminen',
       progress: 'Käsittely on tällä hetkellä {{percentage}}% valmis. Päivitä sivu saadaksesi uusimmat tiedot.',
       packages: {

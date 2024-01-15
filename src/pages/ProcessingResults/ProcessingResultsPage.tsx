@@ -7,8 +7,8 @@ import AuthRequiredPage from '../Error/AuthRequiredPage'
 import { InteractionStatus } from '@azure/msal-browser'
 import { useTranslation } from 'react-i18next'
 import Section from '../../components/ProcessingResults/Section'
-import Conversion from '../../components/ProcessingResults/Conversion'
-import { EntryStateResource } from '../../types/EntryStateResource'
+import ConversionReport from '../../components/ProcessingResults/report/ConversionReport'
+import { EntryStateResource, RuleReport } from '../../types/EntryStateResource'
 import SubmittedData from '../../components/ProcessingResults/SubmittedData'
 import ValidationReport from '../../components/ProcessingResults/report/ValidationReport'
 import { FdsButtonComponent } from '../../components/fds/FdsButtonComponent'
@@ -23,6 +23,12 @@ const ProcessingResultsPage = () => {
   const isAuthenticated = useIsAuthenticated()
   const { t } = useTranslation()
   const [processingProgress, setProcessingProgress] = useState<number>(100)
+  const validationReports: RuleReport[] = entryState
+    ? entryState.data.reports.filter((report) => report.ruleType.includes('VALIDATION'))
+    : []
+  const conversionReports: RuleReport[] = entryState
+    ? entryState.data.reports.filter((report) => report.ruleType.includes('CONVERSION'))
+    : []
 
   useEffect(() => {
     let ignore = false
@@ -63,7 +69,7 @@ const ProcessingResultsPage = () => {
     return () => {
       ignore = true
     }
-  }, [entryId, instance, inProgress])
+  }, [entryId, instance, inProgress, isAuthenticated])
 
   return (
     <div className={'page-content'}>
@@ -98,17 +104,19 @@ const ProcessingResultsPage = () => {
               </Section>
             )}
 
-            {entryState.data.validationReports?.length > 0 && (
+            {validationReports.length > 0 && (
               <Section hidable={true} titleKey={'reports'}>
-                {entryState.data.validationReports.map((report) => {
+                {validationReports.map((report) => {
                   return <ValidationReport key={'report-' + report.ruleName} report={report} />
                 })}
               </Section>
             )}
 
-            {entryState.data.entry.data.conversions && entryState.data.entry.data.conversions.length > 0 && (
-              <Section hidable={true} titleKey={'artifacts:conversion'}>
-                <Conversion />
+            {conversionReports.length > 0 && (
+              <Section hidable={true} titleKey={'results:conversion'}>
+                {conversionReports.map((report) => {
+                  return <ConversionReport key={'report-' + report.ruleName} report={report} />
+                })}
               </Section>
             )}
           </div>
