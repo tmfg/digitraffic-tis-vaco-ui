@@ -7,21 +7,22 @@ import { SummaryItem } from '../components/ProcessingResults/summary/types'
 export interface EntryStateResource {
   data: {
     entry: EntryResource
-    validationReports: ValidationReport[]
+    reports: RuleReport[]
     summaries: SummaryItem[]
   }
   error?: string | null
 }
 
-export interface ValidationReport {
+export interface RuleReport {
   ruleName: string
   ruleDescription: string
-  counters: ItemCounter[]
-  notices?: Notice[]
+  ruleType: string
+  findingCounters: ItemCounter[]
+  findings?: AggregatedFinding[]
   packages: PackageResource[]
 }
 
-export interface Notice {
+export interface AggregatedFinding {
   code: string
   severity: string
   total: number

@@ -115,13 +115,14 @@ export const en = {
       header: 'Data processing results',
       summary: 'Summary',
       reports: 'Specification Compliance reports',
-      artifacts: {
-        conversion: 'Conversion artifacts'
+      results: {
+        conversion: 'Conversion results'
       },
       hide: 'Hide',
       show: 'Show',
       submissionDate: 'Submission date',
       validationRule: 'Validation rule',
+      conversionRule: 'Conversion rule',
       inProgress: 'Processing progress',
       progress: 'The processing is currently {{percentage}}% complete. Please, refresh the page for the latest data.',
       packages: {

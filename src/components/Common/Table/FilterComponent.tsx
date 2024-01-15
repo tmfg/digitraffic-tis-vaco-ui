@@ -51,7 +51,7 @@ const FilterComponent = ({
   }, [isClicked, column, handleOutsideNavigationClick, tableTitle])
 
   useEffect(() => {
-    if (Object.keys(checkboxStates).length > 0) {
+    if (Object.keys(checkboxStates).length > 0 || filterOptions.length === 0) {
       return
     }
 

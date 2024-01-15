@@ -112,13 +112,14 @@ export const sv = {
       header: 'Datapublikationens resultat',
       summary: 'Sammanfattning',
       reports: 'Specifikationsrapporter om efterlevnad',
-      artifacts: {
-        conversion: 'Conversion artifacts'
+      results: {
+        conversion: 'Konverteringsresultat'
       },
       hide: 'Dölj',
       show: 'Visa',
       submissionDate: 'Inlämningsdatum',
       validationRule: 'Verifieringsregel som används',
+      conversionRule: 'Konverteringsregel som används',
       inProgress: 'Bearbetnings förlopp',
       progress: 'Bearbetningen är för närvarande {{percentage}}% klar. Uppdatera sidan för den senaste informationen.',
       packages: {

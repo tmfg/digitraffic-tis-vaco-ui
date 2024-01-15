@@ -1,4 +1,4 @@
-import { Notice } from '../../../types/EntryStateResource'
+import { AggregatedFinding } from '../../../types/EntryStateResource'
 import { useTranslation } from 'react-i18next'
 import { getNoticesTableHeaders } from './helpers'
 import Table, { HeaderItem, TableItem } from '../../Common/Table/Table'
@@ -6,15 +6,15 @@ import { ReactComponent as ErrorSvg } from '../../../assets/svg/error.svg'
 import { ReactComponent as WarningSvg } from '../../../assets/svg/warning.svg'
 import { ReactComponent as InfoSvg } from '../../../assets/svg/info.svg'
 import React from 'react'
-import NoticeDetails from './NoticeDetails'
+import NoticeDetails from './FindingDetails'
 import Pagination from '../../Common/Pagination/Pagination'
 
-interface NoticesTableProps {
-  notices: Notice[]
+interface FindingsTableProps {
+  aggregatedFindings: AggregatedFinding[]
   ruleName: string
 }
 
-const NoticesTable = ({ notices, ruleName }: NoticesTableProps) => {
+const FindingsTable = ({ aggregatedFindings, ruleName }: FindingsTableProps) => {
   const { t } = useTranslation()
   const headerItems: HeaderItem[] = getNoticesTableHeaders(t)
 
@@ -31,49 +31,49 @@ const NoticesTable = ({ notices, ruleName }: NoticesTableProps) => {
     }
   }
 
-  const noticesRowItems: TableItem[][] = notices.map((notice: Notice) => {
+  const aggregatedFindingsRowItems: TableItem[][] = aggregatedFindings.map((aggregatedFinding: AggregatedFinding) => {
     return [
       {
         name: 'code',
-        value: notice.code,
-        plainValue: notice.code,
+        value: aggregatedFinding.code,
+        plainValue: aggregatedFinding.code,
         colSpan: 3
       },
       {
         name: 'severity',
         value: (
-          <div className={notice.severity}>
-            {getSeverityIcon(notice.severity)} {'  '}
-            <span className={notice.severity + '--text'} style={{ marginLeft: '5px' }}>
-              {t('services:processingResults:severity:' + notice.severity.toLowerCase())}
+          <div className={aggregatedFinding.severity}>
+            {getSeverityIcon(aggregatedFinding.severity)} {'  '}
+            <span className={aggregatedFinding.severity + '--text'} style={{ marginLeft: '5px' }}>
+              {t('services:processingResults:severity:' + aggregatedFinding.severity.toLowerCase())}
             </span>
           </div>
         ),
-        plainValue: t('services:processingResults:severity:' + notice.severity.toLowerCase()),
+        plainValue: t('services:processingResults:severity:' + aggregatedFinding.severity.toLowerCase()),
         colSpan: 2
       },
       {
         name: 'total',
-        value: notice.total
+        value: aggregatedFinding.total
       }
     ]
   })
 
-  const expandables: React.ReactNode[] = notices.map((notice: Notice) => {
-    return <NoticeDetails key={'notice-details-' + notice.code} notice={notice} />
+  const expandables: React.ReactNode[] = aggregatedFindings.map((aggregatedFinding: AggregatedFinding) => {
+    return <NoticeDetails key={'notice-details-' + aggregatedFinding.code} aggregatedFinding={aggregatedFinding} />
   })
 
   return (
     <Pagination
-      itemsTotalCount={noticesRowItems.length}
+      itemsTotalCount={aggregatedFindingsRowItems.length}
       contentName={t('pagination:content:notices')}
-      tableTitle={'NoticesTable-' + ruleName}
+      tableTitle={'AggregatedFindingsTable-' + ruleName}
       defaultItemsPerPage={10}
     >
       <Table
-        tableTitle={'NoticesTable-' + ruleName}
+        tableTitle={'AggregatedFindingsTable-' + ruleName}
         headerItems={headerItems}
-        rows={noticesRowItems}
+        rows={aggregatedFindingsRowItems}
         rowExpandable={true}
         rowExpandedContents={expandables}
         defaultSortedColumn={{ name: 'severity', direction: 'DESC', type: 'custom' }}
@@ -83,4 +83,4 @@ const NoticesTable = ({ notices, ruleName }: NoticesTableProps) => {
   )
 }
 
-export default NoticesTable
+export default FindingsTable
