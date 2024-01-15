@@ -3,11 +3,10 @@ import { ReactComponent as FintrafficLogo } from '../../assets/svg/fintraffic_lo
 
 import Navbar from './Navbar'
 import { useTranslation } from 'react-i18next'
-import { fallbackLng } from '../../i18n'
 
 const FintrafficNavbar = () => {
   const { i18n, t } = useTranslation()
-  const selectedLocaleCode: string = i18n.resolvedLanguage || i18n.language || fallbackLng[0]
+  const selectedLocaleCode: string = i18n.resolvedLanguage || i18n.language
 
   const items: FdsNavigationItem[] = [
     {
