@@ -16,14 +16,14 @@ const Summary = ({ summaries }: SummaryProps) => {
   const [showAllStates, setShowAllStates] = useState<Map>({})
 
   const getSummaryContent = (summary: SummaryItem) => {
-    if (summary.type === 'cards') {
+    if (summary.rendererType === 'CARD') {
       const cards: SummaryCard[] = summary.content as SummaryCard[]
-      const shownCards = cards.length > 3 ? (showAllStates[summary.title] ? cards : cards.slice(0, 3)) : cards
+      const shownCards = cards.length > 3 ? (showAllStates[summary.name] ? cards : cards.slice(0, 3)) : cards
       return (
         <div>
           {shownCards.map((card) => {
             const cardContent: KeyValuePairItem[] = card.content
-            const localized: KeyValuePairItem[] = cardContent.map((pair) => {
+            const localized: KeyValuePairItem[] = cardContent?.map((pair) => {
               return {
                 label: t('services:processingResults:summaries:' + pair.label) as string,
                 value: pair.value
@@ -40,23 +40,23 @@ const Summary = ({ summaries }: SummaryProps) => {
               className={'hide-control'}
               onClick={() => {
                 const currentShowAllStates = { ...showAllStates }
-                currentShowAllStates[summary.title] = !showAllStates[summary.title]
+                currentShowAllStates[summary.name] = !showAllStates[summary.name]
                 setShowAllStates(currentShowAllStates)
               }}
             >
               <span className={'text'}>
-                {showAllStates[summary.title]
-                  ? t('common:showLess', { values: t('services:processingResults:summaries:showLessItem:' + summary.title )})
-                  : t('common:showAll', { values: t('services:processingResults:summaries:showAllItem:' + summary.title ) })}
+                {showAllStates[summary.name]
+                  ? t('common:showLess', { values: t('services:processingResults:summaries:showLessItem:' + summary.name )})
+                  : t('common:showAll', { values: t('services:processingResults:summaries:showAllItem:' + summary.name ) })}
               </span>
               <span className={'icon'}>
-                <FdsIconComponent icon={showAllStates[summary.title] ? 'chevron-up' : 'chevron-down'} />
+                <FdsIconComponent icon={showAllStates[summary.name] ? 'chevron-up' : 'chevron-down'} />
               </span>
             </span>
           )}
         </div>
       )
-    } else if (summary.type === 'tabular') {
+    } else if (summary.rendererType === 'TABULAR') {
       const pairs: KeyValuePairItem[] = summary.content as KeyValuePairItem[]
       const localized: KeyValuePairItem[] = pairs.map((pair) => {
         return {
@@ -65,30 +65,30 @@ const Summary = ({ summaries }: SummaryProps) => {
         }
       })
       return <KeyValuePairs items={localized} variant={KeyValuePairVariant.small} />
-    } else if (summary.type === 'list') {
+    } else if (summary.rendererType === 'LIST') {
       const list: string[] = summary.content as string[]
-      const sortedList = list.sort((a, b) => a.localeCompare(b))
-      return sortedList.map((item) => <div key={summary.title + '-content-' + item}> {item}</div>)
+      const sortedList = list?.sort((a, b) => a.localeCompare(b))
+      return sortedList?.map((item) => <div key={summary.name + '-content-' + item}> {item}</div>)
     }
   }
 
   return (
-    <table className={'entry-summary'}>
+    <div className={'entry-summary'}>
       <header>
         {summaries.map((summary) => (
-          <div key={'summary-header-' + summary.title} className={'col'}>
-            {t('services:processingResults:summaries:' + summary.title)}
+          <div key={'summary-header-' + summary.name} className={'col'}>
+            {t('services:processingResults:summaries:' + summary.name)}
           </div>
         ))}
       </header>
       <div className={'row'}>
         {summaries.map((summary) => (
-          <div key={'summary-content-' + summary.title} className={'col'}>
+          <div key={'summary-content-' + summary.name} className={'col'}>
             {getSummaryContent(summary)}
           </div>
         ))}
       </div>
-    </table>
+    </div>
   )
 }
 

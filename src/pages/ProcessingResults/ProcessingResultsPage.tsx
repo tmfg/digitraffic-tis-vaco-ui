@@ -23,10 +23,10 @@ const ProcessingResultsPage = () => {
   const isAuthenticated = useIsAuthenticated()
   const { t } = useTranslation()
   const [processingProgress, setProcessingProgress] = useState<number>(100)
-  const validationReports: RuleReport[] = entryState
+  const validationReports: RuleReport[] = entryState?.data.reports
     ? entryState.data.reports.filter((report) => report.ruleType.includes('VALIDATION'))
     : []
-  const conversionReports: RuleReport[] = entryState
+  const conversionReports: RuleReport[] = entryState?.data.reports
     ? entryState.data.reports.filter((report) => report.ruleType.includes('CONVERSION'))
     : []
 
