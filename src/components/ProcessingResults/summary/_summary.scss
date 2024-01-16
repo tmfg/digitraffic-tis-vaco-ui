@@ -5,13 +5,10 @@
 }
 
 header {
-  border-bottom: 1px solid;
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
   line-height: 110%;
-  padding-bottom: 18px;
-  margin-bottom: 18px;
 }
 
 .row {
@@ -23,7 +20,6 @@ header {
 
 .entry-summary > * {
   display: table-row;
-  margin-bottom: 18px;
 }
 
 .entry-summary .col {
@@ -31,6 +27,6 @@ header {
   padding-bottom: 18px;
 }
 
-.row .col {
-  padding-top: 18px;
+header .col {
+  border-bottom: 1px solid;
 }
