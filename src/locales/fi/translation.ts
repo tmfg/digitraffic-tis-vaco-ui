@@ -13,6 +13,7 @@ export const fi = {
     digitransit: 'Digitransit',
     nap: 'NAP',
     contact: 'Yhteystiedot',
+    contactLink: 'yhteystiedot',
     privacy: 'Tietosuojaseloste',
     accessibility: 'Saavutettavuus'
   },

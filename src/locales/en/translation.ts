@@ -13,6 +13,7 @@ export const en = {
     digitransit: 'Digitransit',
     nap: 'NAP',
     contact: 'Contact Information',
+    contactLink: 'contact-information-and-invoicing-instructions',
     privacy: 'Privacy Policy',
     accessibility: 'Accessibility'
   },

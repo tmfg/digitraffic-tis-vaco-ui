@@ -13,6 +13,7 @@ export const sv = {
     digitransit: 'Digitransit',
     nap: 'NAP',
     contact: 'Kontaktinformation',
+    contactLink: 'kontaktuppgifter',
     privacy: 'Dataskydd',
     accessibility: 'Tillgänglighetsutlåtande'
   },
