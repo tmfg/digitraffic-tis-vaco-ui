@@ -81,8 +81,10 @@ export const fi = {
         url: 'Datan URL-osoite',
         urlInfo: 'URL-osoite, joka sisältää datatiedoston',
         etag: 'ETag',
+        company: 'Yritys',
         format: 'Dataformaatti',
         formatRequired: 'Dataformaatti on määritettävä',
+        companyRequired: 'Yritys on määritettävä',
         submit: 'Julkaise',
         rules: {
           'gtfs.canonical.v4_1_0': 'Canonical GTFS Validator by MobilityData, versio v4.1.0',
@@ -227,5 +229,8 @@ export const fi = {
     next: 'seuraava',
     previous: 'edellinen',
     showAll: 'Näytä kaikki'
+  },
+  company: {
+    businessId: 'Y-tunnus'
   }
 }
