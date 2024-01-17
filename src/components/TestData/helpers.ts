@@ -23,9 +23,11 @@ export const validateFormData = (
   }
 
   if (!formData.format) {
-    errors.format = translate('services:testData:form:formatRequired', {
-      value: translate('services:testData:form:format').toLowerCase()
-    })
+    errors.format = translate('services:testData:form:formatRequired')
+  }
+
+  if (!formData.businessId) {
+    errors.businessId = translate('services:testData:form:companyRequired')
   }
 
   if (formData.format && selectedRules.length === 0) {
@@ -96,7 +98,7 @@ export const submitData = async (
     url: formData.url as string,
     name: formData.feedName as string,
     format: (formData.format as string).toLowerCase(),
-    businessId: '2942108-7',
+    businessId: formData.businessId as string,
     etag: formData.etag as string,
     validations: validations
   }
@@ -119,11 +121,44 @@ export const getNewFormState = (formData: Map, inputChange: FdsInputChange) => {
   return newFormData
 }
 
+export const getNewFormStateAfterMultipleChanges = (formData: Map, inputsToChange: FdsInputChange[]) => {
+  const newFormData: Map = {
+    ...formData
+  }
+
+  inputsToChange.forEach((inputChange) => {
+    newFormData[inputChange.name] = inputChange.value
+  })
+
+  return newFormData
+}
+
 export const getNewFormErrorsState = (formErrors: Map, inputChange: FdsInputChange) => {
-  if (formErrors[inputChange.name] && inputChange.value) {
+  if (formErrors[inputChange.name]) {
     const newFormErrors = { ...formErrors }
     newFormErrors[inputChange.name] = undefined
     return newFormErrors
   }
   return formErrors
+}
+
+export const getNetexAdditionalInputs = (ruleName: string): FdsInputChange[] => {
+  return [
+    {
+      name: ruleName + '-codespace',
+      value: ''
+    },
+    {
+      name: ruleName + '-ignorableNetexElements',
+      value: ''
+    },
+    {
+      name: ruleName + '-maximumErrors',
+      value: ''
+    },
+    {
+      name: ruleName + '-reportId',
+      value: ''
+    }
+  ]
 }

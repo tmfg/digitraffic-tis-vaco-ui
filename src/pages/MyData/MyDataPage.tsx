@@ -1,4 +1,4 @@
-import { AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated, useMsal } from '@azure/msal-react'
+import { AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated, useMsal } from "@azure/msal-react";
 import AuthRequiredPage from '../Error/AuthRequiredPage'
 import { useTranslation } from 'react-i18next'
 import { useCallback, useEffect, useState } from 'react'
@@ -16,9 +16,11 @@ import Pagination from '../../components/Common/Pagination/Pagination'
 
 const MyDataPage = () => {
   const { instance, inProgress } = useMsal()
-  const { t } = useTranslation()
   const isAuthenticated = useIsAuthenticated()
+  const [accessToken, setAccessToken] = useState<string | null>(null)
+  const { t } = useTranslation()
   const [searchWord, setSearchWord] = useState<string | null>(null)
+  const [entryData, setEntryData] = useState<EntryResource[] | null>(null)
   const [allEntryRows, setAllEntryRows] = useState<TableItem[][] | null>(null)
   const [entriesToShow, setEntriesToShow] = useState<TableItem[][] | null>(null)
   const headerItems: HeaderItem[] = getTableHeaders(t)
@@ -29,46 +31,26 @@ const MyDataPage = () => {
   }, [])
 
   useEffect(() => {
-    let ignore = false
-    setAllEntryRows(null)
     const searchElement = document.querySelector('fds-input')
     if (searchElement && searchElement.getAttribute('listener') !== 'true') {
       searchElement.addEventListener('change', useInputListener)
     }
 
-    if (inProgress === InteractionStatus.None && !ignore && isAuthenticated) {
+    return () => {
+      searchElement?.removeEventListener('change', useInputListener)
+    }
+  }, [useInputListener])
+
+  useEffect(() => {
+    let ignore = false
+    if (inProgress === InteractionStatus.None && isAuthenticated && !ignore && !accessToken) {
       acquireToken(instance, inProgress).then(
         (tokenResult) => {
           if (!tokenResult) {
             // TODO: At some point, show some error notification
             return
           }
-
-          HttpClient.get('/api/ui/entries?businessId=2942108-7&full=false', getHeaders(tokenResult.accessToken)).then(
-            (response) => {
-              if (!ignore) {
-                const entries = response.data as EntryResource[]
-                const entryRows: TableItem[][] = entries.map((entryResource: EntryResource) => {
-                  const row: TableItem[] = getTableRow(entryResource, t)
-
-                  if (entryResource.links.refs.badge) {
-                    row.push({
-                      name: 'status',
-                      value: <img alt={'badge'} src={entryResource.links.refs.badge.href} />,
-                      plainValue: entryResource.data.status.charAt(0).toUpperCase() + entryResource.data.status.slice(1)
-                    })
-                  }
-                  return row
-                })
-                setAllEntryRows(entryRows)
-                setEntriesToShow(entryRows)
-              }
-            },
-            (error) => {
-              // TODO: show alert
-              return Promise.reject(error)
-            }
-          )
+          setAccessToken(tokenResult.accessToken)
         },
         (error) => {
           // TODO: show alert
@@ -76,12 +58,47 @@ const MyDataPage = () => {
         }
       )
     }
-
     return () => {
       ignore = true
-      searchElement?.removeEventListener('change', useInputListener)
     }
-  }, [instance, inProgress, useInputListener, isAuthenticated, t])
+  }, [instance, inProgress, accessToken, isAuthenticated])
+
+  useEffect(() => {
+    let ignore = false
+    if (accessToken && !ignore) {
+      HttpClient.get('/api/ui/entries?businessId=2942108-7&full=false', getHeaders(accessToken)).then(
+        (response) => {
+          const entries = response.data as EntryResource[]
+          setEntryData(entries)
+        },
+        (error) => {
+          // TODO: show alert
+          return Promise.reject(error)
+        }
+      )
+    }
+    return () => {
+      ignore = true
+    }
+  }, [accessToken])
+
+  useEffect(() => {
+    if (entryData) {
+      const entryRows: TableItem[][] = entryData.map((entryResource: EntryResource) => {
+        const row: TableItem[] = getTableRow(entryResource, t)
+        if (entryResource.links.refs.badge) {
+          row.push({
+            name: 'status',
+            value: <img alt={'badge'} src={entryResource.links.refs.badge.href} />,
+            plainValue: entryResource.data.status.charAt(0).toUpperCase() + entryResource.data.status.slice(1)
+          })
+        }
+        return row
+      })
+      setAllEntryRows(entryRows)
+      setEntriesToShow(entryRows)
+    }
+  }, [entryData, t])
 
   return (
     <div className={'page-content'}>
