@@ -26,5 +26,15 @@ export const httpHandlers = [
       ],
       { status: 200 }
     )
+  }),
+  http.get('http://localhost:8080/api/me', () => {
+    return HttpResponse.json(
+      {
+        data: { companies: [{ businessId: '2942108-7', name: 'Fintraffic Oy', language: 'fi' }] },
+        error: null,
+        links: {}
+      },
+      { status: 200 }
+    )
   })
 ]

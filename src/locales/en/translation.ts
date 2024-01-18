@@ -84,8 +84,10 @@ export const en = {
         url: 'Data URL',
         urlInfo: 'URL containing the data file',
         etag: 'ETag',
+        company: 'Company',
         format: 'Data format',
         formatRequired: 'Specifying format is required',
+        companyRequired: 'Specifying company is required',
         submit: 'Submit',
         rules: {
           'gtfs.canonical.v4_1_0': 'Canonical GTFS Validator by MobilityData, version v4.1.0',
@@ -113,7 +115,7 @@ export const en = {
       }
     },
     processingResults: {
-      header: 'Data processing results',
+      header: 'Data publication results',
       summary: 'Summary',
       reports: 'Specification Compliance reports',
       results: {
@@ -234,5 +236,8 @@ export const en = {
   },
   sorting: {
 
+  },
+  company: {
+    businessId: 'Business ID'
   }
 }

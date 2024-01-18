@@ -6,8 +6,9 @@ import { describe, beforeEach, afterEach, it, expect } from 'vitest'
 import i18next from 'i18next'
 import TestDataPage from './TestDataPage'
 import { msalInitTester, resetTester } from '../../test/unit/vitestSetup'
+import CompanyContextProvider from "../../CompanyContextProvider";
 
-describe('Processing Results Page', () => {
+describe('Test Data Page', () => {
   let msalTester: MsalReactTester
 
   beforeEach(() => {
@@ -18,7 +19,7 @@ describe('Processing Results Page', () => {
     resetTester(msalTester)
   })
 
-  it('Processing Results page renders correctly when user is not logged in', async () => {
+  it('Test Data Page renders correctly when user is not logged in', async () => {
     // Mock a guest user, not yet authenticated:
     await msalTester.isNotLogged()
 
@@ -37,7 +38,7 @@ describe('Processing Results Page', () => {
     expect(screen.queryByText(i18next.t('sservices:testData:header'))).toBeNull()
   })
 
-  it('Processing Results page renders correctly when user got logged in', async () => {
+  it('Test data Page renders correctly when user got logged in', async () => {
     // Mock a guest user, not yet authenticated:
     await msalTester.isLogged()
 
@@ -45,7 +46,9 @@ describe('Processing Results Page', () => {
       render(
         <MsalProvider instance={msalTester.client}>
           <MemoryRouter>
-            <TestDataPage />
+            <CompanyContextProvider>
+              <TestDataPage />
+            </CompanyContextProvider>
           </MemoryRouter>
         </MsalProvider>
       )
