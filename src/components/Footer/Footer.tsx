@@ -20,12 +20,18 @@ const Footer = () => {
         <div className={'footer__link-column'}>
           <ul>
             <li>
-              <a href={'https://liikennetilanne.fintraffic.fi/pulssi/?lang=' + selectedLocaleCode}>
+              <a
+                target="_blank"
+                href={'https://liikennetilanne.fintraffic.fi/pulssi/?lang=' + selectedLocaleCode}
+                rel="noopener noreferrer"
+              >
                 {t('fintraffic:traffic')}
               </a>
             </li>
             <li>
               <a
+                target="_blank"
+                rel="noopener noreferrer"
                 href={
                   'https://www.palautevayla.fi/aspa/en/liikenteen-asiakaspalvelu-etsi-tietoa?lang=' + selectedLocaleCode
                 }
@@ -34,25 +40,39 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              <a href={'https://www.digitraffic.fi/lang=' + (selectedLocaleCode === 'sv' ? 'se' : selectedLocaleCode)}>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={
+                  'https://junalahdot.fintraffic.fi/?lang=' + (selectedLocaleCode === 'sv' ? 'se' : selectedLocaleCode)
+                }
+              >
                 {t('fintraffic:train')}
               </a>
             </li>
             <li>
-              <a href="https://skynavx.fi/#/drone">{t('fintraffic:drone')}</a>
+              <a target="_blank" rel="noopener noreferrer" href="https://skynavx.fi/#/drone">
+                {t('fintraffic:drone')}
+              </a>
             </li>
           </ul>
         </div>
         <div className={'footer__link-column'}>
           <ul>
             <li>
-              <a href="https://www.digitraffic.fi/">Digitraffic</a>
+              <a target="_blank" rel="noopener noreferrer" href="https://www.digitraffic.fi/">
+                Digitraffic
+              </a>
             </li>
             <li>
-              <a href="https://digitransit.fi/">Digitransit</a>
+              <a target="_blank" rel="noopener noreferrer" href="https://digitransit.fi/">
+                Digitransit
+              </a>
             </li>
             <li>
-              <a href="https://finap.fi/#/">NAP</a>
+              <a target="_blank" rel="noopener noreferrer" href="https://finap.fi/#/">
+                NAP
+              </a>
             </li>
           </ul>
         </div>
@@ -60,25 +80,40 @@ const Footer = () => {
           <ul>
             <li>
               <a
-                href={`https://www.fintraffic.fi/${selectedLocaleCode}/fintraffic/contact-information-and-invoicing-instructions`}
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`https://www.fintraffic.fi/${selectedLocaleCode}/fintraffic/${t('fintraffic:contactLink')}`}
               >
                 {t('fintraffic:contact')}
               </a>
             </li>
             <li>
-              <a href={`https://www.fintraffic.fi/${selectedLocaleCode}/fintraffic/tietosuoja`}>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`https://www.fintraffic.fi/fi/fintraffic/validointi-ja-konvertointipalvelu`}
+              >
                 {t('fintraffic:privacy')}
               </a>
             </li>
             <li>
-              <a href={`https://www.fintraffic.fi/${selectedLocaleCode}/fintraffic/saavutettavuusseloste`}>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href={`https://www.fintraffic.fi/${selectedLocaleCode}/fintraffic/${t('fintraffic:accessibility').toLowerCase()}`}
+              >
                 {t('fintraffic:accessibility')}
               </a>
             </li>
           </ul>
         </div>
         <div className="footer__link-column">
-          <a style={{ marginRight: '1rem' }} href="https://www.facebook.com/FintrafficFI">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ marginRight: '1rem' }}
+            href="https://www.facebook.com/FintrafficFI"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -94,7 +129,12 @@ const Footer = () => {
               <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
             </svg>
           </a>
-          <a style={{ marginRight: '1rem' }} href="https://twitter.com/Fintraffic_fi">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ marginRight: '1rem' }}
+            href="https://twitter.com/Fintraffic_fi"
+          >
             <svg
               aria-hidden="true"
               viewBox="0 0 24 24"
@@ -108,7 +148,12 @@ const Footer = () => {
               ></path>
             </svg>
           </a>
-          <a style={{ marginRight: '1rem' }} href="https://www.instagram.com/fintraffic_stories_fi">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ marginRight: '1rem' }}
+            href="https://www.instagram.com/fintraffic_stories_fi"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -125,7 +170,12 @@ const Footer = () => {
               <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zm1.5-4.87h.01"></path>
             </svg>
           </a>
-          <a style={{ marginRight: '1rem' }} href="https://www.youtube.com/channel/UCpnhwBRjt58yUu_Oky7vyxQ">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ marginRight: '1rem' }}
+            href="https://www.youtube.com/channel/UCpnhwBRjt58yUu_Oky7vyxQ"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -142,7 +192,7 @@ const Footer = () => {
               <path d="M9.75 15.02l5.75-3.27-5.75-3.27v6.54z"></path>
             </svg>
           </a>
-          <a href="https://www.linkedin.com/company/fintraffic">
+          <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/company/fintraffic">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"

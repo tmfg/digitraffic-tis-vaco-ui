@@ -50,7 +50,7 @@ const FintrafficNavbar = () => {
       selectedItem={items[items.length - 1]}
       isSelectedItemStatic={true}
     >
-      <a href={'https://www.fintraffic.fi/' + selectedLocaleCode}>
+      <a target="_blank" rel="noopener noreferrer" href={'https://www.fintraffic.fi/' + selectedLocaleCode}>
         <div style={{ display: 'flex', alignItems: 'center', width: '100px', flexShrink: 0 }}>
           <FintrafficLogo />
         </div>
