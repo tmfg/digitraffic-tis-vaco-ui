@@ -9,6 +9,7 @@ export interface EntryStateResource {
     entry: EntryResource
     reports: RuleReport[]
     summaries: SummaryItem[]
+    company: string
   }
   error?: string | null
 }

@@ -87,7 +87,7 @@ const ProcessingResultsPage = () => {
         {!entryState && ''}
         {entryState && (
           <div>
-            <SubmittedData entry={entryState.data.entry.data} />
+            <SubmittedData entry={entryState.data.entry.data} company={entryState.data.company} />
 
             {!entryState.data.entry.data.completed && processingProgress !== 100 && !entryState.error && (
               <Section hidable={false} titleKey={'inProgress'}>
