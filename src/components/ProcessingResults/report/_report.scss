@@ -24,6 +24,10 @@
     color: #2da44e;
   }
 
+  .counter--CRITICAL {
+    color: var(--danger-300, #B40000);
+  }
+
   .counter--ERROR {
     color: var(--danger-300, #B40000);
   }

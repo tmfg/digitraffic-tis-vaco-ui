@@ -225,7 +225,7 @@ const Table = ({
   const getFirstTdInExpandableRow = (item: TableItem, rowIndex: number, columnIndex: number) => {
     return (
       <td colSpan={item.colSpan ?? 1} key={tableTitle + 'row-' + rowIndex + '-column-' + columnIndex + '-' + item.name}>
-        <div>
+        <div className={'expandable-column'}>
           <span className={'expanded-icon'}>
             {rowsExpandedState[tableTitle + '-row-' + rowIndex] ? <HideSvg /> : <ExpandSvg />}
           </span>

@@ -84,10 +84,14 @@ td {
 }
 
 .expanded-content {
-  padding: 1.5rem 2rem;
+  padding: 1rem 2rem;
 }
 
 .expanded-icon {
   margin-left: 2px;
   margin-right: 10px;
+}
+
+.expandable-column {
+  display: inline-flex;
 }
