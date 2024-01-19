@@ -30,7 +30,8 @@ export const en = {
     user: 'My account',
     login: 'Log in',
     logout: 'Log out',
-    register: 'Register'
+    register: 'Register',
+    redirecting: 'Redirecting...'
   },
   home: {
     header: 'VACO - National validator of essential traffic service data',
@@ -124,7 +125,7 @@ export const en = {
       validationRule: 'Validation rule',
       conversionRule: 'Conversion rule',
       inProgress: 'Processing progress',
-      progress: 'The processing is currently {{percentage}}% complete. Please, refresh the page for the latest data.',
+      progress: 'The processing is currently <strong>{{percentage}}%</strong> complete. Please, refresh the page for the latest data.',
       packages: {
         header: 'Produced packages',
         intro:
@@ -135,21 +136,23 @@ export const en = {
         report: 'Validation report'
       },
       reportStats: {
-        all: 'notices reported',
+        all: 'findings reported',
+        critical: 'critical errors',
         error: 'errors',
         warning: 'warnings',
         info: 'infos',
         unknown: 'unknowns'
       },
       notices: {
-        code: 'Notice code',
+        code: 'Finding',
         severity: 'Severity',
         total: 'Total',
-        moreInfo: 'You can read more about this notice',
+        moreInfo: 'You can read more about this finding',
         notAllNoticesShown:
-          'Only {{instancesLength}} instances out of {{noticeTotal}} are shown. The full list is available in the downloadable validation report below.'
+          'Only {{instancesLength}} findings out of {{noticeTotal}} are shown. The full list is available in the downloadable validation report below.'
       },
       severity: {
+        critical: 'Critical',
         error: 'Error',
         warning: 'Warning',
         info: 'Info',
@@ -183,10 +186,10 @@ export const en = {
         },
         id: 'ID',
         url: 'URL',
-        operators: 'Included operators',
+        operators: 'Operators included',
         lines: 'Lines',
         routesCount: 'Routes',
-        transportMode: 'Transport'
+        transportMode: 'Transport mode'
       }
     },
     myData: {
@@ -234,7 +237,7 @@ export const en = {
   },
   pagination: {
     content: {
-      notices: 'Notices',
+      notices: 'Findings',
       submissions: 'Submissions'
     },
     total: 'total',
@@ -244,6 +247,13 @@ export const en = {
     showAll: 'Show all'
   },
   sorting: {
-
+    sort: {
+      asc: 'Sort by Asc',
+      desc: 'Sort by Desc'
+    },
+    sorted: {
+      asc: 'Sorted by Asc',
+      desc: 'Sorted by Desc'
+    }
   }
 }

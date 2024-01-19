@@ -30,7 +30,8 @@ export const sv = {
     user: 'Mina uppgifter',
     login: 'Logga in',
     logout: 'Utloggning',
-    register: 'Registrera dig'
+    register: 'Registrera dig',
+    redirecting: 'Omdirigeras...'
   },
   home: {
     header: 'VACO - validering & konvertering',
@@ -102,10 +103,10 @@ export const sv = {
         rulesRequired: 'Minst en regel måste väljas'
       },
       modal: {
-        title: 'Data inlämnade!',
-        accessBy: 'Databehandlingen kan nås med ID: <strong>{{publicId}}</strong>',
-        notification: 'Ett e-postmeddelande skickas till <strong>{{email}}</strong> efter att behandlingen är klar.',
-        toProceed: 'Du kan navigera för att se bearbetningsförloppet genom att klicka på "Fortsätt"'
+        title: 'Data har skickats in!',
+        accessBy: 'Databearbetningsresultaten kan nås via ID: <strong>{{publicId}}</strong>',
+        notification: 'En e-postavisering skickas till <strong>{{email}}</strong> när bearbetningen är klar.',
+        toProceed: 'Du kan navigera för att se bearbetningsförloppet genom att klicka på "Fortsätt".'
       }
     },
     processingResults: {
@@ -120,33 +121,36 @@ export const sv = {
       submissionDate: 'Inlämningsdatum',
       validationRule: 'Verifieringsregel som används',
       conversionRule: 'Konverteringsregel som används',
-      inProgress: 'Bearbetnings förlopp',
-      progress: 'Bearbetningen är för närvarande {{percentage}}% klar. Uppdatera sidan för den senaste informationen.',
+      inProgress: 'Bearbetningsförlopp',
+      progress:
+        'För närvarande är <strong>{{percentage}}%</strong> av bearbetningen slutförd. Uppdatera sidan för att se senaste data.',
       packages: {
         header: 'Producerade paket',
         intro:
           'Här är producerade paket, inklusive valideringsrapporten. Paketformatet är HTML eller JSON beroende på använd validerare.',
         result: 'Inmatade data',
-        all: 'Alla utgångar',
+        all: 'Alla utdata',
         debug: 'Debug loggar',
         report: 'Valideringsrapport'
       },
       reportStats: {
-        all: 'meddelanden rapporterade',
+        all: 'rapporterade fynd',
+        critical: 'kritiska fel',
         error: 'fel',
         warning: 'varningar',
         info: 'infon',
         unknown: 'okända'
       },
       notices: {
-        code: 'Meddelandekod',
+        code: 'Fynd',
         severity: 'Allvarlighetsgrad',
         total: 'Totalt',
-        moreInfo: 'Du kan läsa mer om detta meddelande',
+        moreInfo: 'Läs mer om detta fynd',
         notAllNoticesShown:
-          'Endast {{instancesLength}} fynd av {{noticeTotal}} visas. Hela listan finns i den nedladdningsbara valideringsrapporten nedan.'
+          'Endast {{instancesLength}} fynd av {{noticeTotal}} visas. Den fullständiga listan finns i den nedladdningsbara valideringsrapporten nedan.'
       },
       severity: {
+        critical: 'Kritisk',
         error: 'Fel',
         warning: 'Varning',
         info: 'Info',
@@ -167,17 +171,23 @@ export const sv = {
         email: 'E-post',
         phone: 'Telefonnummer',
         showAllItem: {
-          agencies: 'byråer'
+          agencies: 'byråer',
+          files: 'filer',
+          lines: 'linjer',
+          operators: 'byråer'
         },
         showLessItem: {
-          agencies: 'byråer'
+          agencies: 'byråer',
+          files: 'filer',
+          lines: 'linjer',
+          operators: 'byråer'
         },
         id: 'ID',
         url: 'URL',
         operators: 'Inkluderade byråer',
         lines: 'Linjer',
         routesCount: 'Routes',
-        transportMode: 'Transport'
+        transportMode: 'Transport mode'
       }
     },
     myData: {
@@ -198,13 +208,13 @@ export const sv = {
         dateCompleted: 'Slutförd',
         status: 'Status'
       },
-      noDataFound: 'Ingen data hittades'
+      noDataFound: 'Inga data hittades'
     }
   },
   error: {
-    notFound: 'Fel: ingenting finns på den angivna URL-sökvägen.',
+    notFound: 'Fel: inget finns på den angivna URL-sökvägen.',
     authRequired: 'Fel: inloggning krävs för att fortsätta.',
-    return: 'Återgå till startsidan'
+    return: 'Gå tillbaka till startsidan'
   },
   formValidation: {
     isRequired: 'Du måste specificera {{value}}',
@@ -225,13 +235,23 @@ export const sv = {
   },
   pagination: {
     content: {
-      notices: 'Meddelanden',
+      notices: 'Fynd',
       submissions: 'Inlämningar'
     },
     total: 'totalt',
-    perPage: 'Objekt på sidan',
+    perPage: 'Objekt per sida',
     next: 'nästa',
     previous: 'föregående',
     showAll: 'Visa allt'
+  },
+  sorting: {
+    sort: {
+      asc: 'Sortera i stigande ordning',
+      desc: 'Sortera i fallande ordning'
+    },
+    sorted: {
+      asc: 'Sorterad i stigande ordning',
+      desc: 'Sorterad i fallande ordning'
+    }
   }
 }

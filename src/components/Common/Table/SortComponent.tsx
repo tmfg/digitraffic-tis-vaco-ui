@@ -9,6 +9,7 @@ import { ReactComponent as SortStringDescSvg } from '../../../assets/svg/arrow-u
 import { ReactComponent as SortStringAscSvg } from '../../../assets/svg/arrow-down-a-z.svg'
 import { HeaderItem, TableItem } from './Table'
 import { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from "react-i18next";
 
 export interface SortColumn {
   name: string
@@ -26,6 +27,7 @@ interface SortComponentProps {
 
 const SortComponent = ({ selectedSortedColumn, column, sortCallback, tableTitle }: SortComponentProps) => {
   const [isClicked, setIsClicked] = useState<boolean>(false)
+  const { t } = useTranslation()
 
   const getSortButton = () => {
     if (column.name !== selectedSortedColumn?.name) {
@@ -61,10 +63,8 @@ const SortComponent = ({ selectedSortedColumn, column, sortCallback, tableTitle 
     }
   }
 
-  const getSortText = (direction: string) => {
+  const isSorted = (direction: string) => {
     return column.name === selectedSortedColumn?.name && direction === selectedSortedColumn.direction
-      ? 'Sorted'
-      : 'Sort'
   }
 
   const handleOutsideNavigationClick = useCallback(
@@ -117,7 +117,7 @@ const SortComponent = ({ selectedSortedColumn, column, sortCallback, tableTitle 
             }}
           >
             <span className={'li-sort-icon'}>{getAscSortIcon(column.type)}</span>
-            <span>{getSortText('ASC')} by Asc</span>
+            <span>{isSorted('ASC') ? t('sorting:sorted:asc') : t('sorting:sort:asc')}</span>
           </li>
           <li
             onClick={() => {
@@ -131,7 +131,7 @@ const SortComponent = ({ selectedSortedColumn, column, sortCallback, tableTitle 
             }}
           >
             <span className={'li-sort-icon'}>{getDescSortIcon(column.type)}</span>
-            <span>{getSortText('DESC')} by Desc</span>
+            <span>{isSorted('DESC') ? t('sorting:sorted:desc') : t('sorting:sort:desc')}</span>
           </li>
         </ul>
       )}
