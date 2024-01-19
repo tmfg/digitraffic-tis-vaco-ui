@@ -3,12 +3,11 @@ import { FdsAlertComponent } from '../fds/FdsAlertComponent'
 import { FdsInputComponent } from '../fds/FdsInputComponent'
 import { FdsCheckboxComponent } from '../fds/FdsCheckboxComponent'
 import { FdsDropdownComponent } from '../fds/FdsDropdownComponent'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { EntryResource } from '../../types/EntryResource'
 import { useMsal } from '@azure/msal-react'
 import { useTranslation } from 'react-i18next'
 import { acquireToken, isUserInTransition } from '../../hooks/auth'
-
 import { getHeaders, HttpClient } from '../../HttpClient'
 import { FdsButtonComponent } from '../fds/FdsButtonComponent'
 import { FdsDropdownOption } from '../../../coreui-components/src/fds-dropdown'
@@ -17,7 +16,15 @@ import DataSubmittedModal from './DataSubmittedModal'
 import { useNavigate } from 'react-router-dom'
 import { RulesetResource } from '../../types/Ruleset'
 import { Map } from '../../types/Map'
-import { getFeedNameSuggestion, getNewFormErrorsState, getNewFormState, submitData } from './helpers'
+import {
+  getFeedNameSuggestion,
+  getNetexAdditionalInputs,
+  getNewFormErrorsState,
+  getNewFormState,
+  getNewFormStateAfterMultipleChanges,
+  submitData
+} from './helpers'
+import { CompanyContext, CompanyContextType } from '../../CompanyContextProvider'
 
 const Form = () => {
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
@@ -26,13 +33,24 @@ const Form = () => {
   const { t, i18n } = useTranslation()
   const [formData, setFormData] = useState<Map>({})
   const formats: FdsDropdownOption<string>[] = [
-    { label: 'GTFS', value: t('format:gtfs') },
-    { label: 'NeTEx', value: t('format:netex') }
+    { label: 'GTFS', value: 'gtfs' },
+    { label: 'NeTEx', value: 'netex' }
   ]
   const [rules, setRules] = useState<RulesetResource[]>([])
   const [formErrors, setFormErrors] = useState<Map>({})
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [email, setEmail] = useState<string>('')
+  const companies: CompanyContextType = useContext(CompanyContext)
+  const companyOptions: FdsDropdownOption<string>[] = companies
+    ? companies.map((company) => {
+        return {
+          label: `${company.name} (${company.businessId})`,
+          value: company.businessId
+        }
+      })
+    : []
+  const [selectedBusinessId, setSelectedBusinessId] = useState<string | null>(null)
+  const [selectedFormat, setSelectedFormat] = useState<string | null>(null)
 
   const closeModal = () => {
     setIsModalOpen(false)
@@ -40,6 +58,67 @@ const Form = () => {
   const navigateToProcessingResult = () => {
     navigate('/data/' + entryResource?.data.publicId)
   }
+
+  useEffect(() => {
+    // Set default selected company if there is only one option
+    if (companyOptions.length === 1 && !formData.businessId && !selectedBusinessId) {
+      setSelectedBusinessId(companyOptions[0].value)
+      const newFormData = {
+        businessId: companyOptions[0].value
+      }
+      setFormData(newFormData)
+    }
+  }, [companyOptions])
+
+  useEffect(() => {
+    if (instance && selectedFormat && selectedBusinessId) {
+      acquireToken(instance, inProgress).then(
+        (tokenResult) => {
+          if (!tokenResult) {
+            // TODO: At some point, show some error notification
+            return
+          }
+
+          HttpClient.get(`/api/rules?businessId=${selectedBusinessId}`, getHeaders(tokenResult.accessToken)).then(
+            (response) => {
+              const ruleData = response.data as RulesetResource[]
+              const validationRules = ruleData.filter(
+                (rule) =>
+                  rule.data.format.toUpperCase() === selectedFormat.toUpperCase() &&
+                  rule.data.type.includes('VALIDATION')
+              )
+              // Clear up selected rules from formData if those no longer available due to user's changed format/businessId selections
+              const isPreviousRuleIncludedInNew = (previousRule: RulesetResource) => {
+                return validationRules.filter((rule) => rule.data.identifyingName === previousRule.data.identifyingName)
+              }
+              rules.forEach((rule) => {
+                if (formData[rule.data.identifyingName] && !isPreviousRuleIncludedInNew(rule)) {
+                  const ruleToClearOut: FdsInputChange = {
+                    name: rule.data.identifyingName,
+                    value: false
+                  }
+                  const inputsToClearOut: FdsInputChange[] = [ruleToClearOut]
+                  if (rule.data.type === 'netex') {
+                    inputsToClearOut.concat(getNetexAdditionalInputs(rule.data.identifyingName))
+                  }
+                  const newFormData = getNewFormStateAfterMultipleChanges(formData, inputsToClearOut)
+                  setFormData(newFormData)
+                }
+              })
+              setRules(validationRules)
+            },
+            (error) => {
+              return Promise.reject(error)
+            }
+          )
+        },
+        (error) => {
+          // Show some error
+          return Promise.reject(error)
+        }
+      )
+    }
+  }, [instance, inProgress, selectedBusinessId, selectedFormat])
 
   const updateFormState = useCallback((newFormData: Map, newFormErrors: Map) => {
     setFormData(newFormData)
@@ -55,35 +134,23 @@ const Form = () => {
       const newFormState = getNewFormState(formData, detail)
       const newFormErrors = getNewFormErrorsState(formErrors, detail)
       updateFormState(newFormState, newFormErrors)
-
-      acquireToken(instance, inProgress).then(
-        (tokenResult) => {
-          if (!tokenResult) {
-            // TODO: At some point, show some error notification
-            return
-          }
-
-          HttpClient.get('/api/rules?businessId=2942108-7', getHeaders(tokenResult.accessToken)).then(
-            (response) => {
-              const rules = response.data as RulesetResource[]
-              setRules(
-                rules.filter(
-                  (rule) => rule.data.format.toUpperCase() === (detail.value as string).toUpperCase() && rule.data.type.includes('VALIDATION')
-                )
-              )
-            },
-            (error) => {
-              return Promise.reject(error)
-            }
-          )
-        },
-        (error) => {
-          // Show some error
-          return Promise.reject(error)
-        }
-      )
+      setSelectedFormat(detail.value as string)
     },
-    [instance, updateFormState, formData, formErrors]
+    [updateFormState, formData, formErrors, setSelectedFormat]
+  )
+
+  const useCompanyListener: EventListenerOrEventListenerObject = useCallback(
+    (e: Event) => {
+      const detail = (e as CustomEvent).detail as FdsInputChange
+      if (!detail.value) {
+        return
+      }
+      const newFormState = getNewFormState(formData, detail)
+      const newFormErrors = getNewFormErrorsState(formErrors, detail)
+      updateFormState(newFormState, newFormErrors)
+      setSelectedBusinessId(detail.value as string)
+    },
+    [updateFormState, formData, formErrors, setSelectedBusinessId]
   )
 
   const useUrlListener: EventListenerOrEventListenerObject = useCallback(
@@ -166,17 +233,22 @@ const Form = () => {
     if (formatElement && formatElement.getAttribute('listener') !== 'true') {
       formatElement.addEventListener('select', useFormatListener)
     }
+    const companyElement = document.querySelector('[id="company"]')
+    if (companyElement && companyElement.getAttribute('listener') !== 'true') {
+      companyElement.addEventListener('select', useCompanyListener)
+    }
 
     return () => {
       feedNameElement?.removeEventListener('change', useGeneralListener)
       urlElement?.removeEventListener('change', useUrlListener)
       etagElement?.removeEventListener('change', useGeneralListener)
       formatElement?.removeEventListener('select', useFormatListener)
+      companyElement?.removeEventListener('select', useCompanyListener)
     }
-  }, [useGeneralListener, useFormatListener, useUrlListener])
+  }, [useGeneralListener, useFormatListener, useUrlListener, useCompanyListener])
 
   useEffect(() => {
-    if (!formData.format || !rules || rules.length === 0) {
+    if (!formData.format || !rules || rules.length === 0 || !formData.businessId) {
       return
     }
 
@@ -242,6 +314,17 @@ const Form = () => {
         <div className={'form-section'}>
           <h5>{t('services:testData:form:section:basic')}</h5>
 
+          <div id={'company'} className={'input-wrapper'}>
+            <FdsDropdownComponent
+              name={'businessId'}
+              label={t('services:testData:form:company') + ' *'}
+              options={companyOptions}
+              message={(formErrors['businessId'] as string) || ''}
+              error={!!formErrors['businessId']}
+              value={formData.businessId ? companyOptions.filter((c) => c.value === formData.businessId)[0] : undefined}
+            />
+          </div>
+
           <div id={'feedName'} className={'input-wrapper'}>
             <FdsInputComponent
               clearable={true}
@@ -275,6 +358,8 @@ const Form = () => {
               options={formats}
               message={(formErrors['format'] as string) || ''}
               error={!!formErrors['format']}
+              // Providing value would show selected option in the drop-down list in a highlighted way
+              value={formData.format ? formats.filter((c) => c.value === formData.format)[0] : undefined}
             />
           </div>
         </div>
@@ -341,6 +426,7 @@ const Form = () => {
         {formErrors &&
           (formErrors.url ||
             formErrors.format ||
+            formErrors.businessId ||
             formErrors.rules ||
             ((formData.format as string)?.toLowerCase() === 'netex' &&
               rules.filter((rule) => formErrors[rule.data.identifyingName + '-codespace']).length > 0)) && (

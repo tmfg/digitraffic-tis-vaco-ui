@@ -13,6 +13,7 @@ export const fi = {
     digitransit: 'Digitransit',
     nap: 'NAP',
     contact: 'Yhteystiedot',
+    contactLink: 'yhteystiedot',
     privacy: 'Tietosuojaseloste',
     accessibility: 'Saavutettavuus'
   },
@@ -82,8 +83,10 @@ export const fi = {
         url: 'Datan URL-osoite',
         urlInfo: 'Datatiedoston URL-osoite',
         etag: 'ETag',
+        company: 'Yritys',
         format: 'Dataformaatti',
         formatRequired: 'Dataformaatti on määritettävä',
+        companyRequired: 'Yritys on määritettävä',
         submit: 'Julkaise',
         rules: {
           'gtfs.canonical.v4_1_0': 'Canonical GTFS Validator by MobilityData, versio v4.1.0',
@@ -252,6 +255,9 @@ export const fi = {
     sorted: {
       asc: 'Nousevaan järjestykseen',
       desc: 'Laskevaan järjestykseen'
-    }
+    },
+  },
+  company: {
+    businessId: 'Y-tunnus'
   }
 }

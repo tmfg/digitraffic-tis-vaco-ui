@@ -5,10 +5,11 @@ import { Entry } from '../../types/EntryResource'
 import { formatDate } from '../../util/date'
 
 interface SubmittedDataProps {
-  entry: Entry
+  entry: Entry,
+  company: string
 }
 
-const SubmittedData = ({ entry }: SubmittedDataProps) => {
+const SubmittedData = ({ entry, company }: SubmittedDataProps) => {
   const { t } = useTranslation()
   const rules = entry.validations.map((item) => (
     <div key={item.name}>{t('services:testData:form:rules:' + item.name)}</div>
@@ -25,6 +26,10 @@ const SubmittedData = ({ entry }: SubmittedDataProps) => {
     {
       label: t('services:myData:table:id') as string,
       value: entry.publicId
+    },
+    {
+      label: t('services:testData:form:company') as string,
+      value: company
     },
     {
       label: t('services:processingResults:submissionDate') as string,

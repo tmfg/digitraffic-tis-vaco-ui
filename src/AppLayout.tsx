@@ -10,6 +10,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { localStorageKey, supportedLocales } from './i18n'
 import { useTranslation } from 'react-i18next'
+import CompanyContextProvider from "./CompanyContextProvider";
 
 const AppLayout = () => {
   const isAuthenticated = useIsAuthenticated()
@@ -24,7 +25,7 @@ const AppLayout = () => {
     if (langQueryParam && selectedLocaleCode !== langQueryParam && supportedLocales.includes(langQueryParam)) {
       i18n
         .changeLanguage(langQueryParam)
-        .catch(() => console.log('Error at attempt of changing i18n locale to ', langQueryParam))
+        .catch(() => console.error('Error at attempt of changing i18n locale to ', langQueryParam))
 
       if (!localStorage.getItem(localStorageKey)) {
         localStorage.setItem(localStorageKey, langQueryParam)
@@ -38,7 +39,11 @@ const AppLayout = () => {
       {isUserInTransition(inProgress) && <div></div>}
       {isUserInTransition(inProgress) && <RedirectingPage />}
       {!isUserInTransition(inProgress) && (isAuthenticated ? <VacoAuthenticatedNavbar /> : <VacoLandingNavbar />)}
-      {!isUserInTransition(inProgress) && <Outlet />}
+      {!isUserInTransition(inProgress) && (
+        <CompanyContextProvider>
+          <Outlet />
+        </CompanyContextProvider>
+      )}
       <Footer />
     </div>
   )

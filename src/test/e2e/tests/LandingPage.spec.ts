@@ -22,8 +22,12 @@ test.describe(`Home Page, without authentication`, () => {
     // Shortcuts:
     await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('vaco:login')}`)).toBeVisible()
     await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('vaco:register')}`)).toBeVisible()
-    await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('home:shortcut:myData:label')}`)).not.toBeVisible()
-    await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('home:shortcut:testData:label')}`)).not.toBeVisible()
+    await expect(
+      page.locator(`.shortcut-card__label >> text=${i18n.t('home:shortcut:myData:label')}`)
+    ).not.toBeVisible()
+    await expect(
+      page.locator(`.shortcut-card__label >> text=${i18n.t('home:shortcut:testData:label')}`)
+    ).not.toBeVisible()
 
     // VACO menu:
     await expect(page.locator(`.item__label--bold >> span >> text=${i18n.t('vaco:vaco')}`)).toBeVisible()

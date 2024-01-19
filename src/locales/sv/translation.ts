@@ -13,6 +13,7 @@ export const sv = {
     digitransit: 'Digitransit',
     nap: 'NAP',
     contact: 'Kontaktinformation',
+    contactLink: 'kontaktuppgifter',
     privacy: 'Dataskydd',
     accessibility: 'Tillgänglighetsutlåtande'
   },
@@ -82,8 +83,10 @@ export const sv = {
         url: 'Data-URL',
         urlInfo: 'URL som innehåller datafilen',
         etag: 'ETag',
+        company: 'Företags',
         format: 'Dataformat',
         formatRequired: 'Du måste specificera dataformat',
+        companyRequired: 'Du måste specificera företags',
         submit: 'Skicka',
         rules: {
           'gtfs.canonical.v4_1_0': 'Canonical GTFS Validator by MobilityData, version v4.1.0',
@@ -253,5 +256,8 @@ export const sv = {
       asc: 'Sorterad i stigande ordning',
       desc: 'Sorterad i fallande ordning'
     }
+  },
+  company: {
+    businessId: 'Företags-id'
   }
 }

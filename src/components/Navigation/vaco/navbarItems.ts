@@ -18,17 +18,17 @@ export const aboutItem = (t: TFunction<'translation', undefined>): FdsNavigation
     dropDownItems: [
       {
         label: t('vaco:instructions'),
-        value: 'https://www.fintraffic.fi/fi',
+        value: 'https://www.fintraffic.fi/fi/fintraffic/validointi-ja-konvertointipalvelu',
         icon: 'external-link' as FdsIconType
       },
       {
         label: t('vaco:terms'),
-        value: 'https://www.fintraffic.fi/fi',
+        value: 'https://www.fintraffic.fi/fi/fintraffic/validointi-ja-konvertointipalvelu',
         icon: 'external-link' as FdsIconType
       },
       {
         label: t('vaco:privacy'),
-        value: 'https://www.fintraffic.fi/fi',
+        value: 'https://www.fintraffic.fi/fi/fintraffic/validointi-ja-konvertointipalvelu',
         icon: 'external-link' as FdsIconType
       }
     ]
@@ -42,7 +42,7 @@ export const supportItem = (t: TFunction<'translation', undefined>): FdsNavigati
     dropDownItems: [
       {
         label: t('vaco:channels'),
-        value: 'https://www.fintraffic.fi/en/instructions-tos',
+        value: 'https://www.fintraffic.fi/fi/fintraffic/validointi-ja-konvertointipalvelu',
         icon: 'external-link' as FdsIconType
       }
     ]
