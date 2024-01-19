@@ -6,9 +6,10 @@ import { decodeBase64 } from '../../../util/base64'
 
 interface AggregatedFindingDetailsProps {
   aggregatedFinding: AggregatedFinding
+  ruleName: string
 }
 
-const NoticeDetails = ({ aggregatedFinding }: AggregatedFindingDetailsProps) => {
+const FindingDetails = ({ aggregatedFinding, ruleName }: AggregatedFindingDetailsProps) => {
   const { t } = useTranslation()
 
   const getFindingInstancesTableHeader = (instances: NoticeInstance[]): HeaderItem[] => {
@@ -43,21 +44,28 @@ const NoticeDetails = ({ aggregatedFinding }: AggregatedFindingDetailsProps) => 
   return (
     <td colSpan={6} key={'expanded-content-' + aggregatedFinding.code} className={'expanded-content'}>
       <div>
-        <p>
-          {t('services:processingResults:notices:moreInfo')}{' '}
-          <a
-            target="_blank"
-            href={'https://gtfs-validator.mobilitydata.org/rules.html#' + aggregatedFinding.code + '-rule'}
-            rel="noreferrer"
-          >
-            {t('common:here')}
-          </a>
-          .
-        </p>
+        {ruleName.toLowerCase().includes('gtfs') ? (
+          <p>
+            {t('services:processingResults:notices:moreInfo')}{' '}
+            <a
+              target="_blank"
+              href={'https://gtfs-validator.mobilitydata.org/rules.html#' + aggregatedFinding.code + '-rule'}
+              rel="noreferrer"
+            >
+              {t('common:here')}
+            </a>
+            .
+          </p>
+        ) : (
+          ''
+        )}
 
         {aggregatedFinding.findings.length < aggregatedFinding.total && (
           <p>
-            {t('services:processingResults:notices:notAllNoticesShown', { instancesLength: aggregatedFinding.findings.length, noticeTotal: aggregatedFinding.total })}
+            {t('services:processingResults:notices:notAllNoticesShown', {
+              instancesLength: aggregatedFinding.findings.length,
+              noticeTotal: aggregatedFinding.total
+            })}
           </p>
         )}
 
@@ -67,4 +75,4 @@ const NoticeDetails = ({ aggregatedFinding }: AggregatedFindingDetailsProps) => 
   )
 }
 
-export default NoticeDetails
+export default FindingDetails
