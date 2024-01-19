@@ -13,9 +13,9 @@ const TestDataPage = () => {
   return (
     <div className={'page-content'}>
       <AuthenticatedTemplate>
-        {companies && companies.length > 0 ? (
+        <h1>{t('services:testData:header')}</h1>
+        {(companies && companies.length > 0) ? (
           <>
-            <h1>{t('services:testData:header')}</h1>
             <div className={'page-intro'}>{t('services:testData:intro')}</div>
             <Form />
           </>

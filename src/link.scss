@@ -1,0 +1,12 @@
+
+.link {
+  text-decoration: none;
+  color: var(--interactive-200, #1777F8);
+  cursor: pointer;
+}
+
+.link:hover {
+  color: var(--interactive-200, #1777F8);
+  text-decoration: underline;
+  filter: brightness(1.25);
+}
