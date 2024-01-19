@@ -173,11 +173,23 @@ export const en = {
         email: 'Email',
         phone: 'Phone number',
         showAllItem: {
-          agencies: 'agencies'
+          agencies: 'agencies',
+          files: 'files',
+          lines: 'lines',
+          operators: 'operators'
         },
         showLessItem: {
-          agencies: 'agencies'
-        }
+          agencies: 'agencies',
+          files: 'files',
+          lines: 'lines',
+          operators: 'operators'
+        },
+        id: 'ID',
+        url: 'URL',
+        operators: 'Included operators',
+        lines: 'Lines',
+        routesCount: 'Routes',
+        transportMode: 'Transport'
       }
     },
     myData: {

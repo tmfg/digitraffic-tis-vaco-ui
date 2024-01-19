@@ -15,6 +15,10 @@ import { FdsButtonComponent } from '../../components/fds/FdsButtonComponent'
 import { useNavigate } from 'react-router-dom'
 import Summary from '../../components/ProcessingResults/summary/Summary'
 
+const isReportContentAvailable = (reports: RuleReport[]) => {
+  return reports.filter((report) => report.findings?.length || report.packages?.length > 0).length
+}
+
 const ProcessingResultsPage = () => {
   const { entryId } = useParams()
   const navigate = useNavigate()
@@ -104,21 +108,23 @@ const ProcessingResultsPage = () => {
               </Section>
             )}
 
-            {validationReports.length > 0 && (
+            {validationReports.length > 0 && isReportContentAvailable(validationReports) ? (
               <Section hidable={true} titleKey={'reports'}>
                 {validationReports.map((report) => {
                   return <ValidationReport key={'report-' + report.ruleName} report={report} />
                 })}
               </Section>
-            )}
+            ) : ''}
 
-            {conversionReports.length > 0 && (
+            {conversionReports.length > 0 && isReportContentAvailable(conversionReports) ? (
               <Section hidable={true} titleKey={'results:conversion'}>
                 {conversionReports.map((report) => {
-                  return <ConversionReport key={'report-' + report.ruleName} report={report} />
+                  return (
+                    <ConversionReport key={'report-' + report.ruleName} report={report} />
+                  )
                 })}
               </Section>
-            )}
+            ) : ''}
           </div>
         )}
       </AuthenticatedTemplate>

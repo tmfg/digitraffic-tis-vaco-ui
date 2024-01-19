@@ -174,7 +174,13 @@ export const sv = {
         },
         showLessItem: {
           agencies: 'byråer'
-        }
+        },
+        id: 'ID',
+        url: 'URL',
+        operators: 'Inkluderade byråer',
+        lines: 'Linjer',
+        routesCount: 'Routes',
+        transportMode: 'Transport'
       }
     },
     myData: {

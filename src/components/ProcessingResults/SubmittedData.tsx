@@ -37,7 +37,8 @@ const SubmittedData = ({ entry, company }: SubmittedDataProps) => {
     },
     {
       label: t('services:testData:form:url') as string,
-      value: entry.url
+      value: entry.url,
+      isUrl: true
     },
     {
       label: t('services:testData:form:etag') as string,

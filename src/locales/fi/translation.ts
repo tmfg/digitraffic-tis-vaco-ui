@@ -174,7 +174,13 @@ export const fi = {
         },
         showLessItem: {
           agencies: 'toimijoita'
-        }
+        },
+        id: 'ID',
+        url: 'URL',
+        operators: 'Toimijat',
+        lines: 'Linjat',
+        routesCount: 'Routes',
+        transportMode: 'Transport'
       }
     },
     myData: {
