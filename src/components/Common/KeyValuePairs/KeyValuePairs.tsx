@@ -1,11 +1,11 @@
 import './_key_value_pair.scss'
-import { isUrl } from '../../../util/url'
 import React from 'react'
 
 export interface KeyValuePairItem {
   header?: string
   label: string
   value: string | number | React.ReactNode
+  isUrl?: boolean
 }
 
 interface KeyValuePairProps {
@@ -20,12 +20,12 @@ export enum KeyValuePairVariant {
 }
 
 const KeyValuePairs = ({ items, variant }: KeyValuePairProps) => {
-  const getValueElement = (value: string | number | React.ReactNode) => {
+  const getValueElement = (isUrl: boolean | undefined, value: string | number | React.ReactNode) => {
     if (!(typeof value === 'string')) {
       return value
     }
 
-    if (isUrl(value)) {
+    if (isUrl) {
       return <a href={value}>{value}</a>
     }
     return value
@@ -43,7 +43,7 @@ const KeyValuePairs = ({ items, variant }: KeyValuePairProps) => {
       <div>
         {items.map((item, i) => (
           <div className={'value-' + variant} key={'value-' + i}>
-            {item.value ? getValueElement(item.value) : '-'}
+            {item.value ? getValueElement(item.isUrl, item.value) : '-'}
           </div>
         ))}
       </div>

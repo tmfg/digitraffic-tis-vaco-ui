@@ -18,24 +18,27 @@ const Summary = ({ summaries }: SummaryProps) => {
   const getSummaryContent = (summary: SummaryItem) => {
     if (summary.rendererType === 'CARD') {
       const cards: SummaryCard[] = summary.content as SummaryCard[]
-      const shownCards = cards.length > 3 ? (showAllStates[summary.name] ? cards : cards.slice(0, 3)) : cards
+      const shownCards = cards.length > 4 ? (showAllStates[summary.name] ? cards : cards.slice(0, 4)) : cards
       return (
         <div>
           {shownCards.map((card) => {
             const cardContent: KeyValuePairItem[] = card.content
-            const localized: KeyValuePairItem[] = cardContent?.map((pair) => {
-              return {
-                label: t('services:processingResults:summaries:' + pair.label) as string,
-                value: pair.value
-              }
-            })
-            return (
-              <Card key={'card-' + card.title} title={card.title}>
-                <KeyValuePairs items={localized} variant={KeyValuePairVariant.small} />
-              </Card>
-            )
+            if (cardContent) {
+              const localized: KeyValuePairItem[] = cardContent.map((pair) => {
+                return {
+                  label: t('services:processingResults:summaries:' + pair.label),
+                  value: pair.value,
+                  isUrl: pair.label === 'website' || pair.label === 'url'
+                }
+              })
+              return (
+                <Card key={'card-' + card.title} title={card.title}>
+                  <KeyValuePairs items={localized} variant={KeyValuePairVariant.small} />
+                </Card>
+              )
+            }
           })}
-          {cards.length > 3 && (
+          {cards.length > 4 && (
             <span
               className={'hide-control'}
               onClick={() => {
@@ -46,8 +49,12 @@ const Summary = ({ summaries }: SummaryProps) => {
             >
               <span className={'text'}>
                 {showAllStates[summary.name]
-                  ? t('common:showLess', { values: t('services:processingResults:summaries:showLessItem:' + summary.name )})
-                  : t('common:showAll', { values: t('services:processingResults:summaries:showAllItem:' + summary.name ) })}
+                  ? t('common:showLess', {
+                      values: t('services:processingResults:summaries:showLessItem:' + summary.name)
+                    })
+                  : t('common:showAll', {
+                      values: t('services:processingResults:summaries:showAllItem:' + summary.name)
+                    })}
               </span>
               <span className={'icon'}>
                 <FdsIconComponent icon={showAllStates[summary.name] ? 'chevron-up' : 'chevron-down'} />
@@ -67,8 +74,37 @@ const Summary = ({ summaries }: SummaryProps) => {
       return <KeyValuePairs items={localized} variant={KeyValuePairVariant.small} />
     } else if (summary.rendererType === 'LIST') {
       const list: string[] = summary.content as string[]
-      const sortedList = list?.sort((a, b) => a.localeCompare(b))
-      return sortedList?.map((item) => <div key={summary.name + '-content-' + item}> {item}</div>)
+      const shownItems = list.length > 13 ? (showAllStates[summary.name] ? list : list.slice(0, 13)) : list
+      const sortedList = shownItems?.sort((a, b) => a.localeCompare(b))
+      return (
+        <>
+          {sortedList?.map((item) => <div style={{ marginBottom: '3.25px' }} key={summary.name + '-content-' + item}> {item}</div>)}
+          {list.length > 13 && (
+            <span
+              style={{ marginTop: '0.6rem' }}
+              className={'hide-control'}
+              onClick={() => {
+                const currentShowAllStates = { ...showAllStates }
+                currentShowAllStates[summary.name] = !showAllStates[summary.name]
+                setShowAllStates(currentShowAllStates)
+              }}
+            >
+              <span className={'text'}>
+                {showAllStates[summary.name]
+                  ? t('common:showLess', {
+                      values: t('services:processingResults:summaries:showLessItem:' + summary.name)
+                    })
+                  : t('common:showAll', {
+                      values: t('services:processingResults:summaries:showAllItem:' + summary.name)
+                    })}
+              </span>
+              <span className={'icon'}>
+                <FdsIconComponent icon={showAllStates[summary.name] ? 'chevron-up' : 'chevron-down'} />
+              </span>
+            </span>
+          )}
+        </>
+      )
     }
   }
 
