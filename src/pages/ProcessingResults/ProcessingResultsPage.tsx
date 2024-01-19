@@ -1,19 +1,19 @@
-import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import { getHeaders, HttpClient } from '../../HttpClient'
-import { acquireToken } from '../../hooks/auth'
-import { AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated, useMsal } from '@azure/msal-react'
-import AuthRequiredPage from '../Error/AuthRequiredPage'
-import { InteractionStatus } from '@azure/msal-browser'
-import { useTranslation } from 'react-i18next'
-import Section from '../../components/ProcessingResults/Section'
-import ConversionReport from '../../components/ProcessingResults/report/ConversionReport'
-import { EntryStateResource, RuleReport } from '../../types/EntryStateResource'
-import SubmittedData from '../../components/ProcessingResults/SubmittedData'
-import ValidationReport from '../../components/ProcessingResults/report/ValidationReport'
-import { FdsButtonComponent } from '../../components/fds/FdsButtonComponent'
-import { useNavigate } from 'react-router-dom'
-import Summary from '../../components/ProcessingResults/summary/Summary'
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getHeaders, HttpClient } from "../../HttpClient";
+import { acquireToken } from "../../hooks/auth";
+import { AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated, useMsal } from "@azure/msal-react";
+import AuthRequiredPage from "../Error/AuthRequiredPage";
+import { InteractionStatus } from "@azure/msal-browser";
+import { Trans, useTranslation } from "react-i18next";
+import Section from "../../components/ProcessingResults/Section";
+import ConversionReport from "../../components/ProcessingResults/report/ConversionReport";
+import { EntryStateResource, RuleReport } from "../../types/EntryStateResource";
+import SubmittedData from "../../components/ProcessingResults/SubmittedData";
+import ValidationReport from "../../components/ProcessingResults/report/ValidationReport";
+import { FdsButtonComponent } from "../../components/fds/FdsButtonComponent";
+import Summary from "../../components/ProcessingResults/summary/Summary";
+import { FdsButtonVariant } from "../../../coreui-components/src/fds-button";
 
 const isReportContentAvailable = (reports: RuleReport[]) => {
   return reports.filter((report) => report.findings?.length || report.packages?.length > 0).length
@@ -96,9 +96,14 @@ const ProcessingResultsPage = () => {
             {!entryState.data.entry.data.completed && processingProgress !== 100 && !entryState.error && (
               <Section hidable={false} titleKey={'inProgress'}>
                 <div style={{ marginBottom: '1.75rem' }}>
-                  {t('services:processingResults:progress', { percentage: Math.round(processingProgress) })}
+                  {
+                    <Trans
+                      i18nKey="services:processingResults:progress"
+                      values={{ percentage: Math.round(processingProgress) }}
+                    ></Trans>
+                  }
                 </div>
-                <FdsButtonComponent icon="refresh-cw" onClick={() => navigate(0)} label={t('common:refresh')} />
+                <FdsButtonComponent variant={FdsButtonVariant.secondary} icon="refresh-cw" onClick={() => navigate(0)} label={t('common:refresh')} />
               </Section>
             )}
 

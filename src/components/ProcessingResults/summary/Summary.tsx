@@ -78,10 +78,10 @@ const Summary = ({ summaries }: SummaryProps) => {
       const sortedList = shownItems?.sort((a, b) => a.localeCompare(b))
       return (
         <>
-          {sortedList?.map((item) => <div style={{ marginBottom: '3.25px' }} key={summary.name + '-content-' + item}> {item}</div>)}
+          {sortedList?.map((item) => <div style={{ marginBottom: '3px' }} key={summary.name + '-content-' + item}> {item}</div>)}
           {list.length > 13 && (
             <span
-              style={{ marginTop: '0.6rem' }}
+              style={{ marginTop: '0.7rem' }}
               className={'hide-control'}
               onClick={() => {
                 const currentShowAllStates = { ...showAllStates }

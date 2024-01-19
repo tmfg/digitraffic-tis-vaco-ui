@@ -31,7 +31,8 @@ export const fi = {
     user: 'Omat tiedot',
     login: 'Kirjaudu',
     logout: 'Kirjaudu ulos',
-    register: 'Rekisteröidy'
+    register: 'Rekisteröidy',
+    redirecting: 'Ohjataan uudelleen...'
   },
   home: {
     header: 'VACO - Liikennepalveluiden olennaisten tietojen valtakunnallinen validaattori',
@@ -80,7 +81,7 @@ export const fi = {
         feedNamePlaceHolder: 'Esimerkki: "data.zip - pysäkkien korjaus"',
         feedNameInfo: 'Lähetetyn datan yksilöllinen nimi. Oletus: datatiedoston nimi',
         url: 'Datan URL-osoite',
-        urlInfo: 'URL-osoite, joka sisältää datatiedoston',
+        urlInfo: 'Datatiedoston URL-osoite',
         etag: 'ETag',
         company: 'Yritys',
         format: 'Dataformaatti',
@@ -106,9 +107,10 @@ export const fi = {
       },
       modal: {
         title: 'Data lähetetty!',
-        accessBy: 'Datan käsittelyyn pääsee käsiksi ID-lla: <strong>{{publicId}}</strong>',
-        notification: 'Käsittelyn päätyttyä lähetetään sähköposti-ilmoitus osoitteeseen <strong>{{email}}</strong>',
-        toProceed: 'Voit siirtyä tarkastelemaan käsittelyn edistymistä napsauttamalla "Siirry".'
+        accessBy: 'Datan käsittelyn tuloksiin pääset tunnuksella <strong>{{publicId}}</strong>',
+        notification:
+          'Käsittelyn valmistumisesta lähetetään sähköposti-ilmoitus osoitteeseen <strong>{{email}}</strong>',
+        toProceed: 'Valitse "Jatka", jos haluat seurata käsittelyn etenemistä.'
       }
     },
     processingResults: {
@@ -123,33 +125,35 @@ export const fi = {
       submissionDate: 'Julkaisun päivämäärä',
       validationRule: 'Käytetty validointisääntö',
       conversionRule: 'Käytetty konversiosääntö',
-      inProgress: 'Käsittelyn edistyminen',
-      progress: 'Käsittely on tällä hetkellä {{percentage}}% valmis. Päivitä sivu saadaksesi uusimmat tiedot.',
+      inProgress: 'Käsittelyn eteneminen',
+      progress: '<strong>{{percentage}}%</strong> käsitelty. Lataa uusimmat tiedot päivittämällä sivu.',
       packages: {
         header: 'Valmistetut paketit',
         intro:
           'Tässä näet valmistetut paketit validointiraportteineen. Paketti on HTML- tai JSON-muodossa validaattorista riippuen.',
         result: 'Syötetyt tiedot',
-        all: 'Kaikki ulostulot',
+        all: 'Kaikki tulosteet',
         debug: 'Debug lokit',
         report: 'Validointiraportti'
       },
       reportStats: {
-        all: 'ilmoitusta raportoitu',
+        all: 'raportoitua havaintoa',
+        critical: 'kriittistä virhettä',
         error: 'virhettä',
         warning: 'varoitusta',
         info: 'tiedoksiantoa',
         unknown: 'tuntematonta'
       },
       notices: {
-        code: 'Ilmoituksen koodi',
+        code: 'Havainto',
         severity: 'Vakavuusaste',
         total: 'Yhteensä',
-        moreInfo: 'Voit lukea lisää tästä ilmoituksesta',
+        moreInfo: 'Lue lisää tästä havainnosta',
         notAllNoticesShown:
-          'Datapaketissa on liian monta löydöstä: vain {{instancesLength}} löydöstä {{noticeTotal}}:sta näytetään. Täydellinen luettelo on saatavilla alla ladattavassa validointiraportissa.'
+          'Vain {{instancesLength}}/{{noticeTotal}} havaintoa näytetään. Koko luettelon näet alla olevasta ladattavasta validointiraportista.'
       },
       severity: {
+        critical: 'Kriittinen',
         error: 'Virhe',
         warning: 'Varoitus',
         info: 'Tiedoksianto',
@@ -170,17 +174,23 @@ export const fi = {
         email: 'Sähköpostiosoite',
         phone: 'Puhelinnumero',
         showAllItem: {
-          agencies: 'toimijat'
+          agencies: 'toimijat',
+          files: 'tiedostot',
+          lines: 'linjat',
+          operators: 'toimijat'
         },
         showLessItem: {
-          agencies: 'toimijoita'
+          agencies: 'toimijoita',
+          files: 'tiedostoja',
+          lines: 'linjoja',
+          operators: 'toimijoita'
         },
         id: 'ID',
         url: 'URL',
         operators: 'Toimijat',
         lines: 'Linjat',
         routesCount: 'Routes',
-        transportMode: 'Transport'
+        transportMode: 'Transport mode'
       }
     },
     myData: {
@@ -205,8 +215,8 @@ export const fi = {
     }
   },
   error: {
-    notFound: 'Virhe: määritetyllä URL-polulla ei ole mitään.',
-    authRequired: 'Virhe: sisäänkirjautuminen vaaditaan jatkamiseksi.',
+    notFound: 'Virhe: määritetyssä URL-polussa ei ole mitään.',
+    authRequired: 'Virhe: jatkaminen edellyttää kirjautumista.',
     return: 'Palaa etusivulle'
   },
   formValidation: {
@@ -214,7 +224,7 @@ export const fi = {
     isInvalid: 'Annettu {{value}} ei kelpaa'
   },
   common: {
-    proceed: 'Siirry',
+    proceed: 'Jatka',
     close: 'Sulje',
     search: 'Hae',
     refresh: 'Päivitä',
@@ -228,7 +238,7 @@ export const fi = {
   },
   pagination: {
     content: {
-      notices: 'Ilmoitukset',
+      notices: 'Havainnot',
       submissions: 'Julkaiset'
     },
     total: 'yhteensä',
@@ -236,6 +246,16 @@ export const fi = {
     next: 'seuraava',
     previous: 'edellinen',
     showAll: 'Näytä kaikki'
+  },
+  sorting: {
+    sort: {
+      asc: 'Nouseva järjestys',
+      desc: 'Laskeva järjestys'
+    },
+    sorted: {
+      asc: 'Nousevaan järjestykseen',
+      desc: 'Laskevaan järjestykseen'
+    },
   },
   company: {
     businessId: 'Y-tunnus'
