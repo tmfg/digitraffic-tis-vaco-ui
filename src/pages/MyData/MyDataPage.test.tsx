@@ -5,7 +5,8 @@ import { MsalProvider } from '@azure/msal-react'
 import { describe, beforeEach, afterEach, it, expect } from 'vitest'
 import i18next from 'i18next'
 import MyDataPage from './MyDataPage'
-import { msalInitTester, resetTester } from '../../test/unit/vitestSetup'
+import { bootstrapParams, msalInitTester, resetTester } from '../../test/unit/vitestSetup'
+import { initializeBootstrap } from '../../hooks/auth'
 
 describe('My Data Page', () => {
   let msalTester: MsalReactTester
@@ -19,6 +20,7 @@ describe('My Data Page', () => {
   })
 
   it('My Data page renders correctly when user is not logged in', async () => {
+    initializeBootstrap(bootstrapParams)
     // Mock a guest user, not yet authenticated:
     await msalTester.isNotLogged()
 

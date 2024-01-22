@@ -1,4 +1,4 @@
-import { AccountInfo, Configuration, RedirectRequest } from "@azure/msal-browser";
+import { AccountInfo, Configuration, RedirectRequest } from '@azure/msal-browser'
 import { Bootstrap, Environment } from './types/Bootstrap.ts'
 
 /* istanbul ignore next 75 -- @preserve */
@@ -61,21 +61,25 @@ export const msalConfig = (bootstrap: Bootstrap): Configuration => {
  * For more information about OIDC scopes, visit:
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-permissions-and-consent#openid-connect-scopes
  */
-export const loginRequest: RedirectRequest = {
-  scopes: ['api://57c1b8a0-f33e-4e47-840d-8c180d933c41/VACO.App'],
-  prompt: 'select_account'
+export const loginRequest = (clientId: string): RedirectRequest => {
+  return {
+    scopes: [`api://${clientId}/VACO.App`],
+    prompt: 'select_account'
+  }
 }
 
-export const tokenRequest = (account: AccountInfo): RedirectRequest => {
+export const tokenRequest = (account: AccountInfo, clientId: string): RedirectRequest => {
   return {
-    scopes: ['api://57c1b8a0-f33e-4e47-840d-8c180d933c41/VACO.App'],
+    scopes: [`api://${clientId}/VACO.App`],
     account
   }
 }
 
-export const createAccountRequest: RedirectRequest = {
-  scopes: ['api://57c1b8a0-f33e-4e47-840d-8c180d933c41/VACO.App'],
-  prompt: 'create'
+export const createAccountRequest = (clientId: string): RedirectRequest => {
+  return {
+    scopes: [`api://${clientId}/VACO.App`],
+    prompt: 'create'
+  }
 }
 
 /**

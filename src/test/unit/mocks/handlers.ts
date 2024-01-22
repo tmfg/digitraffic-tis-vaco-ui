@@ -36,5 +36,16 @@ export const httpHandlers = [
       },
       { status: 200 }
     )
+  }),
+  http.get('http://localhost:8080/api/ui/bootstrap', () => {
+    return HttpResponse.json(
+      {
+        environment: 'local',
+        baseUrl: 'http://localhost:8080',
+        tenantId: '',
+        clientId: '57c1b8a0-f33e-4e47-840d-8c180d933c41'
+      },
+      { status: 200 }
+    )
   })
 ]

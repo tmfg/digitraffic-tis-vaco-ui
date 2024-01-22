@@ -11,7 +11,7 @@ import { initReactI18next } from 'react-i18next'
 import { resources } from '../../i18n'
 import { server } from './mocks/server'
 import { initializeHttpClient } from '../../HttpClient'
-import { Environment } from '../../types/Bootstrap'
+import { Bootstrap, Environment } from '../../types/Bootstrap'
 
 beforeAll(async () => {
   initializeHttpClient({
@@ -50,4 +50,11 @@ export const msalInitTester = () => {
 
 export const resetTester = (msalTester: MsalReactTester) => {
   msalTester.resetSpyMsal()
+}
+
+export const bootstrapParams: Bootstrap = {
+  environment: Environment.Local,
+  baseUrl: 'http://localhost:8080',
+  tenantId: '',
+  clientId: '57c1b8a0-f33e-4e47-840d-8c180d933c41'
 }
