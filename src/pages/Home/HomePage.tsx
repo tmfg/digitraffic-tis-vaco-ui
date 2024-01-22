@@ -20,7 +20,7 @@ const HomePage = () => {
       to: '/',
       onClick: () => {
         login(instance).catch((error) => {
-          console.log('Login error', error)
+          console.error('Login error', error)
         })
       },
       description: t('home:shortcut:login:intro')

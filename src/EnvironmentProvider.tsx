@@ -12,6 +12,7 @@ import { Bootstrap } from './types/Bootstrap'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { initI18n } from './i18n'
+import { initializeBootstrap } from './hooks/auth'
 
 const BOOTSTRAP_PATH = '/api/ui/bootstrap'
 
@@ -26,7 +27,7 @@ const fetchBootstrap = async (url: string): Promise<Bootstrap> => {
 
 const getBootstrap = async (): Promise<Bootstrap> => {
   return fetchBootstrap(BOOTSTRAP_PATH).catch(async (pl) => {
-    console.log('Primary URL not available, calling secondary hardcoded URL (' + pl + ')')
+    console.error('Primary URL not available, calling secondary hardcoded URL (' + pl + ')')
     return fetchBootstrap('http://localhost:8080' + BOOTSTRAP_PATH)
   })
 }
@@ -56,6 +57,7 @@ const EnvironmentProvider = ({ children }: Props) => {
       getBootstrap()
         .then((data: Bootstrap) => {
           initializeHttpClient(data)
+          initializeBootstrap(data)
           initializeMsal(data).catch((error) =>
             console.error('Error while initializing PublicClientApplication', error)
           )

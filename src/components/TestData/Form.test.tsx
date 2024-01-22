@@ -4,10 +4,11 @@ import { MemoryRouter } from 'react-router-dom'
 import { MsalProvider } from '@azure/msal-react'
 import { describe, beforeEach, afterEach, it, expect } from 'vitest'
 import i18next from 'i18next'
-import { msalInitTester, resetTester } from '../../test/unit/vitestSetup'
+import { bootstrapParams, msalInitTester, resetTester } from '../../test/unit/vitestSetup'
 import Form from './Form'
 import { screen } from 'shadow-dom-testing-library'
 import userEvent from '@testing-library/user-event'
+import { initializeBootstrap } from '../../hooks/auth'
 //import { submitData } from './formActions'
 
 describe('Test Data Form', () => {
@@ -61,6 +62,7 @@ describe('Test Data Form', () => {
   }
 
   it('Form renders correctly when user got logged in', async () => {
+    initializeBootstrap(bootstrapParams)
     // Mock a guest user, not yet authenticated:
     await msalTester.isLogged()
     await renderComponent()
