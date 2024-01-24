@@ -66,7 +66,7 @@ const MyDataPage = () => {
   useEffect(() => {
     let ignore = false
     if (accessToken && !ignore) {
-      HttpClient.get('/api/ui/entries?businessId=2942108-7&full=false', getHeaders(accessToken)).then(
+      HttpClient.get('/api/ui/entries?full=false', getHeaders(accessToken)).then(
         (response) => {
           const entries = response.data as EntryResource[]
           setEntryData(entries)

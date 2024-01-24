@@ -79,7 +79,7 @@ const Form = () => {
             return
           }
 
-          HttpClient.get(`/api/rules?businessId=${selectedBusinessId}`, getHeaders(tokenResult.accessToken)).then(
+          HttpClient.get(`/api/ui/rules?businessId=${selectedBusinessId}`, getHeaders(tokenResult.accessToken)).then(
             (response) => {
               const ruleData = response.data as RulesetResource[]
               const validationRules = ruleData.filter(

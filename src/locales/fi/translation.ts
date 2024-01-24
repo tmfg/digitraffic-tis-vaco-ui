@@ -24,7 +24,7 @@ export const fi = {
     terms: 'Käyttöehdot',
     privacy: 'Tietosuojaseloste',
     support: 'Tuki',
-    channels: 'Tuki kanavat',
+    channels: 'Tukikanavat',
     services: 'Omat palvelut',
     testData: 'Testaa ja validoi',
     myData: 'Omat datajulkaisut',
