@@ -103,7 +103,7 @@ export const submitData = async (
     validations: validations
   }
 
-  const { data } = await HttpClient.post('/api/queue', requestBody, getHeaders(tokenResult.accessToken))
+  const { data } = await HttpClient.post('/api/ui/queue', requestBody, getHeaders(tokenResult.accessToken))
   setEntryResource(data as EntryResource)
   setIsModalOpen(true)
 }

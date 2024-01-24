@@ -20,8 +20,8 @@ const Summary = ({ summaries }: SummaryProps) => {
       const cards: SummaryCard[] = summary.content as SummaryCard[]
       const shownCards = cards.length > 4 ? (showAllStates[summary.name] ? cards : cards.slice(0, 4)) : cards
       return (
-        <div>
-          {shownCards.map((card) => {
+        <>
+          {shownCards.map((card, index) => {
             const cardContent: KeyValuePairItem[] = card.content
             if (cardContent) {
               const localized: KeyValuePairItem[] = cardContent.map((pair) => {
@@ -32,7 +32,7 @@ const Summary = ({ summaries }: SummaryProps) => {
                 }
               })
               return (
-                <Card key={'card-' + card.title} title={card.title}>
+                <Card key={'card-' + card.title + index} title={card.title}>
                   <KeyValuePairs items={localized} variant={KeyValuePairVariant.small} />
                 </Card>
               )
@@ -61,7 +61,7 @@ const Summary = ({ summaries }: SummaryProps) => {
               </span>
             </span>
           )}
-        </div>
+        </>
       )
     } else if (summary.rendererType === 'TABULAR') {
       const pairs: KeyValuePairItem[] = summary.content as KeyValuePairItem[]
