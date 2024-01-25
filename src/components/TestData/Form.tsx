@@ -271,7 +271,7 @@ const Form = () => {
           '[id="' + rule.data.identifyingName + '-ignorableNetexElements' + '"]'
         )
         if (ignorableNetexElementsElement && ignorableNetexElementsElement.getAttribute('listener') !== 'true') {
-          ignorableNetexElementsElement.addEventListener('change', useUrlListener)
+          ignorableNetexElementsElement.addEventListener('change', useGeneralListener)
           netexInputs.push(ignorableNetexElementsElement)
         }
         const maximumErrorsElement = document.querySelector(
