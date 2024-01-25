@@ -33,14 +33,6 @@ const Pagination = ({ itemsTotalCount, children, contentName, tableTitle, defaul
   }
   const [pageNumbers, setPageNumbers] = useState(getPageNumbers())
 
-  useEffect(() => {
-    setItemsCount(itemsTotalCount)
-    setSelectedPage(1)
-    const newPageCount = Math.ceil(itemsTotalCount / itemsPerPage)
-    setPageCount(newPageCount)
-    setPageNumbers([...Array(newPageCount).keys()].map((i) => i + 1))
-  }, [itemsTotalCount])
-
   const itemsPerPageOpts: FdsDropdownOption<string>[] = [
     { label: '5', value: '5' },
     { label: '10', value: '10' },
@@ -106,6 +98,11 @@ const Pagination = ({ itemsTotalCount, children, contentName, tableTitle, defaul
     )
   }
 
+  /**
+   * When table filter's get applied, that can affect the number of items in the table,
+   * hence the need to reset the pagination with newItemsCount;
+   * Or if sorting was applied.
+   */
   const resetCallback = React.useCallback(
     (newItemsCount: number) => {
       setSelectedPage(1)

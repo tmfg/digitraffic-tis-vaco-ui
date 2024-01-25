@@ -1,11 +1,10 @@
 import { AggregatedFinding } from '../../../types/EntryStateResource'
 import { useTranslation } from 'react-i18next'
 import { getNoticesTableHeaders } from './helpers'
-import Table, { HeaderItem, TableItem } from '../../Common/Table/Table'
+import Table, { ExpandableContent, HeaderItem, TableItem } from '../../Common/Table/Table'
 import { ReactComponent as ErrorSvg } from '../../../assets/svg/error.svg'
 import { ReactComponent as WarningSvg } from '../../../assets/svg/warning.svg'
 import { ReactComponent as InfoSvg } from '../../../assets/svg/info.svg'
-import React from 'react'
 import FindingDetails from './FindingDetails'
 import Pagination from '../../Common/Pagination/Pagination'
 
@@ -61,14 +60,17 @@ const FindingsTable = ({ aggregatedFindings, ruleName }: FindingsTableProps) => 
     ]
   })
 
-  const expandables: React.ReactNode[] = aggregatedFindings.map((aggregatedFinding: AggregatedFinding) => {
-    return (
-      <FindingDetails
-        key={'notice-details-' + aggregatedFinding.code}
-        ruleName={ruleName}
-        aggregatedFinding={aggregatedFinding}
-      />
-    )
+  const expandables: ExpandableContent[] = aggregatedFindings.map((aggregatedFinding: AggregatedFinding) => {
+    return {
+      rowIdentifierValue: aggregatedFinding.code,
+      content: (
+        <FindingDetails
+          key={'notice-details-' + aggregatedFinding.code}
+          ruleName={ruleName}
+          aggregatedFinding={aggregatedFinding}
+        />
+      )
+    }
   })
 
   return (
@@ -83,7 +85,10 @@ const FindingsTable = ({ aggregatedFindings, ruleName }: FindingsTableProps) => 
         headerItems={headerItems}
         rows={aggregatedFindingsRowItems}
         rowExpandable={true}
-        rowExpandedContents={expandables}
+        expandables={{
+          rowExpandableIdentifierName: 'code',
+          rowExpandableContents: expandables
+        }}
         defaultSortedColumn={{ name: 'severity', direction: 'DESC', type: 'custom' }}
         isFixedLayout={true}
       />

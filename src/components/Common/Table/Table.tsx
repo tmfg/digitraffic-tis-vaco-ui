@@ -1,6 +1,6 @@
 import './_table.scss'
 import { Link } from 'react-router-dom'
-import React, { useState, Fragment, useEffect } from 'react'
+import { useState, Fragment, useEffect, ReactNode } from 'react'
 import { Map } from '../../../types/Map'
 import { ReactComponent as ExpandSvg } from '../../../assets/svg/plus.svg'
 import { ReactComponent as HideSvg } from '../../../assets/svg/minus.svg'
@@ -14,10 +14,20 @@ export interface TableProps {
   headerItems: HeaderItem[]
   rows: TableItem[][]
   rowExpandable?: boolean
-  rowExpandedContents?: React.ReactNode[]
+  expandables?: ExpandableContentProps
   defaultSortedColumn?: SortColumn
   isFixedLayout?: boolean
   paginationProps?: TablePaginationProps
+}
+
+export interface ExpandableContent {
+  rowIdentifierValue: string
+  content: React.ReactNode
+}
+
+export interface ExpandableContentProps {
+  rowExpandableIdentifierName: string // name of row's column that identifies the row
+  rowExpandableContents: ExpandableContent[]
 }
 
 export interface TablePaginationProps {
@@ -54,7 +64,7 @@ const Table = ({
   headerItems,
   tableTitle,
   rowExpandable = false,
-  rowExpandedContents,
+  expandables,
   defaultSortedColumn,
   isFixedLayout = false,
   paginationProps
@@ -65,22 +75,21 @@ const Table = ({
   const [selectedFilters, setSelectedFilters] = useState<Map>()
 
   useEffect(() => {
-    let newRows = rows
-    if (selectedFilters) {
-      newRows = getFilteredRows(selectedFilters)
+    if (defaultSortedColumn) {
+      setShownRows(getOrderedRows([...rows], defaultSortedColumn))
     }
+  }, [defaultSortedColumn, rows])
 
-    if (selectedSortColumn) {
-      newRows = getOrderedRows([...newRows], selectedSortColumn)
+  useEffect(() => {
+    if (paginationProps) {
+      setRowsExpandedState({})
     }
-
-    setShownRows(newRows)
-    paginationProps?.resetCallback(shownRows.length)
-  }, [rows])
+  }, [paginationProps])
 
   const sortCallback = (newSortColumn: SortColumn) => {
     setSelectedSortColumn(newSortColumn)
     const orderedRows = getOrderedRows([...shownRows], newSortColumn)
+    setRowsExpandedState({})
     if (orderedRows) {
       setShownRows(orderedRows)
     }
@@ -125,6 +134,7 @@ const Table = ({
     if (selectedSortColumn) {
       newRows = getOrderedRows(newRows, selectedSortColumn)
     }
+    setRowsExpandedState({})
     setShownRows(newRows)
     paginationProps?.resetCallback(newRows.length)
   }
@@ -171,29 +181,51 @@ const Table = ({
       paginationProps && Object.keys(paginationProps).length > 0
         ? shownRows.slice(paginationProps.itemOffset, paginationProps.endOffset)
         : shownRows
-    return finalRows.map((row, i) => (
-      <Fragment key={tableTitle + '-fragment-row-' + i}>
-        <tr
-          key={tableTitle + '-row-' + i}
-          className={`${rowExpandable ? 'row-expandable' : ''} ${
-            rowsExpandedState[tableTitle + '-row-' + i] ? 'row-expanded' : ''
-          }`}
-          onClick={() => {
-            if (!rowExpandable) {
-              return
-            }
-            const newRowsExpandedState = { ...rowsExpandedState }
-            newRowsExpandedState[tableTitle + '-row-' + i] = !rowsExpandedState[tableTitle + '-row-' + i]
-            setRowsExpandedState(newRowsExpandedState)
-          }}
-        >
-          {getRow(row, i)}
-        </tr>
-        {rowsExpandedState[tableTitle + '-row-' + i] && rowExpandedContents && (
-          <tr className={'expanded-content-container'}>{rowExpandedContents[i]}</tr>
-        )}
-      </Fragment>
-    ))
+    return finalRows.map((row, i) => {
+      const rowIdentifyingValue: string | undefined = getExpandableRowIdentifyingValue(row)
+      return (
+        <Fragment key={tableTitle + '-fragment-row-' + i}>
+          <tr
+            key={tableTitle + '-row-' + i}
+            className={`${rowExpandable ? 'row-expandable' : ''} ${
+              rowIdentifyingValue && rowsExpandedState[rowIdentifyingValue] ? 'row-expanded' : ''
+            }`}
+            onClick={() => {
+              if (!rowExpandable || !rowIdentifyingValue) {
+                return
+              }
+              const newRowsExpandedState = { ...rowsExpandedState }
+              newRowsExpandedState[rowIdentifyingValue] = !rowsExpandedState[rowIdentifyingValue]
+              setRowsExpandedState(newRowsExpandedState)
+            }}
+          >
+            {getRow(row, i)}
+          </tr>
+          {rowIdentifyingValue &&
+            rowsExpandedState[rowIdentifyingValue] &&
+            rowExpandable &&
+            expandables?.rowExpandableContents && (
+              <tr className={'expanded-content-container'}>{getExpandableContent(rowIdentifyingValue)}</tr>
+            )}
+        </Fragment>
+      )
+    })
+  }
+
+  const getExpandableRowIdentifyingValue = (row: TableItem[]) => {
+    if (!expandables) {
+      return
+    }
+    return row.filter((col) => col.name === expandables.rowExpandableIdentifierName)[0].plainValue as string
+  }
+
+  const getExpandableContent = (rowIdentifyingValue: string): ReactNode => {
+    if (!expandables) {
+      return
+    }
+    return expandables?.rowExpandableContents.filter(
+      (expandable) => expandable.rowIdentifierValue === rowIdentifyingValue
+    )[0].content
   }
 
   const getRow = (row: TableItem[], rowIndex: number) => {
