@@ -1,75 +1,73 @@
-.keyvalue {
-  display: flex;
+.keyvalue-table {
+  display: table;
 
-  a {
-    text-decoration: none;
-    color: var(--interactive-200, #1777F8);
-    cursor: pointer;
+  .keyvalue-row {
+    display: table-row;
   }
 
-  a:hover {
-    color: var(--interactive-200, #1777F8);
-    text-decoration: underline;
-    filter: brightness(1.25);
-  }
-
-  .label-column-bigger {
-    margin-right: 3rem;
-
-    .label {
-      font-size: 20px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 110%;
-      padding-bottom: 15px;
-    }
-  }
-
-  .value-bigger {
+  .key-bigger {
+    display: table-cell;
+    padding-right: 3rem;
     font-size: 20px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 700;
     line-height: 110%;
     padding-bottom: 15px;
   }
 
-  .label-column-big {
-    margin-right: 3rem;
-
-    .label {
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 150%;
-      padding-bottom: 3px;
-    }
-  }
-
-  .value-big {
+  .key-big {
+    display: table-cell;
+    padding-right: 3rem;
     font-size: 16px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 700;
     line-height: 150%;
     padding-bottom: 3px;
   }
 
-  .label-column-small {
-    margin-right: 0.75rem;
+  .key-small {
+    display: table-cell;
+    padding-right: 0.75rem;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 150%;
+    padding-bottom: 1.5px;
+  }
 
-    .label {
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 150%;
-      padding-bottom: 1.5px;
-    }
+  .value-bigger {
+    font-size: 20px;
+    line-height: 110%;
+    padding-bottom: 15px;
+  }
+
+  .value-big {
+    font-size: 16px;
+    line-height: 150%;
+    padding-bottom: 3px;
   }
 
   .value-small {
     font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
     line-height: 150%;
     padding-bottom: 1.5px;
+  }
+
+  .value {
+    display: table-cell;
+    font-style: normal;
+    font-weight: 400;
+
+    a {
+      text-decoration: none;
+      color: var(--interactive-200, #1777F8);
+      cursor: pointer;
+    }
+
+    a:hover {
+      color: var(--interactive-200, #1777F8);
+      text-decoration: underline;
+      filter: brightness(1.25);
+    }
   }
 }

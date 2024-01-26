@@ -75,7 +75,7 @@ export const userItem = (t: TFunction<'translation', undefined>): FdsNavigationI
     dropDownItems: [
       {
         label: t('vaco:user'),
-        value: '/'
+        value: '/user'
       }
     ]
   }

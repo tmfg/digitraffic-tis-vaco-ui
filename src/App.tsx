@@ -7,6 +7,7 @@ import ProcessingResultsPage from './pages/ProcessingResults/ProcessingResultsPa
 import AppLayout from './AppLayout'
 import AuthRequiredPage from './pages/Error/AuthRequiredPage'
 import MyDataPage from './pages/MyData/MyDataPage'
+import UserPage from './pages/User/UserPage'
 
 // The way for components that don't need wrapping (e.g. one without our own custom events)
 // or while initial testing
@@ -48,6 +49,10 @@ const App = () => {
           {
             path: '/error/auth',
             element: <AuthRequiredPage />
+          },
+          {
+            path: '/user',
+            element: <UserPage />
           }
         ]
       }

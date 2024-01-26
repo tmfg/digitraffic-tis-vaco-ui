@@ -83,10 +83,10 @@ export const sv = {
         url: 'Data-URL',
         urlInfo: 'URL som innehåller datafilen',
         etag: 'ETag',
-        company: 'Företags',
+        company: 'Företag',
         format: 'Dataformat',
         formatRequired: 'Du måste specificera dataformat',
-        companyRequired: 'Du måste specificera företags',
+        companyRequired: 'Du måste specificera företag',
         submit: 'Skicka',
         rules: {
           'gtfs.canonical.v4_1_0': 'Canonical GTFS Validator by MobilityData, version v4.1.0',
@@ -259,5 +259,12 @@ export const sv = {
   },
   company: {
     businessId: 'Företags-id'
+  },
+  user: {
+    name: 'Namn',
+    username: 'Användarnamn',
+    email: 'E-post',
+    roles: 'Roller',
+    companies: 'Företag'
   }
 }
