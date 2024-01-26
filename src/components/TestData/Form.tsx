@@ -7,7 +7,7 @@ import { useCallback, useContext, useEffect, useState } from 'react'
 import { EntryResource } from '../../types/EntryResource'
 import { useMsal } from '@azure/msal-react'
 import { useTranslation } from 'react-i18next'
-import { acquireToken, isUserInTransition } from '../../hooks/auth'
+import { acquireToken } from '../../hooks/auth'
 import { getHeaders, HttpClient } from '../../HttpClient'
 import { FdsButtonComponent } from '../fds/FdsButtonComponent'
 import { FdsDropdownOption } from '../../../coreui-components/src/fds-dropdown'
@@ -25,6 +25,7 @@ import {
   submitData
 } from './helpers'
 import { CompanyContext, CompanyContextType } from '../../CompanyContextProvider'
+import { parseJwt } from '../../util/jwt'
 
 const Form = () => {
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
@@ -111,6 +112,17 @@ const Form = () => {
               return Promise.reject(error)
             }
           )
+
+          // Set email from token's claim or if not found - from account's username
+          const jwtObject = parseJwt(tokenResult.accessToken)
+          if (jwtObject && jwtObject.email) {
+            setEmail(jwtObject.email)
+          } else {
+            const account = instance.getActiveAccount()
+            if (account && account.username && account.username.includes('@') && !account.username.startsWith('@')) {
+              setEmail(account.username)
+            }
+          }
         },
         (error) => {
           // Show some error
@@ -206,15 +218,6 @@ const Form = () => {
     },
     [updateFormState, formData, formErrors]
   )
-
-  useEffect(() => {
-    if (!isUserInTransition(inProgress)) {
-      const account = instance.getActiveAccount()
-      if (account) {
-        setEmail(account.username)
-      }
-    }
-  }, [instance, inProgress])
 
   useEffect(() => {
     const feedNameElement = document.querySelector('[id="feedName"]')
