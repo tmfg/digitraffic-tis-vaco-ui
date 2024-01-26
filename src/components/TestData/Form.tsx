@@ -447,7 +447,8 @@ const Form = () => {
                 setEntryResource,
                 setIsModalOpen,
                 t,
-                rules
+                rules,
+                email
               ).catch(
                 (err) => console.error('Data submission error', err)
                 // TODO: show some alert

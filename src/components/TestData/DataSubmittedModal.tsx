@@ -12,7 +12,7 @@ import { FdsTokenSize2 } from '../../../coreui-css/lib'
 interface ModalProps {
   close: () => void
   proceed: () => void
-  email: string
+  email?: string | null
   publicId: string
 }
 
@@ -30,9 +30,11 @@ const DataSubmittedModal = ({ close, proceed, email, publicId }: ModalProps) => 
               <Trans i18nKey="services:testData:modal:accessBy" values={{ publicId: publicId }}></Trans>
             </li>
 
-            <li>
-              <Trans i18nKey="services:testData:modal:notification" values={{ email: email }}></Trans>
-            </li>
+            {email && (
+              <li>
+                <Trans i18nKey="services:testData:modal:notification" values={{ email: email }}></Trans>
+              </li>
+            )}
 
             <li>{t('services:testData:modal:toProceed')}</li>
           </ul>
