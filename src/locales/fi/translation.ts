@@ -255,9 +255,16 @@ export const fi = {
     sorted: {
       asc: 'Nousevaan järjestykseen',
       desc: 'Laskevaan järjestykseen'
-    },
+    }
   },
   company: {
     businessId: 'Y-tunnus'
+  },
+  user: {
+    name: 'Nimi',
+    username: 'Käyttäjätunnus',
+    email: 'Sähköpostiosoite',
+    roles: 'Roolit',
+    companies: 'Yritykset'
   }
 }

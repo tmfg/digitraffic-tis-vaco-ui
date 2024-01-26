@@ -1,17 +1,27 @@
 .entry-summary {
   display: table;
   width: 100%;
-  border-spacing: 0 1em;
+  //border-spacing: 0 1rem;
 }
 
-header {
+.summary-header {
+  display: table-row;
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
   line-height: 110%;
 }
 
-.row {
+.summary-header .col {
+  border-bottom: 1px solid;
+  padding-top: 0;
+}
+
+.summary-row .col {
+  padding-top: 18px;
+}
+
+.summary-row {
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -25,8 +35,4 @@ header {
 .entry-summary .col {
   display: table-cell;
   padding-bottom: 18px;
-}
-
-header .col {
-  border-bottom: 1px solid;
 }

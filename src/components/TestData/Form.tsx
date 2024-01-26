@@ -435,7 +435,7 @@ const Form = () => {
             </div>
           )}
 
-        <div className={'form-section'}>
+        <div className={'form-section'} style={{ marginBottom: '1.5rem' }}>
           <FdsButtonComponent
             onClick={(e) => {
               e.preventDefault()

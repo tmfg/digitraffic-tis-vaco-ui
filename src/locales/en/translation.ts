@@ -261,5 +261,12 @@ export const en = {
   },
   company: {
     businessId: 'Business ID'
+  },
+  user: {
+    name: 'Name',
+    username: 'Username',
+    email: 'Email',
+    roles: 'Roles',
+    companies: 'Companies'
   }
 }

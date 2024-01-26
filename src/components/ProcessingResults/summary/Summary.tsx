@@ -110,14 +110,14 @@ const Summary = ({ summaries }: SummaryProps) => {
 
   return (
     <div className={'entry-summary'}>
-      <header>
+      <div className={'summary-header'}>
         {summaries.map((summary) => (
           <div key={'summary-header-' + summary.name} className={'col'}>
             {t('services:processingResults:summaries:' + summary.name)}
           </div>
         ))}
-      </header>
-      <div className={'row'}>
+      </div>
+      <div className={'summary-row'}>
         {summaries.map((summary) => (
           <div key={'summary-content-' + summary.name} className={'col'}>
             {getSummaryContent(summary)}

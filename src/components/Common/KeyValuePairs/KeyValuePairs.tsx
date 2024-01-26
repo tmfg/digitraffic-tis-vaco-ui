@@ -32,21 +32,13 @@ const KeyValuePairs = ({ items, variant }: KeyValuePairProps) => {
   }
 
   return (
-    <div className={'keyvalue'}>
-      <div className={'label-column-' + variant}>
-        {items.map((item, i) => (
-          <div className={'label'} key={'label-' + i + item.label}>
-            {item.label}:
-          </div>
-        ))}
-      </div>
-      <div>
-        {items.map((item, i) => (
-          <div className={'value-' + variant} key={'value-' + i}>
-            {item.value ? getValueElement(item.isUrl, item.value) : '-'}
-          </div>
-        ))}
-      </div>
+    <div className={'keyvalue-table'}>
+      {items.map((item) => (
+        <div key={'keyvalue-row-' + item.label} className={'keyvalue-row'}>
+          <span className={'key-' + variant}>{item.label}: </span>
+          <span className={'value value-' + variant}>{item.value ? getValueElement(item.isUrl, item.value) : '-'}</span>
+        </div>
+      ))}
     </div>
   )
 }
