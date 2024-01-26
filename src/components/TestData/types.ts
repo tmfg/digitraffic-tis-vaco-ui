@@ -9,4 +9,5 @@ export interface EntryRequest {
   validations: ValidationInput[]
   conversion?: object
   metadata?: object
+  notifications?: string[]
 }

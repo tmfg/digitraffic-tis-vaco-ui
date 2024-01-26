@@ -53,7 +53,8 @@ export const submitData = async (
   setEntryResource: (entry: EntryResource) => void,
   setIsModalOpen: (status: boolean) => void,
   translate: TFunction<'translation', undefined>,
-  rules: RulesetResource[]
+  rules: RulesetResource[],
+  email?: string | null
 ) => {
   const tokenResult = await acquireToken(instance, inProgress)
   if (!tokenResult) {
@@ -101,6 +102,10 @@ export const submitData = async (
     businessId: formData.businessId as string,
     etag: formData.etag as string,
     validations: validations
+  }
+
+  if (email) {
+    requestBody.notifications = [email]
   }
 
   const { data } = await HttpClient.post('/api/ui/queue', requestBody, getHeaders(tokenResult.accessToken))
