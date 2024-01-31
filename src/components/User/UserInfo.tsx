@@ -29,7 +29,6 @@ const UserInfo = () => {
             return
           }
           setAccessToken(tokenResult.accessToken)
-          console.log(tokenResult.accessToken)
         },
         (error) => {
           // TODO: show alert
@@ -40,7 +39,6 @@ const UserInfo = () => {
       const account = instance.getActiveAccount()
       if (account) {
         setAccount(account)
-        console.log('Account!', account)
       }
     }
 
@@ -86,7 +84,6 @@ const UserInfo = () => {
     }
     if (accessToken) {
       const jwtObject = parseJwt(accessToken)
-      console.log(jwtObject)
       if (jwtObject) {
         setTokenInfo([
           {
@@ -108,7 +105,7 @@ const UserInfo = () => {
         }
       ])
     }
-  }, [account, accessToken, companies])
+  }, [account, accessToken, companies, t])
 
   return (
     <div style={{ marginTop: '2.5rem' }}>

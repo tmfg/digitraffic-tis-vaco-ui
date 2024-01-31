@@ -10,7 +10,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { localStorageKey, supportedLocales } from './i18n'
 import { useTranslation } from 'react-i18next'
-import CompanyContextProvider from "./CompanyContextProvider";
+import CompanyContextProvider from './CompanyContextProvider'
 
 const AppLayout = () => {
   const isAuthenticated = useIsAuthenticated()
