@@ -8,38 +8,77 @@ import { FdsInputChange } from '../../../../coreui-components/src/fds-input'
 import { useTranslation } from 'react-i18next'
 
 interface PaginationProps {
-  itemsTotalCount: number
   children: ReactNode
   contentName: string
   tableTitle: string
   defaultItemsPerPage: number
 }
 
-const Pagination = ({ itemsTotalCount, children, contentName, tableTitle, defaultItemsPerPage }: PaginationProps) => {
+/**
+ * Pagination is unaware of the actual data it's paginating.
+ * It gets from the children's callback how many items there are actually, and then produces the relevant paging
+ * @param children
+ * @param contentName
+ * @param tableTitle
+ * @param defaultItemsPerPage
+ * @constructor
+ */
+const Pagination = ({ children, contentName, tableTitle, defaultItemsPerPage }: PaginationProps) => {
   const [selectedPage, setSelectedPage] = useState<number>(1)
   const [itemOffset, setItemOffset] = useState<number>(0)
   const [endOffset, setEndOffset] = useState<number>(defaultItemsPerPage)
-  const [itemsCount, setItemsCount] = useState<number>(itemsTotalCount)
+  const [itemsCount, setItemsCount] = useState<number>(0)
   const [itemsPerPage, setItemsPerPage] = useState<number>(defaultItemsPerPage)
+  const [pageCount, setPageCount] = useState<number>(0)
+  const [pageNumbers, setPageNumbers] = useState<number[]>([])
+  const [itemsPerPageOpts, setItemsPerPageOpts] = useState<FdsDropdownOption<string>[]>([])
   const { t } = useTranslation()
 
-  const getPageCount = () => {
-    return Math.ceil(itemsTotalCount / (itemsPerPage || defaultItemsPerPage))
-  }
-  const [pageCount, setPageCount] = useState(getPageCount())
+  /**
+   * Re-rendering page numbers if rows have changed due to external factors
+   * (e.g. search input, itemsPerPage change, filter's selection in child component)
+   */
+  useEffect(() => {
+    if (!itemsCount) {
+      setPageCount(0)
+      setPageNumbers([])
+      return
+    }
+    const newPageCount = Math.ceil(itemsCount / itemsPerPage)
+    setPageCount(newPageCount)
+    const newPageNumbers = [...Array(newPageCount + 1).keys()].slice(1)
+    setPageNumbers(newPageNumbers)
 
-  const getPageNumbers = () => {
-    return [...Array(getPageCount()).keys()].map((i) => i + 1)
-  }
-  const [pageNumbers, setPageNumbers] = useState(getPageNumbers())
+    const newItemsPerPageOpts: FdsDropdownOption<string>[] = [
+      { label: '5', value: '5' },
+      { label: '10', value: '10' },
+      { label: '25', value: '25' },
+      { label: '50', value: '50' }
+    ].filter((opt) => (opt.value as unknown as number) < itemsCount)
+    newItemsPerPageOpts.push({ label: t('pagination:showAll'), value: itemsCount as unknown as string })
+    setItemsPerPageOpts(newItemsPerPageOpts)
+  }, [itemsPerPage, itemsCount, t])
 
-  const itemsPerPageOpts: FdsDropdownOption<string>[] = [
-    { label: '5', value: '5' },
-    { label: '10', value: '10' },
-    { label: '25', value: '25' },
-    { label: '50', value: '50' }
-  ].filter((opt) => (opt.value as unknown as number) < itemsTotalCount)
-  itemsPerPageOpts.push({ label: t('pagination:showAll'), value: itemsTotalCount as unknown as string })
+  /**
+   * When table filter's get applied, that can affect the number of items in the table,
+   * hence the need to reset the pagination with newItemsCount;
+   * Or if sorting was applied.
+   * Or if some external event changes content (e.g. search word)
+   */
+  const resetCallback = React.useCallback(
+    (newItemsCount: number) => {
+      if (newItemsCount === undefined) {
+        // this doesn't happen anymore, but just in case...
+        return
+      }
+
+      setSelectedPage(1)
+      setItemOffset(0)
+      setEndOffset(itemsPerPage)
+      setItemsCount(newItemsCount)
+    },
+    [itemsPerPage]
+  )
 
   const handlePageClick = (selectedPage: number) => {
     setSelectedPage(selectedPage)
@@ -98,36 +137,12 @@ const Pagination = ({ itemsTotalCount, children, contentName, tableTitle, defaul
     )
   }
 
-  /**
-   * When table filter's get applied, that can affect the number of items in the table,
-   * hence the need to reset the pagination with newItemsCount;
-   * Or if sorting was applied.
-   */
-  const resetCallback = React.useCallback(
-    (newItemsCount: number) => {
-      setSelectedPage(1)
-      setItemOffset(0)
-      setEndOffset(itemsPerPage)
-      setItemsCount(newItemsCount)
-      const newPageCount = Math.ceil(newItemsCount / itemsPerPage)
-      setPageCount(newPageCount)
-      setPageNumbers([...Array(newPageCount).keys()].map((i) => i + 1))
-    },
-    [itemsPerPage]
-  )
-
-  const itemsPerPageCallback = React.useCallback(
-    (newItemsPerPage: number) => {
-      setItemsPerPage(newItemsPerPage)
-      setSelectedPage(1)
-      setItemOffset(0)
-      setEndOffset(newItemsPerPage)
-      const newPageCount = Math.ceil(itemsCount / newItemsPerPage)
-      setPageCount(newPageCount)
-      setPageNumbers([...Array(newPageCount).keys()].map((i) => i + 1))
-    },
-    [itemsCount]
-  )
+  const itemsPerPageCallback = React.useCallback((newItemsPerPage: number) => {
+    setItemsPerPage(newItemsPerPage)
+    setSelectedPage(1)
+    setItemOffset(0)
+    setEndOffset(newItemsPerPage)
+  }, [])
 
   const useItemsPerPageSettingListener: EventListenerOrEventListenerObject = useCallback(
     (e: Event) => {
@@ -152,6 +167,18 @@ const Pagination = ({ itemsTotalCount, children, contentName, tableTitle, defaul
     }
   }, [useItemsPerPageSettingListener])
 
+  const renderChildContent = () => {
+    return React.Children.map<ReactNode, ReactNode>(children, (child) => {
+      if (React.isValidElement(child)) {
+        return React.cloneElement(child, {
+          ...child.props,
+          paginationProps: { itemOffset, endOffset },
+          resetCallback: resetCallback
+        })
+      }
+    })
+  }
+
   return (
     <>
       <div className={'pagination-summary'}>
@@ -172,20 +199,17 @@ const Pagination = ({ itemsTotalCount, children, contentName, tableTitle, defaul
         </div>
       </div>
 
-      {React.Children.map<ReactNode, ReactNode>(children, (child) => {
-        if (React.isValidElement(child)) {
-          return React.cloneElement(child, {
-            ...child.props,
-            paginationProps: { itemOffset, endOffset, resetCallback }
-          })
-        }
-      })}
+      {renderChildContent()}
 
-      <div className={'page-panel'}>
-        {getPrevious()} {getPageNumberElements()} {getNext()}
-      </div>
+      {pageNumbers.length > 0 && (
+        <div className={'page-panel'}>
+          {getPrevious()} {getPageNumberElements()} {getNext()}
+        </div>
+      )}
     </>
   )
 }
 
-export default Pagination
+// Preventing (or trying to...) the whole thing from re-rendering if the parent's state changes,
+// and it doesn't affect Pagination's props
+export default React.memo(Pagination)

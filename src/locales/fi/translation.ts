@@ -211,7 +211,8 @@ export const fi = {
         dateCompleted: 'Valmis',
         status: 'Tila'
       },
-      noDataFound: 'Dataa ei löytynyt'
+      noDataFound: 'Dataa ei löytynyt',
+      noResultsFound: 'Tuloksia ei löytynyt'
     }
   },
   error: {

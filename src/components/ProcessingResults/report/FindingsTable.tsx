@@ -75,7 +75,6 @@ const FindingsTable = ({ aggregatedFindings, ruleName }: FindingsTableProps) => 
 
   return (
     <Pagination
-      itemsTotalCount={aggregatedFindingsRowItems.length}
       contentName={t('pagination:content:notices')}
       tableTitle={'AggregatedFindingsTable-' + ruleName}
       defaultItemsPerPage={10}

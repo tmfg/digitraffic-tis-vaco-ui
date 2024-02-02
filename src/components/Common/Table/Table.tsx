@@ -1,6 +1,6 @@
 import './_table.scss'
 import { Link } from 'react-router-dom'
-import { useState, Fragment, useEffect, ReactNode } from 'react'
+import React, { useState, Fragment, useEffect, ReactNode } from 'react'
 import { Map } from '../../../types/Map'
 import { ReactComponent as ExpandSvg } from '../../../assets/svg/plus.svg'
 import { ReactComponent as HideSvg } from '../../../assets/svg/minus.svg'
@@ -8,6 +8,7 @@ import SortComponent, { SortColumn } from './SortComponent'
 import { sortTableAlphabetically, sortTableByDate, sortTableCustom, sortTableNumerically } from '../../../util/sort'
 import FilterComponent from './FilterComponent'
 import { getUniqueValues } from '../../../util/array'
+import { useTranslation } from 'react-i18next'
 
 export interface TableProps {
   tableTitle: string
@@ -18,6 +19,7 @@ export interface TableProps {
   defaultSortedColumn?: SortColumn
   isFixedLayout?: boolean
   paginationProps?: TablePaginationProps
+  resetCallback?: (newCount: number) => void
 }
 
 export interface ExpandableContent {
@@ -33,7 +35,6 @@ export interface ExpandableContentProps {
 export interface TablePaginationProps {
   itemOffset: number
   endOffset: number
-  resetCallback: (newCount: number) => void
 }
 
 export interface TableItem {
@@ -53,6 +54,7 @@ export interface HeaderItem {
   sortByCustomOrder?: ((row: TableItem[]) => number) | undefined
   colSpan?: number
   customStyle?: Map
+  filterDropdownMenuAlignLeft?: string
 }
 
 export const getTableItemByColumnName = (row: TableItem[], columnName: string): TableItem => {
@@ -67,18 +69,39 @@ const Table = ({
   expandables,
   defaultSortedColumn,
   isFixedLayout = false,
-  paginationProps
+  paginationProps,
+  resetCallback
 }: TableProps) => {
   const [rowsExpandedState, setRowsExpandedState] = useState<Map>({})
   const [selectedSortColumn, setSelectedSortColumn] = useState<SortColumn | undefined>(defaultSortedColumn)
   const [shownRows, setShownRows] = useState<TableItem[][]>(rows)
   const [selectedFilters, setSelectedFilters] = useState<Map>()
+  const { t } = useTranslation()
 
+  /**
+   * This is important also re-rendering the content if
+   * e.g. user searches through it
+   * or if for whatever random reason the parent component decides to re-render
+   */
   useEffect(() => {
-    if (defaultSortedColumn) {
-      setShownRows(getOrderedRows([...rows], defaultSortedColumn))
+    if (!selectedFilters && !selectedSortColumn) {
+      return
     }
-  }, [defaultSortedColumn, rows])
+
+    let newRows = rows
+    if (selectedFilters) {
+      newRows = getFilteredRows(rows, selectedFilters)
+    }
+
+    if (selectedSortColumn) {
+      newRows = getOrderedRows(newRows, selectedSortColumn)
+    }
+    setRowsExpandedState({})
+    setShownRows(newRows)
+    // Important at this point to reset the number of pages, if table is wrapped with pagination
+    // For example, if there were filters applied but then user entered some search word and the rows have changed by that
+    resetCallback && resetCallback(newRows.length)
+  }, [resetCallback, rows, selectedFilters, selectedSortColumn])
 
   useEffect(() => {
     if (paginationProps) {
@@ -93,7 +116,7 @@ const Table = ({
     if (orderedRows) {
       setShownRows(orderedRows)
     }
-    paginationProps?.resetCallback(shownRows.length)
+    resetCallback && resetCallback(shownRows.length)
   }
 
   const getOrderedRows = (currentShownRows: TableItem[][], newSortColumn: SortColumn): TableItem[][] => {
@@ -113,8 +136,8 @@ const Table = ({
     }
   }
 
-  const getFilteredRows = (newFilteringState: Map) => {
-    return rows.filter((row) => {
+  const getFilteredRows = (newRows: TableItem[][], newFilteringState: Map): TableItem[][] => {
+    return newRows.filter((row) => {
       const filterColumns = Object.keys(newFilteringState)
       return filterColumns.reduce((accumulator, filterColumn) => {
         const columnFilters = newFilteringState[filterColumn] as string[]
@@ -130,13 +153,13 @@ const Table = ({
     newFilteringState[columnName] = selectedFilterOptions
     setSelectedFilters(newFilteringState)
 
-    let newRows = getFilteredRows(newFilteringState)
+    let newRows = getFilteredRows(rows, newFilteringState)
     if (selectedSortColumn) {
       newRows = getOrderedRows(newRows, selectedSortColumn)
     }
     setRowsExpandedState({})
     setShownRows(newRows)
-    paginationProps?.resetCallback(newRows.length)
+    resetCallback && resetCallback(newRows.length)
   }
 
   const getHeader = () => {
@@ -267,11 +290,19 @@ const Table = ({
     )
   }
 
+  const calculateTotalColspan = () => {
+    return headerItems.map((headerItem) => headerItem.colSpan || 1).reduce((acc, colspan) => acc + colspan, 0)
+  }
+
   const getNoResults = () => {
+    const totalColspan = calculateTotalColspan()
     return (
       <tr>
-        <td colSpan={6} style={{ paddingTop: '1.5rem', textAlign: 'center', fontStyle: 'italic', color: '#555555' }}>
-          No results found
+        <td
+          colSpan={totalColspan}
+          style={{ paddingTop: '1.5rem', textAlign: 'center', fontStyle: 'italic', color: '#555555' }}
+        >
+          {t('services:myData:noResultsFound')}
         </td>
       </tr>
     )
@@ -289,4 +320,4 @@ const Table = ({
   )
 }
 
-export default Table
+export default React.memo(Table)
