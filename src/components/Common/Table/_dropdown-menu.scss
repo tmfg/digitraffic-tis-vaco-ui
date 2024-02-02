@@ -11,6 +11,10 @@
   padding-left: 0;
 }
 
+.menu--aligned {
+  margin-left: var(--menu-align-left);
+}
+
 .menu > li {
   font-size: 15px;
   cursor: pointer;

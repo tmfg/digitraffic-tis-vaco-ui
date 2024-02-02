@@ -1,4 +1,4 @@
-import { AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated, useMsal } from "@azure/msal-react";
+import { AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated, useMsal } from '@azure/msal-react'
 import AuthRequiredPage from '../Error/AuthRequiredPage'
 import { useTranslation } from 'react-i18next'
 import { useCallback, useEffect, useState } from 'react'
@@ -22,6 +22,7 @@ const MyDataPage = () => {
   const [searchWord, setSearchWord] = useState<string | null>(null)
   const [entryData, setEntryData] = useState<EntryResource[] | null>(null)
   const [allEntryRows, setAllEntryRows] = useState<TableItem[][] | null>(null)
+  // Null helps to make a distinction between data not being fetched yet or api actually returning no data (an empty array)
   const [entriesToShow, setEntriesToShow] = useState<TableItem[][] | null>(null)
   const headerItems: HeaderItem[] = getTableHeaders(t)
 
@@ -31,18 +32,14 @@ const MyDataPage = () => {
   }, [])
 
   useEffect(() => {
-    const searchElement = document.querySelector('fds-input')
+    let ignore = false
+
+    // This searchElement used to be in its isolated hook but there were inconsistently reproducing problems with that
+    const searchElement = document.querySelector('[id="searchInput"]')
     if (searchElement && searchElement.getAttribute('listener') !== 'true') {
       searchElement.addEventListener('change', useInputListener)
     }
 
-    return () => {
-      searchElement?.removeEventListener('change', useInputListener)
-    }
-  }, [useInputListener])
-
-  useEffect(() => {
-    let ignore = false
     if (inProgress === InteractionStatus.None && isAuthenticated && !ignore && !accessToken) {
       acquireToken(instance, inProgress).then(
         (tokenResult) => {
@@ -60,8 +57,9 @@ const MyDataPage = () => {
     }
     return () => {
       ignore = true
+      searchElement?.removeEventListener('change', useInputListener)
     }
-  }, [instance, inProgress, accessToken, isAuthenticated])
+  }, [instance, inProgress, accessToken, isAuthenticated, useInputListener])
 
   useEffect(() => {
     let ignore = false
@@ -108,7 +106,7 @@ const MyDataPage = () => {
         <h4 className={'header-wrapper__small'}>{t('services:myData:find')}</h4>
         <div className={'searchEntries'}>
           <form>
-            <div className={'search-input'}>
+            <div id={'searchInput'} className={'search-input'}>
               <FdsInputComponent
                 clearable={true}
                 name={'searchWord'}
@@ -132,12 +130,7 @@ const MyDataPage = () => {
         {!allEntryRows && ''}
         <h5 className={'header-wrapper__big'}>{t('services:myData:latest')}</h5>
         {entriesToShow && entriesToShow.length > 0 && (
-          <Pagination
-            itemsTotalCount={entriesToShow.length}
-            contentName={t('pagination:content:submissions')}
-            tableTitle={'myData'}
-            defaultItemsPerPage={25}
-          >
+          <Pagination contentName={t('pagination:content:submissions')} tableTitle={'myData'} defaultItemsPerPage={25}>
             <Table
               tableTitle={'myData'}
               headerItems={headerItems}

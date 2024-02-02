@@ -211,7 +211,8 @@ export const sv = {
         dateCompleted: 'Slutförd',
         status: 'Status'
       },
-      noDataFound: 'Inga data hittades'
+      noDataFound: 'Inga data hittades',
+      noResultsFound: 'Inga resultat hittades'
     }
   },
   error: {

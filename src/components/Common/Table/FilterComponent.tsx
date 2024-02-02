@@ -77,7 +77,12 @@ const FilterComponent = ({
         {selectedFilterOptions?.length > 0 ? <FilteredSvg /> : <FilterSvg />}
       </a>
       {isClicked && (
-        <ul id={tableTitle + '-menu-filterBy-' + column.name} className={'menu'}>
+        <ul
+          id={tableTitle + '-menu-filterBy-' + column.name}
+          className={`menu ${column.filterDropdownMenuAlignLeft ? 'menu--aligned' : ''}`}
+          // @ts-expect-error
+          style={{ '--menu-align-left': column.filterDropdownMenuAlignLeft }}
+        >
           {filterOptions.map((opt) => (
             <li key={tableTitle + '-menu-filterBy-' + column.name + '-option-' + opt}>
               <input

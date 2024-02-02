@@ -213,7 +213,8 @@ export const en = {
         dateCompleted: 'Completed',
         status: 'Status'
       },
-      noDataFound: 'No data found'
+      noDataFound: 'No data found',
+      noResultsFound: ' No results found'
     }
   },
   error: {

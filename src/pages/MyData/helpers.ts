@@ -55,7 +55,8 @@ export const getTableHeaders = (t: TFunction<'translation', undefined>): HeaderI
       name: 'status',
       value: t('services:myData:table:status'),
       filterable: true,
-      customStyle: { width: '110px' }
+      customStyle: { width: '110px' },
+      filterDropdownMenuAlignLeft: '-89px'
     }
   ]
 }
