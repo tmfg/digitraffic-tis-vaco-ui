@@ -92,7 +92,7 @@ const UserInfo = () => {
           },
           {
             label: t('user:roles'),
-            value: jwtObject.roles.map((role) => <div>{role}</div>)
+            value: jwtObject.roles ? jwtObject.roles.map((role) => <div>{role}</div>) : '-'
           }
         ])
       }
@@ -101,7 +101,7 @@ const UserInfo = () => {
       setCompanyInfo([
         {
           label: t('user:companies'),
-          value: companies.map((c) => <div>{`${c.name} (${c.businessId})`}</div>)
+          value: companies.length > 0 ? companies.map((c) => <div>{`${c.name} (${c.businessId})`}</div>) : '-'
         }
       ])
     }
