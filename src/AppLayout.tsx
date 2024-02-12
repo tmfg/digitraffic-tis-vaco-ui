@@ -10,7 +10,7 @@ import { useSearchParams } from 'react-router-dom'
 import { useEffect } from 'react'
 import { localStorageKey, supportedLocales } from './i18n'
 import { useTranslation } from 'react-i18next'
-import CompanyContextProvider from './CompanyContextProvider'
+import AppContextProvider from './AppContextProvider'
 
 const AppLayout = () => {
   const isAuthenticated = useIsAuthenticated()
@@ -38,11 +38,18 @@ const AppLayout = () => {
       <FintrafficNavbar />
       {isUserInTransition(inProgress) && <div></div>}
       {isUserInTransition(inProgress) && <RedirectingPage />}
-      {!isUserInTransition(inProgress) && (isAuthenticated ? <VacoAuthenticatedNavbar /> : <VacoLandingNavbar />)}
+      {!isUserInTransition(inProgress) &&
+        (isAuthenticated ? (
+          <AppContextProvider>
+            <VacoAuthenticatedNavbar />
+          </AppContextProvider>
+        ) : (
+          <VacoLandingNavbar />
+        ))}
       {!isUserInTransition(inProgress) && (
-        <CompanyContextProvider>
+        <AppContextProvider>
           <Outlet />
-        </CompanyContextProvider>
+        </AppContextProvider>
       )}
       <Footer />
     </div>

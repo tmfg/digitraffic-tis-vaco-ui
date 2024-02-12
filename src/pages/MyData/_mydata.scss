@@ -10,11 +10,12 @@
 
 .searchEntries > form {
   display: flex;
+  width: 40rem;
 
   .search-input {
     align-self: center;
     margin-right: 1.6rem;
-    width: 25rem;
+    width: 80%;
   }
 
   .search-button {

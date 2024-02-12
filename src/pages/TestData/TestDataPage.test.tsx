@@ -6,7 +6,7 @@ import { describe, beforeEach, afterEach, it, expect } from 'vitest'
 import i18next from 'i18next'
 import TestDataPage from './TestDataPage'
 import { bootstrapParams, msalInitTester, resetTester } from '../../test/unit/vitestSetup'
-import CompanyContextProvider from '../../CompanyContextProvider'
+import AppContextProvider from '../../AppContextProvider'
 import { initializeBootstrap } from '../../hooks/auth'
 
 describe('Test Data Page', () => {
@@ -48,9 +48,9 @@ describe('Test Data Page', () => {
       render(
         <MsalProvider instance={msalTester.client}>
           <MemoryRouter>
-            <CompanyContextProvider>
+            <AppContextProvider>
               <TestDataPage />
-            </CompanyContextProvider>
+            </AppContextProvider>
           </MemoryRouter>
         </MsalProvider>
       )

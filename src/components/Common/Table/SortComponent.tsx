@@ -9,7 +9,7 @@ import { ReactComponent as SortStringDescSvg } from '../../../assets/svg/arrow-u
 import { ReactComponent as SortStringAscSvg } from '../../../assets/svg/arrow-down-a-z.svg'
 import { HeaderItem, TableItem } from './Table'
 import { useCallback, useEffect, useState } from 'react'
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next'
 
 export interface SortColumn {
   name: string

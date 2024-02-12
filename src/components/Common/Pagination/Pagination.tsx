@@ -182,7 +182,7 @@ const Pagination = ({ children, contentName, tableTitle, defaultItemsPerPage }: 
   return (
     <>
       <div className={'pagination-summary'}>
-        <div style={{ marginRight: '10rem' }}>
+        <div style={{ marginRight: '9.2rem' }}>
           {contentName} {itemOffset + 1} - {endOffset < itemsCount ? endOffset : itemsCount} ({t('pagination:total')}{' '}
           {itemsCount})
         </div>

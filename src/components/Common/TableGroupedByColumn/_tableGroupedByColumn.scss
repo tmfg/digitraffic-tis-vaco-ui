@@ -20,9 +20,6 @@ table {
 
 thead {
   border-bottom: 1px solid;
-  //position: sticky;
-  //position: -webkit-sticky;
-  //top: 0;
 }
 
 tbody {
@@ -36,7 +33,7 @@ th {
   line-height: 110%;
   padding: 20px 12px 20px 0;
   border-collapse: collapse;
-  white-space: nowrap;
+  white-space: break-spaces;
 }
 
 .th-sortable {
@@ -67,6 +64,10 @@ td {
   line-height: 150%;
 }
 
+.td-underlined {
+  border-bottom: 1px solid black !important;
+}
+
 .row-expandable:hover {
   background: #E8E8E8;
   filter: brightness(1.05);
@@ -85,11 +86,6 @@ td {
 
 .expanded-content {
   padding: 1rem 2rem;
-}
-
-.expanded-icon {
-  margin-left: 2px;
-  margin-right: 10px;
 }
 
 .expandable-column {

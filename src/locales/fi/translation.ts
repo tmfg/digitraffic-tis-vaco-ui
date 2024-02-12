@@ -59,9 +59,10 @@ export const fi = {
         label: 'Omat datajulkaisut',
         intro: 'Tarkista aiemmat datajulkaisusi.'
       },
-      admin: {
-        label: '',
-        intro: ''
+      dataDelivery: {
+        label: 'Datan toimitusnäkymä',
+        // TODO: needs proper translation!
+        intro: 'Katsaus yritysten viimeisimpiin julkaistuihin tietoihin'
       }
     }
   },
@@ -94,6 +95,7 @@ export const fi = {
           'netex.entur.v1_0_1': 'NeTEx Validator by Entur, versio v1.0.1',
           'gtfs2netex.fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, versio v1.12.0'
         },
+        noValidationRulesFound: 'Validointisääntöjä ei löytynyt',
         netex: {
           codespace: 'Codespace',
           codespaceRequired: 'Codespace on määritettävä',
@@ -240,7 +242,8 @@ export const fi = {
   pagination: {
     content: {
       notices: 'Havainnot',
-      submissions: 'Julkaiset'
+      submissions: 'Julkaiset',
+      companies: 'Yritykset'
     },
     total: 'yhteensä',
     perPage: 'Kohteita sivulla',
@@ -267,5 +270,26 @@ export const fi = {
     email: 'Sähköpostiosoite',
     roles: 'Roolit',
     companies: 'Yritykset'
+  },
+  admin: {
+    // TODO: some of these need proper translations!
+    tools: 'Admintyökalut',
+    dataDelivery: {
+      header: 'Datan toimitusnäkymä',
+      searchWordPlaceholder: 'Yrityksen nimi tai Y-tunnus',
+      table: {
+        companyName: 'Yrityksen nimi',
+        businessId: 'Y-tunnus',
+        format: 'Formaatti',
+        convertedFormat: 'Konvertoitu',
+        dateCreated: 'Viimeisin julkaistu',
+        status: 'Tila',
+        report: 'Viimeisin julkaisu',
+        reportLink: 'Näytä julkaisu'
+      }
+    },
+    companies: {
+      header: 'Yritysten hallinta'
+    }
   }
 }

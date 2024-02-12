@@ -62,7 +62,7 @@ export const logout = (msalInstance: IPublicClientApplication) => {
       account: msalInstance.getAccountByHomeId(activeAccount.homeAccountId)
     }
     msalInstance.logoutRedirect(logoutRequest).catch((error) => {
-      console.log(error)
+      console.error(error)
     })
   }
 }

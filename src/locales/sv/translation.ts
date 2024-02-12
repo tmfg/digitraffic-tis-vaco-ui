@@ -59,9 +59,10 @@ export const sv = {
         label: 'Mina data',
         intro: 'Granska dina tidigare datainlämningar.'
       },
-      admin: {
-        label: '',
-        intro: ''
+      dataDelivery: {
+        label: 'Dataleveransvy',
+        // TODO: needs proper translation!
+        intro: 'Översikt över företagens senaste publicerade data'
       }
     }
   },
@@ -94,6 +95,7 @@ export const sv = {
           'netex.entur.v1_0_1': 'NeTEx Validator by Entur, version v1.0.1',
           'gtfs2netex.fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, version v1.12.0'
         },
+        noValidationRulesFound: 'Inga valideringsregler hittades',
         netex: {
           codespace: 'Codespace',
           codespaceRequired: 'Du måste specificera codespace',
@@ -240,7 +242,8 @@ export const sv = {
   pagination: {
     content: {
       notices: 'Fynd',
-      submissions: 'Inlämningar'
+      submissions: 'Inlämningar',
+      companies: 'Företag'
     },
     total: 'totalt',
     perPage: 'Objekt per sida',
@@ -267,5 +270,26 @@ export const sv = {
     email: 'E-post',
     roles: 'Roller',
     companies: 'Företag'
+  },
+  admin: {
+    // TODO: needs proper translations!
+    tools: 'Admin-verktyg',
+    dataDelivery: {
+      header: 'Dataleveransvy',
+      searchWordPlaceholder: 'Företagsnamn or företags-id',
+      table: {
+        companyName: 'Företagsnamn',
+        businessId: 'Företags-id',
+        format: 'Format',
+        convertedFormat: 'Konverterad',
+        dateCreated: 'Senast publicerade',
+        status: 'Status',
+        report: 'Senast publikationen',
+        reportLink: 'Visa publikation'
+      }
+    },
+    companies: {
+      header: 'Hantera företag'
+    }
   }
 }

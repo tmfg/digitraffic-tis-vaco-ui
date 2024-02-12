@@ -263,7 +263,6 @@ const Table = ({
     return (
       <td
         colSpan={item.colSpan ?? 1}
-        className={`${item.href ? 'link' : ''}`}
         key={tableTitle + 'row-' + rowNumber + '-column-' + columnIndex + '-' + item.name}
       >
         {item.href ? (

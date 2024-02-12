@@ -1,0 +1,14 @@
+.searchLatestEntries > form {
+  display: flex;
+  margin-top: 2.5rem;
+
+  .search-input {
+    align-self: center;
+    margin-right: 1.6rem;
+    width: 35rem;
+  }
+
+  .search-button {
+    align-self: end;
+  }
+}

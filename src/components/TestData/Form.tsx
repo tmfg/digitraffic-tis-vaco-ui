@@ -24,7 +24,7 @@ import {
   getNewFormStateAfterMultipleChanges,
   submitData
 } from './helpers'
-import { CompanyContext, CompanyContextType } from '../../CompanyContextProvider'
+import { AppContext, AppContextType } from '../../AppContextProvider'
 import { parseJwt } from '../../util/jwt'
 
 const Form = () => {
@@ -41,9 +41,9 @@ const Form = () => {
   const [formErrors, setFormErrors] = useState<Map>({})
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [email, setEmail] = useState<string>('')
-  const companies: CompanyContextType = useContext(CompanyContext)
-  const companyOptions: FdsDropdownOption<string>[] = companies
-    ? companies.map((company) => {
+  const appContext: AppContextType = useContext(AppContext)
+  const companyOptions: FdsDropdownOption<string>[] = appContext?.companies
+    ? appContext.companies.map((company) => {
         return {
           label: `${company.name} (${company.businessId})`,
           value: company.businessId
@@ -52,6 +52,7 @@ const Form = () => {
     : []
   const [selectedBusinessId, setSelectedBusinessId] = useState<string | null>(null)
   const [selectedFormat, setSelectedFormat] = useState<string | null>(null)
+  const [noRulesFoundError, setNoRulesFoundError] = useState<boolean>(false)
 
   const closeModal = () => {
     setIsModalOpen(false)
@@ -83,16 +84,18 @@ const Form = () => {
           HttpClient.get(`/api/ui/rules?businessId=${selectedBusinessId}`, getHeaders(tokenResult.accessToken)).then(
             (response) => {
               const ruleData = response.data as RulesetResource[]
-              const validationRules = ruleData.filter(
+              const validationRules: RulesetResource[] = ruleData?.filter(
                 (rule) =>
                   rule.data.format.toUpperCase() === selectedFormat.toUpperCase() &&
                   rule.data.type.includes('VALIDATION')
               )
               // Clear up selected rules from formData if those no longer available due to user's changed format/businessId selections
               const isPreviousRuleIncludedInNew = (previousRule: RulesetResource) => {
-                return validationRules.filter((rule) => rule.data.identifyingName === previousRule.data.identifyingName)
+                return validationRules?.filter(
+                  (rule) => rule.data.identifyingName === previousRule.data.identifyingName
+                )
               }
-              rules.forEach((rule) => {
+              rules?.forEach((rule) => {
                 if (formData[rule.data.identifyingName] && !isPreviousRuleIncludedInNew(rule)) {
                   const ruleToClearOut: FdsInputChange = {
                     name: rule.data.identifyingName,
@@ -106,9 +109,15 @@ const Form = () => {
                   setFormData(newFormData)
                 }
               })
+              if (!validationRules || validationRules.length === 0) {
+                setNoRulesFoundError(true)
+              } else {
+                setNoRulesFoundError(false)
+              }
               setRules(validationRules)
             },
             (error) => {
+              setNoRulesFoundError(true)
               return Promise.reject(error)
             }
           )
@@ -422,10 +431,11 @@ const Form = () => {
                 </div>
               )
             })}
-            {formErrors.rules && <div className={'error'}>{formErrors.rules}</div>}
+            {formErrors.rules && <div className={'error'}>{formErrors.rules as string}</div>}
           </div>
         )}
 
+        {noRulesFoundError && <div className={'error'}>{t('services:testData:form:noValidationRulesFound')}</div>}
         {formErrors &&
           (formErrors.url ||
             formErrors.format ||

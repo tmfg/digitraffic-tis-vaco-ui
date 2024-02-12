@@ -6,12 +6,20 @@ import { ReactComponent as LoginSvg } from '../../assets/svg/login.svg'
 import { ReactComponent as NewUserSvg } from '../../assets/svg/new_user.svg'
 import { ReactComponent as MyDataSvg } from '../../assets/svg/my_data.svg'
 import { ReactComponent as TestDataSvg } from '../../assets/svg/test_data.svg'
+import { ReactComponent as DataDeliverySvg } from '../../assets/svg/book_open_check.svg'
+//import { ReactComponent as CompaniesSvg } from '../../assets/svg/building.svg'
 import { useTranslation } from 'react-i18next'
+import { useContext, useEffect, useState } from 'react'
+import { rolesContainVacoAdmin, rolesContainVacoCompanyAdmin } from '../../util/role'
+import { AppContext, AppContextType } from '../../AppContextProvider'
 
 const HomePage = () => {
-  const { instance } = useMsal()
   const isAuthenticated = useIsAuthenticated()
+  const { instance } = useMsal()
   const { t } = useTranslation()
+  const appContext: AppContextType = useContext(AppContext)
+  const [hasAdminRole, setHasAdminRole] = useState<boolean | undefined>(undefined)
+  const [hasCompanyAdminRole, setHasCompanyAdminRole] = useState<boolean | undefined>(undefined)
 
   const landingShortcuts: Shortcut[] = [
     {
@@ -51,8 +59,30 @@ const HomePage = () => {
     }
   ]
 
+  const adminShortcuts: Shortcut[] = [
+    {
+      label: t('home:shortcut:dataDelivery:label'),
+      to: '/admin/data-delivery',
+      icon: <DataDeliverySvg />,
+      description: t('home:shortcut:dataDelivery:intro')
+    } /*,
+    {
+      label: t('home:shortcut:companies:label'),
+      to: '/data/request',
+      icon: <CompaniesSvg />,
+      description: t('home:shortcut:companies:intro')
+    }*/
+  ]
+
+  useEffect(() => {
+    if (appContext?.roles) {
+      setHasAdminRole(rolesContainVacoAdmin(appContext.roles))
+      setHasCompanyAdminRole(rolesContainVacoCompanyAdmin(appContext.roles))
+    }
+  }, [appContext])
+
   return (
-    <div className={'page-content '}>
+    <div className={'page-content'}>
       <h1>{t('home:header')}</h1>
 
       <div className={'page-intro'}>
@@ -63,6 +93,7 @@ const HomePage = () => {
 
       <h2>{t('home:shortcuts')}</h2>
       <ShortcutPanel items={isAuthenticated ? userShortcuts : landingShortcuts} />
+      {isAuthenticated && (hasAdminRole || hasCompanyAdminRole) && <ShortcutPanel items={adminShortcuts} />}
     </div>
   )
 }
