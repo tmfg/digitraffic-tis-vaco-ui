@@ -59,9 +59,13 @@ export const en = {
         label: 'My data',
         intro: 'Review your previous data submissions.'
       },
-      admin: {
-        label: '',
-        intro: ''
+      dataDelivery: {
+        label: 'Data delivery view',
+        intro: "Overview of companies' latest published data"
+      },
+      companies: {
+        label: 'Manage companies',
+        intro: 'View and administer all companies in the system'
       },
       navigate: 'Navigate'
     }
@@ -96,6 +100,7 @@ export const en = {
           'netex.entur.v1_0_1': 'NeTEx Validator by Entur, version v1.0.1',
           'gtfs2netex.fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, version v1.12.0'
         },
+        noValidationRulesFound: 'No validation rules found for the chosen company and data format',
         netex: {
           codespace: 'Codespace',
           codespaceRequired: 'Specifying codespace is required',
@@ -242,7 +247,8 @@ export const en = {
   pagination: {
     content: {
       notices: 'Findings',
-      submissions: 'Submissions'
+      submissions: 'Submissions',
+      companies: 'Companies'
     },
     total: 'total',
     perPage: 'Items per page',
@@ -269,5 +275,25 @@ export const en = {
     email: 'Email',
     roles: 'Roles',
     companies: 'Companies'
+  },
+  admin: {
+    tools: 'Admin tools',
+    dataDelivery: {
+      header: 'Data delivery view',
+      searchWordPlaceholder: 'Company name or business ID',
+      table: {
+        companyName: 'Company name',
+        businessId: 'Business ID',
+        format: 'Format',
+        convertedFormat: 'Converted',
+        dateCreated: 'Latest submitted',
+        status: 'Status',
+        report: 'Latest submission',
+        reportLink: 'View submission'
+      }
+    },
+    companies: {
+      header: 'Manage companies'
+    }
   }
 }

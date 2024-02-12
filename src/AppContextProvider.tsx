@@ -4,17 +4,22 @@ import { InteractionStatus } from '@azure/msal-browser'
 import { acquireToken } from './hooks/auth'
 import { getHeaders, HttpClient } from './HttpClient'
 import { useIsAuthenticated, useMsal } from '@azure/msal-react'
+import { parseJwt } from './util/jwt'
 
-export type CompanyContextType = Company[] | undefined
-export const CompanyContext = createContext<CompanyContextType>([])
-interface CompanyContextProviderProps {
+export type AppContextType = {
+  companies: Company[] | undefined
+  roles: string[] | undefined
+}
+export const AppContext = createContext<AppContextType>({ companies: undefined, roles: undefined })
+interface AppContextProviderProps {
   children: React.ReactNode
 }
 
-const CompanyContextProvider = ({ children }: CompanyContextProviderProps) => {
+const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const isAuthenticated = useIsAuthenticated()
   const { instance, inProgress } = useMsal()
   const [companies, setCompanies] = useState<Company[] | undefined>(undefined)
+  const [roles, setRoles] = useState<string[] | undefined>(undefined)
   const [accessToken, setAccessToken] = useState<string | undefined>(undefined)
 
   /**
@@ -65,7 +70,14 @@ const CompanyContextProvider = ({ children }: CompanyContextProviderProps) => {
     }
   }, [accessToken])
 
-  return <CompanyContext.Provider value={companies}>{children}</CompanyContext.Provider>
+  useEffect(() => {
+    if (accessToken) {
+      const jwtObject = parseJwt(accessToken)
+      setRoles(jwtObject?.roles || [])
+    }
+  }, [accessToken])
+
+  return <AppContext.Provider value={{ companies, roles }}>{children}</AppContext.Provider>
 }
 
-export default CompanyContextProvider
+export default AppContextProvider

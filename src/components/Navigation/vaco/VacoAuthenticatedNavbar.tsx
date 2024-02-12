@@ -2,19 +2,34 @@ import { FdsNavigationVariant } from '../../../../coreui-components/src/fds-navi
 import Navbar from '../Navbar'
 import { FdsNavigationItem } from '../../../../coreui-components/src/fds-navigation'
 import { useMsal } from '@azure/msal-react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { logout } from '../../../hooks/auth'
-import { aboutItem, getSelectedLocaleItem, myServicesItem, supportItem, userItem, vacoItem } from './navbarItems'
+import { aboutItem, getSelectedLocaleItem, myServicesItem, adminToolsItem, supportItem, userItem, vacoItem } from './navbarItems'
 import { useTranslation } from 'react-i18next'
+import { AppContext, AppContextType } from '../../../AppContextProvider'
+import { rolesContainVacoAdmin, rolesContainVacoCompanyAdmin } from '../../../util/role'
 
 const VacoAuthenticatedNavbar = () => {
   const { instance } = useMsal()
   const [userNavbarItems, setUserNavbarItems] = useState<FdsNavigationItem[]>([])
   const { i18n, t } = useTranslation()
+  const appContext: AppContextType = useContext(AppContext)
+  const [hasAdminRole, setHasAdminRole] = useState<boolean | undefined>(undefined)
+  const [hasCompanyAdminRole, setHasCompanyAdminRole] = useState<boolean | undefined>(undefined)
+
+  useEffect(() => {
+    if (appContext?.roles) {
+      setHasAdminRole(rolesContainVacoAdmin(appContext.roles))
+      setHasCompanyAdminRole(rolesContainVacoCompanyAdmin(appContext.roles))
+    }
+  }, [appContext])
 
   const languageSelectionCallback = useCallback(
     (newLocaleCode: string) => {
       const vacoNavbarItems: FdsNavigationItem[] = [vacoItem(), aboutItem(t), supportItem(t), myServicesItem(t)]
+      if (hasAdminRole || hasCompanyAdminRole) {
+        vacoNavbarItems.push(adminToolsItem(t))
+      }
       const account = instance.getActiveAccount()
       if (account) {
         const user: FdsNavigationItem = userItem(t)
@@ -30,7 +45,7 @@ const VacoAuthenticatedNavbar = () => {
       vacoNavbarItems.push(getSelectedLocaleItem(newLocaleCode, t))
       setUserNavbarItems(vacoNavbarItems)
     },
-    [instance, t]
+    [appContext, hasAdminRole, instance, t]
   )
 
   useEffect(() => {

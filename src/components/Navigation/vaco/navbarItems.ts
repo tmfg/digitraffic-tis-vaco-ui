@@ -66,6 +66,23 @@ export const myServicesItem = (t: TFunction<'translation', undefined>): FdsNavig
   }
 }
 
+export const adminToolsItem = (t: TFunction<'translation', undefined>): FdsNavigationItem => {
+  return {
+    label: t('admin:tools'),
+    value: '',
+    dropDownItems: [
+      {
+        label: t('admin:dataDelivery:header'),
+        value: '/admin/data-delivery'
+      }/*,
+      {
+        label: t('admin:companies:header'),
+        value: '/data/request'
+      }*/
+    ]
+  }
+}
+
 export const userItem = (t: TFunction<'translation', undefined>): FdsNavigationItem => {
   return {
     label: '',
