@@ -76,7 +76,8 @@ export const sv = {
         section: {
           basic: 'Grundläggande information',
           rules: 'Valideringsregler',
-          metadata: 'Metadata'
+          metadata: 'Metadata',
+          conversionRules: 'Konverteringsregler'
         },
         feedName: 'Matningsnamn',
         feedNamePlaceHolder: 'Exempel: "data.zip - a bus stop fix"',

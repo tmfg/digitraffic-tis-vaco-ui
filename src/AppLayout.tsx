@@ -38,19 +38,10 @@ const AppLayout = () => {
       <FintrafficNavbar />
       {isUserInTransition(inProgress) && <div></div>}
       {isUserInTransition(inProgress) && <RedirectingPage />}
-      {!isUserInTransition(inProgress) &&
-        (isAuthenticated ? (
-          <AppContextProvider>
-            <VacoAuthenticatedNavbar />
-          </AppContextProvider>
-        ) : (
-          <VacoLandingNavbar />
-        ))}
-      {!isUserInTransition(inProgress) && (
-        <AppContextProvider>
-          <Outlet />
-        </AppContextProvider>
-      )}
+      <AppContextProvider>
+        {!isUserInTransition(inProgress) && (isAuthenticated ? <VacoAuthenticatedNavbar /> : <VacoLandingNavbar />)}
+        {!isUserInTransition(inProgress) && <Outlet />}
+      </AppContextProvider>
       <Footer />
     </div>
   )
