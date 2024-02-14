@@ -76,7 +76,8 @@ export const fi = {
         section: {
           basic: 'Perustiedot',
           rules: 'Validointisäännöt',
-          metadata: 'Metadata'
+          metadata: 'Metadata',
+          conversionRules: 'Konversiosäännöt'
         },
         feedName: 'Syötteen nimi',
         feedNamePlaceHolder: 'Esimerkki: "data.zip - pysäkkien korjaus"',
@@ -88,7 +89,7 @@ export const fi = {
         format: 'Dataformaatti',
         formatRequired: 'Dataformaatti on määritettävä',
         companyRequired: 'Yritys on määritettävä',
-        submit: 'Julkaise',
+        submit: 'Lähetä',
         rules: {
           'gtfs.canonical.v4_1_0': 'Canonical GTFS Validator by MobilityData, versio v4.1.0',
           'gtfs.canonical.v4_0_0': 'Canonical GTFS Validator by MobilityData, versio v4.0.0',

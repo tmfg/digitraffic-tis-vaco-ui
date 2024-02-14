@@ -50,7 +50,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
 
   useEffect(() => {
     let ignore = false
-    if (accessToken && !ignore) {
+    if (accessToken && !ignore && !companies) {
       HttpClient.get('/api/me', getHeaders(accessToken)).then(
         (response) => {
           const responseData: CompanyResource = response.data as CompanyResource
@@ -68,14 +68,14 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
     return () => {
       ignore = true
     }
-  }, [accessToken])
+  }, [accessToken, companies])
 
   useEffect(() => {
-    if (accessToken) {
+    if (accessToken && !roles) {
       const jwtObject = parseJwt(accessToken)
       setRoles(jwtObject?.roles || [])
     }
-  }, [accessToken])
+  }, [accessToken, roles])
 
   return <AppContext.Provider value={{ companies, roles }}>{children}</AppContext.Provider>
 }

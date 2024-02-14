@@ -133,7 +133,8 @@ export const en = {
       validationRule: 'Validation rule',
       conversionRule: 'Conversion rule',
       inProgress: 'Processing progress',
-      progress: 'The processing is currently <strong>{{percentage}}%</strong> complete. Please, refresh the page for the latest data.',
+      progress:
+        'The processing is currently <strong>{{percentage}}%</strong> complete. Please, refresh the page for the latest data.',
       packages: {
         header: 'Produced packages',
         intro:
