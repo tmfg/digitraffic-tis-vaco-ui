@@ -93,8 +93,11 @@ export const fi = {
         rules: {
           'gtfs.canonical.v4_1_0': 'Canonical GTFS Validator by MobilityData, versio v4.1.0',
           'gtfs.canonical.v4_0_0': 'Canonical GTFS Validator by MobilityData, versio v4.0.0',
+          'gtfs.canonical': 'Canonical GTFS Validator by MobilityData',
           'netex.entur.v1_0_1': 'NeTEx Validator by Entur, versio v1.0.1',
-          'gtfs2netex.fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, versio v1.12.0'
+          'netex.entur': 'NeTEx Validator by Entur',
+          'gtfs2netex.fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, versio v1.12.0',
+          'gtfs2netex.fintraffic': 'GTFS to NeTEx Converter by Fintraffic'
         },
         noValidationRulesFound: 'Validointisääntöjä ei löytynyt',
         netex: {
