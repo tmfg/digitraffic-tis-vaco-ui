@@ -45,7 +45,7 @@ const VacoAuthenticatedNavbar = () => {
       vacoNavbarItems.push(getSelectedLocaleItem(newLocaleCode, t))
       setUserNavbarItems(vacoNavbarItems)
     },
-    [appContext, hasAdminRole, instance, t]
+    [hasAdminRole, hasCompanyAdminRole, instance, t]
   )
 
   useEffect(() => {

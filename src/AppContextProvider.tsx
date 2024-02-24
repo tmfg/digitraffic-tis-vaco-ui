@@ -1,5 +1,5 @@
 import React, { useState, createContext, useEffect } from 'react'
-import { Company, CompanyResource } from './types/Company'
+import { Company, CompaniesResource } from './types/Company'
 import { InteractionStatus } from '@azure/msal-browser'
 import { acquireToken } from './hooks/auth'
 import { getHeaders, HttpClient } from './HttpClient'
@@ -53,7 +53,7 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
     if (accessToken && !ignore && !companies) {
       HttpClient.get('/api/me', getHeaders(accessToken)).then(
         (response) => {
-          const responseData: CompanyResource = response.data as CompanyResource
+          const responseData: CompaniesResource = response.data as CompaniesResource
           if (responseData) {
             const companiesData: Company[] = responseData.data.companies
             setCompanies(companiesData)

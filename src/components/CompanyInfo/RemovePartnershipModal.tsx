@@ -4,26 +4,26 @@ import { FdsDialogComponent } from '../fds/FdsDialogComponent'
 import { FdsButtonComponent } from '../fds/FdsButtonComponent'
 import { FdsButtonVariant } from '../../../coreui-components/src/fds-button'
 import { FdsCardElevation } from '../../../coreui-components/src/fds-card'
-import './_modal.scss'
+import '../TestData/_modal.scss'
 import { useTranslation } from 'react-i18next'
-import { Trans } from 'react-i18next'
+//import { Trans } from 'react-i18next'
 import { FdsTokenSize2, FdsTokenSize21 } from "../../../coreui-css/lib";
 
 interface ModalProps {
   close: () => void
   proceed: () => void
-  email?: string | null
-  publicId: string
+  companyA: string | undefined
+  companyB: string
 }
 
-const DataSubmittedModal = ({ close, proceed, email, publicId }: ModalProps) => {
+const RemovePartnershipModal = ({ close, proceed, companyA, companyB }: ModalProps) => {
   const { t } = useTranslation()
 
   return (
     <div className="modal">
       <FdsDialogComponent modal={true}>
         <FdsCardComponent elevation={FdsCardElevation.none}>
-          <h4 slot="header-title">{t('services:testData:modal:title')}</h4>
+          <h4 slot="header-title">{t('common:confirmation')}</h4>
           <FdsButtonComponent
             onClick={close}
             variant={FdsButtonVariant.tertiary}
@@ -32,19 +32,7 @@ const DataSubmittedModal = ({ close, proceed, email, publicId }: ModalProps) => 
             slot="header-corner"
           />
 
-          <ul>
-            <li>
-              <Trans i18nKey="services:testData:modal:accessBy" values={{ publicId: publicId }}></Trans>
-            </li>
-
-            {email && (
-              <li>
-                <Trans i18nKey="services:testData:modal:notification" values={{ email: email }}></Trans>
-              </li>
-            )}
-
-            <li>{t('services:testData:modal:toProceed')}</li>
-          </ul>
+          <div style={{ marginBottom: '2.5rem' }}>{t('admin:partnership:removeModal', { companyA, companyB })}</div>
 
           <FdsActionSheetComponent>
             <FdsButtonComponent
@@ -53,13 +41,13 @@ const DataSubmittedModal = ({ close, proceed, email, publicId }: ModalProps) => 
               icon="x"
               iconSize={FdsTokenSize2}
               variant={FdsButtonVariant.secondary}
-              label={t('common:close')}
+              label={t('common:cancel')}
             />
             <FdsButtonComponent
-              icon="navigation"
+              variant={FdsButtonVariant.danger}
               iconSize={FdsTokenSize2}
               onClick={proceed}
-              label={t('common:proceed')}
+              label={t('admin:partnership:remove')}
             />
           </FdsActionSheetComponent>
         </FdsCardComponent>
@@ -68,4 +56,4 @@ const DataSubmittedModal = ({ close, proceed, email, publicId }: ModalProps) => 
   )
 }
 
-export default DataSubmittedModal
+export default RemovePartnershipModal

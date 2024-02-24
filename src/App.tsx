@@ -10,6 +10,8 @@ import MyDataPage from './pages/MyData/MyDataPage'
 import UserPage from './pages/User/UserPage'
 import DataDeliveryPage from './pages/AdminTools/DataDeliveryPage'
 import CompanyEntriesPage from './pages/AdminTools/CompanyEntriesPage'
+import CompaniesPage from "./pages/AdminTools/CompaniesPage";
+import CompanyInfoPage from "./pages/AdminTools/CompanyInfoPage";
 
 // The way for components that don't need wrapping (e.g. one without our own custom events)
 // or while initial testing
@@ -63,6 +65,14 @@ const App = () => {
           {
             path: '/admin/companies/:businessId/data',
             element: <CompanyEntriesPage />
+          },
+          {
+            path: '/admin/companies',
+            element: <CompaniesPage />
+          },
+          {
+            path: 'admin/companies/:businessId/info',
+            element: <CompanyInfoPage />
           }
         ]
       }

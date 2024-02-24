@@ -43,6 +43,7 @@ export interface TableItem {
   href?: string
   plainValue?: string | number | boolean
   colSpan?: number
+  isCode?: boolean
 }
 
 export interface HeaderItem {
@@ -262,6 +263,7 @@ const Table = ({
   const getTd = (item: TableItem, rowNumber: number, columnIndex: number) => {
     return (
       <td
+        className={`${item.isCode ? 'code' : ''}`}
         colSpan={item.colSpan ?? 1}
         key={tableTitle + 'row-' + rowNumber + '-column-' + columnIndex + '-' + item.name}
       >

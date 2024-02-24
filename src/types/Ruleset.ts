@@ -5,6 +5,7 @@ export interface Ruleset {
   category: string
   type: string
   format: string
+  dependencies: string[]
 }
 
 export interface RulesetResource {

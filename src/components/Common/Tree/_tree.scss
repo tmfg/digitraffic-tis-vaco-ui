@@ -1,0 +1,63 @@
+.regular-node .incoming-edge {
+  border-left: 1px solid #CDCDD7;
+  border-bottom: 1px solid #CDCDD7;
+  height: 29px;
+  width: 20px;
+}
+
+.edge-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.regular-node .continuing-edge {
+  border-left: 1px solid #CDCDD7;
+  height: 20px;
+  width: 20px;
+}
+
+.bare-node .incoming-edge {
+  border-left: 1px solid #CDCDD7;
+  border-bottom: 1px solid #CDCDD7;
+  height: 21px;
+  width: 20px;
+}
+
+.bare-node .continuing-edge {
+  border-left: 1px solid #CDCDD7;
+  height: 13px;
+  width: 20px;
+}
+
+.node-container {
+  display: flex;
+}
+
+/**
+ Branch levels of the tree
+ */
+
+.inner-level {
+  list-style: none;
+  border-left: 1px solid #CDCDD7;
+}
+
+.last-level {
+  list-style: none;
+}
+
+.root-level {
+  list-style: none;
+  margin-bottom: 1rem;
+  padding-left: 0;
+}
+
+.node-action {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}

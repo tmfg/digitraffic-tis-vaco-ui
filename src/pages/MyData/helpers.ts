@@ -1,4 +1,4 @@
-import { HeaderItem, TableItem } from "../../components/Common/Table/Table";
+import { HeaderItem, TableItem } from '../../components/Common/Table/Table'
 import { EntryResource } from '../../types/EntryResource'
 import { TFunction } from 'i18next'
 import { formatDate } from '../../util/date'

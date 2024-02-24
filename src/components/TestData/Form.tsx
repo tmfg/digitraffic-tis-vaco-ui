@@ -3,7 +3,7 @@ import { FdsAlertComponent } from '../fds/FdsAlertComponent'
 import { FdsInputComponent } from '../fds/FdsInputComponent'
 import { FdsCheckboxComponent } from '../fds/FdsCheckboxComponent'
 import { FdsDropdownComponent } from '../fds/FdsDropdownComponent'
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { EntryResource } from '../../types/EntryResource'
 import { useMsal } from '@azure/msal-react'
 import { useTranslation } from 'react-i18next'
@@ -16,16 +16,10 @@ import DataSubmittedModal from './DataSubmittedModal'
 import { useNavigate } from 'react-router-dom'
 import { RulesetResource } from '../../types/Ruleset'
 import { Map } from '../../types/Map'
-import {
-  getFeedNameSuggestion,
-  getNetexAdditionalInputs,
-  getNewFormErrorsState,
-  getNewFormState,
-  getNewFormStateAfterMultipleChanges,
-  submitData
-} from './helpers'
+import { getFeedNameSuggestion, getNetexAdditionalInputs, submitData } from './helpers'
 import { AppContext, AppContextType } from '../../AppContextProvider'
 import { parseJwt } from '../../util/jwt'
+import { getNewFormErrorsState, getNewFormState, getNewFormStateAfterMultipleChanges } from '../../util/form'
 
 const Form = () => {
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
@@ -42,14 +36,16 @@ const Form = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [email, setEmail] = useState<string>('')
   const appContext: AppContextType = useContext(AppContext)
-  const companyOptions: FdsDropdownOption<string>[] = appContext?.companies
-    ? appContext.companies.map((company) => {
-        return {
-          label: `${company.name} (${company.businessId})`,
-          value: company.businessId
-        }
-      })
-    : []
+  const companyOptions: FdsDropdownOption<string>[] = useMemo(() => {
+    return appContext?.companies
+      ? appContext.companies.map((company) => {
+          return {
+            label: `${company.name} (${company.businessId})`,
+            value: company.businessId
+          }
+        })
+      : []
+  }, [appContext.companies])
   const [selectedBusinessId, setSelectedBusinessId] = useState<string | null>(null)
   const [selectedFormat, setSelectedFormat] = useState<string | null>(null)
   const [noRulesFoundError, setNoRulesFoundError] = useState<boolean>(false)
@@ -70,7 +66,7 @@ const Form = () => {
       }
       setFormData(newFormData)
     }
-  }, [companyOptions])
+  }, [companyOptions, formData.businessId, selectedBusinessId])
 
   useEffect(() => {
     if (instance && selectedFormat && selectedBusinessId) {
@@ -139,7 +135,7 @@ const Form = () => {
         }
       )
     }
-  }, [instance, inProgress, selectedBusinessId, selectedFormat])
+  }, [instance, inProgress, selectedBusinessId, selectedFormat, rules, formData])
 
   const updateFormState = useCallback((newFormData: Map, newFormErrors: Map) => {
     setFormData(newFormData)

@@ -83,7 +83,7 @@ export default class FdsDialog extends LitElement {
       border: none;
       box-shadow: ${FdsStyleElevation400};
       padding: calc(${FdsRadiusLarge} / 2);
-      overflow: visible;
+      overflow-y: auto;
       outline: none;
     }
 

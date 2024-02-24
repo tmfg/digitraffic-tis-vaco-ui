@@ -74,11 +74,11 @@ export const adminToolsItem = (t: TFunction<'translation', undefined>): FdsNavig
       {
         label: t('admin:dataDelivery:header'),
         value: '/admin/data-delivery'
-      }/*,
+      },
       {
         label: t('admin:companies:header'),
-        value: '/data/request'
-      }*/
+        value: '/admin/companies'
+      }
     ]
   }
 }

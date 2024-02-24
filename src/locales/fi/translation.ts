@@ -63,7 +63,12 @@ export const fi = {
         label: 'Datan toimitusnäkymä',
         // TODO: needs proper translation!
         intro: 'Katsaus yritysten viimeisimpiin julkaistuihin tietoihin'
-      }
+      },
+      companies: {
+        label: 'Yritysten hallinta',
+        // TODO: needs proper translation!
+        intro: 'Tarkastele ja hallinnoi kaikkia järjestelmän yrityksiä'
+      },
     }
   },
   services: {
@@ -237,11 +242,16 @@ export const fi = {
     refresh: 'Päivitä',
     here: 'täältä',
     showAll: 'Näytä kaikki {{values}}',
-    showLess: 'Näytä vähemmän {{values}}'
+    showLess: 'Näytä vähemmän {{values}}',
+    cancel: 'Peruuta',
+    save: 'Tallenna',
+    confirmation: 'Vahvistus',
+    separatedByCommaMessage: 'Erota pilkuilla'
   },
   format: {
     gtfs: 'GTFS',
-    netex: 'NeTEx'
+    netex: 'NeTEx',
+    gbfs: 'GBFS'
   },
   pagination: {
     content: {
@@ -293,7 +303,57 @@ export const fi = {
       }
     },
     companies: {
-      header: 'Yritysten hallinta'
+      header: 'Yritysten hallinta',
+      searchWordPlaceholder: 'Yrityksen nimi tai Y-tunnus',
+      table: {
+        companyName: 'Yrityksen nimi',
+        businessId: 'Y-tunnus',
+        hierarchy: 'Yrityshierarkia',
+        formatSummary: 'Formaattien yhteenveto',
+        viewHierarchy: 'Näytä hierarkia'
+      },
+      viewFullHierarchy: 'Näytä koko yrityshierarkia',
+      completeHierarchy: 'Koko yrityshierarkia'
+    },
+    company: {
+      name: 'Yrityksen nimi',
+      businessId: 'Y-tunnus',
+      language: 'Kieli',
+      adGroupId: 'Entra ID',
+      rulesets: 'Säännöt',
+      edit: 'Muokkaa yrityksen tietoja',
+      contactEmails: 'Yhteydenottosähköpostit'
+    },
+    ruleset: {
+      name: 'Säännön nimi',
+      description: 'Kuvaus',
+      category: 'Kategoria',
+      type: 'Tyyppi',
+      format: 'Formaatti'
+    },
+    hierarchy: {
+      header: 'Yrityshierarkia',
+      show: 'Näytä yrityshierarkia',
+      hide: 'Piilota yrityshierarkia'
+    },
+    partnership: {
+      remove: 'Poista ylätason yrityksesta',
+      removeModal: 'Oletko varma, että haluat poistaa linkin {{companyA}} ja {{companyB}} välillä?',
+      moveUpModalLine1: 'Oletko varma, että haluat siirtää {{companyB}} yhden tason ylöspäin hierarkiassa?',
+      moveUpModalLine2: 'Linkki {{oldCompanyA}} ja {{companyB}} välillä poistetaan.',
+      moveUpModalLine3: 'Uusi linkki {{newCompanyA}} ja {{companyB}} välille luodaan.',
+      moveUp: 'Siirrä ylemmälle tasolle',
+      cannotLinkItself: 'Virhe: yritystä ei voi yhdistää itseensä',
+      linkExists: 'Virhe: linkki {{companyA}}:n ja {{companyB}}:n välillä on jo olemassa',
+      selectedParent: 'Valittu ylätason yritys',
+      link: 'Linkitä uuteen ylätason yritykseen',
+      linkInstruction:
+        'Jos haluat yhdistää yrityksen {{name}} uuteen ylätason yritykseen, valitse ylätason yritys hierarkiasta klikkaamalla sitä.'
     }
+  },
+  languages: {
+    fi: 'Suomi',
+    sv: 'Ruotsi',
+    en: 'Englanti'
   }
 }

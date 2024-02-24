@@ -66,8 +66,7 @@ export const en = {
       companies: {
         label: 'Manage companies',
         intro: 'View and administer all companies in the system'
-      },
-      navigate: 'Navigate'
+      }
     }
   },
   services: {
@@ -242,11 +241,16 @@ export const en = {
     refresh: 'Refresh',
     here: 'here',
     showAll: 'Show all {{values}}',
-    showLess: 'Show less {{values}}'
+    showLess: 'Show less {{values}}',
+    cancel: 'Cancel',
+    save: 'Save',
+    confirmation: 'Confirmation',
+    separatedByCommaMessage: 'Separated by comma'
   },
   format: {
     gtfs: 'GTFS',
-    netex: 'NeTEx'
+    netex: 'NeTEx',
+    gbfs: 'GBFS'
   },
   pagination: {
     content: {
@@ -297,7 +301,57 @@ export const en = {
       }
     },
     companies: {
-      header: 'Manage companies'
+      header: 'Manage companies',
+      searchWordPlaceholder: 'Company name or business ID',
+      table: {
+        companyName: 'Company name',
+        businessId: 'Business ID',
+        hierarchy: 'Company hierarchy',
+        formatSummary: 'Format summary',
+        viewHierarchy: 'View hierarchy'
+      },
+      viewFullHierarchy: 'View complete company hierarchy',
+      completeHierarchy: 'Complete company hierarchy'
+    },
+    company: {
+      name: 'Company name',
+      businessId: 'Business ID',
+      language: 'Language',
+      adGroupId: 'Entra ID',
+      rulesets: 'Rulesets',
+      edit: 'Edit company details',
+      contactEmails: 'Contact emails'
+    },
+    ruleset: {
+      name: 'Rule name',
+      description: 'Description',
+      category: 'Category',
+      type: 'Type',
+      format: 'Format'
+    },
+    hierarchy: {
+      header: 'Company hierarchy',
+      show: 'Show company hierarchy',
+      hide: 'Hide company hierarchy'
+    },
+    partnership: {
+      remove: 'Remove from parent company',
+      removeModal: 'Are you sure about removing the link between {{companyA}} and {{companyB}}?',
+      moveUpModalLine1: 'Are you sure about moving {{companyB}} one level up in the hierarchy?',
+      moveUpModalLine2: 'Link between {{oldCompanyA}} and {{companyB}} will be deleted.',
+      moveUpModalLine3: 'New link between {{newCompanyA}} and {{companyB}} will be created.',
+      moveUp: 'Move one level up',
+      cannotLinkItself: 'Error: cannot link the company with itself',
+      linkExists: 'Error: link between {{companyA}} and {{companyB}} already exists',
+      selectedParent: 'Selected parent company',
+      link: 'Link to new parent company',
+      linkInstruction:
+        'To link company {{name}} to a new parent, select the parent company from the hierarchy by clicking on it.'
     }
+  },
+  languages: {
+    fi: 'Finnish',
+    sv: 'Swedish',
+    en: 'English'
   }
 }

@@ -42,3 +42,8 @@ h3 {
 h5 {
     font-size: 20px;
 }
+
+.code {
+    font-size: 15px;
+    font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
