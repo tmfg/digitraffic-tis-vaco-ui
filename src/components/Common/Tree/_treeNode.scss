@@ -1,0 +1,61 @@
+.bare-node > .tree-node {
+  display: inline-block;
+  margin-left: 3px;
+  margin-top: 8px;
+  width: fit-content;
+  cursor: pointer;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.regular-node > .tree-node {
+  display: inline-flex;
+  justify-content: space-between;
+  border-radius: 3px;
+  border: 1px solid var(--Colors-Neutrals-100, #CDCDD7);
+  background: var(--Colors-Brand-White, #FFF);
+  padding-top: 6.5px;
+  padding-bottom: 6.5px;
+  padding-left: 12px;
+  padding-right: 7px;
+  margin-left: 0;
+  margin-top: 10px;
+  min-width: 175px;
+  color: var(--Interactive-200, var(--Colors-Interactive-200, #1777F8));
+  font-feature-settings: 'clig' off, 'liga' off;
+}
+
+.regular-node > .focused-node {
+  background: #6e7681;
+  color: white;
+}
+
+.tree-node-link {
+  text-decoration: none;
+  cursor: pointer;
+  width: fit-content;
+  margin-right: 1rem;
+}
+
+.tree-node-link:hover {
+  text-decoration: underline;
+}
+
+.regular-node >.root-node {
+  font-weight: 700;
+}
+
+.action-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.selected-node {
+  background-color: #ABF2BC;
+}
+
+.node-detail-info {
+  font-size: 14px;
+  margin-left: 16px;
+  color: var(--interactive-200, #1777F8);
+}

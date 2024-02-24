@@ -7,7 +7,7 @@ import { ReactComponent as NewUserSvg } from '../../assets/svg/new_user.svg'
 import { ReactComponent as MyDataSvg } from '../../assets/svg/my_data.svg'
 import { ReactComponent as TestDataSvg } from '../../assets/svg/test_data.svg'
 import { ReactComponent as DataDeliverySvg } from '../../assets/svg/book_open_check.svg'
-//import { ReactComponent as CompaniesSvg } from '../../assets/svg/building.svg'
+import { ReactComponent as CompaniesSvg } from '../../assets/svg/building.svg'
 import { useTranslation } from 'react-i18next'
 import { useContext, useEffect, useState } from 'react'
 import { rolesContainVacoAdmin, rolesContainVacoCompanyAdmin } from '../../util/role'
@@ -65,13 +65,13 @@ const HomePage = () => {
       to: '/admin/data-delivery',
       icon: <DataDeliverySvg />,
       description: t('home:shortcut:dataDelivery:intro')
-    } /*,
+    } ,
     {
       label: t('home:shortcut:companies:label'),
-      to: '/data/request',
+      to: '/admin/companies',
       icon: <CompaniesSvg />,
       description: t('home:shortcut:companies:intro')
-    }*/
+    }
   ]
 
   useEffect(() => {

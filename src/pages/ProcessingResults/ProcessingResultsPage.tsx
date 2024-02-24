@@ -6,7 +6,7 @@ import { AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated, use
 import AuthRequiredPage from '../Error/AuthRequiredPage'
 import { InteractionStatus } from '@azure/msal-browser'
 import { Trans, useTranslation } from 'react-i18next'
-import Section from '../../components/ProcessingResults/Section'
+import Section from '../../components/Common/Section/Section'
 import ConversionReport from '../../components/ProcessingResults/report/ConversionReport'
 import { EntryStateResource, RuleReport } from '../../types/EntryStateResource'
 import SubmittedData from '../../components/ProcessingResults/SubmittedData'
@@ -94,7 +94,7 @@ const ProcessingResultsPage = () => {
             <SubmittedData entry={entryState.data.entry.data} company={entryState.data.company} />
 
             {!entryState.data.entry.data.completed && processingProgress !== 100 && !entryState.error && (
-              <Section hidable={false} titleKey={'inProgress'}>
+              <Section hidable={false} titleKey={'services:processingResults:inProgress'}>
                 <div style={{ marginBottom: '1.75rem' }}>
                   {
                     <Trans
@@ -113,13 +113,13 @@ const ProcessingResultsPage = () => {
             )}
 
             {entryState.data.summaries?.length > 0 && (
-              <Section hidable={true} titleKey={'summary'}>
+              <Section hidable={true} titleKey={'services:processingResults:summary'}>
                 <Summary summaries={entryState.data.summaries} />
               </Section>
             )}
 
             {validationReports.length > 0 && isReportContentAvailable(validationReports) ? (
-              <Section hidable={true} titleKey={'reports'}>
+              <Section hidable={true} titleKey={'services:processingResults:reports'}>
                 {validationReports.map((report) => {
                   return <ValidationReport key={'report-' + report.ruleName} report={report} />
                 })}
@@ -129,7 +129,7 @@ const ProcessingResultsPage = () => {
             )}
 
             {conversionReports.length > 0 && isReportContentAvailable(conversionReports) ? (
-              <Section hidable={true} titleKey={'results:conversion'}>
+              <Section hidable={true} titleKey={'services:processingResults:results:conversion'}>
                 {conversionReports.map((report) => {
                   return <ConversionReport key={'report-' + report.ruleName} report={report} />
                 })}

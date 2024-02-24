@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import React, { useState } from 'react'
-import { FdsIconComponent } from '../fds/FdsIconComponent'
+import { FdsIconComponent } from '../../fds/FdsIconComponent'
 import './_section.scss'
 
 interface SectionProps {
@@ -16,7 +16,7 @@ const Section = ({ titleKey, children, hidable }: SectionProps) => {
   return (
     <div className={'section'}>
       <div className={'header'}>
-        <h2>{t('services:processingResults:' + titleKey)}</h2>
+        <h2>{t(titleKey)}</h2>
         {hidable && (
           <span className={'hide-control'} onClick={() => setIsOpen(!isOpen)}>
             <span className={'text'}>{t('services:processingResults:' + (isOpen ? 'hide' : 'show'))}</span>

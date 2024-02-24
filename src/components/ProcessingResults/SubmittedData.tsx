@@ -1,11 +1,11 @@
-import './_section.scss'
+import '../Common/Section/_section.scss'
 import KeyValuePairs, { KeyValuePairItem, KeyValuePairVariant } from '../Common/KeyValuePairs/KeyValuePairs'
 import { useTranslation } from 'react-i18next'
 import { Entry } from '../../types/EntryResource'
 import { formatDate } from '../../util/date'
 
 interface SubmittedDataProps {
-  entry: Entry,
+  entry: Entry
   company: string
 }
 

@@ -15,13 +15,16 @@ import {
   X,
   Settings,
   Pencil,
+  PencilLine,
   CheckCircle,
   User,
   ExternalLink,
   Globe,
   Check,
   Navigation,
-  Download, RefreshCw
+  Download,
+  RefreshCw,
+  ScanSearch
 } from "lucide";
 
 /**
@@ -33,8 +36,10 @@ export const FdsIcons = {
   'chevron-down': ChevronDown,
   'chevron-right': ChevronRight,
   'chevron-up': ChevronUp,
+  'scan-search': ScanSearch,
   menu: Menu,
   pencil: Pencil,
+  'pencil-line': PencilLine,
   plus: Plus,
   'plus-circle': PlusCircle,
   'trash-2': Trash2,

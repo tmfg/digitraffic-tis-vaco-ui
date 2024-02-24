@@ -63,6 +63,10 @@ export const sv = {
         label: 'Dataleveransvy',
         // TODO: needs proper translation!
         intro: 'Översikt över företagens senaste publicerade data'
+      },
+      companies: {
+        label: 'Hantera företag',
+        intro: 'Se och administrera alla företag i systemet'
       }
     }
   },
@@ -237,11 +241,16 @@ export const sv = {
     refresh: 'Uppdatera',
     here: 'här',
     showAll: 'Visa alla {{values}}',
-    showLess: 'Show färre {{values}}'
+    showLess: 'Show färre {{values}}',
+    cancel: 'Avbryta',
+    save: 'Spara',
+    confirmation: 'Bekräftelse',
+    separatedByCommaMessage: 'Åtskiljd med kommatecken'
   },
   format: {
     gtfs: 'GTFS',
-    netex: 'NeTEx'
+    netex: 'NeTEx',
+    gbfs: 'GBFS'
   },
   pagination: {
     content: {
@@ -293,7 +302,57 @@ export const sv = {
       }
     },
     companies: {
-      header: 'Hantera företag'
+      header: 'Hantera företag',
+      searchWordPlaceholder: 'Företagsnamn or företags-id',
+      table: {
+        companyName: 'Företagsnamn',
+        businessId: 'Företags-id',
+        hierarchy: 'Företagshierarki',
+        formatSummary: 'Sammanfattning av format',
+        viewHierarchy: 'Se hierarki'
+      },
+      viewFullHierarchy: 'Se fullständig företagshierarki',
+      completeHierarchy: 'Komplett företagshierarki'
+    },
+    company: {
+      name: 'Företagsnamn',
+      businessId: 'Företags-id',
+      language: 'Språk',
+      adGroupId: 'Entra ID',
+      rulesets: 'Regler',
+      edit: 'Redigera företagsuppgifter',
+      contactEmails: 'Kontakt e-post'
+    },
+    ruleset: {
+      name: 'Regelnamn',
+      description: 'Beskrivning',
+      category: 'Kategori',
+      type: 'Typ',
+      format: 'Format'
+    },
+    hierarchy: {
+      header: 'Företagshierarki',
+      show: 'Visa företagshierarki',
+      hide: 'Dölj företagshierarki'
+    },
+    partnership: {
+      remove: 'Ta bort från överordnat företag',
+      removeModal: 'Är du säker på att du vill ta bort länken mellan {{companyA}} och {{companyB}}?',
+      moveUpModalLine1: 'Är du säker på att du vill flytta {{companyB}} en nivå upp i hierarkin?',
+      moveUpModalLine2: 'Länken mellan {{oldCompanyA}} och {{companyB}} kommer att tas bort.',
+      moveUpModalLine3: 'Ny länk mellan {{newCompanyA}} och {{companyB}} kommer att skapas.',
+      moveUp: 'Flytta upp nivå',
+      cannotLinkItself: 'Fel: kan inte länka företaget med sig självt',
+      linkExists: 'Fel: länk mellan {{companyA}} och {{companyB}} finns redan',
+      selectedParent: 'Utvalda överordnat företag',
+      link: 'Länka till nytt överordnat företag',
+      linkInstruction:
+        'För att länka företaget {{name}} till ett nytt överordnat företag, välj överordnat företag från hierarkin genom att klicka på det.'
     }
+  },
+  languages: {
+    fi: 'Finska',
+    sv: 'Svenska',
+    en: 'Engelska'
   }
 }
