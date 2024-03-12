@@ -24,7 +24,8 @@ import {
   Navigation,
   Download,
   RefreshCw,
-  ScanSearch
+  ScanSearch,
+  Wand2
 } from "lucide";
 
 /**
@@ -52,7 +53,8 @@ export const FdsIcons = {
   check: Check,
   navigation: Navigation,
   download: Download,
-  'refresh-cw': RefreshCw
+  'refresh-cw': RefreshCw,
+  'wand-2': Wand2
 }
 
 export type FdsIconType = keyof typeof FdsIcons

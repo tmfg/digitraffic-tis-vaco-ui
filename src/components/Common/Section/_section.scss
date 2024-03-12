@@ -1,23 +1,23 @@
-.section {
+section {
   margin-top: 2.5rem;
   margin-bottom: 2.5rem;
-}
 
-.header {
-  display: flex;
-  padding-bottom: 2rem;
-  align-self: center;
-}
+  header {
+    display: flex;
+    padding-bottom: 2rem;
+    align-self: center;
 
-h2 {
-  display: inline;
-  padding-right: 3rem;
-  padding-bottom: 0;
+    h2 {
+      display: inline;
+      margin-bottom: 0;
+    }
+  }
 }
 
 .hide-control {
+  padding-left: 3rem;
   align-self: center;
-  cursor:pointer;
+  cursor: pointer;
   display: flex;
   width: fit-content;
 

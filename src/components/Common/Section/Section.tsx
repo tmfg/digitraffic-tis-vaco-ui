@@ -14,21 +14,19 @@ const Section = ({ titleKey, children, hidable }: SectionProps) => {
   const { t } = useTranslation()
 
   return (
-    <div className={'section'}>
-      <div className={'header'}>
+    <section>
+      <header>
         <h2>{t(titleKey)}</h2>
         {hidable && (
           <span className={'hide-control'} onClick={() => setIsOpen(!isOpen)}>
             <span className={'text'}>{t('services:processingResults:' + (isOpen ? 'hide' : 'show'))}</span>
-            <span className={'icon'}>
-              <FdsIconComponent icon={!isOpen ? 'chevron-down' : 'chevron-up'} />
-            </span>
+            <FdsIconComponent icon={!isOpen ? 'chevron-down' : 'chevron-up'} />
           </span>
         )}
-      </div>
+      </header>
 
       <div>{isOpen && children}</div>
-    </div>
+    </section>
   )
 }
 
