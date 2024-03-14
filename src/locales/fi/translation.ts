@@ -96,13 +96,19 @@ export const fi = {
         companyRequired: 'Yritys on määritettävä',
         submit: 'Lähetä',
         rules: {
-          'gtfs.canonical.v4_1_0': 'Canonical GTFS Validator by MobilityData, versio v4.1.0',
-          'gtfs.canonical.v4_0_0': 'Canonical GTFS Validator by MobilityData, versio v4.0.0',
-          'gtfs.canonical': 'Canonical GTFS Validator by MobilityData',
-          'netex.entur.v1_0_1': 'NeTEx Validator by Entur, versio v1.0.1',
-          'netex.entur': 'NeTEx Validator by Entur',
-          'gtfs2netex.fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, versio v1.12.0',
-          'gtfs2netex.fintraffic': 'GTFS to NeTEx Converter by Fintraffic',
+          gtfs: {
+            'canonical.v4_1_0': 'Canonical GTFS Validator by MobilityData, version v4.1.0',
+            'canonical.v4_0_0': 'Canonical GTFS Validator by MobilityData, version v4.0.0',
+            canonical: 'Canonical GTFS Validator by MobilityData'
+          },
+          netex: {
+            'entur.v1_0_1': 'NeTEx Validator by Entur, version v1.0.1',
+            entur: 'NeTEx Validator by Entur'
+          },
+          gtfs2netex: {
+            'fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, version v1.12.0',
+            fintraffic: 'GTFS to NeTEx Converter by Fintraffic'
+          },
           'gbfs.entur': 'GBFS Validator by Entur'
         },
         noValidationRulesFound: 'Validointisääntöjä ei löytynyt',
@@ -127,6 +133,7 @@ export const fi = {
     },
     processingResults: {
       header: 'Datajulkaisun tulokset',
+      magicLink: 'Kopioi jaettava linkki',
       summary: 'Yhteenveto',
       reports: 'Määritystenmukaisuusraportit',
       results: {
@@ -247,7 +254,8 @@ export const fi = {
     cancel: 'Peruuta',
     save: 'Tallenna',
     confirmation: 'Vahvistus',
-    separatedByCommaMessage: 'Erota pilkuilla'
+    separatedByCommaMessage: 'Erota pilkuilla',
+    copied: 'Kopioi leikepöydälle!'
   },
   format: {
     gtfs: 'GTFS',

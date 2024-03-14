@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import FindingCounters from './FindingCounters'
 import FindingsTable from './FindingsTable'
 import PackageButton from '../PackageButton'
+import { useIsAuthenticated } from '@azure/msal-react'
 
 interface ValidationReportProps {
   report: RuleReport
@@ -12,6 +13,7 @@ interface ValidationReportProps {
 
 const ValidationReport = ({ report }: ValidationReportProps) => {
   const { t } = useTranslation()
+  const isAuthenticated = useIsAuthenticated()
   const header: KeyValuePairItem[] = [
     {
       label: t('services:processingResults:validationRule'),
@@ -26,7 +28,7 @@ const ValidationReport = ({ report }: ValidationReportProps) => {
       {report.findings && report.findings.length > 0 && (
         <FindingsTable aggregatedFindings={report.findings} ruleName={report.ruleName} />
       )}
-      {report.packages && report.packages.length > 0 && (
+      {isAuthenticated && report.packages && report.packages.length > 0 && (
         <div className={'packages-container'}>
           <h5>{t('services:processingResults:packages:header')}</h5>
           <div className={'intro'}>{t('services:processingResults:packages:intro')}</div>

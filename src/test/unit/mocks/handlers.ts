@@ -47,5 +47,63 @@ export const httpHandlers = [
       },
       { status: 200 }
     )
+  }),
+  http.get('http://localhost:8080/api/ui/entries/undefined/state', () => {
+    return HttpResponse.json(
+      {
+        data: {
+          entry: {
+            data: {
+              publicId: '3d_ynr468ej4PKLrUDlww',
+              name: 'Automated publish of package',
+              format: 'gtfs',
+              url: 'https://test.fi/473/all.zip',
+              businessId: '1764646-5',
+              etag: 'W/"17319-1706036419904',
+              metadata: {},
+              tasks: [],
+              validations: [
+                {
+                  name: 'gtfs.canonical.v4_1_0',
+                  config: null
+                }
+              ],
+              conversions: [
+                {
+                  name: 'gtfs2netex.fintraffic.v1_0_0',
+                  config: null
+                }
+              ],
+              findings: null,
+              notifications: [],
+              created: '2024-01-28T22:16:41.73',
+              started: '2024-01-28T22:16:41.855',
+              updated: '2024-01-28T22:17:43.762',
+              completed: '2024-01-28T22:17:43.762',
+              status: 'errors'
+            },
+            error: null,
+            links: {
+              refs: {
+                badge: {
+                  href: 'https://validator.fintraffic.fi/api/badge/3d_ynr468ej4PKLrUDlww',
+                  method: 'GET'
+                },
+                self: {
+                  href: 'https://validator.fintraffic.fi/api/ui/entries/3d_ynr468ej4PKLrUDlww/state',
+                  method: 'GET'
+                }
+              }
+            }
+          },
+          summaries: [],
+          reports: [],
+          company: 'OY'
+        },
+        error: null,
+        links: {}
+      },
+      { status: 200 }
+    )
   })
 ]
