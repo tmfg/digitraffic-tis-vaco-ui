@@ -68,7 +68,7 @@ export const fi = {
         label: 'Yritysten hallinta',
         // TODO: needs proper translation!
         intro: 'Tarkastele ja hallinnoi kaikkia järjestelmän yrityksiä'
-      },
+      }
     }
   },
   services: {
@@ -108,7 +108,8 @@ export const fi = {
           gtfs2netex: {
             'fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, version v1.12.0'
           },
-          'gtfs2netex.fintraffic': 'GTFS to NeTEx Converter by Fintraffic'
+          'gtfs2netex.fintraffic': 'GTFS to NeTEx Converter by Fintraffic',
+          'gbfs.entur': 'GBFS Validator by Entur'
         },
         noValidationRulesFound: 'Validointisääntöjä ei löytynyt',
         netex: {

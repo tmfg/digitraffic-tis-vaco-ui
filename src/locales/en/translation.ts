@@ -106,7 +106,8 @@ export const en = {
           gtfs2netex: {
             'fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, version v1.12.0'
           },
-          'gtfs2netex.fintraffic': 'GTFS to NeTEx Converter by Fintraffic'
+          'gtfs2netex.fintraffic': 'GTFS to NeTEx Converter by Fintraffic',
+          'gbfs.entur': 'GBFS Validator by Entur'
         },
         noValidationRulesFound: 'No validation rules found for the chosen company and data format',
         netex: {
