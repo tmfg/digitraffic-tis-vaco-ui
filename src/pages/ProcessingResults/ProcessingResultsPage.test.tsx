@@ -12,6 +12,7 @@ describe('Processing Results Page', () => {
   let msalTester: MsalReactTester
 
   beforeEach(() => {
+    initializeBootstrap(bootstrapParams)
     msalTester = msalInitTester()
   })
 
@@ -20,7 +21,6 @@ describe('Processing Results Page', () => {
   })
 
   it('Processing Results page renders correctly when user is not logged in', async () => {
-    initializeBootstrap(bootstrapParams)
     // Mock a guest user, not yet authenticated:
     await msalTester.isNotLogged()
 

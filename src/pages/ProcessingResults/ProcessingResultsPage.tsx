@@ -61,7 +61,7 @@ const ProcessingResultsPage = () => {
     return Promise.reject(error)
   }
 
-  // TODO this will move to hooks.ts once stable version of React supports useEffectEvent
+  // TODO: this will move to hooks.ts once stable version of React supports useEffectEvent
   useEffect(() => {
     if (magic || accessToken) {
       const config = {
