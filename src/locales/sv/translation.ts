@@ -101,7 +101,8 @@ export const sv = {
           'netex.entur.v1_0_1': 'NeTEx Validator by Entur, version v1.0.1',
           'netex.entur': 'NeTEx Validator by Entur',
           'gtfs2netex.fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, version v1.12.0',
-          'gtfs2netex.fintraffic': 'GTFS to NeTEx Converter by Fintraffic'
+          'gtfs2netex.fintraffic': 'GTFS to NeTEx Converter by Fintraffic',
+          'gbfs.entur': 'GBFS Validator by Entur'
         },
         noValidationRulesFound: 'Inga valideringsregler hittades',
         netex: {
