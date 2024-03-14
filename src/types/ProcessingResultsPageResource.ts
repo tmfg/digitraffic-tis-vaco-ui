@@ -1,6 +1,6 @@
 export interface ProcessingResultsPageResource {
   data: {
-    magicLinkToken:string
+    magicLinkToken: string
   }
   error?: string | null
 }

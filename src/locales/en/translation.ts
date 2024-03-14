@@ -94,12 +94,18 @@ export const en = {
         companyRequired: 'Specifying company is required',
         submit: 'Submit',
         rules: {
-          'gtfs.canonical.v4_1_0': 'Canonical GTFS Validator by MobilityData, version v4.1.0',
-          'gtfs.canonical.v4_0_0': 'Canonical GTFS Validator by MobilityData, version v4.0.0',
+          gtfs: {
+            'canonical.v4_1_0': 'Canonical GTFS Validator by MobilityData, version v4.1.0',
+            'canonical.v4_0_0': 'Canonical GTFS Validator by MobilityData, version v4.0.0'
+          },
           'gtfs.canonical': 'Canonical GTFS Validator by MobilityData',
-          'netex.entur.v1_0_1': 'NeTEx Validator by Entur, version v1.0.1',
+          netex: {
+            'entur.v1_0_1': 'NeTEx Validator by Entur, version v1.0.1'
+          },
           'netex.entur': 'NeTEx Validator by Entur',
-          'gtfs2netex.fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, version v1.12.0',
+          gtfs2netex: {
+            'fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, version v1.12.0'
+          },
           'gtfs2netex.fintraffic': 'GTFS to NeTEx Converter by Fintraffic'
         },
         noValidationRulesFound: 'No validation rules found for the chosen company and data format',
@@ -124,6 +130,7 @@ export const en = {
     },
     processingResults: {
       header: 'Data publication results',
+      magicLink: 'Copy shareable link',
       summary: 'Summary',
       reports: 'Specification Compliance reports',
       results: {
@@ -245,7 +252,8 @@ export const en = {
     cancel: 'Cancel',
     save: 'Save',
     confirmation: 'Confirmation',
-    separatedByCommaMessage: 'Separated by comma'
+    separatedByCommaMessage: 'Separated by comma',
+    copied: 'Copied to clipboard!'
   },
   format: {
     gtfs: 'GTFS',

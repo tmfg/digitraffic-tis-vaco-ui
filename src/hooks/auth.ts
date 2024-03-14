@@ -8,6 +8,8 @@ import {
 } from '@azure/msal-browser'
 import { createAccountRequest, loginRequest, tokenRequest } from '../authConfig'
 import { Bootstrap } from '../types/Bootstrap'
+import { useIsAuthenticated, useMsal } from '@azure/msal-react'
+import { useEffect, useState } from 'react'
 
 let bootstrap: Bootstrap
 export function initializeBootstrap(b: Bootstrap) {
@@ -74,4 +76,30 @@ export const isUserInTransition = (status: InteractionStatus) => {
     status === InteractionStatus.Logout ||
     status == InteractionStatus.HandleRedirect
   )
+}
+
+export const useAcquireToken = () => {
+  const { instance, inProgress } = useMsal()
+  const isAuthenticated = useIsAuthenticated()
+  const [accessToken, setAccessToken] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (inProgress === InteractionStatus.None && isAuthenticated && !accessToken) {
+      acquireToken(instance, inProgress).then(
+        (tokenResult) => {
+          if (!tokenResult) {
+            // TODO: At some point, show some error notification
+            return
+          }
+          setAccessToken(tokenResult.accessToken)
+        },
+        (error) => {
+          // TODO: Once useEffectEvent hook is released in a stable version of React, let's use it and make error handler components-specific
+          return Promise.reject(error)
+        }
+      )
+    }
+  }, [accessToken, inProgress, instance, isAuthenticated])
+
+  return [accessToken]
 }

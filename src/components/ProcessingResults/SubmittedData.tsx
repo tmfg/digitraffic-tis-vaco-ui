@@ -62,9 +62,9 @@ const SubmittedData = ({ entry, company }: SubmittedDataProps) => {
   }
 
   return (
-    <div className={'section'}>
+    <section>
       <KeyValuePairs items={items} variant={KeyValuePairVariant.big} />
-    </div>
+    </section>
   )
 }
 

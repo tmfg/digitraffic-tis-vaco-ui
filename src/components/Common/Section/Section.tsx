@@ -20,7 +20,7 @@ const Section = ({ titleKey, children, hidable }: SectionProps) => {
         {hidable && (
           <span className={'hide-control'} onClick={() => setIsOpen(!isOpen)}>
             <span className={'text'}>{t('services:processingResults:' + (isOpen ? 'hide' : 'show'))}</span>
-            <FdsIconComponent icon={!isOpen ? 'chevron-down' : 'chevron-up'} />
+            <FdsIconComponent className={'icon'} icon={!isOpen ? 'chevron-down' : 'chevron-up'} />
           </span>
         )}
       </header>

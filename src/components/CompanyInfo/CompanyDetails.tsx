@@ -80,7 +80,7 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
   }, [useGeneralListener])
 
   return (
-    <div className={'section'}>
+    <section>
       <KeyValuePairs items={companyDetails} variant={KeyValuePairVariant.big} />
       {!isEditing && (
         <FdsButtonComponent
@@ -167,7 +167,7 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
           </div>
         </FormContainer>
       )}
-    </div>
+    </section>
   )
 }
 
