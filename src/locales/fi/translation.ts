@@ -299,6 +299,7 @@ export const fi = {
     tools: 'Admintyökalut',
     dataDelivery: {
       header: 'Datan toimitusnäkymä',
+      exportCsv: 'Lataa CSV',
       searchWordPlaceholder: 'Yrityksen nimi tai Y-tunnus',
       table: {
         companyName: 'Yrityksen nimi',
