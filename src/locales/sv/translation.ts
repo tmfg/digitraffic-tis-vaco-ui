@@ -298,6 +298,7 @@ export const sv = {
     tools: 'Admin-verktyg',
     dataDelivery: {
       header: 'Dataleveransvy',
+      exportCsv: 'Exportera CSV',
       searchWordPlaceholder: 'Företagsnamn or företags-id',
       table: {
         companyName: 'Företagsnamn',

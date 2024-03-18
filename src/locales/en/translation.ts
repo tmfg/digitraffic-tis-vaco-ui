@@ -297,6 +297,7 @@ export const en = {
     tools: 'Admin tools',
     dataDelivery: {
       header: 'Data delivery view',
+      exportCsv: 'Export CSV',
       searchWordPlaceholder: 'Company name or business ID',
       table: {
         companyName: 'Company name',
