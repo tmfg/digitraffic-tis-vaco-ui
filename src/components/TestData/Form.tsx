@@ -29,7 +29,8 @@ const Form = () => {
   const [formData, setFormData] = useState<Map>({})
   const formats: FdsDropdownOption<string>[] = [
     { label: 'GTFS', value: 'gtfs' },
-    { label: 'NeTEx', value: 'netex' }
+    { label: 'NeTEx', value: 'netex' },
+    { label: 'GBFS', value: 'gbfs' }
   ]
   const [rules, setRules] = useState<RulesetResource[]>([])
   const [formErrors, setFormErrors] = useState<Map>({})
