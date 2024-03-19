@@ -240,7 +240,8 @@ export const en = {
   },
   formValidation: {
     isRequired: 'Specifying {{value}} is required',
-    isInvalid: 'Provided {{value}} is invalid'
+    isInvalid: 'Provided {{value}} is invalid',
+    isMissingScheme: 'Given {{value}} must start with http:// or https://'
   },
   common: {
     proceed: 'Proceed',

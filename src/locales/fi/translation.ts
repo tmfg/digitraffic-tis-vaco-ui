@@ -241,7 +241,8 @@ export const fi = {
   },
   formValidation: {
     isRequired: '{{value}} on määritettävä',
-    isInvalid: 'Annettu {{value}} ei kelpaa'
+    isInvalid: 'Annettu {{value}} ei kelpaa',
+    isMissingScheme: 'Annetun {{value}}:n täytyy alkaa http:// tai https://'
   },
   common: {
     proceed: 'Jatka',

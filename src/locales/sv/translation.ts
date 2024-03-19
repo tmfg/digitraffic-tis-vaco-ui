@@ -240,7 +240,8 @@ export const sv = {
   },
   formValidation: {
     isRequired: 'Du måste specificera {{value}}',
-    isInvalid: 'Den angivna {{value}}:en är ogiltig'
+    isInvalid: 'Den angivna {{value}}:en är ogiltig',
+    isMissingScheme: 'Angiven {{value}} måste börja med http:// eller https://'
   },
   common: {
     proceed: 'Fortsätt',
