@@ -17,8 +17,11 @@ import { useParams, useSearchParams } from 'react-router-dom'
 import { rolesContainVacoAdmin, rolesContainVacoCompanyAdmin } from '../../util/role'
 import { AppContext, AppContextType } from '../../AppContextProvider'
 import AdminRoleRequiredPage from '../Error/AdminRoleRequiredPage'
+import { EnvironmentContext } from '../../EnvironmentProvider.tsx'
+import VacoBadge from '../../components/Common/VacoBadge/VacoBadge.tsx'
 
 const CompanyEntriesPage = () => {
+  const bootstrap = useContext(EnvironmentContext)
   const { instance, inProgress } = useMsal()
   const isAuthenticated = useIsAuthenticated()
   const [accessToken, setAccessToken] = useState<string | null>(null)
@@ -98,22 +101,22 @@ const CompanyEntriesPage = () => {
   }, [accessToken, businessId])
 
   useEffect(() => {
-    if (entryData) {
-      const entryRows: TableItem[][] = entryData.map((entryResource: EntryResource) => {
-        const row: TableItem[] = getTableRow(entryResource, t)
-        if (entryResource.links.refs.badge) {
+    if (bootstrap) {
+      if (entryData) {
+        const entryRows: TableItem[][] = entryData.map((entryResource: EntryResource) => {
+          const row: TableItem[] = getTableRow(entryResource, t)
           row.push({
             name: 'status',
-            value: <img alt={'badge'} src={entryResource.links.refs.badge.href} />,
+            value: <VacoBadge bootstrap={bootstrap} publicId={entryResource.data.publicId} />,
             plainValue: entryResource.data.status.charAt(0).toUpperCase() + entryResource.data.status.slice(1)
           })
-        }
-        return row
-      })
-      setAllEntryRows(entryRows)
-      setEntriesToShow(entryRows)
+          return row
+        })
+        setAllEntryRows(entryRows)
+        setEntriesToShow(entryRows)
+      }
     }
-  }, [entryData, t])
+  }, [entryData, t, bootstrap])
 
   return (
     <div className={'page-content'}>

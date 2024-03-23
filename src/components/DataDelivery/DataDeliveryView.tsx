@@ -1,5 +1,5 @@
 import './_dataDelivery.scss'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { FdsInputChange } from '../../../coreui-components/src/fds-input'
 import { FdsInputComponent } from '../fds/FdsInputComponent'
 import { FdsButtonComponent } from '../fds/FdsButtonComponent'
@@ -9,12 +9,15 @@ import { useTranslation } from 'react-i18next'
 import { CompanyLatestEntryResource } from '../../types/DataDelivery'
 import Pagination from '../Common/Pagination/Pagination'
 import TableGroupedByColumn from '../Common/TableGroupedByColumn/TableGroupedByColumn'
+import { EnvironmentContext } from '../../EnvironmentProvider.tsx'
+import VacoBadge from '../Common/VacoBadge/VacoBadge.tsx'
 
 interface DataDeliveryProps {
   data: CompanyLatestEntryResource[] | null
 }
 
 const DataDeliveryView = ({ data }: DataDeliveryProps) => {
+  const bootstrap = useContext(EnvironmentContext)
   const { t } = useTranslation()
   const [searchWord, setSearchWord] = useState<string | null>(null)
   const [allRows, setAllRows] = useState<TableItem[][] | null>(null)
@@ -22,30 +25,33 @@ const DataDeliveryView = ({ data }: DataDeliveryProps) => {
   const headerItems: HeaderItem[] = getTableHeaders(t)
 
   useEffect(() => {
-    if (data) {
-      const rows: TableItem[][] = data.map((latestCompanyEntry: CompanyLatestEntryResource) => {
-        const row: TableItem[] = getTableRow(latestCompanyEntry, t)
-        const finalRow: TableItem[] = row.slice(0, 5)
-        if (latestCompanyEntry.data.status && latestCompanyEntry.links.refs.badge) {
-          finalRow.push({
-            name: 'status',
-            value: <img alt={'badge'} src={latestCompanyEntry.links.refs.badge.href} />,
-            plainValue: latestCompanyEntry.data.status.charAt(0).toUpperCase() + latestCompanyEntry.data.status.slice(1)
-          })
-        } else {
-          finalRow.push({
-            name: 'status',
-            value: '',
-            plainValue: ''
-          })
-        }
-        finalRow.push(row[row.length - 1])
-        return finalRow
-      })
-      setAllRows(rows)
-      setRowsToShow(rows)
+    if (bootstrap) {
+      if (data) {
+        const rows: TableItem[][] = data.map((latestCompanyEntry: CompanyLatestEntryResource) => {
+          const row: TableItem[] = getTableRow(latestCompanyEntry, t)
+          const finalRow: TableItem[] = row.slice(0, 5)
+          if (latestCompanyEntry.data.status) {
+            finalRow.push({
+              name: 'status',
+              value: <VacoBadge bootstrap={bootstrap} publicId={latestCompanyEntry.data.publicId} />,
+              plainValue:
+                latestCompanyEntry.data.status.charAt(0).toUpperCase() + latestCompanyEntry.data.status.slice(1)
+            })
+          } else {
+            finalRow.push({
+              name: 'status',
+              value: '',
+              plainValue: ''
+            })
+          }
+          finalRow.push(row[row.length - 1])
+          return finalRow
+        })
+        setAllRows(rows)
+        setRowsToShow(rows)
+      }
     }
-  }, [data, t])
+  }, [data, t, bootstrap])
 
   const useInputListener: EventListenerOrEventListenerObject = useCallback((e: Event) => {
     const detail = (e as CustomEvent).detail as FdsInputChange

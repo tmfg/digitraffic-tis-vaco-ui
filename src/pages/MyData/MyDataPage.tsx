@@ -1,7 +1,7 @@
 import { AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated, useMsal } from '@azure/msal-react'
 import AuthRequiredPage from '../Error/AuthRequiredPage'
 import { useTranslation } from 'react-i18next'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { InteractionStatus } from '@azure/msal-browser'
 import { acquireToken } from '../../hooks/auth'
 import { getHeaders, HttpClient } from '../../HttpClient'
@@ -13,6 +13,8 @@ import './_mydata.scss'
 import { FdsInputChange } from '../../../coreui-components/src/fds-input'
 import { filterTableRowsBySearchWord, getTableHeaders, getTableRow } from './helpers'
 import Pagination from '../../components/Common/Pagination/Pagination'
+import { EnvironmentContext } from '../../EnvironmentProvider.tsx'
+import VacoBadge from '../../components/Common/VacoBadge/VacoBadge.tsx'
 
 const MyDataPage = () => {
   const { instance, inProgress } = useMsal()
@@ -25,6 +27,7 @@ const MyDataPage = () => {
   // Null helps to make a distinction between data not being fetched yet or api actually returning no data (an empty array)
   const [entriesToShow, setEntriesToShow] = useState<TableItem[][] | null>(null)
   const headerItems: HeaderItem[] = getTableHeaders(t)
+  const bootstrap = useContext(EnvironmentContext)
 
   const useInputListener: EventListenerOrEventListenerObject = useCallback((e: Event) => {
     const detail = (e as CustomEvent).detail as FdsInputChange
@@ -81,22 +84,22 @@ const MyDataPage = () => {
   }, [accessToken])
 
   useEffect(() => {
-    if (entryData) {
-      const entryRows: TableItem[][] = entryData.map((entryResource: EntryResource) => {
-        const row: TableItem[] = getTableRow(entryResource, t)
-        if (entryResource.links.refs.badge) {
+    if (bootstrap) {
+      if (entryData) {
+        const entryRows: TableItem[][] = entryData.map((entryResource: EntryResource) => {
+          const row: TableItem[] = getTableRow(entryResource, t)
           row.push({
             name: 'status',
-            value: <img alt={'badge'} src={entryResource.links.refs.badge.href} />,
+            value: <VacoBadge bootstrap={bootstrap} publicId={entryResource.data.publicId} />,
             plainValue: entryResource.data.status.charAt(0).toUpperCase() + entryResource.data.status.slice(1)
           })
-        }
-        return row
-      })
-      setAllEntryRows(entryRows)
-      setEntriesToShow(entryRows)
+          return row
+        })
+        setAllEntryRows(entryRows)
+        setEntriesToShow(entryRows)
+      }
     }
-  }, [entryData, t])
+  }, [entryData, t, bootstrap])
 
   return (
     <div className={'page-content'}>

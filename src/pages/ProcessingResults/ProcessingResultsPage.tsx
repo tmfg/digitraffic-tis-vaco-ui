@@ -1,5 +1,5 @@
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { HttpClient } from '../../HttpClient'
 import { useAcquireToken } from '../../hooks/auth'
 import { useIsAuthenticated } from '@azure/msal-react'
@@ -16,6 +16,8 @@ import { FdsButtonVariant } from '../../../coreui-components/src/fds-button'
 import { FdsTokenSize2 } from '../../../coreui-css/lib'
 import { AxiosResponse } from 'axios'
 import { useProcessingResultsPageState } from '../../components/ProcessingResults/hooks'
+import { EnvironmentContext } from '../../EnvironmentProvider.tsx'
+import VacoBadge from '../../components/Common/VacoBadge/VacoBadge.tsx'
 
 const isReportContentAvailable = (reports: RuleReport[]) => {
   return reports.filter((report) => report.findings?.length || report.packages?.length > 0).length
@@ -27,6 +29,7 @@ type PageParams = {
 }
 
 const ProcessingResultsPage = () => {
+  const bootstrap = useContext(EnvironmentContext)
   const navigate = useNavigate()
   const { entryId } = useParams<PageParams>()
   const [searchParams, _] = useSearchParams()
@@ -90,11 +93,11 @@ const ProcessingResultsPage = () => {
           <div style={{ display: 'flex', marginBottom: 0, alignItems: 'center', justifyContent: 'space-between' }}>
             <h1 style={{ marginRight: '3rem' }}>
               {t('services:processingResults:header')}
-              {entryState?.data.entry.links.refs.badge && (
-                <img
+              {bootstrap && entryState && (
+                <VacoBadge
                   style={{ width: '120px', marginLeft: '3rem' }}
-                  alt={'badge'}
-                  src={entryState.data.entry.links.refs.badge.href}
+                  bootstrap={bootstrap}
+                  publicId={entryState.data.entry.data.publicId}
                 />
               )}
             </h1>
