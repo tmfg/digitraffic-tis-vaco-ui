@@ -10,7 +10,7 @@ import { MsalProvider } from '@azure/msal-react'
 import { initializeHttpClient } from './HttpClient.ts'
 import { Bootstrap } from './types/Bootstrap'
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import { initI18n } from './i18n'
 import { initializeBootstrap } from './hooks/auth'
 
@@ -36,7 +36,10 @@ type Props = {
   children: React.ReactNode
 }
 
+export const EnvironmentContext = createContext<Bootstrap | undefined>(undefined)
+
 const EnvironmentProvider = ({ children }: Props) => {
+  const [bootstrap, setBootstrap] = useState<Bootstrap | undefined>(undefined)
   const [msalInstance, setMsalInstance] = useState<IPublicClientApplication>()
 
   const initializeMsal = async (data: Bootstrap) => {
@@ -53,26 +56,41 @@ const EnvironmentProvider = ({ children }: Props) => {
   }
 
   useEffect(() => {
-    if (!msalInstance) {
-      getBootstrap()
+    const fetchBootstrap = async () => {
+      await getBootstrap()
         .then((data: Bootstrap) => {
-          initializeHttpClient(data)
-          initializeBootstrap(data)
-          initializeMsal(data).catch((error) =>
-            console.error('Error while initializing PublicClientApplication', error)
-          )
+          setBootstrap(data)
         })
         .catch((error) => {
           console.error(error)
         })
     }
-  }, [msalInstance])
+    fetchBootstrap()
+  }, [])
+
+  useEffect(() => {
+    if (!msalInstance && bootstrap) {
+      initializeHttpClient(bootstrap)
+      initializeBootstrap(bootstrap)
+      initializeMsal(bootstrap).catch((error) =>
+        console.error('Error while initializing PublicClientApplication', error)
+      )
+    }
+  }, [msalInstance, bootstrap])
 
   useEffect(() => {
     initI18n().catch((err) => console.error('Failed to initialize i18n', err))
   }, [])
 
-  return <>{msalInstance && <MsalProvider instance={msalInstance}>{children}</MsalProvider>}</>
+  return (
+    <>
+      {msalInstance && (
+        <EnvironmentContext.Provider value={bootstrap}>
+          <MsalProvider instance={msalInstance}>{children}</MsalProvider>
+        </EnvironmentContext.Provider>
+      )}
+    </>
+  )
 }
 
 export default EnvironmentProvider
