@@ -8,7 +8,7 @@ export interface CompanyLatestEntryResource {
 export interface CompanyLatestEntry {
   companyName: string
   businessId: string
-  publicId: string | null
+  publicId: string
   format: string | null
   convertedFormat: string | null
   status: string | null
