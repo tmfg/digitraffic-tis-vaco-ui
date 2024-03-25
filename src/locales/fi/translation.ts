@@ -241,7 +241,8 @@ export const fi = {
   },
   formValidation: {
     isRequired: '{{value}} on määritettävä',
-    isInvalid: 'Annettu {{value}} ei kelpaa'
+    isInvalid: 'Annettu {{value}} ei kelpaa',
+    isMissingScheme: 'Annetun {{value}}:n täytyy alkaa http:// tai https://'
   },
   common: {
     proceed: 'Jatka',
@@ -299,6 +300,7 @@ export const fi = {
     tools: 'Admintyökalut',
     dataDelivery: {
       header: 'Datan toimitusnäkymä',
+      exportCsv: 'Lataa CSV',
       searchWordPlaceholder: 'Yrityksen nimi tai Y-tunnus',
       table: {
         companyName: 'Yrityksen nimi',

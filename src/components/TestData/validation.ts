@@ -12,6 +12,8 @@ export const validateFormData = (
 
   if (!formData.url) {
     errors.url = translate('formValidation:isRequired', { value: 'URL' })
+  } else if (!(formData.url.toString().startsWith('http://') || formData.url.toString().startsWith('https://'))) {
+    errors.url = translate('formValidation:isMissingScheme', { value: 'URL' })
   } else if (!isUrl(formData.url as string)) {
     errors.url = translate('formValidation:isInvalid', { value: 'URL' })
   }

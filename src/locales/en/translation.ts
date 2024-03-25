@@ -240,7 +240,8 @@ export const en = {
   },
   formValidation: {
     isRequired: 'Specifying {{value}} is required',
-    isInvalid: 'Provided {{value}} is invalid'
+    isInvalid: 'Provided {{value}} is invalid',
+    isMissingScheme: 'Given {{value}} must start with http:// or https://'
   },
   common: {
     proceed: 'Proceed',
@@ -297,6 +298,7 @@ export const en = {
     tools: 'Admin tools',
     dataDelivery: {
       header: 'Data delivery view',
+      exportCsv: 'Export CSV',
       searchWordPlaceholder: 'Company name or business ID',
       table: {
         companyName: 'Company name',
