@@ -15,7 +15,7 @@ import Summary from '../../components/ProcessingResults/summary/Summary'
 import { FdsButtonVariant } from '../../../coreui-components/src/fds-button'
 import { FdsTokenSize2 } from '../../../coreui-css/lib'
 import { AxiosResponse } from 'axios'
-import { useMagicLinkFetch } from '../../components/ProcessingResults/hooks'
+import { useProcessingResultsPageState } from '../../components/ProcessingResults/hooks'
 
 const isReportContentAvailable = (reports: RuleReport[]) => {
   return reports.filter((report) => report.findings?.length || report.packages?.length > 0).length
@@ -35,7 +35,7 @@ const ProcessingResultsPage = () => {
   const isAuthenticated = useIsAuthenticated()
   const { t } = useTranslation()
   const [accessToken] = useAcquireToken()
-  const [magicLinkToken] = useMagicLinkFetch(entryId, accessToken)
+  const [magicLinkToken] = useProcessingResultsPageState(entryId, accessToken)
   const [processingProgress, setProcessingProgress] = useState<number>(100)
   const [showMagicLinkGotCopied, setShowMagicLinkGotCopied] = useState<boolean>(false)
   const validationReports: RuleReport[] = entryState?.data.reports
@@ -141,26 +141,32 @@ const ProcessingResultsPage = () => {
                 </Section>
               )}
 
-              {entryState.data.summaries?.length > 0 && (
+              {entryState.data.summaries?.length > 0 ? (
                 <Section hidable={true} titleKey={'services:processingResults:summary'}>
                   <Summary summaries={entryState.data.summaries} />
                 </Section>
+              ) : (
+                ''
               )}
 
-              {validationReports.length > 0 && isReportContentAvailable(validationReports) && (
+              {validationReports.length > 0 && isReportContentAvailable(validationReports) ? (
                 <Section hidable={true} titleKey={'services:processingResults:reports'}>
                   {validationReports.map((report) => {
                     return <ValidationReport key={'report-' + report.ruleName} report={report} />
                   })}
                 </Section>
+              ) : (
+                ''
               )}
 
-              {conversionReports.length > 0 && isReportContentAvailable(conversionReports) && (
+              {conversionReports.length > 0 && isReportContentAvailable(conversionReports) ? (
                 <Section hidable={true} titleKey={'services:processingResults:results:conversion'}>
                   {conversionReports.map((report) => {
                     return <ConversionReport key={'report-' + report.ruleName} report={report} />
                   })}
                 </Section>
+              ) : (
+                ''
               )}
             </div>
           )}

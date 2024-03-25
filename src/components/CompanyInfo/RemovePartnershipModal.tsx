@@ -4,10 +4,9 @@ import { FdsDialogComponent } from '../fds/FdsDialogComponent'
 import { FdsButtonComponent } from '../fds/FdsButtonComponent'
 import { FdsButtonVariant } from '../../../coreui-components/src/fds-button'
 import { FdsCardElevation } from '../../../coreui-components/src/fds-card'
-import '../TestData/_modal.scss'
+import '../TestData/SubmissionModal/_modal.scss'
 import { useTranslation } from 'react-i18next'
-//import { Trans } from 'react-i18next'
-import { FdsTokenSize2, FdsTokenSize21 } from "../../../coreui-css/lib";
+import { FdsTokenSize2, FdsTokenSize21 } from '../../../coreui-css/lib'
 
 interface ModalProps {
   close: () => void

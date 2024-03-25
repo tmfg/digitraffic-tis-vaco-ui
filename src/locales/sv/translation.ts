@@ -110,7 +110,7 @@ export const sv = {
           },
           'gbfs.entur': 'GBFS Validator by Entur'
         },
-        noValidationRulesFound: 'Inga valideringsregler hittades',
+        noValidationRulesFound: 'Inga dataformat och valideringsregler hittades',
         netex: {
           codespace: 'Codespace',
           codespaceRequired: 'Du måste specificera codespace',

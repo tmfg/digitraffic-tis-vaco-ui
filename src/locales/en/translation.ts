@@ -109,7 +109,7 @@ export const en = {
           },
           'gbfs.entur': 'GBFS Validator by Entur'
         },
-        noValidationRulesFound: 'No validation rules found for the chosen company and data format',
+        noValidationRulesFound: 'No data formats and validation rules found for the chosen company',
         netex: {
           codespace: 'Codespace',
           codespaceRequired: 'Specifying codespace is required',

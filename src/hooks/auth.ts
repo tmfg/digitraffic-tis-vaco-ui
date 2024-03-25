@@ -69,7 +69,6 @@ export const logout = (msalInstance: IPublicClientApplication) => {
   }
 }
 
-/* istanbul ignore next 56 -- @preserve */
 export const isUserInTransition = (status: InteractionStatus) => {
   return (
     status === InteractionStatus.Login ||

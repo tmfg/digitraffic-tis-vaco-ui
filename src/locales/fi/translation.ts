@@ -111,7 +111,7 @@ export const fi = {
           },
           'gbfs.entur': 'GBFS Validator by Entur'
         },
-        noValidationRulesFound: 'Validointisääntöjä ei löytynyt',
+        noValidationRulesFound: 'Dataformaatteja ja validointisääntöjä ei löytynyt',
         netex: {
           codespace: 'Codespace',
           codespaceRequired: 'Codespace on määritettävä',

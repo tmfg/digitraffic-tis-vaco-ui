@@ -105,5 +105,77 @@ export const httpHandlers = [
       },
       { status: 200 }
     )
+  }),
+  http.get('http://localhost:8080/api/ui/rules', () => {
+    return HttpResponse.json(
+      [
+        {
+          data: {
+            publicId: '1NhhNET-8o7uQI8LY_pWv',
+            identifyingName: 'gbfs.entur',
+            description: 'GBFS Validator by Entur',
+            category: 'GENERIC',
+            type: 'VALIDATION_SYNTAX',
+            format: 'GBFS',
+            dependencies: ['prepare.download', 'validate']
+          },
+          error: null,
+          links: {}
+        },
+        {
+          data: {
+            publicId: 'deTv4ACSInlW7PxjNUDdb',
+            identifyingName: 'gtfs2netex.fintraffic',
+            description: 'GTFS to NeTEx Converter by Fintraffic',
+            category: 'GENERIC',
+            type: 'CONVERSION_SYNTAX',
+            format: 'GTFS',
+            dependencies: ['convert', 'prepare.download', 'gtfs.canonical']
+          },
+          error: null,
+          links: {}
+        },
+        {
+          data: {
+            publicId: 'wG6Q7jSunj4KcF_xWTV6N',
+            identifyingName: 'netex.entur',
+            description: 'NeTEx Validator by Entur',
+            category: 'GENERIC',
+            type: 'VALIDATION_SYNTAX',
+            format: 'NETEX',
+            dependencies: ['prepare.download', 'validate']
+          },
+          error: null,
+          links: {}
+        },
+        {
+          data: {
+            publicId: 'aL0Fc1MVXHsTFE-O4AJr2',
+            identifyingName: 'gtfs.canonical',
+            description: 'Canonical GTFS Validator by MobilityData',
+            category: 'GENERIC',
+            type: 'VALIDATION_SYNTAX',
+            format: 'GTFS',
+            dependencies: ['prepare.download', 'validate']
+          },
+          error: null,
+          links: {}
+        },
+        {
+          data: {
+            publicId: 'rYBqzM9ekf3sHdR_G42sR',
+            identifyingName: 'netex2gtfs.entur',
+            description: 'NeTEx to GTFS Converter by Entur',
+            category: 'GENERIC',
+            type: 'CONVERSION_SYNTAX',
+            format: 'NETEX',
+            dependencies: ['convert', 'netex.entur', 'prepare.stopsAndQuays', 'prepare.download']
+          },
+          error: null,
+          links: {}
+        }
+      ],
+      { status: 200 }
+    )
   })
 ]

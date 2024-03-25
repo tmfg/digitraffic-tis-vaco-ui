@@ -7,24 +7,20 @@ export const getTableHeaders = (t: TFunction<'translation', undefined>): HeaderI
     {
       name: 'name',
       value: t('admin:companies:table:companyName'),
-      colSpan: 1,
       sortable: true,
       type: 'string'
     },
     {
       name: 'businessId',
-      value: t('admin:companies:table:businessId'),
-      colSpan: 1
+      value: t('admin:companies:table:businessId')
     },
     {
       name: 'hierarchy',
-      value: t('admin:companies:table:hierarchy'),
-      colSpan: 1
+      value: t('admin:companies:table:hierarchy')
     },
     {
       name: 'formatSummary',
-      value: t('admin:companies:table:formatSummary'),
-      colSpan: 1
+      value: t('admin:companies:table:formatSummary')
     }
   ]
 }
@@ -35,20 +31,17 @@ export const getTableRow = (company: Company): TableItem[] => {
       name: 'name',
       value: company.name,
       href: '/admin/companies/' + company.businessId + '/info',
-      colSpan: 1,
       plainValue: company.name
     },
     {
       name: 'businessId',
       value: company.businessId,
-      colSpan: 1,
       plainValue: company.businessId
     },
     {
       name: 'formatSummary',
       value: company.formatSummary,
-      plainValue: company.formatSummary,
-      colSpan: 1
+      plainValue: company.formatSummary
     }
   ]
 }
