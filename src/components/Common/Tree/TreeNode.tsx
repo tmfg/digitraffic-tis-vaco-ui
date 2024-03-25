@@ -14,7 +14,7 @@ import { useMsal } from '@azure/msal-react'
 import { getHeaders, HttpClient } from '../../../HttpClient'
 import RemovePartnershipModal from '../../CompanyInfo/RemovePartnershipModal'
 import MoveUpPartnershipModal from '../../CompanyInfo/MoveUpPartnershipModal'
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next'
 
 interface TreeNodeProps {
   grandparentCompany: Company | null

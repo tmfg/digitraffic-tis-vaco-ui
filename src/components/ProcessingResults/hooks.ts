@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { ProcessingResultsPageResource } from '../../types/ProcessingResultsPageResource'
 import { getHeaders, HttpClient } from '../../HttpClient'
 
-export const useMagicLinkFetch = (entryId: string | undefined, accessToken: string | null) => {
+export const useProcessingResultsPageState = (entryId: string | undefined, accessToken: string | null) => {
   const [magicLinkToken, setMagicLinkToken] = useState<string | null>(null)
 
   useEffect(() => {

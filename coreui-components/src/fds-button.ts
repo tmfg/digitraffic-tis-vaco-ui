@@ -50,10 +50,11 @@ export default class FdsButton extends LitElement {
   @property() icon?: FdsIconType
   @property() label?: string
   @property() iconSize?: FdsSizeToken
+  @property() type?: string
 
   override render(): TemplateResult {
     return html`
-      <button class="button--${this.variant}" ?disabled="${this.disabled}">
+      <button type="${this.type || 'button'}" class="button--${this.variant}" ?disabled="${this.disabled}">
         ${this.icon && html`<fds-icon .size=${this.iconSize} .icon="${this.icon}"></fds-icon>`}
         ${this.label && html`<span class="ui-label-text">${this.label}</span>`}
       </button>
@@ -114,7 +115,7 @@ export default class FdsButton extends LitElement {
       .button--clear {
         position: absolute;
         right: 6px;
-        top: 10.5px;
+        top: 1px;
         bottom: 0;
 
         background: transparent;

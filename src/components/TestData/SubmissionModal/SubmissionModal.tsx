@@ -1,13 +1,13 @@
-import { FdsCardComponent } from '../fds/FdsCardComponent'
-import { FdsActionSheetComponent } from '../fds/FdsActionSheetComponent'
-import { FdsDialogComponent } from '../fds/FdsDialogComponent'
-import { FdsButtonComponent } from '../fds/FdsButtonComponent'
-import { FdsButtonVariant } from '../../../coreui-components/src/fds-button'
-import { FdsCardElevation } from '../../../coreui-components/src/fds-card'
+import { FdsCardComponent } from '../../fds/FdsCardComponent'
+import { FdsActionSheetComponent } from '../../fds/FdsActionSheetComponent'
+import { FdsDialogComponent } from '../../fds/FdsDialogComponent'
+import { FdsButtonComponent } from '../../fds/FdsButtonComponent'
+import { FdsButtonVariant } from '../../../../coreui-components/src/fds-button'
+import { FdsCardElevation } from '../../../../coreui-components/src/fds-card'
 import './_modal.scss'
 import { useTranslation } from 'react-i18next'
 import { Trans } from 'react-i18next'
-import { FdsTokenSize2, FdsTokenSize21 } from "../../../coreui-css/lib";
+import { FdsTokenSize2, FdsTokenSize21 } from '../../../../coreui-css/lib'
 
 interface ModalProps {
   close: () => void
@@ -16,7 +16,7 @@ interface ModalProps {
   publicId: string
 }
 
-const DataSubmittedModal = ({ close, proceed, email, publicId }: ModalProps) => {
+const SubmissionModal = ({ close, proceed, email, publicId }: ModalProps) => {
   const { t } = useTranslation()
 
   return (
@@ -68,4 +68,4 @@ const DataSubmittedModal = ({ close, proceed, email, publicId }: ModalProps) => 
   )
 }
 
-export default DataSubmittedModal
+export default SubmissionModal
