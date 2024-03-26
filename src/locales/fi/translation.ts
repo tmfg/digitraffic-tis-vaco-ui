@@ -90,6 +90,8 @@ export const fi = {
         url: 'Datan URL-osoite',
         urlInfo: 'Datatiedoston URL-osoite',
         etag: 'ETag',
+        context: 'Kontekstitunniste',
+        contextInfo: 'Kontekstitunnisteen avulla voidaan merkitä useita julkaisuja toisiinsa liittyviksi',
         company: 'Yritys',
         format: 'Dataformaatti',
         formatRequired: 'Dataformaatti on määritettävä',

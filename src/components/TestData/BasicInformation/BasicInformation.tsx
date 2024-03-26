@@ -115,6 +115,10 @@ const BasicInformation = ({
     if (etagElement && etagElement.getAttribute('listener') !== 'true') {
       etagElement.addEventListener('change', useGeneralListener)
     }
+    const contextElement = document.querySelector('[id="context"]')
+    if (contextElement && contextElement.getAttribute('listener') !== 'true') {
+      contextElement.addEventListener('change', useGeneralListener)
+    }
     const companyElement = document.querySelector('[id="company"]')
     if (companyElement && companyElement.getAttribute('listener') !== 'true') {
       companyElement.addEventListener('select', useGeneralListener)
@@ -124,6 +128,7 @@ const BasicInformation = ({
       feedNameElement?.removeEventListener('change', useGeneralListener)
       urlElement?.removeEventListener('change', useUrlListener)
       etagElement?.removeEventListener('change', useGeneralListener)
+      contextElement?.removeEventListener('change', useGeneralListener)
       companyElement?.removeEventListener('select', useGeneralListener)
     }
   }, [useGeneralListener, useUrlListener])
@@ -176,6 +181,17 @@ const BasicInformation = ({
           label={t('services:testData:form:url') + ' *'}
           message={(formErrors['url'] as string) || t('services:testData:form:urlInfo')}
           error={!!formErrors['url']}
+        />
+      </div>
+
+      <div id={'context'} className={'input-wrapper'}>
+        <FdsInputComponent
+          clearable={true}
+          name={'context'}
+          placeholder={'manual submision from VACO UI'}
+          label={t('services:testData:form:context')}
+          message={(formErrors['context'] as string) || t('services:testData:form:contextInfo')}
+          error={!!formErrors['context']}
         />
       </div>
 

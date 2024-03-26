@@ -88,6 +88,8 @@ export const en = {
         url: 'Data URL',
         urlInfo: 'URL containing the data file',
         etag: 'ETag',
+        context: 'Context identifier',
+        contextInfo: 'Context identifier can be used to mark several publications as related',
         company: 'Company',
         format: 'Data format',
         formatRequired: 'Specifying format is required',

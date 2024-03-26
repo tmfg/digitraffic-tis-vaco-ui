@@ -89,6 +89,8 @@ export const sv = {
         url: 'Data-URL',
         urlInfo: 'URL som innehåller datafilen',
         etag: 'ETag',
+        context: 'Kontextidentifiare',
+        contextInfo: 'Kontextidentifierare kan användas för att markera flera publikationer som relaterade',
         company: 'Företag',
         format: 'Dataformat',
         formatRequired: 'Du måste specificera dataformat',

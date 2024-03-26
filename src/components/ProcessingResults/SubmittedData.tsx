@@ -45,6 +45,10 @@ const SubmittedData = ({ entry, company }: SubmittedDataProps) => {
       value: entry.etag
     },
     {
+      label: t('services:testData:form:context') as string,
+      value: entry.context
+    },
+    {
       label: t('services:testData:form:format') as string,
       value: t('format:' + entry.format)
     },
