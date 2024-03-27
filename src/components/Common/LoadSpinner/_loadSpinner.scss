@@ -1,0 +1,32 @@
+:root {
+  --spinner-animation-speed: 1s;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  animation: spin var(--spinner-animation-speed) linear infinite;
+}
+
+.padded {
+  margin-top: 1.5rem;
+}
+
+.unpadded {}

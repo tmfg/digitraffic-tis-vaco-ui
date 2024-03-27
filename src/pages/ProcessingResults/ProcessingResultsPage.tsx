@@ -16,6 +16,7 @@ import { FdsButtonVariant } from '../../../coreui-components/src/fds-button'
 import { FdsTokenSize2 } from '../../../coreui-css/lib'
 import { AxiosResponse } from 'axios'
 import { useProcessingResultsPageState } from '../../components/ProcessingResults/hooks'
+import LoadSpinner, { SpinnerVariant } from "../../components/Common/LoadSpinner/LoadSpinner";
 
 const isReportContentAvailable = (reports: RuleReport[]) => {
   return reports.filter((report) => report.findings?.length || report.packages?.length > 0).length
@@ -32,6 +33,7 @@ const ProcessingResultsPage = () => {
   const [searchParams, _] = useSearchParams()
   const magic = searchParams.get('magic')
   const [entryState, setEntryState] = useState<EntryStateResource | null>(null)
+  const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
   const isAuthenticated = useIsAuthenticated()
   const { t } = useTranslation()
   const [accessToken] = useAcquireToken()
@@ -48,6 +50,7 @@ const ProcessingResultsPage = () => {
   const handleEntryStateResponse = (response: AxiosResponse<any>) => {
     const entryResource: EntryStateResource = response.data as EntryStateResource
     setEntryState(entryResource)
+    setIsFetchInProgress(false)
 
     const tasks = entryResource.data.entry.data.tasks
     if (tasks) {
@@ -58,6 +61,7 @@ const ProcessingResultsPage = () => {
 
   const handleError = (error: any) => {
     // TODO: show alert
+    setIsFetchInProgress(false)
     return Promise.reject(error)
   }
 
@@ -68,6 +72,7 @@ const ProcessingResultsPage = () => {
         params: { magic },
         headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {}
       }
+      setIsFetchInProgress(true)
       HttpClient.get('/api/ui/entries/' + entryId + '/state', config).then(handleEntryStateResponse, handleError)
     }
   }, [accessToken, entryId, magic])
@@ -118,6 +123,7 @@ const ProcessingResultsPage = () => {
               )}
             </span>
           </div>
+          {isFetchInProgress && <LoadSpinner variant={SpinnerVariant.padded} />}
           {entryState && (
             <div>
               <SubmittedData entry={entryState.data.entry.data} company={entryState.data.company} />

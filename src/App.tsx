@@ -8,10 +8,10 @@ import AppLayout from './AppLayout'
 import AuthRequiredPage from './pages/Error/AuthRequiredPage'
 import MyDataPage from './pages/MyData/MyDataPage'
 import UserPage from './pages/User/UserPage'
-import DataDeliveryPage from './pages/AdminTools/DataDeliveryPage'
-import CompanyEntriesPage from './pages/AdminTools/CompanyEntriesPage'
-import CompaniesPage from "./pages/AdminTools/CompaniesPage";
-import CompanyInfoPage from "./pages/AdminTools/CompanyInfoPage";
+import DataDeliveryPage from './pages/AdminTools/DataDelivery/DataDeliveryPage'
+import CompanyEntriesPage from './pages/AdminTools/CompanyEntries/CompanyEntriesPage'
+import CompaniesPage from './pages/AdminTools/Companies/CompaniesPage'
+import CompanyInfoPage from './pages/AdminTools/CompanyInfo/CompanyInfoPage'
 
 // The way for components that don't need wrapping (e.g. one without our own custom events)
 // or while initial testing
