@@ -1,6 +1,5 @@
 import './_dataDelivery.scss'
-import { useCallback, useContext, useEffect, useState } from 'react'
-import { FdsInputChange } from '../../../coreui-components/src/fds-input'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { FdsInputComponent } from '../fds/FdsInputComponent'
 import { FdsButtonComponent } from '../fds/FdsButtonComponent'
 import { filterTableRowsBySearchWord, getTableHeaders, getTableRow } from './helpers'
@@ -11,6 +10,7 @@ import Pagination from '../Common/Pagination/Pagination'
 import TableGroupedByColumn from '../Common/TableGroupedByColumn/TableGroupedByColumn'
 import { EnvironmentContext } from '../../EnvironmentProvider.tsx'
 import VacoBadge from '../Common/VacoBadge/VacoBadge.tsx'
+import { useSearchInputListener } from '../../hooks/searchInputListener'
 
 interface DataDeliveryProps {
   data: CompanyLatestEntryResource[] | null
@@ -19,7 +19,8 @@ interface DataDeliveryProps {
 const DataDeliveryView = ({ data }: DataDeliveryProps) => {
   const bootstrap = useContext(EnvironmentContext)
   const { t } = useTranslation()
-  const [searchWord, setSearchWord] = useState<string | null>(null)
+  const searchInputRef = useRef<HTMLDivElement | null>(null)
+  const [searchWord] = useSearchInputListener(searchInputRef, data)
   const [allRows, setAllRows] = useState<TableItem[][] | null>(null)
   const [rowsToShow, setRowsToShow] = useState<TableItem[][] | null>(null)
   const headerItems: HeaderItem[] = getTableHeaders(t)
@@ -50,27 +51,11 @@ const DataDeliveryView = ({ data }: DataDeliveryProps) => {
     }
   }, [data, t, bootstrap])
 
-  const useInputListener: EventListenerOrEventListenerObject = useCallback((e: Event) => {
-    const detail = (e as CustomEvent).detail as FdsInputChange
-    setSearchWord(detail.value as string)
-  }, [])
-
-  useEffect(() => {
-    const searchElement = document.querySelector('[id="searchInput"]')
-    if (searchElement && searchElement.getAttribute('listener') !== 'true') {
-      searchElement.addEventListener('change', useInputListener)
-    }
-
-    return () => {
-      searchElement?.removeEventListener('change', useInputListener)
-    }
-  }, [useInputListener])
-
   return (
     <>
       <div className={'searchLatestEntries'}>
         <form>
-          <div id={'searchInput'} className={'search-input'}>
+          <div id={'searchInput'} ref={searchInputRef} className={'search-input'}>
             <FdsInputComponent
               clearable={true}
               name={'searchWord'}

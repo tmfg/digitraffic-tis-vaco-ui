@@ -1,8 +1,8 @@
-import { useIsAuthenticated, useMsal } from '@azure/msal-react'
+import { useMsal } from '@azure/msal-react'
 import { useEffect, useState } from 'react'
 import { Company, CompaniesResource } from '../../types/Company'
-import { AccountInfo, InteractionStatus } from '@azure/msal-browser'
-import { acquireToken } from '../../hooks/auth'
+import { AccountInfo } from '@azure/msal-browser'
+import { useAcquireToken } from '../../hooks/auth'
 import { getHeaders, HttpClient } from '../../HttpClient'
 import KeyValuePairs, { KeyValuePairItem, KeyValuePairVariant } from '../Common/KeyValuePairs/KeyValuePairs'
 import { useTranslation } from 'react-i18next'
@@ -10,42 +10,23 @@ import { parseJwt } from '../../util/jwt'
 
 const UserInfo = () => {
   const { t } = useTranslation()
-  const isAuthenticated = useIsAuthenticated()
-  const { instance, inProgress } = useMsal()
+  const [accessToken] = useAcquireToken()
+  const { instance } = useMsal()
   const [companies, setCompanies] = useState<Company[] | undefined>(undefined)
-  const [accessToken, setAccessToken] = useState<string | undefined>(undefined)
   const [account, setAccount] = useState<AccountInfo | undefined>(undefined)
   const [accountInfo, setAccountInfo] = useState<KeyValuePairItem[]>([])
   const [tokenInfo, setTokenInfo] = useState<KeyValuePairItem[]>([])
   const [companyInfo, setCompanyInfo] = useState<KeyValuePairItem[]>([])
 
   useEffect(() => {
-    let ignore = false
-    if (inProgress === InteractionStatus.None && !ignore && !accessToken && isAuthenticated) {
-      acquireToken(instance, inProgress).then(
-        (tokenResult) => {
-          if (!tokenResult) {
-            // TODO: At some point, show some error notification
-            return
-          }
-          setAccessToken(tokenResult.accessToken)
-        },
-        (error) => {
-          // TODO: show alert
-          return Promise.reject(error)
-        }
-      )
-
+    if (instance) {
       const account = instance.getActiveAccount()
       if (account) {
         setAccount(account)
       }
     }
-
-    return () => {
-      ignore = true
-    }
-  }, [instance, inProgress, isAuthenticated, accessToken])
+    return () => {}
+  }, [instance])
 
   useEffect(() => {
     let ignore = false

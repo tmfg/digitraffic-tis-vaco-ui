@@ -1,9 +1,5 @@
-import { useIsAuthenticated, useMsal } from '@azure/msal-react'
-import { useEffect, useState } from 'react'
-import { InteractionStatus } from '@azure/msal-browser'
-import { acquireToken } from '../../hooks/auth'
-import { getHeaders, HttpClient } from '../../HttpClient'
-import { Company, CompanyHierarchy } from '../../types/Company'
+import { useAcquireToken } from '../../hooks/auth'
+import { Company } from '../../types/Company'
 import { FdsCardComponent } from '../fds/FdsCardComponent'
 import { FdsCardElevation } from '../../../coreui-components/src/fds-card'
 import { FdsActionSheetComponent } from '../fds/FdsActionSheetComponent'
@@ -11,8 +7,10 @@ import { FdsButtonComponent } from '../fds/FdsButtonComponent'
 import { FdsButtonVariant } from '../../../coreui-components/src/fds-button'
 import { FdsDialogComponent } from '../fds/FdsDialogComponent'
 import Tree from '../Common/Tree/Tree'
-import { FdsTokenSize2, FdsTokenSize21 } from "../../../coreui-css/lib";
+import { FdsTokenSize2, FdsTokenSize21 } from '../../../coreui-css/lib'
 import { useTranslation } from 'react-i18next'
+import { useCompaniesHierarchyFetch } from './hooks'
+import LoadSpinner from '../Common/LoadSpinner/LoadSpinner'
 
 interface CompanyHierarchyModalProps {
   close: () => void
@@ -20,57 +18,12 @@ interface CompanyHierarchyModalProps {
 }
 
 const CompanyHierarchyModal = ({ selectedCompany, close }: CompanyHierarchyModalProps) => {
-  const { instance, inProgress } = useMsal()
-  const isAuthenticated = useIsAuthenticated()
-  const [accessToken, setAccessToken] = useState<string | null>(null)
-  const [hierarchiesData, setHierarchiesData] = useState<CompanyHierarchy[] | undefined>(undefined)
+  const [accessToken] = useAcquireToken()
+  const [hierarchiesData, setHierarchiesData, isFetchInProgress] = useCompaniesHierarchyFetch(
+    accessToken,
+    selectedCompany
+  )
   const { t } = useTranslation()
-
-  useEffect(() => {
-    let ignore = false
-
-    if (inProgress === InteractionStatus.None && isAuthenticated && !ignore && !accessToken) {
-      acquireToken(instance, inProgress).then(
-        (tokenResult) => {
-          if (!tokenResult) {
-            // TODO: At some point, show some error notification
-            return
-          }
-          setAccessToken(tokenResult.accessToken)
-        },
-        (error) => {
-          // TODO: show alert
-          return Promise.reject(error)
-        }
-      )
-    }
-    return () => {
-      ignore = true
-    }
-  }, [instance, inProgress, accessToken, isAuthenticated])
-
-  useEffect(() => {
-    let ignore = false
-
-    if (accessToken && !ignore) {
-      HttpClient.get(
-        `/api/ui/admin/companies/hierarchy?businessId=${selectedCompany?.businessId ? selectedCompany.businessId : ''}`,
-        getHeaders(accessToken)
-      ).then(
-        (response) => {
-          const hierarchies = response.data.data as CompanyHierarchy[]
-          setHierarchiesData(hierarchies)
-        },
-        (error) => {
-          // TODO: show alert
-          return Promise.reject(error)
-        }
-      )
-    }
-    return () => {
-      ignore = true
-    }
-  }, [accessToken, selectedCompany?.businessId])
 
   return (
     <div>
@@ -88,6 +41,8 @@ const CompanyHierarchyModal = ({ selectedCompany, close }: CompanyHierarchyModal
             iconSize={FdsTokenSize21}
             slot="header-corner"
           />
+
+          {isFetchInProgress && <LoadSpinner />}
 
           <div className={'company-hierarchy'}>
             {hierarchiesData?.map((tree, i) => (
