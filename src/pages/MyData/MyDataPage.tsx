@@ -1,84 +1,29 @@
-import { AuthenticatedTemplate, UnauthenticatedTemplate, useIsAuthenticated, useMsal } from '@azure/msal-react'
+import { AuthenticatedTemplate, UnauthenticatedTemplate } from '@azure/msal-react'
 import AuthRequiredPage from '../Error/AuthRequiredPage'
 import { useTranslation } from 'react-i18next'
-import { useCallback, useEffect, useState } from 'react'
-import { InteractionStatus } from '@azure/msal-browser'
-import { acquireToken } from '../../hooks/auth'
-import { getHeaders, HttpClient } from '../../HttpClient'
+import { useEffect, useRef, useState } from 'react'
+import { useAcquireToken } from '../../hooks/auth'
 import Table, { HeaderItem, TableItem } from '../../components/Common/Table/Table'
 import { EntryResource } from '../../types/EntryResource'
 import { FdsButtonComponent } from '../../components/fds/FdsButtonComponent'
 import { FdsInputComponent } from '../../components/fds/FdsInputComponent'
 import './_mydata.scss'
-import { FdsInputChange } from '../../../coreui-components/src/fds-input'
 import { filterTableRowsBySearchWord, getTableHeaders, getTableRow } from './helpers'
 import Pagination from '../../components/Common/Pagination/Pagination'
+import LoadSpinner from '../../components/Common/LoadSpinner/LoadSpinner'
+import { useMyDataEntriesFetch } from './hooks'
+import { useSearchInputListener } from '../../hooks/searchInputListener'
 
 const MyDataPage = () => {
-  const { instance, inProgress } = useMsal()
-  const isAuthenticated = useIsAuthenticated()
-  const [accessToken, setAccessToken] = useState<string | null>(null)
+  const [accessToken] = useAcquireToken()
+  const [entryData, isFetchInProgress] = useMyDataEntriesFetch(accessToken)
   const { t } = useTranslation()
-  const [searchWord, setSearchWord] = useState<string | null>(null)
-  const [entryData, setEntryData] = useState<EntryResource[] | null>(null)
+  const searchInputRef = useRef<HTMLDivElement | null>(null)
+  const [searchWord] = useSearchInputListener(searchInputRef, entryData)
   const [allEntryRows, setAllEntryRows] = useState<TableItem[][] | null>(null)
   // Null helps to make a distinction between data not being fetched yet or api actually returning no data (an empty array)
   const [entriesToShow, setEntriesToShow] = useState<TableItem[][] | null>(null)
   const headerItems: HeaderItem[] = getTableHeaders(t)
-
-  const useInputListener: EventListenerOrEventListenerObject = useCallback((e: Event) => {
-    const detail = (e as CustomEvent).detail as FdsInputChange
-    setSearchWord(detail.value as string)
-  }, [])
-
-  useEffect(() => {
-    let ignore = false
-
-    // This searchElement used to be in its isolated hook but there were inconsistently reproducing problems with that
-    const searchElement = document.querySelector('[id="searchInput"]')
-    if (searchElement && searchElement.getAttribute('listener') !== 'true') {
-      searchElement.addEventListener('change', useInputListener)
-    }
-
-    if (inProgress === InteractionStatus.None && isAuthenticated && !ignore && !accessToken) {
-      acquireToken(instance, inProgress).then(
-        (tokenResult) => {
-          if (!tokenResult) {
-            // TODO: At some point, show some error notification
-            return
-          }
-          setAccessToken(tokenResult.accessToken)
-        },
-        (error) => {
-          // TODO: show alert
-          return Promise.reject(error)
-        }
-      )
-    }
-    return () => {
-      ignore = true
-      searchElement?.removeEventListener('change', useInputListener)
-    }
-  }, [instance, inProgress, accessToken, isAuthenticated, useInputListener])
-
-  useEffect(() => {
-    let ignore = false
-    if (accessToken && !ignore) {
-      HttpClient.get('/api/ui/entries?full=false', getHeaders(accessToken)).then(
-        (response) => {
-          const entries = response.data as EntryResource[]
-          setEntryData(entries)
-        },
-        (error) => {
-          // TODO: show alert
-          return Promise.reject(error)
-        }
-      )
-    }
-    return () => {
-      ignore = true
-    }
-  }, [accessToken])
 
   useEffect(() => {
     if (entryData) {
@@ -106,7 +51,7 @@ const MyDataPage = () => {
         <h4 className={'header-wrapper__small'}>{t('services:myData:find')}</h4>
         <div className={'searchEntries'}>
           <form>
-            <div id={'searchInput'} className={'search-input'}>
+            <div id={'searchInput'} ref={searchInputRef} className={'search-input'}>
               <FdsInputComponent
                 clearable={true}
                 name={'searchWord'}
@@ -127,8 +72,8 @@ const MyDataPage = () => {
             </div>
           </form>
         </div>
-        {!allEntryRows && ''}
         <h5 className={'header-wrapper__big'}>{t('services:myData:latest')}</h5>
+        {isFetchInProgress && <LoadSpinner />}
         {entriesToShow && entriesToShow.length > 0 && (
           <Pagination contentName={t('pagination:content:submissions')} tableTitle={'myData'} defaultItemsPerPage={25}>
             <Table

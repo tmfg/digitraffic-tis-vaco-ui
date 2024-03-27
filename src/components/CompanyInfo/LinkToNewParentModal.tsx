@@ -13,6 +13,7 @@ import { acquireToken } from '../../hooks/auth'
 import { useMsal } from '@azure/msal-react'
 import { getHeaders, HttpClient } from '../../HttpClient'
 import Tree from '../Common/Tree/Tree'
+import LoadSpinner from "../Common/LoadSpinner/LoadSpinner";
 
 interface ModalProps {
   close: () => void
@@ -24,6 +25,7 @@ const LinkToNewParentModal = ({ close, proceed, companyB }: ModalProps) => {
   const { t } = useTranslation()
   const { instance, inProgress } = useMsal()
   const [hierarchyData, setHierarchyData] = useState<CompanyHierarchy[] | null>(null)
+  const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
   const [hierarchyDataOpen, setHierarchyDataOpen] = useState<boolean>(false)
   const [selectedBusinessId, setSelectedBusinessId] = useState<string | null>(null)
   const [selectedCompanyName, setSelectedCompanyName] = useState<string | null>(null)
@@ -100,6 +102,7 @@ const LinkToNewParentModal = ({ close, proceed, companyB }: ModalProps) => {
                       return
                     }
                     if (tokenResult.accessToken) {
+                      setIsFetchInProgress(true)
                       HttpClient.get(
                         `/api/ui/admin/companies/hierarchy?businessId=`,
                         getHeaders(tokenResult.accessToken)
@@ -107,9 +110,11 @@ const LinkToNewParentModal = ({ close, proceed, companyB }: ModalProps) => {
                         (response) => {
                           const hierarchies = response.data.data as CompanyHierarchy[]
                           setHierarchyData(hierarchies)
+                          setIsFetchInProgress(false)
                         },
                         (error) => {
                           // TODO: show alert
+                          setIsFetchInProgress(false)
                           return Promise.reject(error)
                         }
                       )
@@ -132,7 +137,7 @@ const LinkToNewParentModal = ({ close, proceed, companyB }: ModalProps) => {
               <FdsIconComponent icon={!hierarchyDataOpen ? 'chevron-down' : 'chevron-up'} />
             </span>
           </div>
-
+          {hierarchyDataOpen && isFetchInProgress && <LoadSpinner />}
           {hierarchyDataOpen && hierarchyData && (
             <div style={{ backgroundColor: 'var(--Colors-Neutrals-50, #F6F6F6)', padding: '16px' }}>
               {hierarchyData?.map((tree, i) => (
