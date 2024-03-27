@@ -25,31 +25,28 @@ const DataDeliveryView = ({ data }: DataDeliveryProps) => {
   const headerItems: HeaderItem[] = getTableHeaders(t)
 
   useEffect(() => {
-    if (bootstrap) {
-      if (data) {
-        const rows: TableItem[][] = data.map((latestCompanyEntry: CompanyLatestEntryResource) => {
-          const row: TableItem[] = getTableRow(latestCompanyEntry, t)
-          const finalRow: TableItem[] = row.slice(0, 5)
-          if (latestCompanyEntry.data.status) {
-            finalRow.push({
-              name: 'status',
-              value: <VacoBadge bootstrap={bootstrap} publicId={latestCompanyEntry.data.publicId} />,
-              plainValue:
-                latestCompanyEntry.data.status.charAt(0).toUpperCase() + latestCompanyEntry.data.status.slice(1)
-            })
-          } else {
-            finalRow.push({
-              name: 'status',
-              value: '',
-              plainValue: ''
-            })
-          }
-          finalRow.push(row[row.length - 1])
-          return finalRow
-        })
-        setAllRows(rows)
-        setRowsToShow(rows)
-      }
+    if (bootstrap && data) {
+      const rows: TableItem[][] = data.map((latestCompanyEntry: CompanyLatestEntryResource) => {
+        const row: TableItem[] = getTableRow(latestCompanyEntry, t)
+        const finalRow: TableItem[] = row.slice(0, 5)
+        if (latestCompanyEntry.data.status) {
+          finalRow.push({
+            name: 'status',
+            value: <VacoBadge bootstrap={bootstrap} publicId={latestCompanyEntry.data.publicId} />,
+            plainValue: latestCompanyEntry.data.status.charAt(0).toUpperCase() + latestCompanyEntry.data.status.slice(1)
+          })
+        } else {
+          finalRow.push({
+            name: 'status',
+            value: '',
+            plainValue: ''
+          })
+        }
+        finalRow.push(row[row.length - 1])
+        return finalRow
+      })
+      setAllRows(rows)
+      setRowsToShow(rows)
     }
   }, [data, t, bootstrap])
 

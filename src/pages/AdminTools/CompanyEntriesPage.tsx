@@ -101,20 +101,18 @@ const CompanyEntriesPage = () => {
   }, [accessToken, businessId])
 
   useEffect(() => {
-    if (bootstrap) {
-      if (entryData) {
-        const entryRows: TableItem[][] = entryData.map((entryResource: EntryResource) => {
-          const row: TableItem[] = getTableRow(entryResource, t)
-          row.push({
-            name: 'status',
-            value: <VacoBadge bootstrap={bootstrap} publicId={entryResource.data.publicId} />,
-            plainValue: entryResource.data.status.charAt(0).toUpperCase() + entryResource.data.status.slice(1)
-          })
-          return row
+    if (bootstrap && entryData) {
+      const entryRows: TableItem[][] = entryData.map((entryResource: EntryResource) => {
+        const row: TableItem[] = getTableRow(entryResource, t)
+        row.push({
+          name: 'status',
+          value: <VacoBadge bootstrap={bootstrap} publicId={entryResource.data.publicId} />,
+          plainValue: entryResource.data.status.charAt(0).toUpperCase() + entryResource.data.status.slice(1)
         })
-        setAllEntryRows(entryRows)
-        setEntriesToShow(entryRows)
-      }
+        return row
+      })
+      setAllEntryRows(entryRows)
+      setEntriesToShow(entryRows)
     }
   }, [entryData, t, bootstrap])
 
