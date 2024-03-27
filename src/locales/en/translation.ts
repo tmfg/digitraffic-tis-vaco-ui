@@ -90,6 +90,7 @@ export const en = {
         etag: 'ETag',
         context: 'Context identifier',
         contextInfo: 'Context identifier can be used to mark several publications as related',
+        contextPlaceholder: 'submitted from VACO UI',
         company: 'Company',
         format: 'Data format',
         formatRequired: 'Specifying format is required',

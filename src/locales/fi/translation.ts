@@ -92,6 +92,7 @@ export const fi = {
         etag: 'ETag',
         context: 'Kontekstitunniste',
         contextInfo: 'Kontekstitunnisteen avulla voidaan merkitä useita julkaisuja toisiinsa liittyviksi',
+        contextPlaceholder: 'lähetetty VACO UI:n kautta',
         company: 'Yritys',
         format: 'Dataformaatti',
         formatRequired: 'Dataformaatti on määritettävä',

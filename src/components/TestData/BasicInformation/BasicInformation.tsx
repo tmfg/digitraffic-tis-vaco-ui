@@ -188,7 +188,7 @@ const BasicInformation = ({
         <FdsInputComponent
           clearable={true}
           name={'context'}
-          placeholder={'manual submision from VACO UI'}
+          placeholder={t('services:testData:form:contextPlaceholder')}
           label={t('services:testData:form:context')}
           message={(formErrors['context'] as string) || t('services:testData:form:contextInfo')}
           error={!!formErrors['context']}

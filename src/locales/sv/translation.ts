@@ -91,6 +91,7 @@ export const sv = {
         etag: 'ETag',
         context: 'Kontextidentifiare',
         contextInfo: 'Kontextidentifierare kan användas för att markera flera publikationer som relaterade',
+        contextPlaceholder: 'inskickad från VACO UI',
         company: 'Företag',
         format: 'Dataformat',
         formatRequired: 'Du måste specificera dataformat',
