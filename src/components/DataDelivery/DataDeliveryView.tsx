@@ -26,7 +26,7 @@ const DataDeliveryView = ({ data }: DataDeliveryProps) => {
     if (data) {
       const rows: TableItem[][] = data.map((latestCompanyEntry: CompanyLatestEntryResource) => {
         const row: TableItem[] = getTableRow(latestCompanyEntry, t)
-        const finalRow: TableItem[] = row.slice(0, 5)
+        const finalRow: TableItem[] = row.slice(0, 6)
         if (latestCompanyEntry.data.status && latestCompanyEntry.links.refs.badge) {
           finalRow.push({
             name: 'status',

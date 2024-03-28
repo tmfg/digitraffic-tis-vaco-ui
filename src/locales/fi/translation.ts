@@ -306,11 +306,12 @@ export const fi = {
         companyName: 'Yrityksen nimi',
         businessId: 'Y-tunnus',
         format: 'Formaatti',
-        convertedFormat: 'Konvertoitu',
+        convertedFormat: 'Konversiot',
         dateCreated: 'Viimeisin julkaistu',
         status: 'Tila',
         report: 'Viimeisin julkaisu',
-        reportLink: 'Näytä julkaisu'
+        reportLink: 'Näytä julkaisu',
+        url: 'URL'
       }
     },
     companies: {

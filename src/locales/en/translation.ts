@@ -304,11 +304,12 @@ export const en = {
         companyName: 'Company name',
         businessId: 'Business ID',
         format: 'Format',
-        convertedFormat: 'Converted',
+        convertedFormat: 'Conversions',
         dateCreated: 'Latest submitted',
         status: 'Status',
         report: 'Latest submission',
-        reportLink: 'View submission'
+        reportLink: 'View submission',
+        url: 'URL'
       }
     },
     companies: {

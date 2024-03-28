@@ -305,11 +305,12 @@ export const sv = {
         companyName: 'Företagsnamn',
         businessId: 'Företags-id',
         format: 'Format',
-        convertedFormat: 'Konverterad',
+        convertedFormat: 'Konverteringar',
         dateCreated: 'Senast publicerade',
         status: 'Status',
         report: 'Senast publikationen',
-        reportLink: 'Visa publikation'
+        reportLink: 'Visa publikation',
+        url: 'URL'
       }
     },
     companies: {
