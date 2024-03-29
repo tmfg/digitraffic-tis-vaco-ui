@@ -1,7 +1,7 @@
 import { AuthenticatedTemplate, UnauthenticatedTemplate } from '@azure/msal-react'
 import AuthRequiredPage from '../../Error/AuthRequiredPage'
 import { useTranslation } from 'react-i18next'
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useAcquireToken } from '../../../hooks/auth'
 import Table, { HeaderItem, TableItem } from '../../../components/Common/Table/Table'
 import { EntryResource } from '../../../types/EntryResource'
@@ -12,6 +12,8 @@ import { filterTableRowsBySearchWord, getTableHeaders, getTableRow } from '../..
 import Pagination from '../../../components/Common/Pagination/Pagination'
 import { useParams, useSearchParams } from 'react-router-dom'
 import AdminRoleRequiredPage from '../../Error/AdminRoleRequiredPage'
+import { EnvironmentContext } from '../../../EnvironmentProvider.tsx'
+import VacoBadge from '../../../components/Common/VacoBadge/VacoBadge.tsx'
 import { useAdminRightsCheck } from '../hooks'
 import { useCompanyEntriesFetch } from './hooks'
 import { useSearchInputListener } from '../../../hooks/searchInputListener'
@@ -19,6 +21,7 @@ import LoadSpinner from '../../../components/Common/LoadSpinner/LoadSpinner'
 
 const CompanyEntriesPage = () => {
   const [accessToken] = useAcquireToken()
+  const bootstrap = useContext(EnvironmentContext)
   const { t } = useTranslation()
   const { businessId } = useParams()
   const [entryData, isFetchInProgress] = useCompanyEntriesFetch(accessToken, businessId)
@@ -33,22 +36,20 @@ const CompanyEntriesPage = () => {
   const [hasAdminRole, hasCompanyAdminRole] = useAdminRightsCheck()
 
   useEffect(() => {
-    if (entryData) {
+    if (bootstrap && entryData) {
       const entryRows: TableItem[][] = entryData.map((entryResource: EntryResource) => {
         const row: TableItem[] = getTableRow(entryResource, t)
-        if (entryResource.links.refs.badge) {
-          row.push({
-            name: 'status',
-            value: <img alt={'badge'} src={entryResource.links.refs.badge.href} />,
-            plainValue: entryResource.data.status.charAt(0).toUpperCase() + entryResource.data.status.slice(1)
-          })
-        }
+        row.push({
+          name: 'status',
+          value: <VacoBadge bootstrap={bootstrap} publicId={entryResource.data.publicId} />,
+          plainValue: entryResource.data.status.charAt(0).toUpperCase() + entryResource.data.status.slice(1)
+        })
         return row
       })
       setAllEntryRows(entryRows)
       setEntriesToShow(entryRows)
     }
-  }, [entryData, t])
+  }, [entryData, t, bootstrap])
 
   return (
     <div className={'page-content'}>

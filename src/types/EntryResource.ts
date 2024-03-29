@@ -23,6 +23,7 @@ export interface Entry {
   completed: string
   badge?: string
   status: string
+  context?: string
 }
 
 export interface ValidationInput {
