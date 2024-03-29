@@ -297,6 +297,9 @@ export const en = {
     roles: 'Roles',
     companies: 'Companies'
   },
+  service: {
+    buildInfo: 'Build'
+  },
   admin: {
     tools: 'Admin tools',
     dataDelivery: {

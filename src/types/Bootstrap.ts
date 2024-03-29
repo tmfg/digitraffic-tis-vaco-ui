@@ -3,6 +3,7 @@ export interface Bootstrap {
   baseUrl: string
   tenantId: string
   clientId: string
+  buildInfo: string
 }
 
 export enum Environment {
