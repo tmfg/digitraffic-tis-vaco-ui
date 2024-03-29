@@ -1,7 +1,4 @@
-import { AuthenticatedTemplate, UnauthenticatedTemplate } from '@azure/msal-react'
-import AuthRequiredPage from '../Error/AuthRequiredPage'
-import { useTranslation } from 'react-i18next'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useState, useRef } from 'react'
 import { useAcquireToken } from '../../hooks/auth'
 import Table, { HeaderItem, TableItem } from '../../components/Common/Table/Table'
 import { EntryResource } from '../../types/EntryResource'
@@ -10,9 +7,14 @@ import { FdsInputComponent } from '../../components/fds/FdsInputComponent'
 import './_mydata.scss'
 import { filterTableRowsBySearchWord, getTableHeaders, getTableRow } from './helpers'
 import Pagination from '../../components/Common/Pagination/Pagination'
+import { EnvironmentContext } from '../../EnvironmentProvider.tsx'
+import VacoBadge from '../../components/Common/VacoBadge/VacoBadge.tsx'
 import LoadSpinner from '../../components/Common/LoadSpinner/LoadSpinner'
 import { useMyDataEntriesFetch } from './hooks'
 import { useSearchInputListener } from '../../hooks/searchInputListener'
+import { useTranslation } from 'react-i18next'
+import { AuthenticatedTemplate, UnauthenticatedTemplate } from '@azure/msal-react'
+import AuthRequiredPage from '../Error/AuthRequiredPage'
 
 const MyDataPage = () => {
   const [accessToken] = useAcquireToken()
@@ -24,24 +26,23 @@ const MyDataPage = () => {
   // Null helps to make a distinction between data not being fetched yet or api actually returning no data (an empty array)
   const [entriesToShow, setEntriesToShow] = useState<TableItem[][] | null>(null)
   const headerItems: HeaderItem[] = getTableHeaders(t)
+  const bootstrap = useContext(EnvironmentContext)
 
   useEffect(() => {
-    if (entryData) {
+    if (bootstrap && entryData) {
       const entryRows: TableItem[][] = entryData.map((entryResource: EntryResource) => {
         const row: TableItem[] = getTableRow(entryResource, t)
-        if (entryResource.links.refs.badge) {
-          row.push({
-            name: 'status',
-            value: <img alt={'badge'} src={entryResource.links.refs.badge.href} />,
-            plainValue: entryResource.data.status.charAt(0).toUpperCase() + entryResource.data.status.slice(1)
-          })
-        }
+        row.push({
+          name: 'status',
+          value: <VacoBadge bootstrap={bootstrap} publicId={entryResource.data.publicId} />,
+          plainValue: entryResource.data.status.charAt(0).toUpperCase() + entryResource.data.status.slice(1)
+        })
         return row
       })
       setAllEntryRows(entryRows)
       setEntriesToShow(entryRows)
     }
-  }, [entryData, t])
+  }, [entryData, t, bootstrap])
 
   return (
     <div className={'page-content'}>

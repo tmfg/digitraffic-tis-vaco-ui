@@ -59,11 +59,12 @@ export const submitData = async (
   })
 
   const requestBody: EntryRequest = {
-    url: formData.url as string,
     name: formData.feedName as string,
-    format: (formData.format as string).toLowerCase(),
     businessId: formData.businessId as string,
+    url: formData.url as string,
+    context: formData.context as string,
     etag: formData.etag as string,
+    format: (formData.format as string).toLowerCase(),
     validations: validations
   }
 

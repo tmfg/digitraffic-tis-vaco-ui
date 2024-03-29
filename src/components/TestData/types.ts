@@ -7,6 +7,7 @@ export interface EntryRequest {
   format: string
   businessId: string
   etag?: string
+  context: string
   validations: ValidationInput[]
   conversion?: object
   metadata?: object

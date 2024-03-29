@@ -1,5 +1,5 @@
 import './_dataDelivery.scss'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { FdsInputComponent } from '../fds/FdsInputComponent'
 import { FdsButtonComponent } from '../fds/FdsButtonComponent'
 import { filterTableRowsBySearchWord, getTableHeaders, getTableRow } from './helpers'
@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next'
 import { CompanyLatestEntryResource } from '../../types/DataDelivery'
 import Pagination from '../Common/Pagination/Pagination'
 import TableGroupedByColumn from '../Common/TableGroupedByColumn/TableGroupedByColumn'
+import { EnvironmentContext } from '../../EnvironmentProvider.tsx'
+import VacoBadge from '../Common/VacoBadge/VacoBadge.tsx'
 import { useSearchInputListener } from '../../hooks/searchInputListener'
 
 interface DataDeliveryProps {
@@ -15,6 +17,7 @@ interface DataDeliveryProps {
 }
 
 const DataDeliveryView = ({ data }: DataDeliveryProps) => {
+  const bootstrap = useContext(EnvironmentContext)
   const { t } = useTranslation()
   const searchInputRef = useRef<HTMLDivElement | null>(null)
   const [searchWord] = useSearchInputListener(searchInputRef, data)
@@ -23,14 +26,14 @@ const DataDeliveryView = ({ data }: DataDeliveryProps) => {
   const headerItems: HeaderItem[] = getTableHeaders(t)
 
   useEffect(() => {
-    if (data) {
+    if (bootstrap && data) {
       const rows: TableItem[][] = data.map((latestCompanyEntry: CompanyLatestEntryResource) => {
         const row: TableItem[] = getTableRow(latestCompanyEntry, t)
         const finalRow: TableItem[] = row.slice(0, 6)
-        if (latestCompanyEntry.data.status && latestCompanyEntry.links.refs.badge) {
+        if (latestCompanyEntry.data.status && latestCompanyEntry.data.publicId) {
           finalRow.push({
             name: 'status',
-            value: <img alt={'badge'} src={latestCompanyEntry.links.refs.badge.href} />,
+            value: <VacoBadge bootstrap={bootstrap} publicId={latestCompanyEntry.data.publicId} />,
             plainValue: latestCompanyEntry.data.status.charAt(0).toUpperCase() + latestCompanyEntry.data.status.slice(1)
           })
         } else {
@@ -46,7 +49,7 @@ const DataDeliveryView = ({ data }: DataDeliveryProps) => {
       setAllRows(rows)
       setRowsToShow(rows)
     }
-  }, [data, t])
+  }, [data, t, bootstrap])
 
   return (
     <>
