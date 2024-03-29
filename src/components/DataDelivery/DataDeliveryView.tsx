@@ -29,8 +29,8 @@ const DataDeliveryView = ({ data }: DataDeliveryProps) => {
     if (bootstrap && data) {
       const rows: TableItem[][] = data.map((latestCompanyEntry: CompanyLatestEntryResource) => {
         const row: TableItem[] = getTableRow(latestCompanyEntry, t)
-        const finalRow: TableItem[] = row.slice(0, 5)
-        if (latestCompanyEntry.data.status) {
+        const finalRow: TableItem[] = row.slice(0, 6)
+        if (latestCompanyEntry.data.status && latestCompanyEntry.data.publicId) {
           finalRow.push({
             name: 'status',
             value: <VacoBadge bootstrap={bootstrap} publicId={latestCompanyEntry.data.publicId} />,

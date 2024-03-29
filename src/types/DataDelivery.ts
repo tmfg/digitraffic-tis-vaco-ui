@@ -8,7 +8,9 @@ export interface CompanyLatestEntryResource {
 export interface CompanyLatestEntry {
   companyName: string
   businessId: string
-  publicId: string
+  // All the fields below can be null if the Company has no entries at all
+  publicId: string | null
+  url: string | null
   format: string | null
   convertedFormat: string | null
   status: string | null

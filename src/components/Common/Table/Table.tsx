@@ -41,7 +41,7 @@ export interface TableItem {
   name: string
   value: string | React.ReactNode | number | undefined
   href?: string
-  plainValue?: string | number | boolean
+  plainValue?: string | number | boolean | null
   colSpan?: number
   isCode?: boolean
 }

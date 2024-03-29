@@ -18,6 +18,11 @@ export const getTableHeaders = (t: TFunction<'translation', undefined>): HeaderI
       colSpan: 1
     },
     {
+      name: 'url',
+      value: t('admin:dataDelivery:table:url'),
+      colSpan: 3
+    },
+    {
       name: 'format',
       value: t('admin:dataDelivery:table:format'),
       colSpan: 1
@@ -63,6 +68,12 @@ export const getTableRow = (
       value: companyLatestEntryResource.data.businessId,
       colSpan: 1,
       plainValue: companyLatestEntryResource.data.businessId
+    },
+    {
+      name: 'url',
+      value: companyLatestEntryResource.data.url !== 'NO_DATA' ? companyLatestEntryResource.data.url : '',
+      colSpan: 3,
+      plainValue: companyLatestEntryResource.data.url !== 'NO_DATA' ? companyLatestEntryResource.data.url : ''
     },
     {
       name: 'format',
