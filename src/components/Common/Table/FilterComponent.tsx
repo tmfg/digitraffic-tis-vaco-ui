@@ -86,8 +86,9 @@ const FilterComponent = ({
           {filterOptions.map((opt) => (
             <li key={tableTitle + '-menu-filterBy-' + column.name + '-option-' + opt}>
               <input
+                className={'checkbox'}
                 type="checkbox"
-                id="checkbox"
+                id={opt}
                 name={opt}
                 checked={checkboxStates[opt] as boolean}
                 onChange={() => {
@@ -97,7 +98,7 @@ const FilterComponent = ({
                   filterCallback(Object.keys(newCheckboxStates).filter((key) => newCheckboxStates[key]))
                 }}
               />
-              <label htmlFor="checkbox">{opt}</label>
+              <label htmlFor={opt}>{opt}</label>
             </li>
           ))}
         </ul>
