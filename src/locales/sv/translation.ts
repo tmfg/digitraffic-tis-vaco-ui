@@ -297,6 +297,9 @@ export const sv = {
     roles: 'Roller',
     companies: 'Företag'
   },
+  service: {
+    buildInfo: 'Build'
+  },
   admin: {
     // TODO: needs proper translations!
     tools: 'Admin-verktyg',

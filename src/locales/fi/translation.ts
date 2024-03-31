@@ -298,6 +298,9 @@ export const fi = {
     roles: 'Roolit',
     companies: 'Yritykset'
   },
+  service: {
+    buildInfo: 'Koontipaketti'
+  },
   admin: {
     // TODO: some of these need proper translations!
     tools: 'Admintyökalut',

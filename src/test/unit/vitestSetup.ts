@@ -18,7 +18,8 @@ beforeAll(async () => {
     environment: Environment.Local,
     baseUrl: 'http://localhost:8080',
     tenantId: 'd8536c71-f91f-4e54-b68c-215a7fd9510b',
-    clientId: '57c1b8a0-f33e-4e47-840d-8c180d933c41'
+    clientId: '57c1b8a0-f33e-4e47-840d-8c180d933c41',
+    buildInfo: 'vitest (local)'
   })
   server.listen({ onUnhandledRequest: 'error' })
 
@@ -56,5 +57,6 @@ export const bootstrapParams: Bootstrap = {
   environment: Environment.Local,
   baseUrl: 'http://localhost:8080',
   tenantId: '',
-  clientId: '57c1b8a0-f33e-4e47-840d-8c180d933c41'
+  clientId: '57c1b8a0-f33e-4e47-840d-8c180d933c41',
+  buildInfo: 'vitest (local)'
 }
