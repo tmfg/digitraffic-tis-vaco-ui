@@ -10,7 +10,11 @@ interface VacoBadgeProps {
 
 const VacoBadge = ({ bootstrap, publicId, taskName, style }: VacoBadgeProps) => {
   return (
-    <img style={style} alt={'badge'} src={bootstrap.baseUrl + '/api/badge/' + publicId + (taskName ? taskName : '')} />
+    <img
+      style={style}
+      alt={'badge'}
+      src={bootstrap.baseUrl + '/api/badge/' + publicId + (taskName ? '/' + taskName : '')}
+    />
   )
 }
 
