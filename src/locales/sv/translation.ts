@@ -150,8 +150,12 @@ export const sv = {
         'För närvarande är <strong>{{percentage}}%</strong> av bearbetningen slutförd. Uppdatera sidan för att se senaste data.',
       packages: {
         header: 'Producerade paket',
-        intro:
-          'Här är producerade paket, inklusive valideringsrapporten. Paketformatet är HTML eller JSON beroende på använd validerare.',
+        intro: {
+          validation_syntax:
+            'Här är producerade paket, inklusive valideringsrapporten. Paketformatet är HTML eller JSON beroende på använd validerare.',
+          conversion_syntax:
+            'Här är producerade paket, inklusive konverteringsrapporten. Paketformatet är HTML eller JSON beroende på använd konverterare.'
+        },
         result: 'Inmatade data',
         all: 'Alla utdata',
         debug: 'Debug loggar',

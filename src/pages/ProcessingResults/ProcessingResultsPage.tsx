@@ -1,15 +1,13 @@
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { HttpClient } from '../../HttpClient'
 import { useAcquireToken } from '../../hooks/auth'
 import { useIsAuthenticated } from '@azure/msal-react'
 import AuthRequiredPage from '../Error/AuthRequiredPage'
 import { Trans, useTranslation } from 'react-i18next'
 import Section from '../../components/Common/Section/Section'
-import ConversionReport from '../../components/ProcessingResults/report/ConversionReport'
-import { EntryStateResource, RuleReport } from '../../types/EntryStateResource'
+import { EntryStateResource } from '../../types/EntryStateResource'
 import SubmittedData from '../../components/ProcessingResults/SubmittedData'
-import ValidationReport from '../../components/ProcessingResults/report/ValidationReport'
 import { FdsButtonComponent } from '../../components/fds/FdsButtonComponent'
 import Summary from '../../components/ProcessingResults/summary/Summary'
 import { FdsButtonVariant } from '../../../coreui-components/src/fds-button'
@@ -18,16 +16,20 @@ import { AxiosResponse } from 'axios'
 import { useProcessingResultsPageState } from '../../components/ProcessingResults/hooks'
 import { EnvironmentContext } from '../../EnvironmentProvider.tsx'
 import VacoBadge from '../../components/Common/VacoBadge/VacoBadge.tsx'
-import LoadSpinner, { SpinnerVariant } from "../../components/Common/LoadSpinner/LoadSpinner";
+import LoadSpinner, { SpinnerVariant } from '../../components/Common/LoadSpinner/LoadSpinner'
+import Report from '../../components/ProcessingResults/report/Report.tsx'
+import { Entry } from '../../types/EntryResource.ts'
 
-const isReportContentAvailable = (reports: RuleReport[]) => {
-  return reports.filter((report) => report.findings?.length || report.packages?.length > 0).length
-}
+//const isReportContentAvailable = (reports: RuleReport[]) => {
+//  return reports.filter((report) => report.findings?.length || report.packages?.length > 0).length
+//}
 
 // path parameters specifically for this page
 type PageParams = {
   entryId: string
 }
+
+export const EntryContext = createContext<Entry | undefined>(undefined)
 
 const ProcessingResultsPage = () => {
   const bootstrap = useContext(EnvironmentContext)
@@ -43,12 +45,6 @@ const ProcessingResultsPage = () => {
   const [magicLinkToken] = useProcessingResultsPageState(entryId, accessToken)
   const [processingProgress, setProcessingProgress] = useState<number>(100)
   const [showMagicLinkGotCopied, setShowMagicLinkGotCopied] = useState<boolean>(false)
-  const validationReports: RuleReport[] = entryState?.data.reports
-    ? entryState.data.reports.filter((report) => report.ruleType.includes('VALIDATION'))
-    : []
-  const conversionReports: RuleReport[] = entryState?.data.reports
-    ? entryState.data.reports.filter((report) => report.ruleType.includes('CONVERSION'))
-    : []
 
   const handleEntryStateResponse = (response: AxiosResponse<any>) => {
     const entryResource: EntryStateResource = response.data as EntryStateResource
@@ -92,98 +88,84 @@ const ProcessingResultsPage = () => {
   }
 
   return (
-    <div className={'page-content'}>
-      {searchParams.has('magic') || isAuthenticated ? (
-        <>
-          <div style={{ display: 'flex', marginBottom: 0, alignItems: 'center', justifyContent: 'space-between' }}>
-            <h1 style={{ marginRight: '3rem' }}>
-              {t('services:processingResults:header')}
-              {bootstrap && entryState && (
-                <VacoBadge
-                  style={{ width: '120px', marginLeft: '3rem' }}
-                  bootstrap={bootstrap}
-                  publicId={entryState.data.entry.data.publicId}
-                />
-              )}
-            </h1>
-            <span className={'icon'}>
-              {magicLinkToken && (
-                <div style={{ display: 'flex' }}>
-                  {showMagicLinkGotCopied && (
-                    <div style={{ marginTop: '12px', marginRight: '12px', color: '#1777F8', fontWeight: 700 }}>
-                      {t('common:copied')}
-                    </div>
-                  )}
-                  <FdsButtonComponent
-                    onClick={() => copyMagicLinkToClipboard()}
-                    slot="separated"
-                    icon="wand-2"
-                    iconSize={FdsTokenSize2}
-                    variant={FdsButtonVariant.secondary}
-                    label={t('services:processingResults:magicLink')}
+    <EntryContext.Provider value={entryState?.data.entry.data}>
+      <div className={'page-content'}>
+        {searchParams.has('magic') || isAuthenticated ? (
+          <>
+            <div style={{ display: 'flex', marginBottom: 0, alignItems: 'center', justifyContent: 'space-between' }}>
+              <h1 style={{ marginRight: '3rem' }}>
+                {t('services:processingResults:header')}
+                {bootstrap && entryState && (
+                  <VacoBadge
+                    style={{ width: '120px', marginLeft: '3rem' }}
+                    bootstrap={bootstrap}
+                    publicId={entryState.data.entry.data.publicId}
                   />
-                </div>
-              )}
-            </span>
-          </div>
-          {isFetchInProgress && <LoadSpinner variant={SpinnerVariant.padded} />}
-          {entryState && (
-            <div>
-              <SubmittedData entry={entryState.data.entry.data} company={entryState.data.company} />
-
-              {!entryState.data.entry.data.completed && processingProgress !== 100 && !entryState.error && (
-                <Section hidable={false} titleKey={'services:processingResults:inProgress'}>
-                  <div style={{ marginBottom: '1.75rem' }}>
-                    {
-                      <Trans
-                        i18nKey="services:processingResults:progress"
-                        values={{ percentage: Math.round(processingProgress) }}
-                      ></Trans>
-                    }
+                )}
+              </h1>
+              <span className={'icon'}>
+                {magicLinkToken && (
+                  <div style={{ display: 'flex' }}>
+                    {showMagicLinkGotCopied && (
+                      <div style={{ marginTop: '12px', marginRight: '12px', color: '#1777F8', fontWeight: 700 }}>
+                        {t('common:copied')}
+                      </div>
+                    )}
+                    <FdsButtonComponent
+                      onClick={() => copyMagicLinkToClipboard()}
+                      slot="separated"
+                      icon="wand-2"
+                      iconSize={FdsTokenSize2}
+                      variant={FdsButtonVariant.secondary}
+                      label={t('services:processingResults:magicLink')}
+                    />
                   </div>
-                  <FdsButtonComponent
-                    variant={FdsButtonVariant.secondary}
-                    icon="refresh-cw"
-                    onClick={() => navigate(0)}
-                    label={t('common:refresh')}
-                  />
-                </Section>
-              )}
-
-              {entryState.data.summaries?.length > 0 ? (
-                <Section hidable={true} titleKey={'services:processingResults:summary'}>
-                  <Summary summaries={entryState.data.summaries} />
-                </Section>
-              ) : (
-                ''
-              )}
-
-              {validationReports.length > 0 && isReportContentAvailable(validationReports) ? (
-                <Section hidable={true} titleKey={'services:processingResults:reports'}>
-                  {validationReports.map((report) => {
-                    return <ValidationReport key={'report-' + report.ruleName} report={report} />
-                  })}
-                </Section>
-              ) : (
-                ''
-              )}
-
-              {conversionReports.length > 0 && isReportContentAvailable(conversionReports) ? (
-                <Section hidable={true} titleKey={'services:processingResults:results:conversion'}>
-                  {conversionReports.map((report) => {
-                    return <ConversionReport key={'report-' + report.ruleName} report={report} />
-                  })}
-                </Section>
-              ) : (
-                ''
-              )}
+                )}
+              </span>
             </div>
-          )}
-        </>
-      ) : (
-        <AuthRequiredPage />
-      )}
-    </div>
+            {isFetchInProgress && <LoadSpinner variant={SpinnerVariant.padded} />}
+            {entryState && (
+              <div>
+                <SubmittedData entry={entryState.data.entry.data} company={entryState.data.company} />
+
+                {!entryState.data.entry.data.completed && processingProgress !== 100 && !entryState.error && (
+                  <Section hidable={false} titleKey={'services:processingResults:inProgress'}>
+                    <div style={{ marginBottom: '1.75rem' }}>
+                      {
+                        <Trans
+                          i18nKey="services:processingResults:progress"
+                          values={{ percentage: Math.round(processingProgress) }}
+                        ></Trans>
+                      }
+                    </div>
+                    <FdsButtonComponent
+                      variant={FdsButtonVariant.secondary}
+                      icon="refresh-cw"
+                      onClick={() => navigate(0)}
+                      label={t('common:refresh')}
+                    />
+                  </Section>
+                )}
+
+                {entryState.data.summaries?.length > 0 ? (
+                  <Section hidable={true} titleKey={'services:processingResults:summary'}>
+                    <Summary summaries={entryState.data.summaries} />
+                  </Section>
+                ) : (
+                  ''
+                )}
+
+                {entryState.data.reports.map((report) => {
+                  return <Report key={'report-' + report.ruleName} report={report} />
+                })}
+              </div>
+            )}
+          </>
+        ) : (
+          <AuthRequiredPage />
+        )}
+      </div>
+    </EntryContext.Provider>
   )
 }
 

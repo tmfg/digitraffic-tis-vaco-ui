@@ -150,8 +150,12 @@ export const en = {
         'The processing is currently <strong>{{percentage}}%</strong> complete. Please, refresh the page for the latest data.',
       packages: {
         header: 'Produced packages',
-        intro:
-          'Here are the produced packages, including the validation report. Package format is HTML or JSON depending on the used validator.',
+        intro: {
+          validation_syntax:
+            'Here are the produced packages, including the validation report. Package format is HTML or JSON depending on the used validator.',
+          conversion_syntax:
+            'Here are the produced packages, including the conversion report. Package format is HTML or JSON depending on the used converter.'
+        },
         result: 'Input data',
         all: 'All outputs',
         debug: 'Debug logs',
