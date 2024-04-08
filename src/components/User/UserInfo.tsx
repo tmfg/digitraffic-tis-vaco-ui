@@ -7,6 +7,7 @@ import { getHeaders, HttpClient } from '../../HttpClient'
 import KeyValuePairs, { KeyValuePairItem, KeyValuePairVariant } from '../Common/KeyValuePairs/KeyValuePairs'
 import { useTranslation } from 'react-i18next'
 import { parseJwt } from '../../util/jwt'
+import { getCompanyFullName } from '../../util/company'
 
 const UserInfo = () => {
   const { t } = useTranslation()
@@ -82,7 +83,8 @@ const UserInfo = () => {
       setCompanyInfo([
         {
           label: t('user:companies'),
-          value: companies.length > 0 ? companies.map((c) => <div>{`${c.name} (${c.businessId})`}</div>) : '-'
+          value:
+            companies.length > 0 ? companies.map((c) => <div>{getCompanyFullName(c.name, c.businessId, t)}</div>) : '-'
         }
       ])
     }

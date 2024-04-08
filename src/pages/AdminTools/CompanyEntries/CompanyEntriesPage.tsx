@@ -18,6 +18,7 @@ import { useAdminRightsCheck } from '../hooks'
 import { useCompanyEntriesFetch } from './hooks'
 import { useSearchInputListener } from '../../../hooks/searchInputListener'
 import LoadSpinner from '../../../components/Common/LoadSpinner/LoadSpinner'
+import { getCompanyFullName } from '../../../util/company'
 
 const CompanyEntriesPage = () => {
   const [accessToken] = useAcquireToken()
@@ -32,7 +33,7 @@ const CompanyEntriesPage = () => {
   const [entriesToShow, setEntriesToShow] = useState<TableItem[][] | null>(null)
   const headerItems: HeaderItem[] = getTableHeaders(t)
   const [searchParams] = useSearchParams()
-  const companyName = searchParams?.get('companyName')
+  const companyName = searchParams.get('companyName')
   const [hasAdminRole, hasCompanyAdminRole] = useAdminRightsCheck()
 
   useEffect(() => {
@@ -54,9 +55,7 @@ const CompanyEntriesPage = () => {
   return (
     <div className={'page-content'}>
       <AuthenticatedTemplate>
-        <h1>
-          {companyName} ({businessId})
-        </h1>
+        <h1>{getCompanyFullName(companyName, businessId, t)}</h1>
         {hasAdminRole !== undefined && hasCompanyAdminRole !== undefined && !(hasAdminRole || hasCompanyAdminRole) && (
           <AdminRoleRequiredPage />
         )}

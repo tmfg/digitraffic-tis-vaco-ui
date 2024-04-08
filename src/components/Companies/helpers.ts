@@ -1,6 +1,7 @@
 import { HeaderItem, TableItem } from '../Common/Table/Table'
 import { TFunction } from 'i18next'
 import { Company } from '../../types/Company'
+import { getBusinessId, getCompanyName } from '../../util/company'
 
 export const getTableHeaders = (t: TFunction<'translation', undefined>): HeaderItem[] => {
   return [
@@ -25,18 +26,18 @@ export const getTableHeaders = (t: TFunction<'translation', undefined>): HeaderI
   ]
 }
 
-export const getTableRow = (company: Company): TableItem[] => {
+export const getTableRow = (company: Company, t: TFunction<'translation', undefined>): TableItem[] => {
   return [
     {
       name: 'name',
-      value: company.name,
+      value: getCompanyName(company.name, t),
       href: '/admin/companies/' + company.businessId + '/info',
-      plainValue: company.name
+      plainValue: getCompanyName(company.name, t)
     },
     {
       name: 'businessId',
-      value: company.businessId,
-      plainValue: company.businessId
+      value: getBusinessId(company.businessId),
+      plainValue: getBusinessId(company.businessId)
     },
     {
       name: 'formatSummary',

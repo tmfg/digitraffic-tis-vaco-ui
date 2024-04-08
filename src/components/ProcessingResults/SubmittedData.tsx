@@ -3,6 +3,7 @@ import KeyValuePairs, { KeyValuePairItem, KeyValuePairVariant } from '../Common/
 import { useTranslation } from 'react-i18next'
 import { Entry } from '../../types/EntryResource'
 import { formatDate } from '../../util/date'
+import { PublicValidationTest } from '../../types/PublicValidationTest'
 
 interface SubmittedDataProps {
   entry: Entry
@@ -20,47 +21,47 @@ const SubmittedData = ({ entry, company }: SubmittedDataProps) => {
 
   const items: KeyValuePairItem[] = [
     {
-      label: t('services:testData:form:feedName') as string,
+      label: t('services:testData:form:feedName'),
       value: entry.name
     },
     {
-      label: t('services:myData:table:id') as string,
+      label: t('services:myData:table:id'),
       value: entry.publicId
     },
     {
-      label: t('services:testData:form:company') as string,
-      value: company
+      label: t('services:testData:form:company'),
+      value: company.includes(PublicValidationTest.businessId) ? t('publicValidationTest:companyName') : company
     },
     {
-      label: t('services:processingResults:submissionDate') as string,
+      label: t('services:processingResults:submissionDate'),
       value: formatDate(entry.created)
     },
     {
-      label: t('services:testData:form:url') as string,
+      label: t('services:testData:form:url'),
       value: entry.url,
       isUrl: true
     },
     {
-      label: t('services:testData:form:etag') as string,
+      label: t('services:testData:form:etag'),
       value: entry.etag
     },
     {
-      label: t('services:testData:form:context') as string,
+      label: t('services:testData:form:context'),
       value: entry.context
     },
     {
-      label: t('services:testData:form:format') as string,
+      label: t('services:testData:form:format'),
       value: t('format:' + entry.format)
     },
     {
-      label: t('services:testData:form:section:rules') as string,
+      label: t('services:testData:form:section:rules'),
       value: <div>{rules && rules.length > 0 ? rules : '-'}</div>
     }
   ]
 
   if (conversionRules && conversionRules.length > 0) {
     items.push({
-      label: t('services:testData:form:section:conversionRules') as string,
+      label: t('services:testData:form:section:conversionRules'),
       value: <div>{conversionRules}</div>
     })
   }

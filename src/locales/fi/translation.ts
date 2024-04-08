@@ -373,5 +373,8 @@ export const fi = {
     fi: 'Suomi',
     sv: 'Ruotsi',
     en: 'Englanti'
+  },
+  publicValidationTest: {
+    companyName: 'Julkinen validointitesti'
   }
 }

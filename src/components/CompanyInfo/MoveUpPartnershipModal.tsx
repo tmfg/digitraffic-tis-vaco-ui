@@ -7,6 +7,7 @@ import { FdsCardElevation } from '../../../coreui-components/src/fds-card'
 import '../TestData/SubmissionModal/_modal.scss'
 import { useTranslation } from 'react-i18next'
 import { FdsTokenSize2, FdsTokenSize21 } from '../../../coreui-css/lib'
+import { getCompanyName } from '../../util/company'
 
 interface ModalProps {
   close: () => void
@@ -32,9 +33,23 @@ const MoveUpPartnershipModal = ({ close, proceed, oldCompanyA, newCompanyA, comp
             slot="header-corner"
           />
 
-          <div style={{ marginBottom: '1rem' }}>{t('admin:partnership:moveUpModalLine1', { companyB })}</div>
-          <div style={{ marginBottom: '1rem' }}>{t('admin:partnership:moveUpModalLine2', { oldCompanyA, companyB })}</div>
-          <div style={{ marginBottom: '2.5rem' }}>{t('admin:partnership:moveUpModalLine3', { newCompanyA, companyB })}</div>
+          <div style={{ marginBottom: '1rem' }}>
+            {t('admin:partnership:moveUpModalLine1', {
+              companyB: getCompanyName(companyB, t)
+            })}
+          </div>
+          <div style={{ marginBottom: '1rem' }}>
+            {t('admin:partnership:moveUpModalLine2', {
+              oldCompanyA: getCompanyName(oldCompanyA, t),
+              companyB: getCompanyName(companyB, t)
+            })}
+          </div>
+          <div style={{ marginBottom: '2.5rem' }}>
+            {t('admin:partnership:moveUpModalLine3', {
+              newCompanyA: getCompanyName(newCompanyA, t),
+              companyB: getCompanyName(companyB, t)
+            })}
+          </div>
 
           <FdsActionSheetComponent>
             <FdsButtonComponent

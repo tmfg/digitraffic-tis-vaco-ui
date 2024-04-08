@@ -15,6 +15,7 @@ import { getHeaders, HttpClient } from '../../../HttpClient'
 import RemovePartnershipModal from '../../CompanyInfo/RemovePartnershipModal'
 import MoveUpPartnershipModal from '../../CompanyInfo/MoveUpPartnershipModal'
 import { useTranslation } from 'react-i18next'
+import { getCompanyName } from '../../../util/company'
 
 interface TreeNodeProps {
   grandparentCompany: Company | null
@@ -180,12 +181,12 @@ const TreeNode = ({
             }}
             className={'tree-node-link'}
           >
-            {nodeCompany.name}
+            {getCompanyName(nodeCompany.name, t)}
             {nodeIncludeBusinessId && <span className={'node-detail-info'}>({nodeCompany.businessId})</span>}
           </div>
         ) : (
           <div>
-            {nodeCompany.name}
+            {getCompanyName(nodeCompany.name, t)}
             {nodeIncludeBusinessId && <span className={'node-detail-info'}>({nodeCompany.businessId})</span>}
           </div>
         )

@@ -11,6 +11,7 @@ import { getCompanyInfoKeyValuePairs, submitCompanyData } from './helpers'
 import { FdsInputChange } from '../../../coreui-components/src/fds-input'
 import { getNewFormErrorsState, getNewFormState } from '../../util/form'
 import { useMsal } from '@azure/msal-react'
+import { PublicValidationTest } from '../../types/PublicValidationTest'
 
 interface CompanyDetailsProps {
   company: Company
@@ -126,15 +127,17 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
           }}
         >
           <div style={{ padding: '8px', paddingTop: '16px' }}>
-            <div id={'name'} className={'input-wrapper'}>
-              <FdsInputComponent
-                clearable={true}
-                name={'name'}
-                label={t('admin:company:name')}
-                value={formData.name ? (formData.name as string) : ''}
-                error={!!formErrors.name}
-              />
-            </div>
+            {company.name !== PublicValidationTest.companyName && (
+              <div id={'name'} className={'input-wrapper'}>
+                <FdsInputComponent
+                  clearable={true}
+                  name={'name'}
+                  label={t('admin:company:name')}
+                  value={formData.name ? (formData.name as string) : ''}
+                  error={!!formErrors.name}
+                />
+              </div>
+            )}
 
             <div id={'language'} className={'input-wrapper'}>
               <FdsDropdownComponent
