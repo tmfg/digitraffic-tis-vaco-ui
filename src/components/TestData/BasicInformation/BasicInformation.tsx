@@ -8,6 +8,7 @@ import { FdsDropdownComponent } from '../../fds/FdsDropdownComponent'
 import { FdsInputComponent } from '../../fds/FdsInputComponent'
 import { useTranslation } from 'react-i18next'
 import { FormComponentProps } from '../types'
+import { getCompanyFullName } from '../../../util/company'
 
 interface BasicInformationProps extends FormComponentProps {
   formats: string[]
@@ -27,12 +28,12 @@ const BasicInformation = ({
     return appContext?.companies
       ? appContext.companies.map((company) => {
           return {
-            label: `${company.name} (${company.businessId})`,
+            label: getCompanyFullName(company.name, company.businessId, t),
             value: company.businessId
           }
         })
       : []
-  }, [appContext.companies])
+  }, [appContext.companies, t])
   const formatOptions: FdsDropdownOption<string>[] = formats.map((format: string) => {
     return {
       label: i18n.exists('format:' + format.toLowerCase()) ? t('format:' + format.toLowerCase()) : format,

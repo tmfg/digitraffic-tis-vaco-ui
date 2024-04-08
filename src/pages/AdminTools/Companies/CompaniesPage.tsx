@@ -35,7 +35,7 @@ const CompaniesPage = () => {
   useEffect(() => {
     if (companiesData) {
       const companyRows: TableItem[][] = companiesData.map((company: Company) => {
-        const row = getTableRow(company)
+        const row = getTableRow(company, t)
         const finalRow = row.slice(0, 2)
         finalRow.push({
           name: 'hierarchy',

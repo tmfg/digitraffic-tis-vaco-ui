@@ -10,8 +10,11 @@ import CompanyHierarchyTree from '../../../components/CompanyInfo/CompanyHierarc
 import { useAdminRightsCheck } from '../hooks'
 import { useCompanyInfoFetch } from './hooks'
 import LoadSpinner, { SpinnerVariant } from '../../../components/Common/LoadSpinner/LoadSpinner'
+import { useTranslation } from 'react-i18next'
+import { getCompanyFullName } from '../../../util/company'
 
 const CompanyInfoPage = () => {
+  const { t } = useTranslation()
   const [accessToken] = useAcquireToken()
   const [hasAdminRole, hasCompanyAdminRole] = useAdminRightsCheck()
   const { businessId } = useParams()
@@ -27,9 +30,7 @@ const CompanyInfoPage = () => {
       <AuthenticatedTemplate>
         {(hasAdminRole || hasCompanyAdminRole) && company && hierarchies && (
           <>
-            <h1>
-              {company.name} ({company.businessId})
-            </h1>
+            <h1>{getCompanyFullName(company.name, company.businessId, t)}</h1>
             {isFetchInProgress && <LoadSpinner variant={SpinnerVariant.padded} />}
             <>
               <CompanyDetails

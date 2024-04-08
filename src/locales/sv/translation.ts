@@ -372,5 +372,8 @@ export const sv = {
     fi: 'Finska',
     sv: 'Svenska',
     en: 'Engelska'
+  },
+  publicValidationTest: {
+    companyName: 'Offentligt valideringstest'
   }
 }

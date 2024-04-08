@@ -2,6 +2,7 @@ import { TFunction } from 'i18next'
 import { HeaderItem, TableItem } from '../Common/Table/Table'
 import { formatDate } from '../../util/date'
 import { CompanyLatestEntryResource } from '../../types/DataDelivery'
+import { getBusinessId, getCompanyName } from '../../util/company'
 
 export const getTableHeaders = (t: TFunction<'translation', undefined>): HeaderItem[] => {
   return [
@@ -57,15 +58,18 @@ export const getTableRow = (
   return [
     {
       name: 'companyName',
-      value: companyLatestEntryResource.data.companyName,
-      href: '/admin/companies/' + companyLatestEntryResource.data.businessId +
-        '/data?companyName=' + companyLatestEntryResource.data.companyName,
+      value: getCompanyName(companyLatestEntryResource.data.companyName, t),
+      href:
+        '/admin/companies/' +
+        companyLatestEntryResource.data.businessId +
+        '/data?companyName=' +
+        companyLatestEntryResource.data.companyName,
       colSpan: 2,
-      plainValue: companyLatestEntryResource.data.companyName
+      plainValue: getCompanyName(companyLatestEntryResource.data.companyName, t)
     },
     {
       name: 'businessId',
-      value: companyLatestEntryResource.data.businessId,
+      value: getBusinessId(companyLatestEntryResource.data.businessId),
       colSpan: 1,
       plainValue: companyLatestEntryResource.data.businessId
     },

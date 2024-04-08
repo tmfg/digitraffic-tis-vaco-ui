@@ -1,6 +1,6 @@
 import './_form.scss'
 import { FdsAlertComponent } from '../fds/FdsAlertComponent'
-import { useCallback, useState } from "react";
+import { useCallback, useState } from 'react'
 import { EntryResource } from '../../types/EntryResource'
 import { useMsal } from '@azure/msal-react'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +10,7 @@ import SubmissionModal from './SubmissionModal/SubmissionModal'
 import { useNavigate } from 'react-router-dom'
 import { Map } from '../../types/Map'
 import { submitData } from './helpers'
-import { useCompanyRulesFetch, useRulesForFormat, useUserEmail } from "./hooks";
+import { useCompanyRulesFetch, useRulesForFormat, useUserEmail } from './hooks'
 import BasicInformation from './BasicInformation/BasicInformation'
 import Rules from './Rules/Rules'
 
@@ -21,7 +21,10 @@ const Form = () => {
   const { instance, inProgress } = useMsal()
   const [formData, setFormData] = useState<Map>({})
   const [formErrors, setFormErrors] = useState<Map>({})
-  const [formats, validationRules, isFetchInProgress] = useCompanyRulesFetch(formData.businessId as string | undefined, accessToken)
+  const [formats, validationRules, isFetchInProgress] = useCompanyRulesFetch(
+    formData.businessId as string | undefined,
+    accessToken
+  )
   const [validationRulesForSelectedFormat] = useRulesForFormat(formData.format as string | undefined, validationRules)
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
@@ -76,7 +79,8 @@ const Form = () => {
             formErrors.businessId ||
             formErrors.rules ||
             ((formData.format as string)?.toLowerCase() === 'netex' &&
-              validationRulesForSelectedFormat.filter((rule) => formErrors[rule.data.identifyingName + '-codespace']).length > 0)) && (
+              validationRulesForSelectedFormat.filter((rule) => formErrors[rule.data.identifyingName + '-codespace'])
+                .length > 0)) && (
             <div data-testid="error-alert" className={'form-section'}>
               <FdsAlertComponent icon={'alert-circle'}>{t('services:testData:form:error')}</FdsAlertComponent>
             </div>

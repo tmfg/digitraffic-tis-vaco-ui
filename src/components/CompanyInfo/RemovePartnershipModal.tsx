@@ -7,6 +7,7 @@ import { FdsCardElevation } from '../../../coreui-components/src/fds-card'
 import '../TestData/SubmissionModal/_modal.scss'
 import { useTranslation } from 'react-i18next'
 import { FdsTokenSize2, FdsTokenSize21 } from '../../../coreui-css/lib'
+import { getCompanyName } from '../../util/company'
 
 interface ModalProps {
   close: () => void
@@ -31,7 +32,12 @@ const RemovePartnershipModal = ({ close, proceed, companyA, companyB }: ModalPro
             slot="header-corner"
           />
 
-          <div style={{ marginBottom: '2.5rem' }}>{t('admin:partnership:removeModal', { companyA, companyB })}</div>
+          <div style={{ marginBottom: '2.5rem' }}>
+            {t('admin:partnership:removeModal', {
+              companyA: getCompanyName(companyA, t),
+              companyB: getCompanyName(companyB, t)
+            })}
+          </div>
 
           <FdsActionSheetComponent>
             <FdsButtonComponent

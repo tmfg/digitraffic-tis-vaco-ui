@@ -13,7 +13,8 @@ import { acquireToken } from '../../hooks/auth'
 import { useMsal } from '@azure/msal-react'
 import { getHeaders, HttpClient } from '../../HttpClient'
 import Tree from '../Common/Tree/Tree'
-import LoadSpinner from "../Common/LoadSpinner/LoadSpinner";
+import LoadSpinner from '../Common/LoadSpinner/LoadSpinner'
+import { getCompanyFullName, getCompanyName } from "../../util/company";
 
 interface ModalProps {
   close: () => void
@@ -79,13 +80,17 @@ const LinkToNewParentModal = ({ close, proceed, companyB }: ModalProps) => {
             slot="header-corner"
           />
 
-          <div style={{ marginBottom: '1rem' }}>{t('admin:partnership:linkInstruction', { name: companyB.name })}</div>
+          <div style={{ marginBottom: '1rem' }}>
+            {t('admin:partnership:linkInstruction', {
+              name: getCompanyName(companyB.name, t)
+            })}
+          </div>
 
           {selectedBusinessId && (
             <div>
               {t('admin:partnership:selectedParent')}:
               <span style={{ fontWeight: 700, marginLeft: '8px' }}>
-                {selectedCompanyName} ({selectedBusinessId})
+                {getCompanyFullName(selectedCompanyName, selectedBusinessId, t)}
               </span>
             </div>
           )}
@@ -163,7 +168,12 @@ const LinkToNewParentModal = ({ close, proceed, companyB }: ModalProps) => {
                     }
 
                     if (isSelected && linkExists(hierarchyData, businessId)) {
-                      setError(t('admin:partnership:linkExists', { companyA: companyName, companyB: companyB.name }))
+                      setError(
+                        t('admin:partnership:linkExists', {
+                          companyA: getCompanyName(companyName, t),
+                          companyB: getCompanyName(companyB.name, t)
+                        })
+                      )
                       return
                     }
 

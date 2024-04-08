@@ -6,6 +6,7 @@ import { InteractionStatus, IPublicClientApplication } from '@azure/msal-browser
 import { acquireToken } from '../../hooks/auth'
 import { getHeaders, HttpClient } from '../../HttpClient'
 import { Company, CompanyHierarchy } from '../../types/Company'
+import { getBusinessId, getCompanyName } from '../../util/company'
 
 export const getRulesetTableHeaders = (t: TFunction<'translation', undefined>): HeaderItem[] => {
   return [
@@ -89,15 +90,15 @@ export const getCompanyInfoKeyValuePairs = (company: Company, t: TFunction<'tran
   return [
     {
       label: t('admin:company:name'),
-      value: company.name
+      value: getCompanyName(company.name, t)
     },
     {
       label: t('admin:company:businessId'),
-      value: company.businessId
+      value: getBusinessId(company.businessId)
     },
     {
       label: t('admin:company:language'),
-      value: company.language
+      value: t('languages:' + company.language)
     },
     {
       label: t('admin:company:adGroupId'),
