@@ -151,8 +151,12 @@ export const fi = {
       progress: '<strong>{{percentage}}%</strong> käsitelty. Lataa uusimmat tiedot päivittämällä sivu.',
       packages: {
         header: 'Valmistetut paketit',
-        intro:
-          'Tässä näet valmistetut paketit validointiraportteineen. Paketti on HTML- tai JSON-muodossa validaattorista riippuen.',
+        intro: {
+          validation_syntax:
+            'Tässä näet valmistetut paketit validointiraportteineen. Paketti on HTML- tai JSON-muodossa validaattorista riippuen.',
+          conversion_syntax:
+            'Tässä näet valmistetut paketit konversioraportteineen. Paketti on HTML- tai JSON-muodossa konvertterista riippuen.'
+        },
         result: 'Syötetyt tiedot',
         all: 'Kaikki tulosteet',
         debug: 'Debug lokit',
