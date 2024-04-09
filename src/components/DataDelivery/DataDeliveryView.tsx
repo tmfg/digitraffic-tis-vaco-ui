@@ -29,7 +29,7 @@ const DataDeliveryView = ({ data }: DataDeliveryProps) => {
     if (bootstrap && data) {
       const rows: TableItem[][] = data.map((latestCompanyEntry: CompanyLatestEntryResource) => {
         const row: TableItem[] = getTableRow(latestCompanyEntry, t)
-        const finalRow: TableItem[] = row.slice(0, 6)
+        const finalRow: TableItem[] = row.slice(0, 7)
         // insert status related column value just between submission date and link to the entry page:
         if (latestCompanyEntry.data.status && latestCompanyEntry.data.publicId) {
           finalRow.push({

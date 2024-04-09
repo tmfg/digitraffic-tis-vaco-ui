@@ -320,7 +320,8 @@ export const sv = {
         status: 'Status',
         report: 'Senast publikationen',
         reportLink: 'Visa publikation',
-        url: 'URL'
+        url: 'URL',
+        context: 'Kontextidentifiare'
       }
     },
     companies: {

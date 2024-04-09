@@ -319,7 +319,8 @@ export const en = {
         status: 'Status',
         report: 'Latest submission',
         reportLink: 'View submission',
-        url: 'URL'
+        url: 'URL',
+        context: 'Context identifier'
       }
     },
     companies: {
