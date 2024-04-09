@@ -262,7 +262,9 @@ export const en = {
     save: 'Save',
     confirmation: 'Confirmation',
     separatedByCommaMessage: 'Separated by comma',
-    copied: 'Copied to clipboard!'
+    copied: 'Copied to clipboard!',
+    yes: 'Yes',
+    no: 'No'
   },
   format: {
     gtfs: 'GTFS',
@@ -342,7 +344,8 @@ export const en = {
       adGroupId: 'Entra ID',
       rulesets: 'Rulesets',
       edit: 'Edit company details',
-      contactEmails: 'Contact emails'
+      contactEmails: 'Contact emails',
+      publish: 'Publish feeds?'
     },
     ruleset: {
       name: 'Rule name',

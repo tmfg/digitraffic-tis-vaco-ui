@@ -4,7 +4,7 @@ import {
   getNewFormErrorsState,
   getNewFormErrorsStateAfterMultipleChanges,
   getNewFormState,
-  getNewFormStateAfterMultipleChanges /*, getNewFormStateAfterMultipleChanges*/
+  getNewFormStateAfterMultipleChanges
 } from '../../../util/form'
 import { FdsCheckboxComponent } from '../../fds/FdsCheckboxComponent'
 import { FormComponentProps } from '../types'

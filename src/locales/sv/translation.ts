@@ -262,7 +262,9 @@ export const sv = {
     save: 'Spara',
     confirmation: 'Bekräftelse',
     separatedByCommaMessage: 'Åtskiljd med kommatecken',
-    copied: 'Kopierad till urklipp!'
+    copied: 'Kopierad till urklipp!',
+    yes: 'Ja',
+    no: 'Nej'
   },
   format: {
     gtfs: 'GTFS',
@@ -343,7 +345,8 @@ export const sv = {
       adGroupId: 'Entra ID',
       rulesets: 'Regler',
       edit: 'Redigera företagsuppgifter',
-      contactEmails: 'Kontakt e-post'
+      contactEmails: 'Kontakt e-post',
+      publish: 'Publicera datakällor?'
     },
     ruleset: {
       name: 'Regelnamn',
