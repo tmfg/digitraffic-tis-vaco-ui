@@ -89,39 +89,37 @@ export const getRulesetTableRow = (ruleset: Ruleset, t: TFunction<'translation',
 export const getCompanyInfoKeyValuePairs = (company: Company, t: TFunction<'translation', undefined>) => {
   return [
     {
-      label: t('admin:company:name'),
+      label: t('admin:company.name'),
       value: getCompanyName(company.name, t)
     },
     {
-      label: t('admin:company:businessId'),
+      label: t('admin:company.businessId'),
       value: getBusinessId(company.businessId)
     },
     {
-      label: t('admin:company:language'),
+      label: t('admin:company.language'),
       value: t('languages:' + company.language)
     },
     {
-      label: t('admin:company:adGroupId'),
+      label: t('admin:company.adGroupId'),
       value: company.adGroupId
     },
     {
-      label: t('admin:company:contactEmails'),
+      label: t('admin:company.contactEmails'),
       value: company.contactEmails?.join(', ')
+    },
+    {
+      label: t('admin:company.publish'),
+      value: company.publish ? t('common:yes') : t('common:no')
     }
   ]
 }
 
 export const validateFormData = (formData: Map, translate: TFunction<'translation', undefined>) => {
   const errors: Map = {}
-
   if (!formData.name) {
-    errors.name = translate('services:testData:form:formatRequired')
+    errors.name = translate('services:testData:form:companyRequired')
   }
-
-  if (!formData.businessId) {
-    errors.businessId = translate('services:testData:form:companyRequired')
-  }
-
   return errors
 }
 
@@ -153,7 +151,8 @@ export const submitCompanyData = async (
     businessId: formData.businessId as string,
     language: formData.language as string,
     adGroupId: formData.adGroupId as string,
-    contactEmails: (formData.contactEmails as string)?.split(/\s*,\s*/)
+    contactEmails: (formData.contactEmails as string)?.split(/\s*,\s*/),
+    publish: formData.publish as boolean
   }
 
   const { data } = await HttpClient.put(

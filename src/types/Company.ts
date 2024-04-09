@@ -7,6 +7,7 @@ export interface Company {
   adGroupId?: string
   contactEmails?: string[]
   formatSummary?: string
+  publish: boolean
 }
 
 export interface CompaniesResource {

@@ -35,7 +35,7 @@ const KeyValuePairs = ({ items, variant }: KeyValuePairProps) => {
     <div className={'keyvalue-table'}>
       {items.map((item) => (
         <div key={'keyvalue-row-' + item.label} className={'keyvalue-row'}>
-          <span className={'key-' + variant}>{item.label}: </span>
+          <span className={'key-' + variant}>{item.label} </span>
           <span className={'value value-' + variant}>{item.value ? getValueElement(item.isUrl, item.value) : '-'}</span>
         </div>
       ))}

@@ -8,10 +8,10 @@ import { FdsDropdownComponent } from '../fds/FdsDropdownComponent'
 import { FdsInputComponent } from '../fds/FdsInputComponent'
 import { Map } from '../../types/Map'
 import { getCompanyInfoKeyValuePairs, submitCompanyData } from './helpers'
-import { FdsInputChange } from '../../../coreui-components/src/fds-input'
-import { getNewFormErrorsState, getNewFormState } from '../../util/form'
+import { generalListener } from '../../util/form'
 import { useMsal } from '@azure/msal-react'
 import { PublicValidationTest } from '../../types/PublicValidationTest'
+import { FdsCheckboxComponent } from '../fds/FdsCheckboxComponent'
 
 interface CompanyDetailsProps {
   company: Company
@@ -39,17 +39,18 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
     }
   }, [company, t])
 
-  const updateFormState = useCallback((newFormData: Map, newFormErrors: Map) => {
-    setFormData(newFormData)
-    setFormErrors(newFormErrors)
+  const updateFormState = useCallback((newFormData: Map | null, newFormErrors: Map | null) => {
+    if (newFormData) {
+      setFormData(newFormData)
+    }
+    if (newFormErrors) {
+      setFormErrors(newFormErrors)
+    }
   }, [])
 
   const useGeneralListener: EventListenerOrEventListenerObject = useCallback(
     (e: Event) => {
-      const detail = (e as CustomEvent).detail as FdsInputChange
-      const newFormState = getNewFormState(formData, detail)
-      const newFormErrors = getNewFormErrorsState(formErrors, detail)
-      updateFormState(newFormState, newFormErrors)
+      generalListener(e, updateFormState, formData, formErrors)
     },
     [updateFormState, formData, formErrors]
   )
@@ -71,12 +72,17 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
     if (contactEmailsElement && contactEmailsElement.getAttribute('listener') !== 'true') {
       contactEmailsElement.addEventListener('change', useGeneralListener)
     }
+    const publishCheckboxElement = document.querySelector('[id="publish"]')
+    if (publishCheckboxElement && publishCheckboxElement.getAttribute('listener') !== 'true') {
+      publishCheckboxElement.addEventListener('check', useGeneralListener)
+    }
 
     return () => {
       nameElement?.removeEventListener('change', useGeneralListener)
       contactEmailsElement?.removeEventListener('change', useGeneralListener)
       languageElement?.removeEventListener('select', useGeneralListener)
       adGroupIdElement?.removeEventListener('change', useGeneralListener)
+      publishCheckboxElement?.removeEventListener('check', useGeneralListener)
     }
   }, [useGeneralListener])
 
@@ -94,9 +100,11 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
               businessId: company.businessId,
               language: company.language,
               adGroupId: company.adGroupId,
-              contactEmails: company.contactEmails?.join(', ')
+              contactEmails: company.contactEmails?.join(', '),
+              publish: company.publish
             }
             setFormData(formData)
+            setFormErrors({})
             setIsEditing(!isEditing)
           }}
           label={t('admin:company:edit')}
@@ -134,6 +142,7 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
                   name={'name'}
                   label={t('admin:company:name')}
                   value={formData.name ? (formData.name as string) : ''}
+                  message={(formErrors.name as string) || ''}
                   error={!!formErrors.name}
                 />
               </div>
@@ -165,6 +174,14 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
                 name={'contactEmails'}
                 label={t('admin:company:contactEmails')}
                 message={t('common:separatedByCommaMessage')}
+              />
+            </div>
+
+            <div id={'publish'} className={'input-wrapper'}>
+              <FdsCheckboxComponent
+                checked={formData.publish as boolean}
+                name={'publish'}
+                label={t('admin:company:publish')}
               />
             </div>
           </div>

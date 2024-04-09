@@ -263,7 +263,9 @@ export const fi = {
     save: 'Tallenna',
     confirmation: 'Vahvistus',
     separatedByCommaMessage: 'Erota pilkuilla',
-    copied: 'Kopioi leikepöydälle!'
+    copied: 'Kopioi leikepöydälle!',
+    yes: 'Kyllä',
+    no: 'Ei'
   },
   format: {
     gtfs: 'GTFS',
@@ -344,7 +346,8 @@ export const fi = {
       adGroupId: 'Entra ID',
       rulesets: 'Säännöt',
       edit: 'Muokkaa yrityksen tietoja',
-      contactEmails: 'Yhteydenottosähköpostit'
+      contactEmails: 'Yhteydenottosähköpostit',
+      publish: 'Julkaise syötteet?'
     },
     ruleset: {
       name: 'Säännön nimi',
