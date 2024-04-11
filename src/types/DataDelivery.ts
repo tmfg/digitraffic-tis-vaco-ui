@@ -10,6 +10,7 @@ export interface CompanyLatestEntry {
   businessId: string
   // All the fields below can be null if the Company has no entries at all
   publicId: string | null
+  context: string | null
   url: string | null
   format: string | null
   convertedFormat: string | null

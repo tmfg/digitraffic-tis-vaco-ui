@@ -323,7 +323,8 @@ export const fi = {
         status: 'Tila',
         report: 'Viimeisin julkaisu',
         reportLink: 'Näytä julkaisu',
-        url: 'URL'
+        url: 'URL',
+        context: 'Kontekstitunniste'
       }
     },
     companies: {
