@@ -92,7 +92,7 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
       {!isEditing && (
         <FdsButtonComponent
           icon="pencil-line"
-          style={{ marginTop: '2.5rem' }}
+          style={{ marginTop: '2.5rem', marginBottom: '0.5rem' }}
           onClick={(e) => {
             e.preventDefault()
             const formData = {

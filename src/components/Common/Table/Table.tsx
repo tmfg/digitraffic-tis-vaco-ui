@@ -20,6 +20,7 @@ export interface TableProps {
   isFixedLayout?: boolean
   paginationProps?: TablePaginationProps
   resetCallback?: (newCount: number) => void
+  isHalfWide?: boolean
 }
 
 export interface ExpandableContent {
@@ -44,6 +45,7 @@ export interface TableItem {
   plainValue?: string | number | boolean | null
   colSpan?: number
   isCode?: boolean
+  textAlign?: string
 }
 
 export interface HeaderItem {
@@ -56,6 +58,7 @@ export interface HeaderItem {
   colSpan?: number
   customStyle?: Map
   filterDropdownMenuAlignLeft?: string
+  textAlign?: string
 }
 
 export const getTableItemByColumnName = (row: TableItem[], columnName: string): TableItem => {
@@ -71,7 +74,8 @@ const Table = ({
   defaultSortedColumn,
   isFixedLayout = false,
   paginationProps,
-  resetCallback
+  resetCallback,
+  isHalfWide = false
 }: TableProps) => {
   const [rowsExpandedState, setRowsExpandedState] = useState<Map>({})
   const [selectedSortColumn, setSelectedSortColumn] = useState<SortColumn | undefined>(defaultSortedColumn)
@@ -168,7 +172,9 @@ const Table = ({
       <th
         key={tableTitle + '-header-' + column.name}
         colSpan={column.colSpan ?? 1}
-        className={defaultSortedColumn ? 'th-sortable' : ''}
+        className={`${defaultSortedColumn ? 'th-sortable' : ''} ${
+          column.textAlign === 'right' ? 'text-aligned-right' : ''
+        }`}
         style={column.customStyle ?? {}}
       >
         <span style={{ marginRight: '0.25rem' }}>{column.value}</span>
@@ -263,7 +269,7 @@ const Table = ({
   const getTd = (item: TableItem, rowNumber: number, columnIndex: number) => {
     return (
       <td
-        className={`${item.isCode ? 'code' : ''}`}
+        className={`${item.isCode ? 'code' : ''} ${item.textAlign === 'right' ? 'text-aligned-right' : ''}`}
         colSpan={item.colSpan ?? 1}
         key={tableTitle + 'row-' + rowNumber + '-column-' + columnIndex + '-' + item.name}
       >
@@ -311,7 +317,7 @@ const Table = ({
 
   return (
     <div className={'table-wrapper '}>
-      <table className={isFixedLayout ? 'table-fixed' : ''}>
+      <table className={`${isFixedLayout ? 'table-fixed' : ''} ${isHalfWide ? 'half-wide' : ''}`}>
         <thead>
           <tr>{getHeader()}</tr>
         </thead>

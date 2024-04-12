@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { getRulesetTableHeaders, getRulesetTableRow } from './helpers'
 
 interface RulesetsProps {
-  rulesets: Ruleset[] | undefined
+  rulesets: Ruleset[]
 }
 
 const Rulesets = ({ rulesets }: RulesetsProps) => {

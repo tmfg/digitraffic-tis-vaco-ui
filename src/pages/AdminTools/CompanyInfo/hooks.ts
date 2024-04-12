@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { getHeaders, HttpClient } from '../../../HttpClient'
 import { Company, CompanyHierarchy, CompanyInfoResource } from '../../../types/Company'
 import { Ruleset } from '../../../types/Ruleset'
+import { Context } from '../../../types/Context'
 
 export const useCompanyInfoFetch = (
   accessToken: string | null,
@@ -10,8 +11,9 @@ export const useCompanyInfoFetch = (
   hasCompanyAdminRole: boolean | undefined
 ) => {
   const [company, setCompany] = useState<Company | undefined>(undefined)
-  const [hierarchies, setHierarchies] = useState<CompanyHierarchy[] | undefined>(undefined)
-  const [rulesets, setRulesets] = useState<Ruleset[] | undefined>(undefined)
+  const [contexts, setContexts] = useState<Context[]>([])
+  const [hierarchies, setHierarchies] = useState<CompanyHierarchy[]>([])
+  const [rulesets, setRulesets] = useState<Ruleset[]>([])
   const [apiError, setApiError] = useState<any>(null)
   const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
 
@@ -23,6 +25,7 @@ export const useCompanyInfoFetch = (
         (response) => {
           const companyInfo = response.data as CompanyInfoResource
           setCompany(companyInfo.data.company)
+          setContexts(companyInfo.data.contexts)
           setHierarchies(companyInfo.data.hierarchies)
           setRulesets(companyInfo.data.rulesets)
           setIsFetchInProgress(false)
@@ -39,5 +42,5 @@ export const useCompanyInfoFetch = (
     }
   }, [accessToken, businessId, hasAdminRole, hasCompanyAdminRole])
 
-  return [company, hierarchies, rulesets, apiError, setCompany, setHierarchies, isFetchInProgress] as const
+  return [company, contexts, hierarchies, rulesets, apiError, setCompany, setHierarchies, isFetchInProgress] as const
 }

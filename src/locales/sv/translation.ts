@@ -343,6 +343,8 @@ export const sv = {
       businessId: 'Företags-id',
       language: 'Språk',
       adGroupId: 'Entra ID',
+      contexts: 'Kontextidentifiare',
+      context: 'Kontextidentifiare',
       rulesets: 'Regler',
       edit: 'Redigera företagsuppgifter',
       contactEmails: 'Kontakt e-post',

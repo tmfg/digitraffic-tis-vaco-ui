@@ -264,7 +264,8 @@ export const en = {
     separatedByCommaMessage: 'Separated by comma',
     copied: 'Copied to clipboard!',
     yes: 'Yes',
-    no: 'No'
+    no: 'No',
+    edit: 'Edit'
   },
   format: {
     gtfs: 'GTFS',
@@ -342,6 +343,10 @@ export const en = {
       businessId: 'Business ID',
       language: 'Language',
       adGroupId: 'Entra ID',
+      contexts: 'Context identifiers',
+      context: 'Context identifier',
+      editContext: 'Edit context {{context}}',
+      createContext: 'Create new context',
       rulesets: 'Rulesets',
       edit: 'Edit company details',
       contactEmails: 'Contact emails',

@@ -344,6 +344,8 @@ export const fi = {
       businessId: 'Y-tunnus',
       language: 'Kieli',
       adGroupId: 'Entra ID',
+      contexts: 'Kontekstitunnisteet',
+      context: 'Kontekstitunniste',
       rulesets: 'Säännöt',
       edit: 'Muokkaa yrityksen tietoja',
       contactEmails: 'Yhteydenottosähköpostit',

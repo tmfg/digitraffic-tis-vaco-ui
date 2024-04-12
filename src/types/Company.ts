@@ -1,4 +1,5 @@
 import { Ruleset } from './Ruleset'
+import { Context } from "./Context";
 
 export interface Company {
   businessId: string
@@ -23,6 +24,7 @@ export interface CompanyResource {
 export interface CompanyInfoResource {
   data: {
     company: Company
+    contexts: Context[]
     hierarchies: CompanyHierarchy[]
     rulesets: Ruleset[]
   }

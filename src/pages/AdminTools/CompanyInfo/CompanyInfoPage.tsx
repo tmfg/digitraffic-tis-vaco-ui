@@ -12,23 +12,20 @@ import { useCompanyInfoFetch } from './hooks'
 import LoadSpinner, { SpinnerVariant } from '../../../components/Common/LoadSpinner/LoadSpinner'
 import { useTranslation } from 'react-i18next'
 import { getCompanyFullName } from '../../../util/company'
+import Contexts from '../../../components/CompanyInfo/Contexts'
 
 const CompanyInfoPage = () => {
   const { t } = useTranslation()
   const [accessToken] = useAcquireToken()
   const [hasAdminRole, hasCompanyAdminRole] = useAdminRightsCheck()
   const { businessId } = useParams()
-  const [company, hierarchies, rulesets, apiError, setCompany, setHierarchies, isFetchInProgress] = useCompanyInfoFetch(
-    accessToken,
-    businessId,
-    hasAdminRole,
-    hasCompanyAdminRole
-  )
+  const [company, contexts, hierarchies, rulesets, apiError, setCompany, setHierarchies, isFetchInProgress] =
+    useCompanyInfoFetch(accessToken, businessId, hasAdminRole, hasCompanyAdminRole)
 
   return (
     <div className={'page-content'}>
       <AuthenticatedTemplate>
-        {(hasAdminRole || hasCompanyAdminRole) && company && hierarchies && (
+        {(hasAdminRole || hasCompanyAdminRole) && company && (
           <>
             <h1>{getCompanyFullName(company.name, company.businessId, t)}</h1>
             {isFetchInProgress && <LoadSpinner variant={SpinnerVariant.padded} />}
@@ -39,6 +36,7 @@ const CompanyInfoPage = () => {
                 onEditHierarchiesCallback={setHierarchies}
               />
               <CompanyHierarchyTree company={company} hierarchies={hierarchies} />
+              <Contexts contexts={contexts} businessId={company.businessId} />
               <Rulesets rulesets={rulesets} />
             </>
           </>

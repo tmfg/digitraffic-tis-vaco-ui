@@ -8,33 +8,49 @@ import { getHeaders, HttpClient } from '../../HttpClient'
 import { Company, CompanyHierarchy } from '../../types/Company'
 import { getBusinessId, getCompanyName } from '../../util/company'
 
+export const getContextTableHeaders = (t: TFunction<'translation', undefined>): HeaderItem[] => {
+  return [
+    {
+      name: 'context',
+      value: t('admin:company.context'),
+      colSpan: 4
+    },
+    {
+      name: 'edit',
+      value: t('admin:company.editContext', { context: '' }),
+      colSpan: 1,
+      textAlign: 'right'
+    }
+  ]
+}
+
 export const getRulesetTableHeaders = (t: TFunction<'translation', undefined>): HeaderItem[] => {
   return [
     {
       name: 'format',
-      value: t('admin:ruleset:format'),
+      value: t('admin:ruleset.format'),
       colSpan: 1,
       sortable: true,
       type: 'string'
     },
     {
       name: 'name',
-      value: t('admin:ruleset:name'),
+      value: t('admin:ruleset.name'),
       colSpan: 1
     },
     {
       name: 'description',
-      value: t('admin:ruleset:description'),
+      value: t('admin:ruleset.description'),
       colSpan: 2
     },
     {
       name: 'category',
-      value: t('admin:ruleset:category'),
+      value: t('admin:ruleset.category'),
       colSpan: 1
     },
     {
       name: 'type',
-      value: t('admin:ruleset:type'),
+      value: t('admin:ruleset.type'),
       colSpan: 1
     } /*,
     {
