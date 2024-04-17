@@ -249,7 +249,9 @@ export const fi = {
   formValidation: {
     isRequired: '{{value}} on määritettävä',
     isInvalid: 'Annettu {{value}} ei kelpaa',
-    isMissingScheme: 'Annetun {{value}}:n täytyy alkaa http:// tai https://'
+    isMissingScheme: 'Annetun {{value}}:n täytyy alkaa http:// tai https://',
+    exists: 'Tällä arvolla varustettu kohde on jo olemassa',
+    notExists: 'Yhtä vaadituista parametreista ei ole olemassa'
   },
   common: {
     proceed: 'Jatka',
@@ -265,7 +267,8 @@ export const fi = {
     separatedByCommaMessage: 'Erota pilkuilla',
     copied: 'Kopioi leikepöydälle!',
     yes: 'Kyllä',
-    no: 'Ei'
+    no: 'Ei',
+    edit: 'Muokkaa'
   },
   format: {
     gtfs: 'GTFS',
@@ -346,6 +349,8 @@ export const fi = {
       adGroupId: 'Entra ID',
       contexts: 'Kontekstitunnisteet',
       context: 'Kontekstitunniste',
+      editContext: 'Muokkaa kontekstitunnistetta {{context}}',
+      createContext: 'Luo uusi kontekstitunniste',
       rulesets: 'Säännöt',
       edit: 'Muokkaa yrityksen tietoja',
       contactEmails: 'Yhteydenottosähköpostit',

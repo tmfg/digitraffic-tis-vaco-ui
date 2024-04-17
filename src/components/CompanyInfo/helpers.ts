@@ -17,7 +17,7 @@ export const getContextTableHeaders = (t: TFunction<'translation', undefined>): 
     },
     {
       name: 'edit',
-      value: t('admin:company.editContext', { context: '' }),
+      value: '',
       colSpan: 1,
       textAlign: 'right'
     }

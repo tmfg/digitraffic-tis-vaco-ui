@@ -2,7 +2,7 @@ import { Context } from '../../types/Context'
 import Table, { HeaderItem, TableItem } from '../Common/Table/Table'
 import { getContextTableHeaders } from './helpers'
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Section from '../Common/Section/Section'
 import { ContextButton } from './ContextButton'
 
@@ -14,7 +14,6 @@ interface ContextProps {
 const Contexts = ({ contexts, businessId }: ContextProps) => {
   const { t } = useTranslation()
   const [contextData, setContextData] = useState<Context[]>(contexts)
-  console.log(contextData)
   const headerItems: HeaderItem[] = getContextTableHeaders(t)
   const getContextTableRow = (context: Context): TableItem[] => {
     return [
@@ -40,20 +39,14 @@ const Contexts = ({ contexts, businessId }: ContextProps) => {
     ]
   }
 
-  /*const [contextRows, setContextRows] = useState<TableItem[][]>([])
+  const [contextRows, setContextRows] = useState<TableItem[][]>([])
   useEffect(() => {
     setContextRows(
       contextData.map((context: Context) => {
         return getContextTableRow(context)
       })
     )
-  }, [contextData])*/
-
-  const [contextRows] = useState<TableItem[][]>(
-    contexts.map((context: Context) => {
-      return getContextTableRow(context)
-    })
-  )
+  }, [contextData])
 
   return (
     <Section titleKey={'admin:company.contexts'} hidable={false}>
@@ -68,7 +61,7 @@ const Contexts = ({ contexts, businessId }: ContextProps) => {
       </div>
 
       <div style={{ marginTop: '1rem' }}>
-        <ContextButton updateContextsCallback={setContextData} context={null} businessId={businessId} />{' '}
+        <ContextButton updateContextsCallback={setContextData} context={null} businessId={businessId} />
       </div>
     </Section>
   )

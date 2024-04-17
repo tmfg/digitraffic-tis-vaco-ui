@@ -158,14 +158,16 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
               />
             </div>
 
-            <div id={'adGroupId'} className={'input-wrapper'}>
-              <FdsInputComponent
-                clearable={true}
-                value={formData.adGroupId ? (formData.adGroupId as string) : ''}
-                name={'adGroupId'}
-                label={t('admin:company:adGroupId')}
-              />
-            </div>
+            {company.name !== PublicValidationTest.companyName && (
+              <div id={'adGroupId'} className={'input-wrapper'}>
+                <FdsInputComponent
+                  clearable={true}
+                  value={formData.adGroupId ? (formData.adGroupId as string) : ''}
+                  name={'adGroupId'}
+                  label={t('admin:company:adGroupId')}
+                />
+              </div>
+            )}
 
             <div id={'contactEmails'} className={'input-wrapper'}>
               <FdsInputComponent

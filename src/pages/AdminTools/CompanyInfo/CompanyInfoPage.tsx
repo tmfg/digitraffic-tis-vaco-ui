@@ -36,8 +36,8 @@ const CompanyInfoPage = () => {
                 onEditHierarchiesCallback={setHierarchies}
               />
               <CompanyHierarchyTree company={company} hierarchies={hierarchies} />
-              <Contexts contexts={contexts} businessId={company.businessId} />
-              <Rulesets rulesets={rulesets} />
+              <Contexts key={'contexts-' + company.businessId} contexts={contexts} businessId={company.businessId} />
+              <Rulesets key={'rulesets-' + company.businessId} rulesets={rulesets} />
             </>
           </>
         )}

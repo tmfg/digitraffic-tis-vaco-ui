@@ -248,7 +248,9 @@ export const en = {
   formValidation: {
     isRequired: 'Specifying {{value}} is required',
     isInvalid: 'Provided {{value}} is invalid',
-    isMissingScheme: 'Given {{value}} must start with http:// or https://'
+    isMissingScheme: 'Given {{value}} must start with http:// or https://',
+    exists: 'The item with this value already exists',
+    notExists: 'One of the required parameters does not exist'
   },
   common: {
     proceed: 'Proceed',

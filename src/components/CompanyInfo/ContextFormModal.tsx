@@ -17,24 +17,27 @@ import { useMsal } from '@azure/msal-react'
 
 interface ModalProps {
   close: () => void
-  //proceed: () => void
   context: string | null
   businessId: string
   updateContextsCallback: (c: Context[]) => void
+  modalStateCallback: (isOpen: boolean) => void
 }
 
-const ContextModal = ({ close, context, updateContextsCallback, businessId }: ModalProps) => {
+const ContextFormModal = ({ close, context, updateContextsCallback, businessId, modalStateCallback }: ModalProps) => {
   const { t } = useTranslation()
   const [formData, setFormData] = useState<Map>(context ? { context } : {})
   const [formErrors, setFormErrors] = useState<Map>({})
   const { instance, inProgress } = useMsal()
 
-  const editContext = () => {
-
-  }
-
-  const createContext = () => {
+  const saveContext = () => {
     if (!formData.context) {
+      setFormErrors({
+        context: t('formValidation:isRequired', { value: t('admin:company.context') })
+      })
+      return
+    }
+    if (context && formData.context === context) {
+      modalStateCallback(false)
       return
     }
     acquireToken(instance, inProgress).then(
@@ -43,19 +46,18 @@ const ContextModal = ({ close, context, updateContextsCallback, businessId }: Mo
           // TODO: At some point, show some error notification
           return
         }
+        const requestBody: Context = {
+          context: formData.context as string,
+          businessId: businessId
+        }
+        const httpRequest = context
+          ? HttpClient.put(`/api/ui/admin/contexts/` + context, requestBody, getHeaders(tokenResult.accessToken))
+          : HttpClient.post(`/api/ui/admin/contexts`, requestBody, getHeaders(tokenResult.accessToken))
 
-        HttpClient.post(
-          `/api/ui/admin/contexts?context=${formData.context as string}&businessId=${businessId}`,
-          getHeaders(tokenResult.accessToken)
-        ).then(
-          (response) => {
-            updateContextsCallback(response.data?.data as Context[])
-          },
-          (error) => {
-            // Show some error
-            return Promise.reject(error)
-          }
-        )
+        httpRequest.then((response) => {
+          updateContextsCallback(response.data?.data as Context[])
+          modalStateCallback(false)
+        }, handleApiError)
       },
       (error) => {
         // TODO: show alert
@@ -64,7 +66,22 @@ const ContextModal = ({ close, context, updateContextsCallback, businessId }: Mo
     )
   }
 
-  const proceed = context ? createContext : editContext
+  const handleApiError = (error: any) => {
+    if (error.response.status === 409) {
+      setFormErrors({
+        context: t('formValidation:exists')
+      })
+    } else if (error.response.status === 404) {
+      setFormErrors({
+        context: t('formValidation:notExists')
+      })
+    } else {
+      setFormErrors({
+        context: error.message as string
+      })
+    }
+    return Promise.reject(error)
+  }
 
   const updateFormState = useCallback((newFormData: Map | null, newFormErrors: Map | null) => {
     if (newFormData) {
@@ -135,7 +152,7 @@ const ContextModal = ({ close, context, updateContextsCallback, businessId }: Mo
             <FdsButtonComponent
               variant={FdsButtonVariant.danger}
               iconSize={FdsTokenSize2}
-              onClick={proceed}
+              onClick={saveContext}
               label={t('common:save')}
             />
           </FdsActionSheetComponent>
@@ -145,4 +162,4 @@ const ContextModal = ({ close, context, updateContextsCallback, businessId }: Mo
   )
 }
 
-export default ContextModal
+export default ContextFormModal

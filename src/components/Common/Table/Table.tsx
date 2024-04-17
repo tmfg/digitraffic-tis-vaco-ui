@@ -89,9 +89,6 @@ const Table = ({
    * or if for whatever random reason the parent component decides to re-render
    */
   useEffect(() => {
-    if (!selectedFilters && !selectedSortColumn) {
-      return
-    }
 
     let newRows = rows
     if (selectedFilters) {

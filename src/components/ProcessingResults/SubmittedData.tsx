@@ -37,6 +37,10 @@ const SubmittedData = ({ entry, company }: SubmittedDataProps) => {
       value: formatDate(entry.created)
     },
     {
+      label: t('services:testData:form:context'),
+      value: entry.context
+    },
+    {
       label: t('services:testData:form:url'),
       value: entry.url,
       isUrl: true
@@ -44,10 +48,6 @@ const SubmittedData = ({ entry, company }: SubmittedDataProps) => {
     {
       label: t('services:testData:form:etag'),
       value: entry.etag
-    },
-    {
-      label: t('services:testData:form:context'),
-      value: entry.context
     },
     {
       label: t('services:testData:form:format'),
