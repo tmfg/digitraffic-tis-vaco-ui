@@ -92,7 +92,7 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
       {!isEditing && (
         <FdsButtonComponent
           icon="pencil-line"
-          style={{ marginTop: '2.5rem' }}
+          style={{ marginTop: '2.5rem', marginBottom: '0.5rem' }}
           onClick={(e) => {
             e.preventDefault()
             const formData = {
@@ -158,14 +158,16 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
               />
             </div>
 
-            <div id={'adGroupId'} className={'input-wrapper'}>
-              <FdsInputComponent
-                clearable={true}
-                value={formData.adGroupId ? (formData.adGroupId as string) : ''}
-                name={'adGroupId'}
-                label={t('admin:company:adGroupId')}
-              />
-            </div>
+            {company.name !== PublicValidationTest.companyName && (
+              <div id={'adGroupId'} className={'input-wrapper'}>
+                <FdsInputComponent
+                  clearable={true}
+                  value={formData.adGroupId ? (formData.adGroupId as string) : ''}
+                  name={'adGroupId'}
+                  label={t('admin:company:adGroupId')}
+                />
+              </div>
+            )}
 
             <div id={'contactEmails'} className={'input-wrapper'}>
               <FdsInputComponent

@@ -177,5 +177,28 @@ export const httpHandlers = [
       ],
       { status: 200 }
     )
+  }),
+  http.get('http://localhost:8080/api/ui/contexts', () => {
+    return HttpResponse.json(
+      [
+        {
+          data: {
+            context: 'Main context',
+            businessId: '2942108-7'
+          },
+          error: null,
+          links: {}
+        },
+        {
+          data: {
+            context: 'Test context',
+            businessId: '2942108-7'
+          },
+          error: null,
+          links: {}
+        }
+      ],
+      { status: 200 }
+    )
   })
 ]

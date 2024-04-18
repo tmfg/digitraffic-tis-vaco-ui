@@ -10,7 +10,7 @@ import SubmissionModal from './SubmissionModal/SubmissionModal'
 import { useNavigate } from 'react-router-dom'
 import { Map } from '../../types/Map'
 import { submitData } from './helpers'
-import { useCompanyRulesFetch, useRulesForFormat, useUserEmail } from './hooks'
+import { useCompanyContextsFetch, useCompanyRulesFetch, useRulesForFormat, useUserEmail } from './hooks'
 import BasicInformation from './BasicInformation/BasicInformation'
 import Rules from './Rules/Rules'
 
@@ -25,6 +25,7 @@ const Form = () => {
     formData.businessId as string | undefined,
     accessToken
   )
+  const [contexts] = useCompanyContextsFetch(formData.businessId as string | undefined, accessToken)
   const [validationRulesForSelectedFormat] = useRulesForFormat(formData.format as string | undefined, validationRules)
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
@@ -63,6 +64,7 @@ const Form = () => {
           formErrors={formErrors}
           formStateUpdateCallback={updateFormState}
           formats={formats}
+          contexts={contexts}
           isFetchInProgress={isFetchInProgress}
         />
 

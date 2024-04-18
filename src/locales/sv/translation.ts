@@ -248,7 +248,9 @@ export const sv = {
   formValidation: {
     isRequired: 'Du måste specificera {{value}}',
     isInvalid: 'Den angivna {{value}}:en är ogiltig',
-    isMissingScheme: 'Angiven {{value}} måste börja med http:// eller https://'
+    isMissingScheme: 'Angiven {{value}} måste börja med http:// eller https://',
+    exists: 'Artikeln med detta värde finns redan',
+    notExists: 'En av de nödvändiga parametrarna existerar inte'
   },
   common: {
     proceed: 'Fortsätt',
@@ -264,7 +266,8 @@ export const sv = {
     separatedByCommaMessage: 'Åtskiljd med kommatecken',
     copied: 'Kopierad till urklipp!',
     yes: 'Ja',
-    no: 'Nej'
+    no: 'Nej',
+    edit: 'Redigera'
   },
   format: {
     gtfs: 'GTFS',
@@ -344,6 +347,10 @@ export const sv = {
       businessId: 'Företags-id',
       language: 'Språk',
       adGroupId: 'Entra ID',
+      contexts: 'Kontextidentifiare',
+      context: 'Kontextidentifiare',
+      editContext: 'Redigera kontextidentifierare {{context}}',
+      createContext: 'Skapa ny kontextidentifierare',
       rulesets: 'Regler',
       edit: 'Redigera företagsuppgifter',
       contactEmails: 'Kontakt e-post',
