@@ -228,6 +228,7 @@ export const sv = {
       latest: 'Senaste inlämningar',
       table: {
         id: 'Inlämnings-ID',
+        context: 'Kontextidentifiare',
         feedName: 'Matningsnamn',
         format: 'Format',
         dateCreated: 'Skapad',
@@ -267,7 +268,8 @@ export const sv = {
     copied: 'Kopierad till urklipp!',
     yes: 'Ja',
     no: 'Nej',
-    edit: 'Redigera'
+    edit: 'Redigera',
+    notSpecified: '(Ej specificerat)'
   },
   format: {
     gtfs: 'GTFS',

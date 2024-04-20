@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { ReactComponent as FilterSvg } from '../../../assets/svg/filter.svg'
 import { ReactComponent as FilteredSvg } from '../../../assets/svg/filter-x.svg'
 import { Map } from '../../../types/Map'
+import { useTranslation } from 'react-i18next'
 
 interface FilterComponentProps {
   column: HeaderItem
@@ -23,6 +24,7 @@ const FilterComponent = ({
 }: FilterComponentProps) => {
   const [isClicked, setIsClicked] = useState<boolean>(false)
   const [checkboxStates, setCheckboxStates] = useState<Map>({})
+  const { t } = useTranslation()
 
   const handleOutsideNavigationClick = useCallback(
     (e: Event) => {
@@ -98,7 +100,7 @@ const FilterComponent = ({
                   filterCallback(Object.keys(newCheckboxStates).filter((key) => newCheckboxStates[key]))
                 }}
               />
-              <label htmlFor={opt}>{opt}</label>
+              <label htmlFor={opt}>{opt || t('common:notSpecified')}</label>
             </li>
           ))}
         </ul>
