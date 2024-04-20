@@ -7,53 +7,54 @@ export const getTableHeaders = (t: TFunction<'translation', undefined>): HeaderI
   return [
     {
       name: 'publicId',
-      value: t('services:myData:table:id'),
+      value: t('services:myData.table.id'),
       colSpan: 4
     },
     {
+      name: 'context',
+      value: t('services:myData.table.context'),
+      colSpan: 2,
+      type: 'string',
+      filterable: true,
+      sortable: true
+    },
+    {
       name: 'feedName',
-      value: t('services:myData:table:feedName'),
+      value: t('services:myData.table.feedName'),
       colSpan: 5,
       sortable: true,
       type: 'string'
     },
     {
       name: 'format',
-      value: t('services:myData:table:format'),
+      value: t('services:myData.table.format'),
       filterable: true,
       colSpan: 2
     },
     {
       name: 'dateCreated',
-      value: t('services:myData:table:dateCreated'),
+      value: t('services:myData.table.dateCreated'),
       colSpan: 2,
       sortable: true,
       type: 'date'
     },
     {
       name: 'dateStarted',
-      value: t('services:myData:table:dateStarted'),
-      colSpan: 2,
-      sortable: true,
-      type: 'date'
-    },
-    {
-      name: 'dateUpdated',
-      value: t('services:myData:table:dateUpdated'),
+      value: t('services:myData.table.dateStarted'),
       colSpan: 2,
       sortable: true,
       type: 'date'
     },
     {
       name: 'dateCompleted',
-      value: t('services:myData:table:dateCompleted'),
+      value: t('services:myData.table.dateCompleted'),
       colSpan: 2,
       sortable: true,
       type: 'date'
     },
     {
       name: 'status',
-      value: t('services:myData:table:status'),
+      value: t('services:myData.table.status'),
       filterable: true,
       customStyle: { width: '110px' },
       filterDropdownMenuAlignLeft: '-89px'
@@ -68,6 +69,12 @@ export const getTableRow = (entryResource: EntryResource, t: TFunction<'translat
       value: entryResource.data.publicId,
       href: '/data/' + entryResource.data.publicId,
       colSpan: 4
+    },
+    {
+      name: 'context',
+      value: entryResource.data.context || '',
+      plainValue: entryResource.data.context || '',
+      colSpan: 2
     },
     {
       name: 'feedName',
@@ -92,12 +99,6 @@ export const getTableRow = (entryResource: EntryResource, t: TFunction<'translat
       value: formatDate(entryResource.data.started),
       colSpan: 2,
       plainValue: entryResource.data.started
-    },
-    {
-      name: 'dateUpdated',
-      value: formatDate(entryResource.data.updated),
-      colSpan: 2,
-      plainValue: entryResource.data.updated
     },
     {
       name: 'dateCompleted',

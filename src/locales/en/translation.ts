@@ -228,6 +228,7 @@ export const en = {
       latest: 'Latest submissions',
       table: {
         id: 'Submission ID',
+        context: 'Context identifier',
         feedName: 'Feed name',
         format: 'Format',
         dateCreated: 'Created',
@@ -267,7 +268,8 @@ export const en = {
     copied: 'Copied to clipboard!',
     yes: 'Yes',
     no: 'No',
-    edit: 'Edit'
+    edit: 'Edit',
+    notSpecified: '(Not specified)'
   },
   format: {
     gtfs: 'GTFS',

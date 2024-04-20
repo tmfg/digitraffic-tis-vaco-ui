@@ -229,6 +229,7 @@ export const fi = {
       latest: 'Uusimmat julkaisut',
       table: {
         id: 'Julkaisun tunnus',
+        context: 'Kontekstitunniste',
         feedName: 'Syötteen nimi',
         format: 'Formaatti',
         dateCreated: 'Luotu',
@@ -268,7 +269,8 @@ export const fi = {
     copied: 'Kopioi leikepöydälle!',
     yes: 'Kyllä',
     no: 'Ei',
-    edit: 'Muokkaa'
+    edit: 'Muokkaa',
+    notSpecified: '(Ei määritelty)'
   },
   format: {
     gtfs: 'GTFS',
