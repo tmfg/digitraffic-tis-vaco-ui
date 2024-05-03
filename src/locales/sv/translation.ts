@@ -344,6 +344,15 @@ export const sv = {
       viewFullHierarchy: 'Se fullständig företagshierarki',
       completeHierarchy: 'Komplett företagshierarki'
     },
+    featureFlags: {
+      header: 'Funktionsflaggor',
+      table: {
+        name: 'Flagga',
+        enabled: 'Aktiverad?',
+        modified: 'Modifierad',
+        modifiedBy: 'Modifierad av'
+      }
+    },
     company: {
       name: 'Företagsnamn',
       businessId: 'Företags-id',
