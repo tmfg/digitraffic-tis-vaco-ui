@@ -79,7 +79,7 @@ export const sv = {
         title: 'Skapa matning',
         section: {
           basic: 'Grundläggande information',
-          rules: 'Valideringsregler',
+          validationRules: 'Valideringsregler',
           metadata: 'Metadata',
           conversionRules: 'Konverteringsregler'
         },
@@ -113,7 +113,7 @@ export const sv = {
           },
           'gbfs.entur': 'GBFS Validator by Entur'
         },
-        noValidationRulesFound: 'Inga dataformat och valideringsregler hittades',
+        noFormatsFound: 'Inga dataformat och regler hittades',
         netex: {
           codespace: 'Codespace',
           codespaceRequired: 'Du måste specificera codespace',

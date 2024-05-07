@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from 'react'
 import { FdsInputComponent } from '../../../fds/FdsInputComponent'
-import { FormComponentProps } from '../../types'
+import { FormSectionProps } from '../../types'
 import { useTranslation } from 'react-i18next'
 import { FdsInputChange } from '../../../../../coreui-components/src/fds-input'
 import { generalListener } from '../../../../util/form'
 
-interface NetexEntur extends FormComponentProps {
+interface NetexEnturValidatorProps extends FormSectionProps {
   ruleName: string
 }
 
@@ -30,7 +30,7 @@ export const getNetexAdditionalInputs = (ruleName: string): FdsInputChange[] => 
   ]
 }
 
-const NetexEntur = ({ ruleName, formErrors, formData, formStateUpdateCallback }: NetexEntur) => {
+const NetexEnturValidator = ({ ruleName, formErrors, formData, formStateUpdateCallback }: NetexEnturValidatorProps) => {
   const { t } = useTranslation()
 
   const useGeneralListener: EventListenerOrEventListenerObject = useCallback(
@@ -101,4 +101,4 @@ const NetexEntur = ({ ruleName, formErrors, formData, formStateUpdateCallback }:
   )
 }
 
-export default NetexEntur
+export default NetexEnturValidator

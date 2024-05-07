@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getHeaders, HttpClient } from '../../HttpClient'
-import { RulesetResource } from '../../types/Ruleset'
+import { RulesetResource, RulesetType } from '../../types/Ruleset'
 import { parseJwt } from '../../util/jwt'
 import { useMsal } from '@azure/msal-react'
 import { getUniqueValues } from '../../util/array'
@@ -8,6 +8,7 @@ import { Context, ContextResource } from '../../types/Context'
 
 export const useCompanyRulesFetch = (selectedBusinessId: string | undefined, accessToken: string | null) => {
   const [validationRules, setValidationRules] = useState<RulesetResource[]>([])
+  const [conversionRules, setConversionRules] = useState<RulesetResource[]>([])
   const [formats, setFormats] = useState<string[]>([])
   const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
 
@@ -18,8 +19,10 @@ export const useCompanyRulesFetch = (selectedBusinessId: string | undefined, acc
         (response) => {
           setIsFetchInProgress(false)
           const companyRules = response.data as RulesetResource[]
-          const availableValidationRules = companyRules.filter((rule) => rule.data.type === 'VALIDATION_SYNTAX')
+          const availableValidationRules = companyRules.filter((rule) => rule.data.type === RulesetType.ValidationSyntax)
           setValidationRules(availableValidationRules)
+          const availableConversionRules = companyRules.filter((rule) => rule.data.type === RulesetType.ConversionSyntax)
+          setConversionRules(availableConversionRules)
           const availableFormats = getUniqueValues(availableValidationRules.map((rule) => rule.data.format)).sort()
           setFormats(availableFormats)
         },
@@ -31,7 +34,7 @@ export const useCompanyRulesFetch = (selectedBusinessId: string | undefined, acc
     }
   }, [accessToken, selectedBusinessId])
 
-  return [formats, validationRules, isFetchInProgress] as const
+  return [formats, validationRules, conversionRules, isFetchInProgress] as const
 }
 
 export const useCompanyContextsFetch = (selectedBusinessId: string | undefined, accessToken: string | null) => {

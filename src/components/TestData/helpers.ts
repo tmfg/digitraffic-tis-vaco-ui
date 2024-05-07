@@ -5,7 +5,7 @@ import { getHeaders, HttpClient } from '../../HttpClient'
 import { EntryResource } from '../../types/EntryResource'
 import { InteractionStatus, IPublicClientApplication } from '@azure/msal-browser'
 import { TFunction } from 'i18next'
-import { RulesetResource } from '../../types/Ruleset'
+import { RulesetResource, RulesetType } from '../../types/Ruleset'
 import { validateFormData } from './validation'
 
 export const submitData = async (
@@ -37,26 +37,47 @@ export const submitData = async (
     formData.feedName = parts[parts.length - 1]
   }
 
-  const validations = selectedRules.map((rule) => {
-    if ((formData.format as string)?.toLowerCase() === 'netex') {
-      return {
-        name: rule.data.identifyingName,
-        config: {
-          codespace: formData[rule.data.identifyingName + '-codespace'],
-          ignorableNetexElements: (formData[rule.data.identifyingName + '-ignorableNetexElements'] as string)
-            ?.split(',')
-            .filter((elem) => elem),
-          maximumErrors: Number(formData[rule.data.identifyingName + '-maximumErrors']) || 500,
-          reportId: formData[rule.data.identifyingName + '-reportId']
+  const validations = selectedRules
+    .filter((rule) => rule.data.type === RulesetType.ValidationSyntax)
+    .map((rule) => {
+      if ((formData.format as string)?.toLowerCase() === 'netex') {
+        return {
+          name: rule.data.identifyingName,
+          config: {
+            codespace: formData[rule.data.identifyingName + '-codespace'],
+            ignorableNetexElements: (formData[rule.data.identifyingName + '-ignorableNetexElements'] as string)
+              ?.split(',')
+              .filter((elem) => elem),
+            maximumErrors: Number(formData[rule.data.identifyingName + '-maximumErrors']) || 500,
+            reportId: formData[rule.data.identifyingName + '-reportId']
+          }
         }
       }
-    }
 
-    return {
-      name: rule.data.identifyingName,
-      config: null
-    }
-  })
+      return {
+        name: rule.data.identifyingName,
+        config: null
+      }
+    })
+
+  const conversions = selectedRules
+    .filter((rule) => rule.data.type === RulesetType.ConversionSyntax)
+    .map((rule) => {
+      // Could have been rule name-specific check, but then it's cumbersome when dealing with versioned legacy rules
+      if ((formData.format as string)?.toLowerCase() === 'netex') {
+        return {
+          name: rule.data.identifyingName,
+          config: {
+            codespace: formData[rule.data.identifyingName + '-codespace']
+          }
+        }
+      }
+
+      return {
+        name: rule.data.identifyingName,
+        config: null
+      }
+    })
 
   const requestBody: EntryRequest = {
     name: formData.feedName as string,
@@ -65,7 +86,8 @@ export const submitData = async (
     context: formData.context as string,
     etag: formData.etag as string,
     format: (formData.format as string).toLowerCase(),
-    validations: validations
+    validations,
+    conversions
   }
 
   if (email) {

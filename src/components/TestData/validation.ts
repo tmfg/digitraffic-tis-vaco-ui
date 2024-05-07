@@ -19,21 +19,21 @@ export const validateFormData = (
   }
 
   if (!formData.format) {
-    errors.format = translate('services:testData:form:formatRequired')
+    errors.format = translate('services:testData.form.formatRequired')
   }
 
   if (!formData.businessId) {
-    errors.businessId = translate('services:testData:form:companyRequired')
+    errors.businessId = translate('services:testData.form.companyRequired')
   }
 
   if (formData.format && selectedRules.length === 0) {
-    errors.rules = translate('services:testData:form:rulesRequired')
+    errors.rulesRequired = translate('services:testData.form.rulesRequired')
   }
 
   if ((formData.format as string)?.toLowerCase() === 'netex') {
     selectedRules.forEach((rule) => {
       if (!formData[rule.data.identifyingName + '-codespace']) {
-        errors[rule.data.identifyingName + '-codespace'] = translate('services:testData:form:netex:codespaceRequired')
+        errors[rule.data.identifyingName + '-codespace'] = translate('services:testData.form.netex.codespaceRequired')
       }
     })
   }

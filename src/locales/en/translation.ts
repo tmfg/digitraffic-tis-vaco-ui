@@ -78,7 +78,7 @@ export const en = {
         title: 'Create feed',
         section: {
           basic: 'Basic information',
-          rules: 'Validation rules',
+          validationRules: 'Validation rules',
           metadata: 'Metadata',
           conversionRules: 'Conversion rules'
         },
@@ -112,7 +112,7 @@ export const en = {
           },
           'gbfs.entur': 'GBFS Validator by Entur'
         },
-        noValidationRulesFound: 'No data formats and validation rules found for the chosen company',
+        noFormatsFound: 'No data formats and rules found for the chosen company',
         netex: {
           codespace: 'Codespace',
           codespaceRequired: 'Specifying codespace is required',
