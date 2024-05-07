@@ -7,16 +7,18 @@ import {
   getNewFormStateAfterMultipleChanges
 } from '../../../util/form'
 import { FdsCheckboxComponent } from '../../fds/FdsCheckboxComponent'
-import { FormComponentProps } from '../types'
-import { RulesetResource } from '../../../types/Ruleset'
+import { FormSectionProps } from '../types'
+import { Netex2GtfsEnturConverterName, NetexEnturValidatorName, RulesetResource } from '../../../types/Ruleset'
 import { useTranslation } from 'react-i18next'
-import NetexEntur, { getNetexAdditionalInputs } from './ruleConfiguration/NetexEntur'
+import NetexEnturValidator, { getNetexAdditionalInputs } from './ruleConfiguration/NetexEnturValidator'
+import NetexEnturConverter, { getNetexConverterAdditionalInputs } from './ruleConfiguration/NetexEnturConverter'
 
-interface RulesProps extends FormComponentProps {
-  rules: RulesetResource[]
+interface RulesProps extends FormSectionProps {
+  validationRules: RulesetResource[]
+  conversionRules: RulesetResource[]
 }
 
-const Rules = ({ formData, formErrors, formStateUpdateCallback, rules }: RulesProps) => {
+const Rules = ({ formData, formErrors, formStateUpdateCallback, validationRules, conversionRules }: RulesProps) => {
   const { t, i18n } = useTranslation()
 
   useEffect(() => {
@@ -25,15 +27,19 @@ const Rules = ({ formData, formErrors, formStateUpdateCallback, rules }: RulesPr
     previouslySelectedRules.forEach((ruleName) => {
       if (
         formData[ruleName] &&
-        rules.filter((newRule) => 'rule-' + newRule.data.identifyingName === ruleName).length === 0
+        validationRules.filter((newRule) => 'rule-' + newRule.data.identifyingName === ruleName).length === 0 &&
+        conversionRules.filter((newRule) => 'rule-' + newRule.data.identifyingName === ruleName).length === 0
       ) {
         const ruleToClearOut: FdsInputChange = {
           name: ruleName,
           value: false
         }
         let inputsToClearOut: FdsInputChange[] = [ruleToClearOut]
-        if (ruleName.toLowerCase().includes('netex')) {
+        if (ruleName.toLowerCase().includes(NetexEnturValidatorName)) {
           inputsToClearOut = inputsToClearOut.concat(getNetexAdditionalInputs(ruleName.substring(5)))
+        }
+        if (ruleName.toLowerCase().includes(Netex2GtfsEnturConverterName)) {
+          inputsToClearOut = inputsToClearOut.concat(getNetexConverterAdditionalInputs(ruleName.substring(5)))
         }
 
         const newFormData = getNewFormStateAfterMultipleChanges(formData, inputsToClearOut)
@@ -43,7 +49,7 @@ const Rules = ({ formData, formErrors, formStateUpdateCallback, rules }: RulesPr
         )
       }
     })
-  }, [formData, formErrors, formStateUpdateCallback, rules])
+  }, [formData, formErrors, formStateUpdateCallback, validationRules, conversionRules])
 
   const useRuleListener: EventListenerOrEventListenerObject = useCallback(
     (e: Event) => {
@@ -51,9 +57,9 @@ const Rules = ({ formData, formErrors, formStateUpdateCallback, rules }: RulesPr
       const newFormState = getNewFormState(formData, detail)
       const newFormErrors = getNewFormErrorsState(formErrors, detail)
       formStateUpdateCallback(newFormState, newFormErrors)
-      if (formErrors.rules && detail.value) {
+      if (formErrors.rulesRequired && detail.value) {
         const newFormErrors = { ...formErrors }
-        newFormErrors.rules = undefined
+        newFormErrors.rulesRequired = undefined
         formStateUpdateCallback(null, newFormErrors)
       }
     },
@@ -61,26 +67,43 @@ const Rules = ({ formData, formErrors, formStateUpdateCallback, rules }: RulesPr
   )
 
   useEffect(() => {
-    const ruleCheckboxes: Element[] = []
-    rules.forEach((rule) => {
+    const allRuleCheckboxes: Element[] = []
+    validationRules.forEach((rule) => {
       const checkbox = document.querySelector('[id="' + rule.data.identifyingName + '"]')
       if (checkbox && checkbox.getAttribute('listener') !== 'true') {
         checkbox.addEventListener('check', useRuleListener)
-        ruleCheckboxes.push(checkbox)
+        allRuleCheckboxes.push(checkbox)
+      }
+    })
+
+    conversionRules.forEach((rule) => {
+      const checkbox = document.querySelector('[id="' + rule.data.identifyingName + '"]')
+      if (checkbox && checkbox.getAttribute('listener') !== 'true') {
+        checkbox.addEventListener('check', useRuleListener)
+        allRuleCheckboxes.push(checkbox)
       }
     })
 
     return () => {
-      ruleCheckboxes.forEach((checkbox) => {
+      allRuleCheckboxes.forEach((checkbox) => {
         checkbox?.removeEventListener('check', useRuleListener)
       })
     }
-  }, [formData, rules, useRuleListener])
+  }, [formData, validationRules, conversionRules, useRuleListener])
 
   const getRuleConfigurationFields = (ruleName: string) => {
-    if (ruleName.toLowerCase().includes('netex')) {
+    if (ruleName.toLowerCase().startsWith(NetexEnturValidatorName)) {
       return (
-        <NetexEntur
+        <NetexEnturValidator
+          ruleName={ruleName}
+          formData={formData}
+          formErrors={formErrors}
+          formStateUpdateCallback={formStateUpdateCallback}
+        />
+      )
+    } else if (ruleName.toLowerCase().startsWith(Netex2GtfsEnturConverterName)) {
+      return (
+        <NetexEnturConverter
           ruleName={ruleName}
           formData={formData}
           formErrors={formErrors}
@@ -95,9 +118,9 @@ const Rules = ({ formData, formErrors, formStateUpdateCallback, rules }: RulesPr
     <>
       {formData.format ? (
         <div className={'form-section'}>
-          <h5>{t('services:testData:form:section:rules')} *</h5>
+          <h5>{t('services:testData.form.section.validationRules')}</h5>
 
-          {rules.map((rule) => {
+          {validationRules.map((rule) => {
             return (
               <div id={rule.data.identifyingName} key={'rule-' + rule.data.identifyingName}>
                 <FdsCheckboxComponent
@@ -112,15 +135,36 @@ const Rules = ({ formData, formErrors, formStateUpdateCallback, rules }: RulesPr
               </div>
             )
           })}
-          {formErrors.rules && <div className={'error'}>{formErrors.rules as string}</div>}
         </div>
       ) : (
         ''
       )}
 
-      {formData.format && rules.length === 0 && (
-        <div className={'error'}>{t('services:testData:form:noValidationRulesFound')}</div>
+      {formData.format && conversionRules.length > 0 ? (
+        <div className={'form-section'}>
+          <h5>{t('services:testData:form:section:conversionRules')}</h5>
+
+          {conversionRules.map((rule) => {
+            return (
+              <div id={rule.data.identifyingName} key={'rule-' + rule.data.identifyingName}>
+                <FdsCheckboxComponent
+                  name={'rule-' + rule.data.identifyingName}
+                  label={
+                    i18n.exists('services:testData:form:rules:' + rule.data.identifyingName)
+                      ? t('services:testData:form:rules:' + rule.data.identifyingName)
+                      : rule.data.description
+                  }
+                />
+                {formData['rule-' + rule.data.identifyingName] && getRuleConfigurationFields(rule.data.identifyingName)}
+              </div>
+            )
+          })}
+        </div>
+      ) : (
+        ''
       )}
+
+      {formErrors.rulesRequired && <div className={'error'}>{formErrors.rulesRequired}</div>}
     </>
   )
 }

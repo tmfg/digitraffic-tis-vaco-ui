@@ -80,7 +80,7 @@ export const fi = {
         title: 'Luo syöte',
         section: {
           basic: 'Perustiedot',
-          rules: 'Validointisäännöt',
+          validationRules: 'Validointisäännöt',
           metadata: 'Metadata',
           conversionRules: 'Konversiosäännöt'
         },
@@ -114,7 +114,7 @@ export const fi = {
           },
           'gbfs.entur': 'GBFS Validator by Entur'
         },
-        noValidationRulesFound: 'Dataformaatteja ja validointisääntöjä ei löytynyt',
+        noFormatsFound: 'Dataformaatteja ja sääntöjä ei löytynyt',
         netex: {
           codespace: 'Codespace',
           codespaceRequired: 'Codespace on määritettävä',

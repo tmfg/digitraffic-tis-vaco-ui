@@ -8,25 +8,26 @@ import { useAcquireToken } from '../../hooks/auth'
 import { FdsButtonComponent } from '../fds/FdsButtonComponent'
 import SubmissionModal from './SubmissionModal/SubmissionModal'
 import { useNavigate } from 'react-router-dom'
-import { Map } from '../../types/Map'
 import { submitData } from './helpers'
 import { useCompanyContextsFetch, useCompanyRulesFetch, useRulesForFormat, useUserEmail } from './hooks'
 import BasicInformation from './BasicInformation/BasicInformation'
 import Rules from './Rules/Rules'
+import { FormError, FormData } from './types'
 
 const Form = () => {
   const navigate = useNavigate()
   const { t } = useTranslation()
   const [accessToken] = useAcquireToken()
   const { instance, inProgress } = useMsal()
-  const [formData, setFormData] = useState<Map>({})
-  const [formErrors, setFormErrors] = useState<Map>({})
-  const [formats, validationRules, isFetchInProgress] = useCompanyRulesFetch(
-    formData.businessId as string | undefined,
+  const [formData, setFormData] = useState<FormData>({})
+  const [formErrors, setFormErrors] = useState<FormError>({})
+  const [formats, validationRules, conversionRules, isFetchInProgress] = useCompanyRulesFetch(
+    formData.businessId,
     accessToken
   )
-  const [contexts] = useCompanyContextsFetch(formData.businessId as string | undefined, accessToken)
-  const [validationRulesForSelectedFormat] = useRulesForFormat(formData.format as string | undefined, validationRules)
+  const [contexts] = useCompanyContextsFetch(formData.businessId, accessToken)
+  const [validationRulesForSelectedFormat] = useRulesForFormat(formData.format, validationRules)
+  const [conversionRulesForSelectedFormat] = useRulesForFormat(formData.format, conversionRules)
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [email] = useUserEmail(accessToken)
@@ -38,7 +39,7 @@ const Form = () => {
     navigate('/data/' + entryResource?.data.publicId)
   }
 
-  const updateFormState = useCallback((newFormData: Map | null, newFormErrors: Map | null) => {
+  const updateFormState = useCallback((newFormData: FormData | null, newFormErrors: FormError | null) => {
     if (newFormData) {
       setFormData(newFormData)
     }
@@ -72,14 +73,15 @@ const Form = () => {
           formData={formData}
           formErrors={formErrors}
           formStateUpdateCallback={updateFormState}
-          rules={validationRulesForSelectedFormat}
+          validationRules={validationRulesForSelectedFormat}
+          conversionRules={conversionRulesForSelectedFormat}
         />
 
         {formErrors &&
           (formErrors.url ||
             formErrors.format ||
             formErrors.businessId ||
-            formErrors.rules ||
+            formErrors.rulesRequired ||
             ((formData.format as string)?.toLowerCase() === 'netex' &&
               validationRulesForSelectedFormat.filter((rule) => formErrors[rule.data.identifyingName + '-codespace'])
                 .length > 0)) && (
@@ -100,7 +102,7 @@ const Form = () => {
                 setEntryResource,
                 setIsModalOpen,
                 t,
-                validationRulesForSelectedFormat,
+                (validationRulesForSelectedFormat || []).concat(conversionRulesForSelectedFormat || []),
                 email
               ).catch(
                 (err) => console.error('Data submission error', err)

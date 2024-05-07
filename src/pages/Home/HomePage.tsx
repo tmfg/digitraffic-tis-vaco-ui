@@ -86,9 +86,9 @@ const HomePage = () => {
       <h1>{t('home:header')}</h1>
 
       <div className={'page-intro'}>
-        <p>{t('home:intro:p1')}</p>
-        <p>{t('home:intro:p2')}</p>
-        <p>{t('home:intro:p3')}</p>
+        <p>{t('home:intro.p1')}</p>
+        <p>{t('home:intro.p2')}</p>
+        <p>{t('home:intro.p3')}</p>
       </div>
 
       <h2>{t('home:shortcuts')}</h2>

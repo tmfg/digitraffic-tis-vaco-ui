@@ -7,11 +7,11 @@ import { getFeedNameSuggestion } from '../helpers'
 import { FdsDropdownComponent } from '../../fds/FdsDropdownComponent'
 import { FdsInputComponent } from '../../fds/FdsInputComponent'
 import { useTranslation } from 'react-i18next'
-import { FormComponentProps } from '../types'
+import { FormSectionProps } from '../types'
 import { getCompanyFullName } from '../../../util/company'
 import { Context } from '../../../types/Context'
 
-interface BasicInformationProps extends FormComponentProps {
+interface BasicInformationProps extends FormSectionProps {
   formats: string[]
   isFetchInProgress: boolean
   contexts: Context[]
@@ -179,12 +179,12 @@ const BasicInformation = ({
 
   return (
     <div className={'form-section'}>
-      <h5>{t('services:testData:form:section:basic')}</h5>
+      <h5>{t('services:testData.form.section.basic')}</h5>
 
       <div id={'company'} className={'input-wrapper'}>
         <FdsDropdownComponent
           name={'businessId'}
-          label={t('services:testData:form:company') + ' *'}
+          label={t('services:testData.form.company') + ' *'}
           options={companyOptions}
           message={(formErrors['businessId'] as string) || ''}
           error={!!formErrors['businessId']}
@@ -196,9 +196,9 @@ const BasicInformation = ({
         <div id={'context'} className={'input-wrapper'}>
           <FdsDropdownComponent
             name={'context'}
-            label={t('services:testData:form:context')}
+            label={t('services:testData.form.context')}
             options={contextOptions}
-            message={t('services:testData:form:contextInfo')}
+            message={t('services:testData.form.contextInfo')}
             value={formData.context ? contextOptions.filter((c) => c.value === formData.context)[0] : undefined}
           />
         </div>
@@ -208,9 +208,9 @@ const BasicInformation = ({
         <FdsInputComponent
           clearable={true}
           name={'feedName'}
-          placeholder={t('services:testData:form:feedNamePlaceHolder')}
-          label={t('services:testData:form:feedName')}
-          message={t('services:testData:form:feedNameInfo')}
+          placeholder={t('services:testData.form.feedNamePlaceHolder')}
+          label={t('services:testData.form.feedName')}
+          message={t('services:testData.form.feedNameInfo')}
           value={formData.feedName ? (formData.feedName as string) : ''}
         />
       </div>
@@ -220,21 +220,21 @@ const BasicInformation = ({
           clearable={true}
           name={'url'}
           placeholder={'https://'}
-          label={t('services:testData:form:url') + ' *'}
-          message={(formErrors['url'] as string) || t('services:testData:form:urlInfo')}
+          label={t('services:testData.form.url') + ' *'}
+          message={(formErrors['url'] as string) || t('services:testData.form.urlInfo')}
           error={!!formErrors['url']}
         />
       </div>
 
       <div id={'etag'} className={'input-wrapper etag'}>
-        <FdsInputComponent clearable={true} name={'etag'} label={t('services:testData:form:etag')} />
+        <FdsInputComponent clearable={true} name={'etag'} label={t('services:testData.form.etag')} />
       </div>
 
       {formatOptions.length > 0 && (
         <div id={'format'} className={'input-wrapper format'}>
           <FdsDropdownComponent
             name={'format'}
-            label={t('services:testData:form:format') + ' *'}
+            label={t('services:testData.form.format') + ' *'}
             options={formatOptions}
             message={(formErrors.format as string) || ''}
             error={!!formErrors.format}
@@ -244,7 +244,7 @@ const BasicInformation = ({
         </div>
       )}
       {formatOptions.length == 0 && formData.businessId && !isFetchInProgress && (
-        <div className={'error'}>{t('services:testData:form:noValidationRulesFound')}</div>
+        <div className={'error'}>{t('services:testData.form.noFormatsFound')}</div>
       )}
     </div>
   )

@@ -13,8 +13,8 @@ export interface Entry {
   format: string
   businessId: string
   etag: string
-  validations: ValidationInput[]
-  conversions?: ConversionInput[]
+  validations: RuleInput[]
+  conversions?: RuleInput[]
   metadata?: object
   tasks?: Task[]
   created: string
@@ -26,12 +26,7 @@ export interface Entry {
   context?: string
 }
 
-export interface ValidationInput {
+export interface RuleInput {
   name: string
-  config: object | null
-}
-
-export interface ConversionInput {
-  name?: string
   config: object | null
 }
