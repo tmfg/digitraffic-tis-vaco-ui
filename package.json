@@ -59,7 +59,7 @@
     "sass": "^1.69.5",
     "shadow-dom-testing-library": "^1.11.2",
     "source-map-support": "^0.5.21",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5.2.2",
     "vite": "^4.5.3",
     "vite-plugin-checker": "^0.6.2",
