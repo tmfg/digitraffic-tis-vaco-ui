@@ -1,5 +1,5 @@
 .report-container {
-  padding: 3rem 2rem;
+  padding: 2rem;
   margin-bottom: 2rem;
   margin-top: 0.5rem;
   box-shadow: 0 2px 10px 0 rgba(0,0,0,0.1);
@@ -7,6 +7,10 @@
 
 .report-stats {
   display: flex;
+
+  &__no-findings {
+    margin-bottom: 2.5rem;
+  }
 
   .counter {
     display: flex;

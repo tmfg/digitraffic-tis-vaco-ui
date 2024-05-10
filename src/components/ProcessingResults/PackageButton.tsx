@@ -47,7 +47,7 @@ const PackageButton = ({ entryPackage }: PackageButtonProps) => {
           )
         }}
         label={
-          i18n.exists('services:processingResults:packages:' + entryPackage.data.name)
+          i18n .exists('services:processingResults:packages:' + entryPackage.data.name)
             ? t('services:processingResults:packages:' + entryPackage.data.name)
             : entryPackage.data.name
         }

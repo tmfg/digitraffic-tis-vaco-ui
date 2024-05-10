@@ -140,8 +140,6 @@ export const en = {
       results: {
         conversion: 'Conversion results'
       },
-      hide: 'Hide',
-      show: 'Show',
       submissionDate: 'Submission date',
       validationRule: 'Validation rule',
       conversionRule: 'Conversion rule',
@@ -156,10 +154,16 @@ export const en = {
           conversion_syntax:
             'Here are the produced packages, including the conversion report. Package format is HTML or JSON depending on the used converter.'
         },
-        result: 'Input data',
+        result: 'Results',
         all: 'All outputs',
         debug: 'Debug logs',
-        report: 'Validation report'
+        stops: 'Stops'
+      },
+      tasks: {
+        prepare: {
+          download: 'Feed data download',
+          stopsAndQuays: 'Stops and quays'
+        }
       },
       reportStats: {
         all: 'findings reported',
@@ -269,7 +273,11 @@ export const en = {
     yes: 'Yes',
     no: 'No',
     edit: 'Edit',
-    notSpecified: '(Not specified)'
+    notSpecified: '(Not specified)',
+    section: {
+      hide: 'Hide',
+      show: 'Show'
+    }
   },
   format: {
     gtfs: 'GTFS',

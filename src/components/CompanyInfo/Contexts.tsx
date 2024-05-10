@@ -49,7 +49,7 @@ const Contexts = ({ contexts, businessId }: ContextProps) => {
   }, [contextData])
 
   return (
-    <Section titleKey={'admin:company.contexts'} hidable={false}>
+    <Section titleKey={'admin:company.contexts'} hidable={true}>
       <div style={{ width: '46rem' }}>
         <Table
           tableTitle={'contexts'}

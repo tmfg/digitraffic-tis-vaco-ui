@@ -6,10 +6,10 @@ import { decodeBase64 } from '../../../util/base64'
 
 interface AggregatedFindingDetailsProps {
   aggregatedFinding: AggregatedFinding
-  ruleName: string
+  taskName: string
 }
 
-const FindingDetails = ({ aggregatedFinding, ruleName }: AggregatedFindingDetailsProps) => {
+const FindingDetails = ({ aggregatedFinding, taskName }: AggregatedFindingDetailsProps) => {
   const { t } = useTranslation()
 
   const getFindingInstancesTableHeader = (instances: NoticeInstance[]): HeaderItem[] => {
@@ -44,7 +44,7 @@ const FindingDetails = ({ aggregatedFinding, ruleName }: AggregatedFindingDetail
   return (
     <td colSpan={6} key={'expanded-content-' + aggregatedFinding.code} className={'expanded-content'}>
       <div>
-        {ruleName.toLowerCase().includes('gtfs') ? (
+        {taskName.toLowerCase().includes('gtfs') ? (
           <p>
             {t('services:processingResults:notices:moreInfo')}{' '}
             <a
