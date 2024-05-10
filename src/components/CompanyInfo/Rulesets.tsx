@@ -24,7 +24,7 @@ const Rulesets = ({ rulesets }: RulesetsProps) => {
   }, [rulesets, t])
 
   return (
-    <Section titleKey={'admin:company:rulesets'} hidable={false}>
+    <Section titleKey={'admin:company:rulesets'} hidable={true}>
       <Table
         tableTitle={'rulesets'}
         headerItems={headerItems}

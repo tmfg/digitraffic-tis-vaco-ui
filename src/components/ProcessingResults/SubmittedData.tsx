@@ -54,7 +54,7 @@ const SubmittedData = ({ entry, company }: SubmittedDataProps) => {
       value: t('format:' + entry.format)
     },
     {
-      label: t('services:testData:form:section:rules'),
+      label: t('services:testData:form:section:validationRules'),
       value: <div>{rules && rules.length > 0 ? rules : '-'}</div>
     }
   ]

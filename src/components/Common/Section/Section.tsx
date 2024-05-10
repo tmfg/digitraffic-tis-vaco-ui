@@ -1,36 +1,31 @@
 import { useTranslation } from 'react-i18next'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { FdsIconComponent } from '../../fds/FdsIconComponent'
 import './_section.scss'
-import { EntryContext } from '../../../pages/ProcessingResults/ProcessingResultsPage.tsx'
-import { ReportContext } from '../../ProcessingResults/report/Report.tsx'
-import VacoBadge from '../VacoBadge/VacoBadge.tsx'
-import { EnvironmentContext } from '../../../EnvironmentProvider.tsx'
 
 interface SectionProps {
   titleKey: string
   children?: React.ReactNode
   hidable: boolean
+  badge?: React.ReactNode
+  isOpenByDefault?: boolean
 }
 
-const Section = ({ titleKey, children, hidable }: SectionProps) => {
-  const [isOpen, setIsOpen] = useState(true)
-  const { t } = useTranslation()
-
-  const bootstrap = useContext(EnvironmentContext)
-  const entry = useContext(EntryContext)
-  const ruleReport = useContext(ReportContext)
+/**
+ * Generic section component
+ */
+const Section = ({ titleKey, children, hidable, isOpenByDefault = true, badge }: SectionProps) => {
+  const [isOpen, setIsOpen] = useState(isOpenByDefault)
+  const { t, i18n } = useTranslation()
 
   return (
     <section>
       <header>
-        <h2>{t(titleKey)}</h2>
-        {bootstrap && entry && ruleReport && (
-          <VacoBadge bootstrap={bootstrap} publicId={entry.publicId} taskName={ruleReport.ruleName} />
-        )}
+        <h2>{i18n.exists(titleKey) ? t(titleKey) : titleKey}</h2>
+        {badge || ''}
         {hidable && (
           <span className={'hide-control'} onClick={() => setIsOpen(!isOpen)}>
-            <span className={'text'}>{t('services:processingResults:' + (isOpen ? 'hide' : 'show'))}</span>
+            <span className={'text'}>{t('common:section.' + (isOpen ? 'hide' : 'show'))}</span>
             <FdsIconComponent className={'icon'} icon={!isOpen ? 'chevron-down' : 'chevron-up'} />
           </span>
         )}

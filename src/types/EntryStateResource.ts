@@ -3,21 +3,22 @@ import { ItemCounter } from './ItemCounter'
 import { Finding } from './Finding.ts'
 import { PackageResource } from './Package'
 import { SummaryItem } from '../components/ProcessingResults/summary/types'
+import { RulesetType } from './Ruleset'
 
 export interface EntryStateResource {
   data: {
     entry: EntryResource
-    reports: RuleReport[]
+    reports: TaskReport[]
     summaries: SummaryItem[]
     company: string
   }
   error?: string | null
 }
 
-export interface RuleReport {
-  ruleName: string
-  ruleDescription: string
-  ruleType: string
+export interface TaskReport {
+  name: string
+  description: string
+  type: RulesetType | 'INTERNAL'
   findingCounters: ItemCounter[]
   findings?: AggregatedFinding[]
   packages: PackageResource[]

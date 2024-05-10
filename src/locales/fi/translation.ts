@@ -142,8 +142,6 @@ export const fi = {
       results: {
         conversion: 'Konversion tulokset'
       },
-      hide: 'Piilota',
-      show: 'Näytä',
       submissionDate: 'Julkaisun päivämäärä',
       validationRule: 'Käytetty validointisääntö',
       conversionRule: 'Käytetty konversiosääntö',
@@ -157,10 +155,16 @@ export const fi = {
           conversion_syntax:
             'Tässä näet valmistetut paketit konversioraportteineen. Paketti on HTML- tai JSON-muodossa konvertterista riippuen.'
         },
-        result: 'Syötetyt tiedot',
+        result: 'Tulokset',
         all: 'Kaikki tulosteet',
         debug: 'Debug lokit',
-        report: 'Validointiraportti'
+        stops: 'Pysäkit'
+      },
+      tasks: {
+        prepare: {
+          download: 'Syötetietojen lataus',
+          stopsAndQuays: 'Pysäkit ja laiturit'
+        }
       },
       reportStats: {
         all: 'raportoitua havaintoa',
@@ -270,7 +274,11 @@ export const fi = {
     yes: 'Kyllä',
     no: 'Ei',
     edit: 'Muokkaa',
-    notSpecified: '(Ei määritelty)'
+    notSpecified: '(Ei määritelty)',
+    section: {
+      hide: 'Piilota',
+      show: 'Näytä'
+    }
   },
   format: {
     gtfs: 'GTFS',

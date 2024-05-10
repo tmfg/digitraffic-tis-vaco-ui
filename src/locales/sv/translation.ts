@@ -140,8 +140,6 @@ export const sv = {
       results: {
         conversion: 'Konverteringsresultat'
       },
-      hide: 'Dölj',
-      show: 'Visa',
       submissionDate: 'Inlämningsdatum',
       validationRule: 'Verifieringsregel som används',
       conversionRule: 'Konverteringsregel som används',
@@ -156,10 +154,16 @@ export const sv = {
           conversion_syntax:
             'Här är producerade paket, inklusive konverteringsrapporten. Paketformatet är HTML eller JSON beroende på använd konverterare.'
         },
-        result: 'Inmatade data',
+        result: 'Resultaten',
         all: 'Alla utdata',
         debug: 'Debug loggar',
-        report: 'Valideringsrapport'
+        stops: 'Hållplatser'
+      },
+      tasks: {
+        prepare: {
+          download: 'Nedladdning av indata',
+          stopsAndQuays: 'Stopp och kajer'
+        }
       },
       reportStats: {
         all: 'rapporterade fynd',
@@ -269,7 +273,11 @@ export const sv = {
     yes: 'Ja',
     no: 'Nej',
     edit: 'Redigera',
-    notSpecified: '(Ej specificerat)'
+    notSpecified: '(Ej specificerat)',
+    section: {
+      hide: 'Dölj',
+      show: 'Visa'
+    }
   },
   format: {
     gtfs: 'GTFS',
