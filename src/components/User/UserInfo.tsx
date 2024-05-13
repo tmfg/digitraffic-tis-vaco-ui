@@ -8,6 +8,8 @@ import KeyValuePairs, { KeyValuePairItem, KeyValuePairVariant } from '../Common/
 import { useTranslation } from 'react-i18next'
 import { parseJwt } from '../../util/jwt'
 import { getCompanyFullName } from '../../util/company'
+import { Link } from "react-router-dom";
+import './_UserInfo.scss'
 
 const UserInfo = () => {
   const { t } = useTranslation()
@@ -93,6 +95,11 @@ const UserInfo = () => {
   return (
     <div style={{ marginTop: '2.5rem' }}>
       <KeyValuePairs items={accountInfo.concat(tokenInfo).concat(companyInfo)} variant={KeyValuePairVariant.big} />
+      <Link
+        className="hiddenLink"
+        to={'https://jwt.ms/#access_token=' + accessToken}
+        target={'_blank'} rel={'noopener noreferrer nofollow'}>
+        debug token on JWT.ms</Link>
     </div>
   )
 }

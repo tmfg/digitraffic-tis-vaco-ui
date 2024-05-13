@@ -78,6 +78,10 @@ export const adminToolsItem = (t: TFunction<'translation', undefined>): FdsNavig
       {
         label: t('admin:companies:header'),
         value: '/admin/companies'
+      },
+      {
+        label: t('admin:featureFlags:header'),
+        value: '/admin/feature-flags'
       }
     ]
   }

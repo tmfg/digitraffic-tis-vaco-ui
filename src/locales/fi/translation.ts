@@ -353,6 +353,15 @@ export const fi = {
       viewFullHierarchy: 'Näytä koko yrityshierarkia',
       completeHierarchy: 'Koko yrityshierarkia'
     },
+    featureFlags: {
+      header: 'Ominaisuuskytkimet',
+      table: {
+        name: 'Tunniste',
+        enabled: 'Päällä?',
+        modified: 'Muokattu',
+        modifiedBy: 'Kenen toimesta'
+      }
+    },
     company: {
       name: 'Yrityksen nimi',
       businessId: 'Y-tunnus',

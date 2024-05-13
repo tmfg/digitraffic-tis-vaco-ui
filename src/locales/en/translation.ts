@@ -351,6 +351,15 @@ export const en = {
       viewFullHierarchy: 'View complete company hierarchy',
       completeHierarchy: 'Complete company hierarchy'
     },
+    featureFlags: {
+      header: 'Feature flags',
+      table: {
+        name: 'Flag',
+        enabled: 'Enabled?',
+        modified: 'Modified',
+        modifiedBy: 'Modified by'
+      }
+    },
     company: {
       name: 'Company name',
       businessId: 'Business ID',
