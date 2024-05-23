@@ -137,6 +137,8 @@ export const fi = {
     processingResults: {
       header: 'Datajulkaisun tulokset',
       magicLink: 'Kopioi jaettava linkki',
+      expiryWarning: 'Huomio! Julkaisu on yli 5 päivää vanha.',
+      dataNotAvailable: 'Joitakin julkaisutuloksia ei ehkä ole saatavilla, tarvittaessa suorita julkaisu uudelleen.',
       summary: 'Yhteenveto',
       reports: 'Määritystenmukaisuusraportit',
       results: {
@@ -158,7 +160,8 @@ export const fi = {
         result: 'Tulokset',
         all: 'Kaikki tulosteet',
         debug: 'Debug lokit',
-        stops: 'Pysäkit'
+        stops: 'Pysäkit',
+        report: 'Raportti'
       },
       tasks: {
         prepare: {

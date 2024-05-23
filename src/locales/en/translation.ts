@@ -135,6 +135,8 @@ export const en = {
     processingResults: {
       header: 'Data publication results',
       magicLink: 'Copy shareable link',
+      expiryWarning: 'Note! The publication is older than 5 days.',
+      dataNotAvailable: 'Some publication results may not be available, please publish your data again.',
       summary: 'Summary',
       reports: 'Specification Compliance reports',
       results: {
@@ -157,7 +159,8 @@ export const en = {
         result: 'Results',
         all: 'All outputs',
         debug: 'Debug logs',
-        stops: 'Stops'
+        stops: 'Stops',
+        report: 'Report'
       },
       tasks: {
         prepare: {

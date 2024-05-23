@@ -37,14 +37,14 @@ const Report = ({ report, entry }: ReportProps) => {
       (task?.status === Status.Processing ||
         report.packages?.length > 0 ||
         ((report.findings && report.findings.length > 0) as boolean) ||
-        // Showing the green happy zero in case of success and no validation/conversion findings:
-        (task?.status !== Status.Success && (report.type.includes('CONVERSION') || report.type.includes('VALIDATION'))))
+        // Showing the green happy zero in case of success and no validation/conversion findings or packages:
+        report.type.includes('CONVERSION') ||
+        report.type.includes('VALIDATION'))
       // Or otherwise, if there is some info to explain the status...
       //i18n.exists('services:processingResults.internal.status.' + task?.status)
     )
   }
 
-  console.log('hmm', anyReportContentToShow(), report.name, report.packages?.length)
   return (
     <Section
       key={'report-' + report.name}
