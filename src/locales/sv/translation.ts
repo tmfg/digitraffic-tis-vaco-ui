@@ -135,6 +135,8 @@ export const sv = {
     processingResults: {
       header: 'Datapublikationens resultat',
       magicLink: 'Kopiera delbar länk',
+      expiryWarning: 'Observera! Publikationen är äldre än 5 dagar.',
+      dataNotAvailable: 'Vissa publicering resultat kanske inte är tillgängliga, vänligen publicera dina data igen.',
       summary: 'Sammanfattning',
       reports: 'Specifikationsrapporter om efterlevnad',
       results: {
@@ -157,7 +159,8 @@ export const sv = {
         result: 'Resultaten',
         all: 'Alla utdata',
         debug: 'Debug loggar',
-        stops: 'Hållplatser'
+        stops: 'Hållplatser',
+        report: 'Rapport'
       },
       tasks: {
         prepare: {

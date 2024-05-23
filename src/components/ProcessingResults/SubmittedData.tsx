@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Entry } from '../../types/EntryResource'
 import { formatDate } from '../../util/date'
 import { PublicValidationTest } from '../../types/PublicValidationTest'
+import ExpiryWarning from "./ExpiryWarning";
 
 interface SubmittedDataProps {
   entry: Entry
@@ -68,6 +69,7 @@ const SubmittedData = ({ entry, company }: SubmittedDataProps) => {
 
   return (
     <section>
+      <ExpiryWarning entry={entry} />
       <KeyValuePairs items={items} variant={KeyValuePairVariant.big} />
     </section>
   )
