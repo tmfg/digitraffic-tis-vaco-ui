@@ -412,5 +412,11 @@ export const sv = {
   },
   publicValidationTest: {
     companyName: 'Offentligt valideringstest'
+  },
+  environment: {
+    message: 'Du befinner dig i en <strong>{{envName}}</strong>miljö.',
+    local: 'lokal ',
+    dev: 'utvecklings',
+    tst: 'test'
   }
 }

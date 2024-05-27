@@ -411,5 +411,11 @@ export const en = {
   },
   publicValidationTest: {
     companyName: 'Public validation test'
+  },
+  environment: {
+    message: 'You are in a <strong>{{envName}}</strong> environment.',
+    local: 'local',
+    dev: 'dev',
+    tst: 'test'
   }
 }

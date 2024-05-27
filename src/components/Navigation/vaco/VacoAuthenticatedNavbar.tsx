@@ -4,10 +4,19 @@ import { FdsNavigationItem } from '../../../../coreui-components/src/fds-navigat
 import { useMsal } from '@azure/msal-react'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { logout } from '../../../hooks/auth'
-import { aboutItem, getSelectedLocaleItem, myServicesItem, adminToolsItem, supportItem, userItem, vacoItem } from './navbarItems'
+import {
+  aboutItem,
+  getSelectedLocaleItem,
+  myServicesItem,
+  adminToolsItem,
+  supportItem,
+  userItem,
+  vacoItem
+} from './navbarItems'
 import { useTranslation } from 'react-i18next'
 import { AppContext, AppContextType } from '../../../AppContextProvider'
 import { rolesContainVacoAdmin, rolesContainVacoCompanyAdmin } from '../../../util/role'
+import EnvironmentBar from '../../EnvironmentBar/EnvironmentBar'
 
 const VacoAuthenticatedNavbar = () => {
   const { instance } = useMsal()
@@ -54,14 +63,17 @@ const VacoAuthenticatedNavbar = () => {
   }, [instance, i18n, languageSelectionCallback])
 
   return (
-    <Navbar
-      variant={FdsNavigationVariant.secondary}
-      items={userNavbarItems}
-      barIndex={1}
-      selectedItem={userNavbarItems[0]}
-      isSelectedItemStatic={false}
-      languageSelectionCallback={languageSelectionCallback}
-    />
+    <>
+      <Navbar
+        variant={FdsNavigationVariant.secondary}
+        items={userNavbarItems}
+        barIndex={1}
+        selectedItem={userNavbarItems[0]}
+        isSelectedItemStatic={false}
+        languageSelectionCallback={languageSelectionCallback}
+      />
+      <EnvironmentBar />
+    </>
   )
 }
 
