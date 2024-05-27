@@ -1,0 +1,22 @@
+.environment-bar {
+  color: white;
+  text-align: center;
+  padding: 1px 0;
+  height: fit-content;
+
+  &__prd {
+    display: none;
+  }
+
+  &__tst {
+    background-color: #e16f24;
+  }
+
+  &__dev {
+    background-color: #3192aa;
+  }
+
+  &__local {
+    background-color: #8250df;
+  }
+}

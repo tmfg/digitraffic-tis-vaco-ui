@@ -4,6 +4,7 @@ import { FdsNavigationItem } from '../../../../coreui-components/src/fds-navigat
 import { aboutItem, getSelectedLocaleItem, loginItem, registerItem, supportItem, vacoItem } from './navbarItems'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import EnvironmentBar from '../../EnvironmentBar/EnvironmentBar'
 
 const VacoLandingNavbar = () => {
   const [userNavbarItems, setUserNavbarItems] = useState<FdsNavigationItem[]>([])
@@ -34,14 +35,17 @@ const VacoLandingNavbar = () => {
   }, [i18n, languageSelectionCallback, userNavbarItems])
 
   return (
-    <Navbar
-      variant={FdsNavigationVariant.secondary}
-      items={userNavbarItems}
-      barIndex={1}
-      selectedItem={userNavbarItems[0]}
-      isSelectedItemStatic={false}
-      languageSelectionCallback={languageSelectionCallback}
-    />
+    <>
+      <Navbar
+        variant={FdsNavigationVariant.secondary}
+        items={userNavbarItems}
+        barIndex={1}
+        selectedItem={userNavbarItems[0]}
+        isSelectedItemStatic={false}
+        languageSelectionCallback={languageSelectionCallback}
+      />
+      <EnvironmentBar />
+    </>
   )
 }
 

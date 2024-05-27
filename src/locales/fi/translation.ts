@@ -413,5 +413,11 @@ export const fi = {
   },
   publicValidationTest: {
     companyName: 'Julkinen validointitesti'
+  },
+  environment: {
+    message: 'Olet <strong>{{envName}}</strong>ympäristössä.',
+    local: 'local-',
+    dev: 'kehitys',
+    tst: 'testi'
   }
 }
