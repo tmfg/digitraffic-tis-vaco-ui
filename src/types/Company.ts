@@ -9,6 +9,7 @@ export interface Company {
   contactEmails?: string[]
   formatSummary?: string
   publish: boolean
+  codespaces?: string[]
 }
 
 export interface CompaniesResource {

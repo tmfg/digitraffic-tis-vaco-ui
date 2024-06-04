@@ -377,7 +377,8 @@ export const fi = {
       rulesets: 'Säännöt',
       edit: 'Muokkaa yrityksen tietoja',
       contactEmails: 'Yhteydenottosähköpostit',
-      publish: 'Julkaise syötteet?'
+      publish: 'Julkaise syötteet?',
+      codespaces: 'NeTEx codespacet'
     },
     ruleset: {
       name: 'Säännön nimi',

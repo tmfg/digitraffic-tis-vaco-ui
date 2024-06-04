@@ -127,6 +127,10 @@ export const getCompanyInfoKeyValuePairs = (company: Company, t: TFunction<'tran
     {
       label: t('admin:company.publish'),
       value: company.publish ? t('common:yes') : t('common:no')
+    },
+    {
+      label: t('admin:company:codespaces'),
+      value: company.codespaces?.join(', ')
     }
   ]
 }
@@ -168,7 +172,8 @@ export const submitCompanyData = async (
     language: formData.language as string,
     adGroupId: formData.adGroupId as string,
     contactEmails: (formData.contactEmails as string)?.split(/\s*,\s*/),
-    publish: formData.publish as boolean
+    publish: formData.publish as boolean,
+    codespaces: (formData.codespaces as string)?.split(/\s*,\s*/)
   }
 
   const { data } = await HttpClient.put(
