@@ -376,7 +376,8 @@ export const sv = {
       rulesets: 'Regler',
       edit: 'Redigera företagsuppgifter',
       contactEmails: 'Kontakt e-post',
-      publish: 'Publicera datakällor?'
+      publish: 'Publicera datakällor?',
+      codespaces: 'NeTEx Codespacer'
     },
     ruleset: {
       name: 'Regelnamn',

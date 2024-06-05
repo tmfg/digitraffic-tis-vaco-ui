@@ -76,6 +76,10 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
     if (publishCheckboxElement && publishCheckboxElement.getAttribute('listener') !== 'true') {
       publishCheckboxElement.addEventListener('check', useGeneralListener)
     }
+    const codespacesElement = document.querySelector('[id="codespaces"]')
+    if (codespacesElement && codespacesElement.getAttribute('listener') !== 'true') {
+      codespacesElement.addEventListener('change', useGeneralListener)
+    }
 
     return () => {
       nameElement?.removeEventListener('change', useGeneralListener)
@@ -83,6 +87,7 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
       languageElement?.removeEventListener('select', useGeneralListener)
       adGroupIdElement?.removeEventListener('change', useGeneralListener)
       publishCheckboxElement?.removeEventListener('check', useGeneralListener)
+      codespacesElement?.removeEventListener('change', useGeneralListener)
     }
   }, [useGeneralListener])
 
@@ -184,6 +189,16 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
                 checked={formData.publish as boolean}
                 name={'publish'}
                 label={t('admin:company:publish')}
+              />
+            </div>
+
+            <div id={'codespaces'} className={'input-wrapper'}>
+              <FdsInputComponent
+                clearable={true}
+                value={formData.codespaces ? (formData.codespaces as string) : ''}
+                name={'codespaces'}
+                label={t('admin:company:codespaces')}
+                message={t('common:separatedByCommaMessage')}
               />
             </div>
           </div>
