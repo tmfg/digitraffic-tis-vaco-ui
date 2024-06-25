@@ -1,21 +1,15 @@
 import { test } from '../fixtures/base'
 import { expect } from '@playwright/test'
-import { Environment } from '../../../types/Bootstrap'
+import { VacoResourcesPage } from '../model/VacoResources.page.ts'
+import { APIMockingPage } from '../model/APIMocking.page.ts'
 
 test.describe(`Home Page, without authentication`, () => {
   test('Test landing page contents are visible', async ({ page, i18n }) => {
-    // Temporarily mocking this:
-    await page.route('http://localhost:8080/api/ui/bootstrap', async (route) => {
-      const json = {
-        environment: Environment.Local,
-        baseUrl: 'http://localhost:8080',
-        tenantId: 'd8536c71-f91f-4e54-b68c-215a7fd9510b',
-        clientId: '57c1b8a0-f33e-4e47-840d-8c180d933c41'
-      }
-      await route.fulfill({ json })
-    })
+    const ApiMockingPage = new APIMockingPage(page)
+    await ApiMockingPage.APIMocking()
+    const ResourcesPage = new VacoResourcesPage(page)
+    await ResourcesPage.navigate()
 
-    await page.goto('/ui')
     await expect(page.getByRole('heading', { name: i18n.t('home:header') })).toBeVisible()
     await expect(page.getByRole('heading', { name: i18n.t('home:shortcuts') })).toBeVisible()
 
