@@ -2,6 +2,7 @@ import { test } from '../fixtures/base'
 import { expect } from '@playwright/test'
 import { VacoResourcesPage } from '../model/VacoResources.page.ts'
 import { APIMockingPage } from '../model/APIMocking.page.ts'
+import { shortcutCardSelector } from '../utils/NavigationUtils.ts'
 
 test.describe(`Home Page, without authentication`, () => {
   test('Test landing page contents are visible', async ({ page, i18n }) => {
@@ -14,14 +15,10 @@ test.describe(`Home Page, without authentication`, () => {
     await expect(page.getByRole('heading', { name: i18n.t('home:shortcuts') })).toBeVisible()
 
     // Shortcuts:
-    await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('vaco:login')}`)).toBeVisible()
-    await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('vaco:register')}`)).toBeVisible()
-    await expect(
-      page.locator(`.shortcut-card__label >> text=${i18n.t('home:shortcut:myData:label')}`)
-    ).not.toBeVisible()
-    await expect(
-      page.locator(`.shortcut-card__label >> text=${i18n.t('home:shortcut:testData:label')}`)
-    ).not.toBeVisible()
+    await expect(page.locator(shortcutCardSelector(i18n.t('vaco:login')))).toBeVisible()
+    await expect(page.locator(shortcutCardSelector(i18n.t('vaco:register')))).toBeVisible()
+    await expect(page.locator(shortcutCardSelector(i18n.t('home:shortcut:myData:label')))).not.toBeVisible()
+    await expect(page.locator(shortcutCardSelector(i18n.t('home:shortcut:testData:label')))).not.toBeVisible()
 
     // VACO menu:
     await expect(page.locator(`.item__label--bold >> span >> text=${i18n.t('vaco:vaco')}`)).toBeVisible()

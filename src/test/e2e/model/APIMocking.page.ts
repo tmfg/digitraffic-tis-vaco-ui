@@ -1,6 +1,7 @@
 import { Environment } from '../../../types/Bootstrap.ts'
 import { Page } from '@playwright/test'
 
+//this is temporary, API testing needs to be done differently, maybe using containers
 export class APIMockingPage {
   constructor(private page: Page) {}
 
