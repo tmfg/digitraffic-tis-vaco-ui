@@ -4,7 +4,7 @@ import { AuthenticatedTemplate, UnauthenticatedTemplate } from '@azure/msal-reac
 import UserInfo from '../../components/User/UserInfo'
 import ServiceInfo from '../../components/User/ServiceInfo'
 
-const UserPage = () => {
+const MyAccount = () => {
   const { t } = useTranslation()
 
   return (
@@ -21,4 +21,4 @@ const UserPage = () => {
   )
 }
 
-export default UserPage
+export default MyAccount

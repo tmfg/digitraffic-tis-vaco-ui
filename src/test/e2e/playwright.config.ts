@@ -10,6 +10,8 @@ import { defineConfig, devices } from '@playwright/test'
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  //run only the tests, that don't need authentication, still waiting for the test user
+  grep: /Test landing page contents are visible/,
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: false,
