@@ -129,7 +129,7 @@ export const getCompanyInfoKeyValuePairs = (company: Company, t: TFunction<'tran
       value: company.publish ? t('common:yes') : t('common:no')
     },
     {
-      label: t('admin:company:codespaces'),
+      label: t('admin:company.codespaces'),
       value: company.codespaces?.join(', ')
     }
   ]

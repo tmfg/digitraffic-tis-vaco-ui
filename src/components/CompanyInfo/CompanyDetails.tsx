@@ -106,7 +106,8 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
               language: company.language,
               adGroupId: company.adGroupId,
               contactEmails: company.contactEmails?.join(', '),
-              publish: company.publish
+              publish: company.publish,
+              codespaces: company.codespaces?.join(', ')
             }
             setFormData(formData)
             setFormErrors({})
