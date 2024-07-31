@@ -8,7 +8,7 @@ import KeyValuePairs, { KeyValuePairItem, KeyValuePairVariant } from '../Common/
 import { useTranslation } from 'react-i18next'
 import { parseJwt } from '../../util/jwt'
 import { getCompanyFullName } from '../../util/company'
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 import './_UserInfo.scss'
 
 const UserInfo = () => {
@@ -86,7 +86,17 @@ const UserInfo = () => {
         {
           label: t('user:companies'),
           value:
-            companies.length > 0 ? companies.map((c) => <div>{getCompanyFullName(c.name, c.businessId, t)}</div>) : '-'
+            companies.length > 0
+              ? companies.map((c) => (
+                  <div key={c.businessId}>
+                    {getCompanyFullName(c.name, c.businessId, t) +
+                      ' / ' +
+                      t('admin:company.publish') +
+                      ' ' +
+                      (c.publish ? t('common:yes') : t('common:no'))}
+                  </div>
+                ))
+              : '-'
         }
       ])
     }
