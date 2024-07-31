@@ -108,8 +108,11 @@ const UserInfo = () => {
       <Link
         className="hiddenLink"
         to={'https://jwt.ms/#access_token=' + accessToken}
-        target={'_blank'} rel={'noopener noreferrer nofollow'}>
-        debug token on JWT.ms</Link>
+        target={'_blank'}
+        rel={'noopener noreferrer nofollow'}
+      >
+        debug token on JWT.ms
+      </Link>
     </div>
   )
 }
