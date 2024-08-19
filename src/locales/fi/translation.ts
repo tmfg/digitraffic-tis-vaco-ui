@@ -378,7 +378,8 @@ export const fi = {
       edit: 'Muokkaa yrityksen tietoja',
       contactEmails: 'Yhteydenottosähköpostit',
       publish: 'Julkaise syötteet?',
-      codespaces: 'NeTEx codespacet'
+      codespaces: 'NeTEx codespacet',
+      notificationWebhookUri: 'Webhook-heräterajapinnan URI'
     },
     ruleset: {
       name: 'Säännön nimi',
