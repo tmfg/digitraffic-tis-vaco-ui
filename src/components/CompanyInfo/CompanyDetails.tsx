@@ -80,6 +80,10 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
     if (codespacesElement && codespacesElement.getAttribute('listener') !== 'true') {
       codespacesElement.addEventListener('change', useGeneralListener)
     }
+    const notificationWebhookUriElement = document.querySelector('[id="notificationWebhookUri"]')
+    if (notificationWebhookUriElement && notificationWebhookUriElement.getAttribute('listener') !== 'true') {
+      notificationWebhookUriElement.addEventListener('change', useGeneralListener)
+    }
 
     return () => {
       nameElement?.removeEventListener('change', useGeneralListener)
@@ -88,6 +92,7 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
       adGroupIdElement?.removeEventListener('change', useGeneralListener)
       publishCheckboxElement?.removeEventListener('check', useGeneralListener)
       codespacesElement?.removeEventListener('change', useGeneralListener)
+      notificationWebhookUriElement?.removeEventListener('change', useGeneralListener)
     }
   }, [useGeneralListener])
 
@@ -107,7 +112,8 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
               adGroupId: company.adGroupId,
               contactEmails: company.contactEmails?.join(', '),
               publish: company.publish,
-              codespaces: company.codespaces?.join(', ')
+              codespaces: company.codespaces?.join(', '),
+              notificationWebhookUri: company.notificationWebhookUri
             }
             setFormData(formData)
             setFormErrors({})
@@ -200,6 +206,15 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
                 name={'codespaces'}
                 label={t('admin:company:codespaces')}
                 message={t('common:separatedByCommaMessage')}
+              />
+            </div>
+
+            <div id={'notificationWebhookUri'} className={'input-wrapper'}>
+              <FdsInputComponent
+                clearable={true}
+                value={formData.notificationWebhookUri ? (formData.notificationWebhookUri as string) : ''}
+                name={'notificationWebhookUri'}
+                label={t('admin:company:notificationWebhookUri')}
               />
             </div>
           </div>

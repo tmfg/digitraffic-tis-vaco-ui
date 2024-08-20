@@ -10,6 +10,7 @@ export interface Company {
   formatSummary?: string
   publish: boolean
   codespaces?: string[]
+  notificationWebhookUri?: string
 }
 
 export interface CompaniesResource {

@@ -376,7 +376,8 @@ export const en = {
       edit: 'Edit company details',
       contactEmails: 'Contact emails',
       publish: 'Publish feeds?',
-      codespaces: 'NeTEx Codespaces'
+      codespaces: 'NeTEx Codespaces',
+      notificationWebhookUri: 'Webhook notification URI'
     },
     ruleset: {
       name: 'Rule name',
