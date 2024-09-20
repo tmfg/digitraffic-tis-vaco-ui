@@ -17,7 +17,7 @@ const Summary = ({ summaries }: SummaryProps) => {
 
   const getSummaryContent = (summary: SummaryItem) => {
     if (summary.rendererType === 'CARD') {
-      const cards: SummaryCard[] = summary.content as SummaryCard[]
+      const cards: SummaryCard[] = summary.content ? (summary.content as SummaryCard[]) : []
       const shownCards = cards.length > 4 ? (showAllStates[summary.name] ? cards : cards.slice(0, 4)) : cards
       return (
         <>
@@ -78,7 +78,12 @@ const Summary = ({ summaries }: SummaryProps) => {
       const sortedList = shownItems?.sort((a, b) => a.localeCompare(b))
       return (
         <>
-          {sortedList?.map((item) => <div style={{ marginBottom: '3px' }} key={summary.name + '-content-' + item}> {item}</div>)}
+          {sortedList?.map((item) => (
+            <div style={{ marginBottom: '3px' }} key={summary.name + '-content-' + item}>
+              {' '}
+              {item}
+            </div>
+          ))}
           {list.length > 13 && (
             <span
               style={{ marginTop: '0.7rem' }}
