@@ -36,10 +36,6 @@ const FintrafficNavbar = () => {
     {
       label: t('fintraffic:nap'),
       value: 'https://finap.fi/#/'
-    },
-    {
-      label: 'VACO',
-      value: '/'
     }
   ]
   return (
@@ -47,7 +43,7 @@ const FintrafficNavbar = () => {
       variant={FdsNavigationVariant.primary}
       items={items}
       barIndex={0}
-      selectedItem={items[items.length - 1]}
+      selectedItem={items[items.length]}
       isSelectedItemStatic={true}
     >
       <a target="_blank" rel="noopener noreferrer" href={'https://www.fintraffic.fi/' + selectedLocaleCode}>
