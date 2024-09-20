@@ -4,11 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { useContext, useEffect, useRef, useState } from 'react'
 import { useAcquireToken } from '../../../hooks/auth'
 import Table, { HeaderItem, TableItem } from '../../../components/Common/Table/Table'
-import { EntryResource } from '../../../types/EntryResource'
 import { FdsButtonComponent } from '../../../components/fds/FdsButtonComponent'
 import { FdsInputComponent } from '../../../components/fds/FdsInputComponent'
 import '../../MyData/_mydata.scss'
-import { filterTableRowsBySearchWord, getTableHeaders, getTableRow } from '../../MyData/helpers'
 import Pagination from '../../../components/Common/Pagination/Pagination'
 import { useParams, useSearchParams } from 'react-router-dom'
 import AdminRoleRequiredPage from '../../Error/AdminRoleRequiredPage'
@@ -19,6 +17,8 @@ import { useCompanyEntriesFetch } from './hooks'
 import { useSearchInputListener } from '../../../hooks/searchInputListener'
 import LoadSpinner from '../../../components/Common/LoadSpinner/LoadSpinner'
 import { getCompanyFullName } from '../../../util/company'
+import { EntrySummary } from '../../../types/EntryResource.ts'
+import { filterTableRowsBySearchWord, getTableHeaders, getTableRow } from './helpers.ts'
 
 const CompanyEntriesPage = () => {
   const [accessToken] = useAcquireToken()
@@ -37,13 +37,13 @@ const CompanyEntriesPage = () => {
   const [hasAdminRole, hasCompanyAdminRole] = useAdminRightsCheck()
 
   useEffect(() => {
-    if (bootstrap && entryData) {
-      const entryRows: TableItem[][] = entryData.map((entryResource: EntryResource) => {
-        const row: TableItem[] = getTableRow(entryResource, t)
+    if (bootstrap && entryData && entryData.data) {
+      const entryRows: TableItem[][] = entryData.data.entries.map((entrySummary: EntrySummary) => {
+        const row: TableItem[] = getTableRow(entrySummary, t)
         row.push({
           name: 'status',
-          value: <VacoBadge bootstrap={bootstrap} publicId={entryResource.data.publicId} />,
-          plainValue: entryResource.data.status.charAt(0).toUpperCase() + entryResource.data.status.slice(1)
+          value: <VacoBadge bootstrap={bootstrap} publicId={entrySummary.publicId} />,
+          plainValue: entrySummary.status.charAt(0).toUpperCase() + entrySummary.status.slice(1)
         })
         return row
       })
