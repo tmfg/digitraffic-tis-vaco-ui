@@ -200,7 +200,7 @@ export const sv = {
         publisherName: 'Utgivarens namn',
         publisherUrl: 'URL för utgivare',
         feedLanguage: 'Matningsspråk',
-        feedStartsDate: 'Startdatum för matning',
+        feedStartDate: 'Startdatum för matning',
         feedEndDate: 'Slutdatum för matning',
         website: 'Webbplats',
         email: 'E-post',
