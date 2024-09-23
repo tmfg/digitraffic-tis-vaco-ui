@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Entry } from '../../types/EntryResource'
 import { formatDate } from '../../util/date'
 import { PublicValidationTest } from '../../types/PublicValidationTest'
-import ExpiryWarning from "./ExpiryWarning";
+import ExpiryWarning from './ExpiryWarning'
 
 interface SubmittedDataProps {
   entry: Entry
@@ -13,7 +13,7 @@ interface SubmittedDataProps {
 
 const SubmittedData = ({ entry, company }: SubmittedDataProps) => {
   const { t } = useTranslation()
-  const rules = entry.validations.map((item) => (
+  const rules = entry.validations?.map((item) => (
     <div key={item.name}>{t('services:testData:form:rules:' + item.name)}</div>
   ))
   const conversionRules = entry.conversions?.map((item) => (

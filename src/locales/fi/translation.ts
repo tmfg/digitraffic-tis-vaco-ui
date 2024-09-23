@@ -201,7 +201,7 @@ export const fi = {
         publisherName: 'Julkaisijan nimi',
         publisherUrl: 'Julkaisijan URL-osoite',
         feedLanguage: 'Syötteen kieli',
-        feedStartsDate: 'Syötteen aloituspäivä',
+        feedStartDate: 'Syötteen aloituspäivä',
         feedEndDate: 'Syötteen päättymispäivä',
         website: 'Verkkosivusto',
         email: 'Sähköpostiosoite',

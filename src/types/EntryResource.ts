@@ -1,29 +1,42 @@
 import { Task } from './Task'
 import { Links } from './Link'
 
+export interface Resource<D> {
+  data: D
+  links: Links
+  error?: string
+}
+
+export interface CompanyEntriesPage {
+  entries: EntrySummary[]
+}
+
+export interface EntrySummary {
+  publicId: string
+  name: string
+  context?: string
+  status: string
+  format: string
+  created: string
+  started: string | null
+  completed: string | null
+}
+
 export interface EntryResource {
   data: Entry
   links: Links
 }
 
-export interface Entry {
-  publicId: string
-  name: string
+export interface Entry extends EntrySummary {
   url: string
-  format: string
   businessId: string
   etag: string
-  validations: RuleInput[]
+  validations?: RuleInput[]
   conversions?: RuleInput[]
   metadata?: object
   tasks?: Task[]
-  created: string
-  started: string
   updated: string
-  completed: string
   badge?: string
-  status: string
-  context?: string
 }
 
 export interface RuleInput {

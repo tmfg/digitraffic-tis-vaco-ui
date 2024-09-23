@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react'
 import { getHeaders, HttpClient } from '../../../HttpClient'
-import { EntryResource } from '../../../types/EntryResource'
+import { CompanyEntriesPage, Resource } from '../../../types/EntryResource'
 
 export const useCompanyEntriesFetch = (accessToken: string | null, businessId: string | undefined) => {
-  const [entryData, setEntryData] = useState<EntryResource[] | null>(null)
+  const [entryData, setEntryData] = useState<Resource<CompanyEntriesPage> | null>(null)
   const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
 
   useEffect(() => {
     let ignore = false
     if (accessToken && !ignore && businessId) {
       setIsFetchInProgress(true)
-      HttpClient.get('/api/ui/admin/entries?businessId=' + businessId, getHeaders(accessToken)).then(
+      HttpClient.get('/api/ui/pages/admin-company-entries/' + businessId, getHeaders(accessToken)).then(
         (response) => {
-          const entries = response.data as EntryResource[]
+          const entries = response.data as Resource<CompanyEntriesPage>
           setEntryData(entries)
           setIsFetchInProgress(false)
         },

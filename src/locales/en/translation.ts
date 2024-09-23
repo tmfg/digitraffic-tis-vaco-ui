@@ -200,7 +200,7 @@ export const en = {
         publisherName: 'Publisher name',
         publisherUrl: 'Publisher URL',
         feedLanguage: 'Feed language',
-        feedStartsDate: 'Feed start date',
+        feedStartDate: 'Feed start date',
         feedEndDate: 'Feed end date',
         website: 'Website',
         email: 'Email',
