@@ -51,8 +51,8 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              <a target="_blank" rel="noopener noreferrer" href="https://skynavx.fi/#/drone">
-                {t('fintraffic:drone')}
+              <a target="_blank" rel="noopener noreferrer" href={t('fintraffic:appUrl')}>
+                {t('fintraffic:app')}
               </a>
             </li>
           </ul>

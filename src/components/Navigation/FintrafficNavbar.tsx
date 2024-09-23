@@ -22,8 +22,8 @@ const FintrafficNavbar = () => {
       value: 'https://junalahdot.fintraffic.fi/?lang=' + (selectedLocaleCode === 'sv' ? 'se' : selectedLocaleCode)
     },
     {
-      label: t('fintraffic:drone'),
-      value: 'https://skynavx.fi/#/drone'
+      label: t('fintraffic:app'),
+      value: t('fintraffic:appUrl')
     },
     {
       label: 'Digitraffic',
