@@ -379,7 +379,8 @@ export const sv = {
       contactEmails: 'Kontakt e-post',
       publish: 'Publicera datakällor?',
       codespaces: 'NeTEx Codespacer',
-      notificationWebhookUri: 'Webhook-anmälangränsnittens URI'
+      notificationWebhookUri: 'Webhook-anmälangränsnittens URI',
+      website: 'Företagets webbsida'
     },
     ruleset: {
       name: 'Regelnamn',

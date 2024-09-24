@@ -11,6 +11,7 @@ export interface Company {
   publish: boolean
   codespaces?: string[]
   notificationWebhookUri?: string
+  website?: string
 }
 
 export interface CompaniesResource {
