@@ -135,6 +135,10 @@ export const getCompanyInfoKeyValuePairs = (company: Company, t: TFunction<'tran
     {
       label: t('admin:company.notificationWebhookUri'),
       value: company.notificationWebhookUri
+    },
+    {
+      label: t('admin:company:website'),
+      value: company.website
     }
   ]
 }
@@ -178,7 +182,8 @@ export const submitCompanyData = async (
     contactEmails: (formData.contactEmails as string)?.split(/\s*,\s*/),
     publish: formData.publish as boolean,
     codespaces: (formData.codespaces as string)?.split(/\s*,\s*/),
-    notificationWebhookUri: formData.notificationWebhookUri as string
+    notificationWebhookUri: formData.notificationWebhookUri as string,
+    website: formData.website as string
   }
 
   const { data } = await HttpClient.put(

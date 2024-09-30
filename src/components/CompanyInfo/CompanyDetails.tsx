@@ -84,7 +84,10 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
     if (notificationWebhookUriElement && notificationWebhookUriElement.getAttribute('listener') !== 'true') {
       notificationWebhookUriElement.addEventListener('change', useGeneralListener)
     }
-
+    const website = document.querySelector('[id="website"]')
+    if (website && website.getAttribute('listener') !== 'true') {
+      website.addEventListener('change', useGeneralListener)
+    }
     return () => {
       nameElement?.removeEventListener('change', useGeneralListener)
       contactEmailsElement?.removeEventListener('change', useGeneralListener)
@@ -93,6 +96,7 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
       publishCheckboxElement?.removeEventListener('check', useGeneralListener)
       codespacesElement?.removeEventListener('change', useGeneralListener)
       notificationWebhookUriElement?.removeEventListener('change', useGeneralListener)
+      website?.removeEventListener('change', useGeneralListener)
     }
   }, [useGeneralListener])
 
@@ -113,7 +117,8 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
               contactEmails: company.contactEmails?.join(', '),
               publish: company.publish,
               codespaces: company.codespaces?.join(', '),
-              notificationWebhookUri: company.notificationWebhookUri
+              notificationWebhookUri: company.notificationWebhookUri,
+              website: company.website
             }
             setFormData(formData)
             setFormErrors({})
@@ -141,7 +146,7 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
               t,
               company.businessId
             ).catch(
-              (err) => console.error('Comapny data submission error', err)
+              (err) => console.error('Company data submission error', err)
               // TODO: show some alert
             )
           }}
@@ -215,6 +220,15 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
                 value={formData.notificationWebhookUri ? (formData.notificationWebhookUri as string) : ''}
                 name={'notificationWebhookUri'}
                 label={t('admin:company:notificationWebhookUri')}
+              />
+            </div>
+
+            <div id={'website'} className={'input-wrapper'}>
+              <FdsInputComponent
+                clearable={true}
+                value={formData.website ? (formData.website as string) : ''}
+                name={'website'}
+                label={t('admin:company:website')}
               />
             </div>
           </div>

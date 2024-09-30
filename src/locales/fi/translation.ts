@@ -380,7 +380,8 @@ export const fi = {
       contactEmails: 'Yhteydenottosähköpostit',
       publish: 'Julkaise syötteet?',
       codespaces: 'NeTEx codespacet',
-      notificationWebhookUri: 'Webhook-heräterajapinnan URI'
+      notificationWebhookUri: 'Webhook-heräterajapinnan URI',
+      website: 'Yrityksen verkkosivu'
     },
     ruleset: {
       name: 'Säännön nimi',

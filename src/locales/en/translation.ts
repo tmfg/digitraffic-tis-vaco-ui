@@ -378,7 +378,8 @@ export const en = {
       contactEmails: 'Contact emails',
       publish: 'Publish feeds?',
       codespaces: 'NeTEx Codespaces',
-      notificationWebhookUri: 'Webhook notification URI'
+      notificationWebhookUri: 'Webhook notification URI',
+      website: 'Company website'
     },
     ruleset: {
       name: 'Rule name',
