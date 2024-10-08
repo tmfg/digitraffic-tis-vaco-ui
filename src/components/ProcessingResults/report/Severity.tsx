@@ -21,6 +21,8 @@ const Severity = ({ finding }: SeverityProps) => {
         return <WarningSvg />
       case 'INFO':
         return <InfoSvg />
+      case 'FAILURE':
+        return <ErrorSvg />
       default:
         return <InfoSvg />
     }
