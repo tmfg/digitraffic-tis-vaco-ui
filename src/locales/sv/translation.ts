@@ -175,6 +175,7 @@ export const sv = {
         error: 'fel',
         warning: 'varningar',
         info: 'infon',
+        failure: 'systemfel',
         unknown: 'okända'
       },
       notices: {
@@ -190,6 +191,7 @@ export const sv = {
         error: 'Fel',
         warning: 'Varning',
         info: 'Info',
+        failure: 'Systemfel',
         unknown: 'Okänd'
       },
       summaries: {

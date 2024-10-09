@@ -175,7 +175,8 @@ export const en = {
         error: 'errors',
         warning: 'warnings',
         info: 'infos',
-        unknown: 'unknowns'
+        unknown: 'unknowns',
+        failure: 'failures'
       },
       notices: {
         code: 'Finding',
@@ -190,6 +191,7 @@ export const en = {
         error: 'Error',
         warning: 'Warning',
         info: 'Info',
+        failure: 'Failure',
         unknown: 'Unknown'
       },
       summaries: {

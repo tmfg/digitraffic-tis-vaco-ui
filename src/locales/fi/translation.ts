@@ -176,6 +176,7 @@ export const fi = {
         error: 'virhettä',
         warning: 'varoitusta',
         info: 'tiedoksiantoa',
+        failure: 'järjestelmävirhettä',
         unknown: 'tuntematonta'
       },
       notices: {
@@ -191,6 +192,7 @@ export const fi = {
         error: 'Virhe',
         warning: 'Varoitus',
         info: 'Tiedoksianto',
+        failure: 'Järjestelmävirhe',
         unknown: 'Tuntematon'
       },
       summaries: {
