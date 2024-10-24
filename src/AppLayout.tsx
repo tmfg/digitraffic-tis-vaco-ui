@@ -35,16 +35,16 @@ const AppLayout = () => {
 
   return (
     <div className={'app-layout'}>
-      <header>
-        <FintrafficNavbar />
-        {isUserInTransition(inProgress) && <div></div>}
-        {isUserInTransition(inProgress) && <RedirectingPage />}
-        {!isUserInTransition(inProgress) && (isAuthenticated ? <VacoAuthenticatedNavbar /> : <VacoLandingNavbar />)}
-      </header>
-      <main>
-        <AppContextProvider>{!isUserInTransition(inProgress) && <Outlet />}</AppContextProvider>
-      </main>
-      <Footer />
+      <AppContextProvider>
+        <header>
+          <FintrafficNavbar />
+          {isUserInTransition(inProgress) && <div></div>}
+          {isUserInTransition(inProgress) && <RedirectingPage />}
+          {!isUserInTransition(inProgress) && (isAuthenticated ? <VacoAuthenticatedNavbar /> : <VacoLandingNavbar />)}
+        </header>
+        <main>{!isUserInTransition(inProgress) && <Outlet />}</main>
+        <Footer />
+      </AppContextProvider>
     </div>
   )
 }
