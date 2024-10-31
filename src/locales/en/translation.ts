@@ -381,7 +381,27 @@ export const en = {
       publish: 'Publish feeds?',
       codespaces: 'NeTEx Codespaces',
       notificationWebhookUri: 'Webhook notification URI',
-      website: 'Company website'
+      website: 'Company website',
+      subscriptions: {
+        section: {
+          title: 'Subscriptions',
+          description:
+            'Subscriptions are used to select which resources the current company are subscribed for. Depending on subscription type this may have varying effects, for example WebHook subscription enables receiving of entry lifecycle events from that resource.'
+        },
+        actions: {
+          create: 'Create new subscription',
+          delete: 'Delete'
+        },
+        table: {
+          publicId: 'Public ID',
+          type: 'Type',
+          resource: 'Resource'
+        },
+        modal: {
+          title: 'Create subscription',
+          infoText: "Enter company's business id below to add WebHook subscription."
+        }
+      }
     },
     ruleset: {
       name: 'Rule name',
