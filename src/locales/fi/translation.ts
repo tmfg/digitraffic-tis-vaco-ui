@@ -383,7 +383,27 @@ export const fi = {
       publish: 'Julkaise syötteet?',
       codespaces: 'NeTEx codespacet',
       notificationWebhookUri: 'Webhook-heräterajapinnan URI',
-      website: 'Yrityksen verkkosivu'
+      website: 'Yrityksen verkkosivu',
+      subscriptions: {
+        section: {
+          title: 'Tilaukset',
+          description:
+            'Tilausten avulla määritellään, minkä resurssien tapahtumat nykyinen yritys on tilannut. Tilaustyypistä riippuen tällä voi olla erilaisia vaikutuksia, esimerkiksi WebHook-tilaus mahdollistaa kyseiseen resurssiin yhdistettyjen eräajojen elinkaaritapahtumien vastaanottamisen.'
+        },
+        actions: {
+          create: 'Lisää uusi tilaus',
+          delete: 'Poista'
+        },
+        table: {
+          publicId: 'Julkinen ID',
+          type: 'Tyyppi',
+          resource: 'Resurssi'
+        },
+        modal: {
+          title: 'Lisää uusi tilaus',
+          infoText: 'Syötä yrityksen Y-tunnus, jonka WebHook-tapahtumat haluat tilata.'
+        }
+      }
     },
     ruleset: {
       name: 'Säännön nimi',

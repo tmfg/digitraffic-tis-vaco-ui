@@ -382,7 +382,27 @@ export const sv = {
       publish: 'Publicera datakällor?',
       codespaces: 'NeTEx Codespacer',
       notificationWebhookUri: 'Webhook-anmälangränsnittens URI',
-      website: 'Företagets webbsida'
+      website: 'Företagets webbsida',
+      subscriptions: {
+        section: {
+          title: 'Prenumerationer',
+          description:
+            'Prenumerationer används för att välja vilka resurser som det aktuella företaget prenumererar på. Beroende på prenumerationstyp kan detta ha olika effekter, t.ex. möjliggör WebHook-prenumeration mottagning av livscykelhändelser för poster från den resursen.'
+        },
+        actions: {
+          create: 'Skapa ny prenumeration',
+          delete: 'Ta bort'
+        },
+        table: {
+          publicId: 'Public ID',
+          type: 'Typ',
+          resource: 'Resurs'
+        },
+        modal: {
+          title: 'Skapa ny prenumeration',
+          infoText: 'Ange företags-id nedan för att lägga till WebHook-prenumeration.'
+        }
+      }
     },
     ruleset: {
       name: 'Regelnamn',
