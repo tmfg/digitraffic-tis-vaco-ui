@@ -13,6 +13,7 @@ import LoadSpinner, { SpinnerVariant } from '../../../components/Common/LoadSpin
 import { useTranslation } from 'react-i18next'
 import { getCompanyFullName } from '../../../util/company'
 import Contexts from '../../../components/CompanyInfo/Contexts'
+import Subscriptions from '../../../components/CompanyInfo/Subscriptions.tsx'
 
 const CompanyInfoPage = () => {
   const { t } = useTranslation()
@@ -36,6 +37,11 @@ const CompanyInfoPage = () => {
                 onEditHierarchiesCallback={setHierarchies}
               />
               <CompanyHierarchyTree company={company} hierarchies={hierarchies} />
+              <Subscriptions
+                key={'subscriptions-' + company.businessId}
+                accessToken={accessToken}
+                businessId={company.businessId}
+              />
               <Contexts key={'contexts-' + company.businessId} contexts={contexts} businessId={company.businessId} />
               <Rulesets key={'rulesets-' + company.businessId} rulesets={rulesets} />
             </>
