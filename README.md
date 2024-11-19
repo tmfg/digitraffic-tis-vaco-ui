@@ -1,6 +1,6 @@
 ###### Digitraffic / Travel Information Services
 
-# Validator-Conversion Queue Handler UI
+# Validator-Conversion UI
 
 ## App stack
 
@@ -8,35 +8,46 @@
 - TypeScript
 - Vite
 
-## Required local dependencies
+## Usage
+
+## Development
+
+### Prerequisites
+
+> See [Development Environment Setup](https://finrail.atlassian.net/wiki/spaces/VACO1/pages/2720825453/Development+Environment+Setup)
+> on Confluence for initial common setup instructions.
 
 - NodeJS (v18.17.0)
 - npm
 - nvm (optional)
 - Fintraffic Design System repositories
 
-## Local development
+## Local Development
 
-Get Fintraffic Design System web components (temporary solution):
+> **Note!** The shell commands below assume you start from current directory and run them as-is in sequence.
+
+### Setup Fintraffic Design System repositories
+ 
+Get Fintraffic Design System web components:
 ```shell
 cd ..
 git clone git@github.com:fintraffic-design/coreui-components.git
 git clone git@github.com:fintraffic-design/coreui-css.git
 ```
 
-In the cloned coreui-components (important: node version should be set the same as digitraffic-tis-vaco-ui):
+In the cloned `coreui-components` (important: node version should be set the same as digitraffic-tis-vaco-ui):
 ```shell
 cd coreui-components
 nvm use v18.17.0
-npm i
+npm install
 npm link
 ```
 
-In the cloned coreui-css:
+In the cloned `coreui-css`:
 ```shell
 cd ../coreui-css
 nvm use v18.17.0
-npm i
+npm install
 npm link
 ```
 
@@ -51,13 +62,15 @@ Back in digitraffic-tis-vaco-ui:
 cd ../digitraffic-tis-vaco-ui
 npm link @fintraffic-design/coreui-components
 npm link @fintraffic-design/coreui-css
-npm i
+npm install
 ```
 
-Start local dev server:
-```
+### Running Local Development Server
+
+```shell
 npm run dev
 ```
+This will make the UI available in [http://localhost:5173/ui](http://localhost:5173/ui)
 
 ---
 
