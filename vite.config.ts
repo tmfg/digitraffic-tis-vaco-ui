@@ -7,10 +7,12 @@ import svgr from 'vite-plugin-svgr'
 import pluginChecker from 'vite-plugin-checker'
 import { configDefaults } from 'vitest/config'
 import istanbul from 'vite-plugin-istanbul'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    nodePolyfills(),
     react(),
     svgr(),
     pluginChecker({ typescript: true }),
