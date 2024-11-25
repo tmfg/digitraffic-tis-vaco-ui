@@ -4,14 +4,13 @@ const parser = require('@typescript-eslint/parser');
 module.exports = [
   {
     languageOptions: {
-      parser,  // Use the TypeScript parser
+      parser,
       parserOptions: {
-        ecmaVersion: 'latest',  // Use the latest ECMAScript version
+        ecmaVersion: 'latest',  // Use the latest ECMAScript
         sourceType: 'module',   // Support module syntax (import/export)
       },
     },
 
-    // Define plugins used in this configuration
     plugins: {
       '@typescript-eslint': typescriptPlugin,
     },
