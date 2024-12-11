@@ -402,6 +402,35 @@ export const sv = {
           title: 'Skapa ny prenumeration',
           infoText: 'Ange företags-id nedan för att lägga till WebHook-prenumeration.'
         }
+      },
+      credentials: {
+        section: {
+          title: 'Credentials',
+          description: 'description',
+          name: 'credentials name'
+        },
+        actions: {
+          create: 'Create new credentials',
+          delete: 'Delete'
+        },
+        table: {
+          publicId: 'Public ID',
+          name: 'Name',
+          type: 'Type',
+          description: 'Description'
+        },
+        modal: {
+          edit: 'Edit credentials',
+          create: 'Create credentials',
+          infoText: 'Changing the credentials information will overwrite the previous credentials',
+          createInfoText: 'Create new credentials for ',
+          name: 'name',
+          description: 'description',
+          details: 'details',
+          type: 'type',
+          userid: 'user id',
+          password: 'password'
+        }
       }
     },
     ruleset: {

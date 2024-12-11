@@ -403,6 +403,34 @@ export const fi = {
           title: 'Lisää uusi tilaus',
           infoText: 'Syötä yrityksen Y-tunnus, jonka WebHook-tapahtumat haluat tilata.'
         }
+      },
+      credentials: {
+        section: {
+          title: 'Credentials',
+          description: 'kuvaus',
+          name: 'credentials name'
+        },
+        actions: {
+          create: 'Lisää uusi credentials',
+          delete: 'poista'
+        },
+        table: {
+          name: 'Nimi',
+          type: 'Tyyppi',
+          description: 'Kuvaus'
+        },
+        modal: {
+          edit: 'Muokkaa credentials',
+          create: 'Lisää uusi credentials',
+          infoText: 'Changing the credentials information will overwrite the previous credentials',
+          createInfoText: 'Luo uusi credentials yritykselle ',
+          name: 'nimi',
+          description: 'kuvaus',
+          details: 'tiedot',
+          type: 'tyyppi',
+          userid: 'käyttäjätunnus',
+          password: 'salasana'
+        }
       }
     },
     ruleset: {

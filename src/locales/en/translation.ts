@@ -401,6 +401,34 @@ export const en = {
           title: 'Create subscription',
           infoText: "Enter company's business id below to add WebHook subscription."
         }
+      },
+      credentials: {
+        section: {
+          title: 'Credentials',
+          description: 'description',
+          name: 'credentials name'
+        },
+        actions: {
+          create: 'Create new credentials',
+          delete: 'Delete'
+        },
+        table: {
+          name: 'Name',
+          type: 'Type',
+          description: 'Description'
+        },
+        modal: {
+          edit: 'Edit credentials',
+          create: 'Create credentials',
+          infoText: 'Changing the credentials information will overwrite the previous credentials',
+          createInfoText: 'Create new credentials for ',
+          name: 'name',
+          description: 'description',
+          details: 'details',
+          type: 'type',
+          userid: 'user id',
+          password: 'password'
+        }
       }
     },
     ruleset: {
