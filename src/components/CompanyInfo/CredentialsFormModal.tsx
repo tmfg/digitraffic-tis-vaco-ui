@@ -74,6 +74,20 @@ const CredentialsFormModal = ({ mode, owner, close, credential, updateCredential
       return;
     }
 
+    if (!formData.details_userId) {
+      setFormErrors({
+        details_userId: t('formValidation:isRequired', { value: t('admin:company.credentials.modal.userid') }),
+      });
+      return;
+    }
+
+    if (!formData.details_password) {
+      setFormErrors({
+        details_password: t('formValidation:isRequired', { value: t('admin:company.credentials.modal.password') }),
+      });
+      return;
+    }
+
 
     acquireToken(instance, inProgress).then(
       (tokenResult) => {

@@ -29,8 +29,8 @@ export const AuthenticationDetailsEditor = ({ type, authenticationDetails, formE
             name={'details_userId'}
             label={t('admin:company.credentials.modal.userid')}
             value={httpBasic.details_userId ? (httpBasic.details_userId as string) : ''}
-            message={(formErrors.details as string) || ''}
-            error={!!formErrors.details}
+            message={(formErrors.details_userId as string) || ''}
+            error={!!formErrors.details_userId}
           /></div>
           <div
             id={'details_password'}
@@ -42,8 +42,8 @@ export const AuthenticationDetailsEditor = ({ type, authenticationDetails, formE
             name={'details_password'}
             label={t('admin:company.credentials.modal.password')}
             value={httpBasic.details_password ? (httpBasic.details_password as string) : ''}
-            message={(formErrors.details as string) || ''}
-            error={!!formErrors.details}
+            message={(formErrors.details_password as string) || ''}
+            error={!!formErrors.details_password}
           />
         </div>
       </>
