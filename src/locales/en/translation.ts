@@ -420,7 +420,7 @@ export const en = {
         modal: {
           edit: 'Edit credentials',
           create: 'Create credentials',
-          infoText: 'Changing the credentials information will overwrite the previous credentials',
+          infoText: 'Changing the credentials information will overwrite the previous credentials.',
           createInfoText: 'Create new credentials for ',
           name: 'name',
           description: 'description',

@@ -405,31 +405,29 @@ export const sv = {
       },
       credentials: {
         section: {
-          title: 'Credentials',
-          description: 'description',
-          name: 'credentials name'
+          title: 'Identifieringsuppgifter',
+          description: '',
         },
         actions: {
-          create: 'Create new credentials',
-          delete: 'Delete'
+          create: 'Skapa ny identifieringsuppgifter',
+          delete: 'Ta bort'
         },
         table: {
-          publicId: 'Public ID',
-          name: 'Name',
-          type: 'Type',
-          description: 'Description'
+          name: 'Namn',
+          type: 'Typ',
+          description: 'Beskrivning'
         },
         modal: {
-          edit: 'Edit credentials',
-          create: 'Create credentials',
-          infoText: 'Changing the credentials information will overwrite the previous credentials',
-          createInfoText: 'Create new credentials for ',
-          name: 'name',
-          description: 'description',
-          details: 'details',
-          type: 'type',
-          userid: 'user id',
-          password: 'password'
+          edit: 'Redigera identifieringsuppgifter',
+          create: 'Skapa ny identifieringsuppgifter',
+          infoText: 'Att ändra identifieringsuppgifterna kommer att skriva över de tidigare identifieringsuppgifterna.',
+          createInfoText: 'Skapa ny identifieringsuppgifter för ',
+          name: 'namn',
+          description: 'beskrivning',
+          details: 'detaljer',
+          type: 'typ',
+          userid: 'användar-ID ',
+          password: 'ösenord'
         }
       }
     },

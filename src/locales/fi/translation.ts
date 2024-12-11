@@ -406,12 +406,11 @@ export const fi = {
       },
       credentials: {
         section: {
-          title: 'Credentials',
-          description: 'kuvaus',
-          name: 'credentials name'
+          title: 'Tunnistautumistiedot',
+          description: '',
         },
         actions: {
-          create: 'Lisää uusi credentials',
+          create: 'Lisää uusi tunnistautumistieto',
           delete: 'poista'
         },
         table: {
@@ -420,10 +419,10 @@ export const fi = {
           description: 'Kuvaus'
         },
         modal: {
-          edit: 'Muokkaa credentials',
-          create: 'Lisää uusi credentials',
-          infoText: 'Changing the credentials information will overwrite the previous credentials',
-          createInfoText: 'Luo uusi credentials yritykselle ',
+          edit: 'Muokkaa tunnistautumistietoja',
+          create: 'Lisää uusi tunnistautumistieto',
+          infoText: 'Tietojen muuttaminen ylikirjoittaa aikaisemmat tiedot.',
+          createInfoText: 'Luo uusi tunnistautumistieto yritykselle ',
           name: 'nimi',
           description: 'kuvaus',
           details: 'tiedot',
