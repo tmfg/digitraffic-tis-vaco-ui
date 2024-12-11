@@ -74,13 +74,6 @@ const CredentialsFormModal = ({ mode, owner, close, credential, updateCredential
       return;
     }
 
-    if (formData.type === 'HTTP Basic') {
-      console.log("test")
-      setFormErrors({
-        userId: t('formValidation:isRequired', { value: t('admin:company.credentials.modal.type') }),
-      });
-      return;
-    }
 
     acquireToken(instance, inProgress).then(
       (tokenResult) => {
