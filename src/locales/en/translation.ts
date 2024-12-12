@@ -405,7 +405,7 @@ export const en = {
       credentials: {
         section: {
           title: 'Credentials',
-          description: 'description',
+          description: 'Credentials can be saved for each source individually, including the username and password (HTTP basic), which can be used to open the source for validation. The credentials for opening the source should be requested from the owner of the material.',
           name: 'credentials name'
         },
         actions: {
@@ -426,7 +426,7 @@ export const en = {
           description: 'description',
           details: 'details',
           type: 'type',
-          userid: 'user id',
+          userid: 'username',
           password: 'password'
         }
       }

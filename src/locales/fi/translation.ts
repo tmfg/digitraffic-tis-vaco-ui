@@ -407,11 +407,11 @@ export const fi = {
       credentials: {
         section: {
           title: 'Tunnistautumistiedot',
-          description: '',
+          description: 'Tunnistautumistietoihin voi tarvittaessa tallentaa lähdekohtaisen käyttäjätunnuksen ja salasanan (HTTP basic), jolla lähteen voi avata validoitavaksi. Avaamisen tunnistautumistieto tulee pyytää aineiston omistajalta.',
         },
         actions: {
           create: 'Lisää uusi tunnistautumistieto',
-          delete: 'poista'
+          delete: 'Poista'
         },
         table: {
           name: 'Nimi',

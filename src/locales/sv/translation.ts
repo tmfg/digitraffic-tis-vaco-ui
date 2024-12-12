@@ -406,7 +406,7 @@ export const sv = {
       credentials: {
         section: {
           title: 'Identifieringsuppgifter',
-          description: '',
+          description: 'Identifieringsuppgifter kan vid behov sparas för varje källa individuellt, inklusive användarnamn och lösenord (HTTP basic), som kan användas för att öppna källan för validering. Identifieringsuppgifterna för att öppna källan bör begäras från materialets ägare.',
         },
         actions: {
           create: 'Skapa ny identifieringsuppgifter',
@@ -426,7 +426,7 @@ export const sv = {
           description: 'beskrivning',
           details: 'detaljer',
           type: 'typ',
-          userid: 'användar-ID ',
+          userid: 'användarnamn ',
           password: 'ösenord'
         }
       }
