@@ -30,7 +30,6 @@ export const useCredentialsApi = () => {
         headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {}
       }).then(
         (response) => {
-          console.log('in reload got ' + JSON.stringify(response))
           setCredentials(response.data?.data as Credential[])
         },
         (_error) => {}
