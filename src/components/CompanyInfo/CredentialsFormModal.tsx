@@ -144,7 +144,6 @@ const CredentialsFormModal = ({ mode, owner, close, credential, updateCredential
 
   const updateFormState = useCallback((newFormData: Map | null, newFormErrors: Map | null) => {
     if (newFormData) {
-      console.log("new form data ", JSON.stringify(newFormData))
       setFormData(newFormData)
     }
     if (newFormErrors) {
