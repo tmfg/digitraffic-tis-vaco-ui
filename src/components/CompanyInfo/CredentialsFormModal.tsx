@@ -248,17 +248,11 @@ const CredentialsFormModal = ({ mode, owner, close, credential, updateCredential
               value={formData.type ? typeOptions.filter((o) => o.value === formData.type)[0] : undefined}
             />
           </div>
-
-          <div
-            id={'details'}
-            style={{ textAlign: 'left', width: '26rem', marginRight: '8rem', marginBottom: '1rem' }}
-            className={'input-wrapper'}
-          >
             <AuthenticationDetailsEditor
               authenticationDetails={formData}
               formErrors={formErrors}
               type={formData.type as string}
-            /></div>
+            />
           <FdsActionSheetComponent>
             <FdsButtonComponent
               onClick={close}
