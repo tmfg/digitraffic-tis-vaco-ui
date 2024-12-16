@@ -401,6 +401,34 @@ export const en = {
           title: 'Create subscription',
           infoText: "Enter company's business id below to add WebHook subscription."
         }
+      },
+      credentials: {
+        section: {
+          title: 'Credentials',
+          description: 'Credentials can be saved for each source individually, including the username and password (HTTP basic), which can be used to open the source for validation. The credentials for opening the source should be requested from the owner of the material.',
+          name: 'credentials name'
+        },
+        actions: {
+          create: 'Create new credentials',
+          delete: 'Delete'
+        },
+        table: {
+          name: 'Name',
+          type: 'Type',
+          description: 'Description'
+        },
+        modal: {
+          edit: 'Edit credentials',
+          create: 'Create credentials',
+          infoText: 'Changing the credentials information will overwrite the previous credentials.',
+          createInfoText: 'Create new credentials for ',
+          name: 'name',
+          description: 'description',
+          details: 'details',
+          type: 'type',
+          userid: 'username',
+          password: 'password'
+        }
       }
     },
     ruleset: {

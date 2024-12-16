@@ -403,6 +403,33 @@ export const fi = {
           title: 'Lisää uusi tilaus',
           infoText: 'Syötä yrityksen Y-tunnus, jonka WebHook-tapahtumat haluat tilata.'
         }
+      },
+      credentials: {
+        section: {
+          title: 'Tunnistautumistiedot',
+          description: 'Tunnistautumistietoihin voi tarvittaessa tallentaa lähdekohtaisen käyttäjätunnuksen ja salasanan (HTTP basic), jolla lähteen voi avata validoitavaksi. Avaamisen tunnistautumistieto tulee pyytää aineiston omistajalta.',
+        },
+        actions: {
+          create: 'Lisää uusi tunnistautumistieto',
+          delete: 'Poista'
+        },
+        table: {
+          name: 'Nimi',
+          type: 'Tyyppi',
+          description: 'Kuvaus'
+        },
+        modal: {
+          edit: 'Muokkaa tunnistautumistietoja',
+          create: 'Lisää uusi tunnistautumistieto',
+          infoText: 'Tietojen muuttaminen ylikirjoittaa aikaisemmat tiedot.',
+          createInfoText: 'Luo uusi tunnistautumistieto yritykselle ',
+          name: 'nimi',
+          description: 'kuvaus',
+          details: 'tiedot',
+          type: 'tyyppi',
+          userid: 'käyttäjätunnus',
+          password: 'salasana'
+        }
       }
     },
     ruleset: {

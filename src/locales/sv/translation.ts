@@ -402,6 +402,33 @@ export const sv = {
           title: 'Skapa ny prenumeration',
           infoText: 'Ange företags-id nedan för att lägga till WebHook-prenumeration.'
         }
+      },
+      credentials: {
+        section: {
+          title: 'Identifieringsuppgifter',
+          description: 'Identifieringsuppgifter kan vid behov sparas för varje källa individuellt, inklusive användarnamn och lösenord (HTTP basic), som kan användas för att öppna källan för validering. Identifieringsuppgifterna för att öppna källan bör begäras från materialets ägare.',
+        },
+        actions: {
+          create: 'Skapa ny identifieringsuppgifter',
+          delete: 'Ta bort'
+        },
+        table: {
+          name: 'Namn',
+          type: 'Typ',
+          description: 'Beskrivning'
+        },
+        modal: {
+          edit: 'Redigera identifieringsuppgifter',
+          create: 'Skapa ny identifieringsuppgifter',
+          infoText: 'Att ändra identifieringsuppgifterna kommer att skriva över de tidigare identifieringsuppgifterna.',
+          createInfoText: 'Skapa ny identifieringsuppgifter för ',
+          name: 'namn',
+          description: 'beskrivning',
+          details: 'detaljer',
+          type: 'typ',
+          userid: 'användarnamn ',
+          password: 'ösenord'
+        }
       }
     },
     ruleset: {
