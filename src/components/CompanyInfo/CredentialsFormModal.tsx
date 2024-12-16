@@ -171,10 +171,6 @@ const CredentialsFormModal = ({ mode, owner, close, credential, updateCredential
     if (credentialsTypeElement && credentialsTypeElement.getAttribute('listener') !== 'true') {
       credentialsTypeElement.addEventListener('select', useGeneralListener)
     }
-    const credentialsDetailsElement = document.querySelector('[id="details"]')
-    if (credentialsDetailsElement && credentialsDetailsElement.getAttribute('listener') !== 'true') {
-      credentialsDetailsElement.addEventListener('change', useGeneralListener)
-    }
     const credentialsUserIdElement = document.querySelector('[id="details_userId"]')
     if (credentialsUserIdElement && credentialsUserIdElement.getAttribute('listener') !== 'true') {
       credentialsUserIdElement.addEventListener('change', useGeneralListener)
