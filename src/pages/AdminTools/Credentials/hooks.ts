@@ -20,6 +20,26 @@ export const useAdminRightsCheck = () => {
   return [hasAdminRole, hasCompanyAdminRole] as const
 }
 
+export const fetchCredentials = (owner: string | undefined, accessToken: string | null) => {
+  const [credentials, setCredentials] = useState<Credential[]>([])
+
+  useEffect(() => {
+      if (accessToken && owner) {
+        HttpClient.get('/api/v1/credentials', {
+          params: { businessId: owner },
+          headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {}
+        }).then(
+          (response) => {
+            setCredentials(response.data?.data as Credential[])
+          },
+          (_error) => {}
+        )
+      }
+  }, [accessToken, owner])
+
+  return [credentials] as const
+}
+
 export const useCredentialsApi = () => {
   const [credentials, setCredentials] = useState<Credential[]>([])
 

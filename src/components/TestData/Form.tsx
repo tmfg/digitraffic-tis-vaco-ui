@@ -13,6 +13,7 @@ import { useCompanyContextsFetch, useCompanyRulesFetch, useRulesForFormat, useUs
 import BasicInformation from './BasicInformation/BasicInformation'
 import Rules from './Rules/Rules'
 import { FormError, FormData } from './types'
+import { fetchCredentials } from '../../pages/AdminTools/Credentials/hooks.ts'
 
 const Form = () => {
   const navigate = useNavigate()
@@ -26,6 +27,7 @@ const Form = () => {
     accessToken
   )
   const [contexts] = useCompanyContextsFetch(formData.businessId, accessToken)
+  const [credentials] = fetchCredentials(formData.businessId, accessToken)
   const [validationRulesForSelectedFormat] = useRulesForFormat(formData.format, validationRules)
   const [conversionRulesForSelectedFormat] = useRulesForFormat(formData.format, conversionRules)
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
@@ -67,6 +69,7 @@ const Form = () => {
           formats={formats}
           contexts={contexts}
           isFetchInProgress={isFetchInProgress}
+          companyCredentials={credentials}
         />
 
         <Rules

@@ -10,11 +10,13 @@ import { useTranslation } from 'react-i18next'
 import { FormSectionProps } from '../types'
 import { getCompanyFullName } from '../../../util/company'
 import { Context } from '../../../types/Context'
+import { Credential } from '../../../types/Credential.ts'
 
 interface BasicInformationProps extends FormSectionProps {
   formats: string[]
   isFetchInProgress: boolean
   contexts: Context[]
+  companyCredentials: Credential[]
 }
 
 const BasicInformation = ({
@@ -23,7 +25,8 @@ const BasicInformation = ({
   formStateUpdateCallback,
   formats,
   contexts,
-  isFetchInProgress
+  isFetchInProgress,
+  companyCredentials
 }: BasicInformationProps) => {
   const { t, i18n } = useTranslation()
   const appContext: AppContextType = useContext(AppContext)
@@ -37,6 +40,12 @@ const BasicInformation = ({
         })
       : []
   }, [appContext.companies, t])
+  const credentialsOptions: FdsDropdownOption<string>[] = companyCredentials.map((credential: Credential) => {
+    return {
+      label: credential.name,
+      value: credential.publicId
+    }
+  })
   const contextOptions: FdsDropdownOption<string>[] = contexts.map((context: Context) => {
     return {
       label: context.context,
@@ -177,6 +186,19 @@ const BasicInformation = ({
     }
   }, [contexts, useGeneralListener, useUrlListener])
 
+  useEffect(() => {
+    if (!companyCredentials || companyCredentials.length === 0 ) {
+      return
+    }
+    const credentialsElement = document.querySelector('[id = "credentials"]')
+    if (credentialsElement && credentialsElement.getAttribute('listener') !== 'true') {
+      credentialsElement.addEventListener('select', useGeneralListener)
+    }
+    return () => {
+      credentialsElement?.removeEventListener('select', useGeneralListener)
+    }
+  }, [companyCredentials, useGeneralListener, useUrlListener])
+
   return (
     <div className={'form-section'}>
       <h5>{t('services:testData.form.section.basic')}</h5>
@@ -200,6 +222,18 @@ const BasicInformation = ({
             options={contextOptions}
             message={t('services:testData.form.contextInfo')}
             value={formData.context ? contextOptions.filter((c) => c.value === formData.context)[0] : undefined}
+          />
+        </div>
+      )}
+
+      {companyCredentials && companyCredentials.length > 0 && (
+        <div id={'credentials'} className={'input-wrapper'}>
+          <FdsDropdownComponent
+            name={'credentials'}
+            label={t('services:testData.form.credentials')}
+            options={credentialsOptions}
+            message={t('')}
+            value={formData.credentials ? credentialsOptions.filter((c) => c.value === formData.credentials)[0] : undefined}
           />
         </div>
       )}

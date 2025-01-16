@@ -12,6 +12,7 @@ export interface EntryRequest {
   conversions: RuleInput[]
   metadata?: object
   notifications?: string[]
+  credentials?: string
 }
 
 export interface FormSectionProps {
@@ -29,6 +30,7 @@ export interface FormData extends Map {
   businessId?: string
   etag?: string | undefined
   context?: string | undefined
+  credentials?: string | undefined
 }
 
 // Map covers the dynamic fields coming from [rule name] or [rules name + form field name],

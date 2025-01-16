@@ -94,6 +94,7 @@ export const sv = {
         contextInfo: 'Kontextidentifierare kan användas för att markera flera publikationer som relaterade',
         contextPlaceholder: 'inskickad från VACO UI',
         company: 'Företag',
+        credentials: 'Identifieringsuppgifter',
         format: 'Dataformat',
         formatRequired: 'Du måste specificera dataformat',
         companyRequired: 'Du måste specificera företag',
