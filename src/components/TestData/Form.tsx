@@ -1,6 +1,6 @@
 import './_form.scss'
 import { FdsAlertComponent } from '../fds/FdsAlertComponent'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { EntryResource } from '../../types/EntryResource'
 import { useMsal } from '@azure/msal-react'
 import { useTranslation } from 'react-i18next'
@@ -13,7 +13,7 @@ import { useCompanyContextsFetch, useCompanyRulesFetch, useRulesForFormat, useUs
 import BasicInformation from './BasicInformation/BasicInformation'
 import Rules from './Rules/Rules'
 import { FormError, FormData } from './types'
-import { fetchCredentials } from '../../pages/AdminTools/Credentials/hooks.ts'
+import { useCredentialsApi } from '../../pages/AdminTools/Credentials/hooks.ts'
 
 const Form = () => {
   const navigate = useNavigate()
@@ -27,12 +27,19 @@ const Form = () => {
     accessToken
   )
   const [contexts] = useCompanyContextsFetch(formData.businessId, accessToken)
-  const [credentials] = fetchCredentials(formData.businessId, accessToken)
+  const [credentials, _reloadCredentials, _deleteCredentials, fetchCredentials] = useCredentialsApi()
   const [validationRulesForSelectedFormat] = useRulesForFormat(formData.format, validationRules)
   const [conversionRulesForSelectedFormat] = useRulesForFormat(formData.format, conversionRules)
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [email] = useUserEmail(accessToken)
+
+
+  useEffect(() => {
+    if (accessToken && formData.businessId) {
+      fetchCredentials(formData.businessId, accessToken)
+    }
+  }, [formData.businessId, accessToken])
 
   const closeModal = () => {
     setIsModalOpen(false)
