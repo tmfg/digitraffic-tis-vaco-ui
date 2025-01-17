@@ -70,16 +70,6 @@ const BasicInformation = ({
     }
   }, [companyOptions, formData, formStateUpdateCallback])
 
-  useEffect(() => {
-    // Set default selected context if there is only one option
-    if (contextOptions.length === 1 && !formData.context) {
-      const newFormData = {
-        ...formData,
-        context: contextOptions[0].value
-      }
-      formStateUpdateCallback(newFormData, null)
-    }
-  }, [contextOptions, formData, formStateUpdateCallback])
 
   useEffect(() => {
     // When user selects new company, resetting format if it's no longer available for the new company
