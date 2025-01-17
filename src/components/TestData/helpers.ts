@@ -82,6 +82,7 @@ export const submitData = async (
   const requestBody: EntryRequest = {
     name: formData.feedName as string,
     businessId: formData.businessId as string,
+    credentials: formData.credentials as string,
     url: formData.url as string,
     context: formData.context as string,
     etag: formData.etag as string,

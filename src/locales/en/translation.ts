@@ -93,6 +93,7 @@ export const en = {
         contextInfo: 'Context identifier can be used to mark several publications as related',
         contextPlaceholder: 'submitted from VACO UI',
         company: 'Company',
+        credentials: 'Credentials',
         format: 'Data format',
         formatRequired: 'Specifying format is required',
         companyRequired: 'Specifying company is required',

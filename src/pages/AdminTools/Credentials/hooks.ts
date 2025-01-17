@@ -23,6 +23,21 @@ export const useAdminRightsCheck = () => {
 export const useCredentialsApi = () => {
   const [credentials, setCredentials] = useState<Credential[]>([])
 
+  const fetchCredentials = (owner: string, accessToken: string | null) => {
+
+      if (accessToken && owner) {
+        HttpClient.get('/api/v1/credentials', {
+          params: { businessId: owner },
+          headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {}
+        }).then(
+          (response) => {
+            setCredentials(response.data?.data as Credential[])
+          },
+          (_error) => {}
+        )
+      }
+    }
+
   const reloadCredentials = (owner: Company, accessToken: string | null) => {
     if (accessToken && owner) {
       HttpClient.get('/api/v1/credentials', {
@@ -52,5 +67,5 @@ export const useCredentialsApi = () => {
     }
   }
 
-  return [credentials, reloadCredentials, deleteCredentials] as const
+  return [credentials, reloadCredentials, deleteCredentials, fetchCredentials] as const
 }

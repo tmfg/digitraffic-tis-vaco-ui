@@ -36,7 +36,7 @@ describe('Test Data Page', () => {
 
     await msalTester.waitForRedirect()
     expect(screen.getByText(i18next.t('error:authRequired'))).toBeInTheDocument()
-    expect(screen.queryByText(i18next.t('sservices:testData:header'))).toBeNull()
+    expect(screen.queryByText(i18next.t('services:testData:header'))).toBeNull()
   })
 
   it('Test data Page renders correctly when user got logged in', async () => {
