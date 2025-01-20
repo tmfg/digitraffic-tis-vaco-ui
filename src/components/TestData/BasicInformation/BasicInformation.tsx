@@ -40,12 +40,13 @@ const BasicInformation = ({
         })
       : []
   }, [appContext.companies, t])
-  const credentialsOptions: FdsDropdownOption<string>[] = credentials.map((credential: Credential) => {
-    return {
+  const credentialsOptions: FdsDropdownOption<string>[] = [
+    { label: '', value: '' },
+    ...credentials.map((credential: Credential) => ({
       label: credential.name,
-      value: credential.publicId
-    }
-  })
+      value: credential.publicId,
+    })),
+  ]
   const contextOptions: FdsDropdownOption<string>[] = contexts.map((context: Context) => {
     return {
       label: context.context,
