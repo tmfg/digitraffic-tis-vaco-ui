@@ -31,7 +31,8 @@ export const useCredentialsApi = () => {
           headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {}
         }).then(
           (response) => {
-            setCredentials(response.data?.data as Credential[])
+            const credentialData = Array.isArray(response.data?.data) ? response.data.data : [];
+            setCredentials(credentialData);
           },
           (_error) => {}
         )
