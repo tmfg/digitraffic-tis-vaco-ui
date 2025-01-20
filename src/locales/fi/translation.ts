@@ -96,7 +96,7 @@ export const fi = {
         contextPlaceholder: 'lähetetty VACO UI:n kautta',
         company: 'Yritys',
         credentials: 'Tunnistautumistiedot',
-        credentialsInfo: 'Tunnistautumistietohjen avulla voi avata lähteen validoitavaksi',
+        credentialsInfo: 'Tunnistautumistietojen avulla voi avata lähteen validoitavaksi',
         format: 'Dataformaatti',
         formatRequired: 'Dataformaatti on määritettävä',
         companyRequired: 'Yritys on määritettävä',
