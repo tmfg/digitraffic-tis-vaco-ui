@@ -76,7 +76,7 @@ const Form = () => {
           formats={formats}
           contexts={contexts}
           isFetchInProgress={isFetchInProgress}
-          companyCredentials={credentials}
+          credentials={credentials}
         />
 
         <Rules
