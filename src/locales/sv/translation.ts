@@ -95,6 +95,7 @@ export const sv = {
         contextPlaceholder: 'inskickad från VACO UI',
         company: 'Företag',
         credentials: 'Identifieringsuppgifter',
+        credentialsInfo: 'Identifieringsuppgifter kan användas för att öppna källan för validering.',
         format: 'Dataformat',
         formatRequired: 'Du måste specificera dataformat',
         companyRequired: 'Du måste specificera företag',
