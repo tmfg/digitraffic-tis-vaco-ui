@@ -16,7 +16,7 @@ interface BasicInformationProps extends FormSectionProps {
   formats: string[]
   isFetchInProgress: boolean
   contexts: Context[]
-  companyCredentials: Credential[]
+  credentials: Credential[]
 }
 
 const BasicInformation = ({
@@ -26,7 +26,7 @@ const BasicInformation = ({
   formats,
   contexts,
   isFetchInProgress,
-  companyCredentials
+  credentials
 }: BasicInformationProps) => {
   const { t, i18n } = useTranslation()
   const appContext: AppContextType = useContext(AppContext)
@@ -40,7 +40,7 @@ const BasicInformation = ({
         })
       : []
   }, [appContext.companies, t])
-  const credentialsOptions: FdsDropdownOption<string>[] = companyCredentials.map((credential: Credential) => {
+  const credentialsOptions: FdsDropdownOption<string>[] = credentials.map((credential: Credential) => {
     return {
       label: credential.name,
       value: credential.publicId
@@ -177,7 +177,7 @@ const BasicInformation = ({
   }, [contexts, useGeneralListener, useUrlListener])
 
   useEffect(() => {
-    if (!companyCredentials || companyCredentials.length === 0 ) {
+    if (!credentials || credentials.length === 0 ) {
       return
     }
     const credentialsElement = document.querySelector('[id = "credentials"]')
@@ -187,7 +187,7 @@ const BasicInformation = ({
     return () => {
       credentialsElement?.removeEventListener('select', useGeneralListener)
     }
-  }, [companyCredentials, useGeneralListener, useUrlListener])
+  }, [credentials, useGeneralListener, useUrlListener])
 
   return (
     <div className={'form-section'}>
@@ -216,7 +216,7 @@ const BasicInformation = ({
         </div>
       )}
 
-      {companyCredentials && companyCredentials.length > 0 && (
+      {credentials && credentials.length > 0 && (
         <div id={'credentials'} className={'input-wrapper'}>
           <FdsDropdownComponent
             name={'credentials'}
