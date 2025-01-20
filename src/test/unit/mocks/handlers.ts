@@ -200,5 +200,32 @@ export const httpHandlers = [
       ],
       { status: 200 }
     )
+  }),
+  http.get('http://localhost:8080/api/v1/credentials', () => {
+    return HttpResponse.json(
+      [
+        {
+          data: {
+            publicId: "fyX4qoj2w7E-p2Q_PRi7c",
+            name: "test",
+            description: "test",
+            owner: {
+              businessId: "2942108-7",
+              name: "Fintraffic Oy",
+              contactEmails: [],
+              language: "fi",
+              adGroupId: "3acc4258-44f6-4c19-9420-c5d819f951d6",
+              publish: false,
+              codespaces: [],
+              notificationWebhookUri: null,
+              website: "https://www.fintraffic.fi"
+            }
+          },
+          error: null,
+          links: {}
+        }
+      ],
+      { status: 200 }
+    )
   })
 ]
