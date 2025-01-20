@@ -223,7 +223,7 @@ const BasicInformation = ({
             name={'credentials'}
             label={t('services:testData.form.credentials')}
             options={credentialsOptions}
-            message={t('')}
+            message={t('services:testData.form.credentialsInfo')}
             value={formData.credentials ? credentialsOptions.filter((c) => c.value === formData.credentials)[0] : undefined}
           />
         </div>
