@@ -47,12 +47,13 @@ const BasicInformation = ({
       value: credential.publicId,
     })),
   ]
-  const contextOptions: FdsDropdownOption<string>[] = contexts.map((context: Context) => {
-    return {
+  const contextOptions: FdsDropdownOption<string>[] = [
+    { label: '', value: '' },
+    ...contexts.map((context: Context) => ({
       label: context.context,
       value: context.context
-    }
-  })
+    })),
+  ]
   const formatOptions: FdsDropdownOption<string>[] = formats.map((format: string) => {
     return {
       label: i18n.exists('format:' + format.toLowerCase()) ? t('format:' + format.toLowerCase()) : format,
@@ -70,7 +71,6 @@ const BasicInformation = ({
       formStateUpdateCallback(newFormData, null)
     }
   }, [companyOptions, formData, formStateUpdateCallback])
-
 
   useEffect(() => {
     // When user selects new company, resetting format if it's no longer available for the new company
