@@ -37,12 +37,13 @@ const BasicInformation = ({
         })
       : []
   }, [appContext.companies, t])
-  const contextOptions: FdsDropdownOption<string>[] = contexts.map((context: Context) => {
-    return {
+  const contextOptions: FdsDropdownOption<string>[] = [
+    { label: '', value: '' },
+    ...contexts.map((context: Context) => ({
       label: context.context,
       value: context.context
-    }
-  })
+    })),
+  ]
   const formatOptions: FdsDropdownOption<string>[] = formats.map((format: string) => {
     return {
       label: i18n.exists('format:' + format.toLowerCase()) ? t('format:' + format.toLowerCase()) : format,
