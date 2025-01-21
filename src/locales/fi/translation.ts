@@ -95,6 +95,8 @@ export const fi = {
         contextInfo: 'Kontekstitunnisteen avulla voidaan merkitä useita julkaisuja toisiinsa liittyviksi',
         contextPlaceholder: 'lähetetty VACO UI:n kautta',
         company: 'Yritys',
+        credentials: 'Tunnistautumistiedot',
+        credentialsInfo: 'Tunnistautumistietojen avulla voi avata lähteen validoitavaksi',
         format: 'Dataformaatti',
         formatRequired: 'Dataformaatti on määritettävä',
         companyRequired: 'Yritys on määritettävä',
