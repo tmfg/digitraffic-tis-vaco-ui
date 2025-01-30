@@ -13,6 +13,7 @@ export interface EntryRequest {
   metadata?: object
   notifications?: string[]
   credentials?: string
+  sendNotifications: boolean
 }
 
 export interface FormSectionProps {
@@ -31,6 +32,7 @@ export interface FormData extends Map {
   etag?: string | undefined
   context?: string | undefined
   credentials?: string | undefined
+  sendNotifications?: boolean
 }
 
 // Map covers the dynamic fields coming from [rule name] or [rules name + form field name],
