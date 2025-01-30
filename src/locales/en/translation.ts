@@ -113,6 +113,9 @@ export const en = {
             'fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, version v1.12.0',
             fintraffic: 'GTFS to NeTEx Converter by Fintraffic'
           },
+          netex2gtfs: {
+            entur: 'NeTEx to GTFS Converter by Entur'
+          },
           'gbfs.entur': 'GBFS Validator by Entur'
         },
         noFormatsFound: 'No data formats and rules found for the chosen company',
@@ -138,6 +141,7 @@ export const en = {
     processingResults: {
       header: 'Data publication results',
       magicLink: 'Copy shareable link',
+      rerun: 'rerun entry',
       expiryWarning: 'Note! The publication is older than 5 days.',
       dataNotAvailable: 'Some publication results may not be available, please publish your data again.',
       summary: 'Summary',

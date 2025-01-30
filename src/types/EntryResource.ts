@@ -37,6 +37,7 @@ export interface Entry extends EntrySummary {
   tasks?: Task[]
   updated: string
   badge?: string
+  credentials?: string
 }
 
 export interface RuleInput {

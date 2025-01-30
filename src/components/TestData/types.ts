@@ -8,8 +8,8 @@ export interface EntryRequest {
   businessId: string
   etag?: string
   context: string
-  validations: RuleInput[]
-  conversions: RuleInput[]
+  validations: RuleInput[] | undefined
+  conversions: RuleInput[] | undefined
   metadata?: object
   notifications?: string[]
   credentials?: string
