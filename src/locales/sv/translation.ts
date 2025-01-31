@@ -99,6 +99,7 @@ export const sv = {
         format: 'Dataformat',
         formatRequired: 'Du måste specificera dataformat',
         companyRequired: 'Du måste specificera företag',
+        sendNotifications: 'Aktivera aviseringar för denna matning',
         submit: 'Skicka',
         rules: {
           gtfs: {
