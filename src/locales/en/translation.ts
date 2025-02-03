@@ -141,7 +141,7 @@ export const en = {
     processingResults: {
       header: 'Data publication results',
       magicLink: 'Copy shareable link',
-      rerun: 'rerun entry',
+      rerun: 'Rerun entry',
       expiryWarning: 'Note! The publication is older than 5 days.',
       dataNotAvailable: 'Some publication results may not be available, please publish your data again.',
       summary: 'Summary',
