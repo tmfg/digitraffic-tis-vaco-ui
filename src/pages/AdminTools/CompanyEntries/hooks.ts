@@ -32,7 +32,7 @@ export const useCompanyEntriesFetch = (accessToken: string | null, businessId: s
   return [entryData, isFetchInProgress] as const
 }
 
-export const postRerunEntry = (entry: EntryResource | undefined, accessToken: string | null, setIsModalOpen: (status: boolean) => void) => {
+export const postRerunEntry = (entry: EntryResource | undefined, accessToken: string | null, setIsModalOpen: (status: boolean) => void, setEntryResource: (entry: EntryResource) => void) => {
 
   const validations : RuleInput[] | undefined = entry?.data.validations
   const conversions: RuleInput[] | undefined = entry?.data.conversions
@@ -50,7 +50,12 @@ export const postRerunEntry = (entry: EntryResource | undefined, accessToken: st
   }
 
   if(accessToken) {
-    HttpClient.post('/api/ui/queue', requestBody, getHeaders(accessToken))
+    HttpClient.post('/api/ui/queue', requestBody, getHeaders(accessToken)).then(
+      (response) => {
+        const data = response.data as EntryResource
+        setEntryResource(data)
+      }
+    )
     setIsModalOpen(true)
   }
 

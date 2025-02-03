@@ -24,6 +24,7 @@ import { AppContext, AppContextType } from '../../AppContextProvider.tsx'
 import { Company } from '../../types/Company.ts'
 import SubmissionModal from '../../components/TestData/SubmissionModal/SubmissionModal.tsx'
 import { useUserEmail } from '../../components/TestData/hooks.ts'
+import { EntryResource } from '../../types/EntryResource.ts'
 
 //const isReportContentAvailable = (reports: RuleReport[]) => {
 //  return reports.filter((report) => report.findings?.length || report.packages?.length > 0).length
@@ -43,6 +44,7 @@ const ProcessingResultsPage = () => {
   const [searchParams, _] = useSearchParams()
   const magic = searchParams.get('magic')
   const [entryState, setEntryState] = useState<EntryStateResource | null>(null)
+  const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
   const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
   const isAuthenticated = useIsAuthenticated()
   const { t } = useTranslation()
@@ -70,7 +72,8 @@ const ProcessingResultsPage = () => {
   }
 
   const navigateToProcessingResults = () => {
-    navigate('/data/' + entryState?.data.entry.data.publicId)
+    navigate('/data/' + entryResource?.data.publicId)
+    closeModal()
   }
 
   const handleEntryStateResponse = (response: AxiosResponse<any>) => {
@@ -115,17 +118,17 @@ const ProcessingResultsPage = () => {
     setTimeout(() => setShowMagicLinkGotCopied(false), 3000)
   }
 
-  const rerunEntry = (entryState: EntryStateResource | null, accessToken: string | null, setIsModalOpen: (status: boolean) => void) => {
-    postRerunEntry(entryState?.data.entry, accessToken, setIsModalOpen)
+  const rerunEntry = (entryState: EntryStateResource | null, accessToken: string | null, setIsModalOpen: (status: boolean) => void, setEntryResource: (entry: EntryResource) => void) => {
+    postRerunEntry(entryState?.data.entry, accessToken, setIsModalOpen, setEntryResource)
   }
 
   return (
     <div className={'page-content'}>
       {searchParams.has('magic') || isAuthenticated ? (
         <>
-          {entryState && isModalOpen && (
+          {entryResource && isModalOpen && (
             <SubmissionModal
-              publicId={entryState.data.entry.data.publicId}
+              publicId={entryResource.data.publicId}
               email={email}
               close={closeModal}
               proceed={navigateToProcessingResults}
@@ -146,7 +149,7 @@ const ProcessingResultsPage = () => {
               <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'flex-start'}}>
                 {hasRightToRerun(entryState?.data.entry.data.businessId) && (
                  <FdsButtonComponent
-                   onClick={() => rerunEntry(entryState, accessToken, setIsModalOpen)}
+                   onClick={() => rerunEntry(entryState, accessToken, setIsModalOpen, setEntryResource)}
                    icon="refresh-cw"
                    iconSize={FdsTokenSize2}
                    variant={FdsButtonVariant.secondary}
