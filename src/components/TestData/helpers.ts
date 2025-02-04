@@ -88,7 +88,8 @@ export const submitData = async (
     etag: formData.etag as string,
     format: (formData.format as string).toLowerCase(),
     validations,
-    conversions
+    conversions,
+    sendNotifications: formData.sendNotifications as boolean
   }
 
   if (email) {

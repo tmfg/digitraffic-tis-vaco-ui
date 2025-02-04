@@ -14,9 +14,10 @@ interface ModalProps {
   proceed: () => void
   email?: string | null
   publicId: string
+  sendNotifications: boolean
 }
 
-const SubmissionModal = ({ close, proceed, email, publicId }: ModalProps) => {
+const SubmissionModal = ({ close, proceed, email, publicId, sendNotifications }: ModalProps) => {
   const { t } = useTranslation()
 
   return (
@@ -37,7 +38,7 @@ const SubmissionModal = ({ close, proceed, email, publicId }: ModalProps) => {
               <Trans i18nKey="services:testData:modal:accessBy" values={{ publicId: publicId }}></Trans>
             </li>
 
-            {email && (
+            {email && sendNotifications && (
               <li>
                 <Trans i18nKey="services:testData:modal:notification" values={{ email: email }}></Trans>
               </li>

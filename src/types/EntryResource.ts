@@ -37,6 +37,7 @@ export interface Entry extends EntrySummary {
   tasks?: Task[]
   updated: string
   badge?: string
+  sendNotifications: boolean
 }
 
 export interface RuleInput {

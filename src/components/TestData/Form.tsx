@@ -20,7 +20,7 @@ const Form = () => {
   const { t } = useTranslation()
   const [accessToken] = useAcquireToken()
   const { instance, inProgress } = useMsal()
-  const [formData, setFormData] = useState<FormData>({})
+  const [formData, setFormData] = useState<FormData>({ sendNotifications: false })
   const [formErrors, setFormErrors] = useState<FormError>({})
   const [formats, validationRules, conversionRules, isFetchInProgress] = useCompanyRulesFetch(
     formData.businessId,
@@ -65,6 +65,7 @@ const Form = () => {
           email={email}
           close={closeModal}
           proceed={navigateToProcessingResults}
+          sendNotifications={entryResource.data.sendNotifications}
         />
       )}
       <h3 className={'form-title'}>{t('services:testData:form:title')}</h3>
