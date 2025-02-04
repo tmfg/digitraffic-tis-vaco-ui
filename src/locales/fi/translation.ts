@@ -100,6 +100,7 @@ export const fi = {
         format: 'Dataformaatti',
         formatRequired: 'Dataformaatti on määritettävä',
         companyRequired: 'Yritys on määritettävä',
+        sendNotifications: 'Salli ilmoitukset tästä syötteestä',
         submit: 'Lähetä',
         rules: {
           gtfs: {

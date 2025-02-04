@@ -38,6 +38,7 @@ export interface Entry extends EntrySummary {
   updated: string
   badge?: string
   credentials?: string
+  sendNotifications: boolean
 }
 
 export interface RuleInput {

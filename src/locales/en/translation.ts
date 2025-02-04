@@ -98,6 +98,7 @@ export const en = {
         format: 'Data format',
         formatRequired: 'Specifying format is required',
         companyRequired: 'Specifying company is required',
+        sendNotifications: 'Enable notifications for this entry',
         submit: 'Submit',
         rules: {
           gtfs: {

@@ -11,6 +11,7 @@ import { FormSectionProps } from '../types'
 import { getCompanyFullName } from '../../../util/company'
 import { Context } from '../../../types/Context'
 import { Credential } from '../../../types/Credential.ts'
+import { FdsCheckboxComponent } from '../../fds/FdsCheckboxComponent.ts'
 
 interface BasicInformationProps extends FormSectionProps {
   formats: string[]
@@ -140,12 +141,17 @@ const BasicInformation = ({
     if (companyElement && companyElement.getAttribute('listener') !== 'true') {
       companyElement.addEventListener('select', useGeneralListener)
     }
+    const sendNotificationsElement = document.querySelector('[id="sendNotifications"]')
+    if (sendNotificationsElement && sendNotificationsElement.getAttribute('listener') !== 'true') {
+      sendNotificationsElement.addEventListener('check', useGeneralListener)
+    }
 
     return () => {
       feedNameElement?.removeEventListener('change', useGeneralListener)
       urlElement?.removeEventListener('change', useUrlListener)
       etagElement?.removeEventListener('change', useGeneralListener)
       companyElement?.removeEventListener('select', useGeneralListener)
+      sendNotificationsElement?.removeEventListener('check', useGeneralListener)
     }
   }, [useGeneralListener, useUrlListener])
 
@@ -268,6 +274,13 @@ const BasicInformation = ({
           />
         </div>
       )}
+      <div id={'sendNotifications'} className={'input-wrapper'}>
+        <FdsCheckboxComponent
+          checked={formData.sendNotifications as boolean}
+          name={'sendNotifications'}
+          label={t('services:testData.form.sendNotifications')}
+        />
+      </div>
       {formatOptions.length == 0 && formData.businessId && !isFetchInProgress && (
         <div className={'error'}>{t('services:testData.form.noFormatsFound')}</div>
       )}
