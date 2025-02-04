@@ -46,7 +46,8 @@ export const postRerunEntry = (entry: EntryResource | undefined, accessToken: st
     etag: entry?.data.etag as string,
     format: (entry?.data.format as string).toLowerCase(),
     validations,
-    conversions
+    conversions,
+    sendNotifications: entry?.data.sendNotifications as boolean
   }
 
   if(accessToken) {

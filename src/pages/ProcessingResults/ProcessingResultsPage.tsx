@@ -132,6 +132,7 @@ const ProcessingResultsPage = () => {
               email={email}
               close={closeModal}
               proceed={navigateToProcessingResults}
+              sendNotifications={entryResource.data.sendNotifications}
             />
           )}
           <div style={{ display: 'flex', marginBottom: 0, alignItems: 'center', justifyContent: 'space-between' }}>
