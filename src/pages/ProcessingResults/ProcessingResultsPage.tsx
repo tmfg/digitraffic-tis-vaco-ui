@@ -19,6 +19,12 @@ import VacoBadge from '../../components/Common/VacoBadge/VacoBadge.tsx'
 import LoadSpinner, { SpinnerVariant } from '../../components/Common/LoadSpinner/LoadSpinner'
 import Report from '../../components/ProcessingResults/report/Report.tsx'
 import { Task } from '../../types/Task'
+import { postRerunEntry } from '../AdminTools/CompanyEntries/hooks.ts'
+import { AppContext, AppContextType } from '../../AppContextProvider.tsx'
+import { Company } from '../../types/Company.ts'
+import SubmissionModal from '../../components/TestData/SubmissionModal/SubmissionModal.tsx'
+import { useUserEmail } from '../../components/TestData/hooks.ts'
+import { EntryResource } from '../../types/EntryResource.ts'
 
 //const isReportContentAvailable = (reports: RuleReport[]) => {
 //  return reports.filter((report) => report.findings?.length || report.packages?.length > 0).length
@@ -38,6 +44,7 @@ const ProcessingResultsPage = () => {
   const [searchParams, _] = useSearchParams()
   const magic = searchParams.get('magic')
   const [entryState, setEntryState] = useState<EntryStateResource | null>(null)
+  const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
   const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
   const isAuthenticated = useIsAuthenticated()
   const { t } = useTranslation()
@@ -45,6 +52,29 @@ const ProcessingResultsPage = () => {
   const [magicLinkToken] = useProcessingResultsPageState(entryId, accessToken)
   const [processingProgress, setProcessingProgress] = useState<number>(100)
   const [showMagicLinkGotCopied, setShowMagicLinkGotCopied] = useState<boolean>(false)
+  const appContext: AppContextType = useContext(AppContext)
+  const [userCompanies, setUserCompanies] = useState<Company[] | undefined>(undefined)
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [email] = useUserEmail(accessToken)
+
+  useEffect(() => {
+    if (appContext?.companies) {
+      setUserCompanies(appContext.companies)
+    }
+  }, [appContext])
+
+  const hasRightToRerun = (businessId: string | undefined) => {
+    return userCompanies?.map((c) => c.businessId).includes(businessId as string)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const navigateToProcessingResults = () => {
+    navigate('/data/' + entryResource?.data.publicId)
+    closeModal()
+  }
 
   const handleEntryStateResponse = (response: AxiosResponse<any>) => {
     const entryResource: EntryStateResource = response.data as EntryStateResource
@@ -82,15 +112,29 @@ const ProcessingResultsPage = () => {
     }
     const url = new URL(window.location.href)
     url.searchParams.append('magic', magicLinkToken)
-    await navigator.clipboard.writeText(url.toString()).then(() => {})
+    await navigator.clipboard.writeText(url.toString()).then(() => {
+    })
     setShowMagicLinkGotCopied(true)
     setTimeout(() => setShowMagicLinkGotCopied(false), 3000)
+  }
+
+  const rerunEntry = (entryState: EntryStateResource | null, accessToken: string | null, setIsModalOpen: (status: boolean) => void, setEntryResource: (entry: EntryResource) => void) => {
+    postRerunEntry(entryState?.data.entry, accessToken, setIsModalOpen, setEntryResource)
   }
 
   return (
     <div className={'page-content'}>
       {searchParams.has('magic') || isAuthenticated ? (
         <>
+          {entryResource && isModalOpen && (
+            <SubmissionModal
+              publicId={entryResource.data.publicId}
+              email={email}
+              close={closeModal}
+              proceed={navigateToProcessingResults}
+              sendNotifications={entryResource.data.sendNotifications}
+            />
+          )}
           <div style={{ display: 'flex', marginBottom: 0, alignItems: 'center', justifyContent: 'space-between' }}>
             <h1 style={{ marginRight: '3rem' }}>
               {t('services:processingResults:header')}
@@ -103,13 +147,18 @@ const ProcessingResultsPage = () => {
               )}
             </h1>
             <span className={'icon'}>
+              <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'flex-start'}}>
+                {hasRightToRerun(entryState?.data.entry.data.businessId) && (
+                 <FdsButtonComponent
+                   onClick={() => rerunEntry(entryState, accessToken, setIsModalOpen, setEntryResource)}
+                   icon="refresh-cw"
+                   iconSize={FdsTokenSize2}
+                   variant={FdsButtonVariant.secondary}
+                   label={t('services:processingResults.rerun')}
+                 />
+                )}
               {magicLinkToken && (
-                <div style={{ display: 'flex' }}>
-                  {showMagicLinkGotCopied && (
-                    <div style={{ marginTop: '12px', marginRight: '12px', color: '#1777F8', fontWeight: 700 }}>
-                      {t('common:copied')}
-                    </div>
-                  )}
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                   <FdsButtonComponent
                     onClick={() => copyMagicLinkToClipboard()}
                     slot="separated"
@@ -118,8 +167,14 @@ const ProcessingResultsPage = () => {
                     variant={FdsButtonVariant.secondary}
                     label={t('services:processingResults:magicLink')}
                   />
+                  {showMagicLinkGotCopied && (
+                    <div style={{ marginTop: '12px', marginRight: '12px', color: '#1777F8', fontWeight: 700, marginLeft: '3px' }}>
+                      {t('common:copied')}
+                    </div>
+                  )}
                 </div>
               )}
+                 </div>
             </span>
           </div>
           {isFetchInProgress && <LoadSpinner variant={SpinnerVariant.padded} />}

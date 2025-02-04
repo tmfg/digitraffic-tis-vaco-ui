@@ -139,6 +139,7 @@ export const sv = {
     processingResults: {
       header: 'Datapublikationens resultat',
       magicLink: 'Kopiera delbar länk',
+      rerun: 'Omstartsmatning',
       expiryWarning: 'Observera! Publikationen är äldre än 5 dagar.',
       dataNotAvailable: 'Vissa publicering resultat kanske inte är tillgängliga, vänligen publicera dina data igen.',
       summary: 'Sammanfattning',
