@@ -116,6 +116,9 @@ export const fi = {
             'fintraffic.v1_0_0': 'GTFS to NeTEx Converter by Fintraffic, version v1.12.0',
             fintraffic: 'GTFS to NeTEx Converter by Fintraffic'
           },
+          netex2gtfs: {
+            entur: 'NeTEx to GTFS Converter by Entur'
+          },
           'gbfs.entur': 'GBFS Validator by Entur'
         },
         noFormatsFound: 'Dataformaatteja ja sääntöjä ei löytynyt',
