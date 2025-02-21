@@ -5,13 +5,15 @@ import { Entry } from '../../types/EntryResource'
 import { formatDate } from '../../util/date'
 import { PublicValidationTest } from '../../types/PublicValidationTest'
 import ExpiryWarning from './ExpiryWarning'
+import { Credential } from '../../types/Credential.ts'
 
 interface SubmittedDataProps {
   entry: Entry
   company: string
+  credentials?: Credential | undefined
 }
 
-const SubmittedData = ({ entry, company }: SubmittedDataProps) => {
+const SubmittedData = ({ entry, company, credentials }: SubmittedDataProps) => {
   const { t } = useTranslation()
   const rules = entry.validations?.map((item) => (
     <div key={item.name}>{t('services:testData:form:rules:' + item.name)}</div>
@@ -44,7 +46,11 @@ const SubmittedData = ({ entry, company }: SubmittedDataProps) => {
     {
       label: t('services:testData:form:url'),
       value: entry.url,
-      isUrl: true
+      isUrl: true,
+    },
+    {
+      label: t("services:testData:form:usedCredentials"),
+      value: credentials?.name
     },
     {
       label: t('services:testData:form:etag'),

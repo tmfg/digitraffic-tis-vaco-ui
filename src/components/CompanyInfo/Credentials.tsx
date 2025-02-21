@@ -32,6 +32,11 @@ const getCredentialsTableHeaders = (t: TFunction<'translation', undefined>): Hea
       value: t('admin:company.credentials.table.description'),
       colSpan: 2
     },
+    {
+      name: "Url Pattern",
+      value: t('admin:company.credentials.table.urlPattern'),
+      colSpan: 2
+    }
   ]
 }
 
@@ -65,6 +70,12 @@ const Credentials = ({ accessToken, owner }: CredentialsProps) => {
         value: credentials.description,
         colSpan: 2,
         plainValue: credentials.description
+      },
+      {
+        name: 'urlPattern',
+        value: credentials.urlPattern,
+        colSpan: 2,
+        plainValue: credentials.urlPattern
       },
       {
         name: 'edit',
