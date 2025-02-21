@@ -4,6 +4,7 @@ import { Finding } from './Finding.ts'
 import { PackageResource } from './Package'
 import { SummaryItem } from '../components/ProcessingResults/summary/types'
 import { RulesetType } from './Ruleset'
+import { Credential } from './Credential.ts'
 
 export interface EntryStateResource {
   data: {
@@ -11,6 +12,7 @@ export interface EntryStateResource {
     reports: TaskReport[]
     summaries: SummaryItem[]
     company: string
+    credentials?: Credential
   }
   error?: string | null
 }
