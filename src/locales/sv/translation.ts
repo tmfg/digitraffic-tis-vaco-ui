@@ -94,6 +94,7 @@ export const sv = {
         contextInfo: 'Kontextidentifierare kan användas för att markera flera publikationer som relaterade',
         contextPlaceholder: 'inskickad från VACO UI',
         company: 'Företag',
+        usedCredentials: 'Använda identifieringsuppgifter',
         credentials: 'Identifieringsuppgifter',
         credentialsInfo: 'Identifieringsuppgifter kan användas för att öppna källan för validering.',
         format: 'Dataformat',
@@ -422,7 +423,8 @@ export const sv = {
         table: {
           name: 'Namn',
           type: 'Typ',
-          description: 'Beskrivning'
+          description: 'Beskrivning',
+          urlPattern: 'Url pattern'
         },
         modal: {
           edit: 'Redigera identifieringsuppgifter',
@@ -434,7 +436,8 @@ export const sv = {
           details: 'detaljer',
           type: 'typ',
           userid: 'användarnamn ',
-          password: 'ösenord'
+          password: 'ösenord',
+          urlPattern: 'Url pattern'
         }
       }
     },

@@ -95,6 +95,7 @@ export const fi = {
         contextInfo: 'Kontekstitunnisteen avulla voidaan merkitä useita julkaisuja toisiinsa liittyviksi',
         contextPlaceholder: 'lähetetty VACO UI:n kautta',
         company: 'Yritys',
+        usedCredentials: 'Käytetyt tunnistautumistiedot',
         credentials: 'Tunnistautumistiedot',
         credentialsInfo: 'Tunnistautumistietojen avulla voi avata lähteen validoitavaksi',
         format: 'Dataformaatti',
@@ -423,7 +424,8 @@ export const fi = {
         table: {
           name: 'Nimi',
           type: 'Tyyppi',
-          description: 'Kuvaus'
+          description: 'Kuvaus',
+          urlPattern: 'Url pattern'
         },
         modal: {
           edit: 'Muokkaa tunnistautumistietoja',
@@ -435,7 +437,8 @@ export const fi = {
           details: 'tiedot',
           type: 'tyyppi',
           userid: 'käyttäjätunnus',
-          password: 'salasana'
+          password: 'salasana',
+          urlPattern: 'Url pattern'
         }
       }
     },
