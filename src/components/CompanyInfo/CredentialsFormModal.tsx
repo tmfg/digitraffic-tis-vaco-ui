@@ -46,6 +46,7 @@ const CredentialsFormModal = ({ mode, owner, close, credential, updateCredential
       },
       publicId: '' || credential?.publicId,
       owner: owner.businessId,
+      urlPattern: '' || credential?.urlPattern
     }
   )
   const [formErrors, setFormErrors] = useState<Map>({})
@@ -106,7 +107,8 @@ const CredentialsFormModal = ({ mode, owner, close, credential, updateCredential
           description: formData.description as string,
           type: formData.type as string,
           details: details,
-          owner: owner.businessId
+          owner: owner.businessId,
+          urlPattern: formData.urlPattern as string
         }
 
         const httpRequest = mode === 'edit' && credential?.publicId !== undefined
@@ -166,6 +168,10 @@ const CredentialsFormModal = ({ mode, owner, close, credential, updateCredential
     const credentialsDescriptionElement = document.querySelector('[id="description"]')
     if (credentialsDescriptionElement && credentialsDescriptionElement.getAttribute('listener') !== 'true') {
       credentialsDescriptionElement.addEventListener('change', useGeneralListener)
+    }
+    const credentialsUrlPattern = document.querySelector('[id="urlPattern"]')
+    if (credentialsUrlPattern && credentialsUrlPattern.getAttribute('listener') !== 'true') {
+      credentialsUrlPattern.addEventListener('change', useGeneralListener)
     }
     const credentialsTypeElement = document.querySelector('[id="type"]')
     if (credentialsTypeElement && credentialsTypeElement.getAttribute('listener') !== 'true') {
@@ -232,6 +238,20 @@ const CredentialsFormModal = ({ mode, owner, close, credential, updateCredential
               value={formData.description ? (formData.description as string) : ''}
               message={(formErrors.description as string) || ''}
               error={!!formErrors.description}
+            />
+          </div>
+          <div
+            id={'urlPattern'}
+            style={{ textAlign: 'left', width: '26rem', marginRight: '8rem', marginBottom: '1rem' }}
+            className={'input-wrapper'}
+          >
+            <FdsInputComponent
+              clearable={true}
+              name={'urlPattern'}
+              label={t('admin:company.credentials.modal.urlPattern')}
+              value={formData.urlPattern ? (formData.urlPattern as string) : ''}
+              message={(formErrors.urlPattern as string) || ''}
+              error={!!formErrors.urlPattern}
             />
           </div>
           <div

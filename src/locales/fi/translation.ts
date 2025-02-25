@@ -95,6 +95,7 @@ export const fi = {
         contextInfo: 'Kontekstitunnisteen avulla voidaan merkitä useita julkaisuja toisiinsa liittyviksi',
         contextPlaceholder: 'lähetetty VACO UI:n kautta',
         company: 'Yritys',
+        usedCredentials: 'Käytetyt tunnistautumistiedot',
         credentials: 'Tunnistautumistiedot',
         credentialsInfo: 'Tunnistautumistietojen avulla voi avata lähteen validoitavaksi',
         format: 'Dataformaatti',
@@ -414,7 +415,8 @@ export const fi = {
       credentials: {
         section: {
           title: 'Tunnistautumistiedot',
-          description: 'Tunnistautumistietoihin voi tarvittaessa tallentaa lähdekohtaisen käyttäjätunnuksen ja salasanan (HTTP basic), jolla lähteen voi avata validoitavaksi. Avaamisen tunnistautumistieto tulee pyytää aineiston omistajalta.',
+          description: 'Tunnistautumistietoihin voi tarvittaessa tallentaa lähdekohtaisen käyttäjätunnuksen ja salasanan (HTTP basic), jolla lähteen voi avata validoitavaksi. Avaamisen tunnistautumistieto tulee pyytää aineiston omistajalta.' +
+            ' URL-mallia käytetään tunnistetietojen määrittämiseen automaattisesti, jos syötteen URL vastaa tunnistetietojen URL-mallia. URL-malli on säännöllinen lauseke. Käytä tätä säännöllistä lauseketta pohjana lausekkeen määrittämiseen: (?<scheme>https?)://(?<domain>mydomain.fi+)(?<path>/[^?])?(\\?(?<params>.)',
         },
         actions: {
           create: 'Lisää uusi tunnistautumistieto',
@@ -423,7 +425,8 @@ export const fi = {
         table: {
           name: 'Nimi',
           type: 'Tyyppi',
-          description: 'Kuvaus'
+          description: 'Kuvaus',
+          urlPattern: 'URL-malli'
         },
         modal: {
           edit: 'Muokkaa tunnistautumistietoja',
@@ -435,7 +438,8 @@ export const fi = {
           details: 'tiedot',
           type: 'tyyppi',
           userid: 'käyttäjätunnus',
-          password: 'salasana'
+          password: 'salasana',
+          urlPattern: 'URL-malli'
         }
       }
     },

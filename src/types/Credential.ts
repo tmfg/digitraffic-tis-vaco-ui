@@ -8,7 +8,7 @@ export interface Credential {
   type: string
   description: string
   details?: AuthenticationDetails
-
+  urlPattern: string
 }
 
 export interface UpdateCredentialsRequest {
@@ -18,7 +18,7 @@ export interface UpdateCredentialsRequest {
   description: string
   owner: string
   details?: AuthenticationDetails
-
+  urlPattern: string
 }
 
 export interface AuthenticationDetails {

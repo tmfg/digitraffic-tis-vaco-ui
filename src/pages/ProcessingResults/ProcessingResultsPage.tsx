@@ -25,6 +25,7 @@ import { Company } from '../../types/Company.ts'
 import SubmissionModal from '../../components/TestData/SubmissionModal/SubmissionModal.tsx'
 import { useUserEmail } from '../../components/TestData/hooks.ts'
 import { EntryResource } from '../../types/EntryResource.ts'
+import { Credential } from '../../types/Credential.ts'
 
 //const isReportContentAvailable = (reports: RuleReport[]) => {
 //  return reports.filter((report) => report.findings?.length || report.packages?.length > 0).length
@@ -56,6 +57,7 @@ const ProcessingResultsPage = () => {
   const [userCompanies, setUserCompanies] = useState<Company[] | undefined>(undefined)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [email] = useUserEmail(accessToken)
+  const [credentials, setCredentials] = useState<Credential| undefined>(undefined)
 
   useEffect(() => {
     if (appContext?.companies) {
@@ -79,6 +81,7 @@ const ProcessingResultsPage = () => {
   const handleEntryStateResponse = (response: AxiosResponse<any>) => {
     const entryResource: EntryStateResource = response.data as EntryStateResource
     setEntryState(entryResource)
+    setCredentials(entryResource.data.credentials)
     setIsFetchInProgress(false)
 
     const tasks = entryResource.data.entry.data.tasks
@@ -180,7 +183,7 @@ const ProcessingResultsPage = () => {
           {isFetchInProgress && <LoadSpinner variant={SpinnerVariant.padded} />}
           {entryState && (
             <div>
-              <SubmittedData entry={entryState.data.entry.data} company={entryState.data.company} />
+              <SubmittedData entry={entryState.data.entry.data} company={entryState.data.company} credentials={credentials} />
 
               {!entryState.data.entry.data.completed && processingProgress !== 100 && !entryState.error && (
                 <Section hidable={false} titleKey={'services:processingResults:inProgress'}>
