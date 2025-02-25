@@ -413,8 +413,10 @@ export const en = {
       credentials: {
         section: {
           title: 'Credentials',
-          description: "Credentials can be saved for each source individually, including the username and password (HTTP basic), which can be used to open the source for validation. " +
-            "The credentials for opening the source should be requested from the owner of the material.",
+          description: "Credentials can be saved for each source individually, including the username and password (HTTP basic)," +
+            " which can be used to open the source for validation. The credentials for opening the source should be requested from the owner of the material." +
+            " URL pattern is used to automatically set credentials if entry's URL matches credential's URL pattern. The URL pattern is a regular expression. " +
+            " Use this regular expression as base for defining your own: (?<scheme>https?)://(?<domain>mydomain.fi+)(?<path>/[^?]*)?(\\\\?(?<params>.*))?",
           name: 'credentials name'
         },
         actions: {

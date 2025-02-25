@@ -414,7 +414,9 @@ export const sv = {
       credentials: {
         section: {
           title: 'Identifieringsuppgifter',
-          description: 'Identifieringsuppgifter kan vid behov sparas för varje källa individuellt, inklusive användarnamn och lösenord (HTTP basic), som kan användas för att öppna källan för validering. Identifieringsuppgifterna för att öppna källan bör begäras från materialets ägare.',
+          description: 'Identifieringsuppgifter kan vid behov sparas för varje källa individuellt, inklusive användarnamn och lösenord (HTTP basic), som kan användas för att öppna källan för validering. Identifieringsuppgifterna för att öppna källan bör begäras från materialets ägare.' +
+            ' URL-mönster används för att automatiskt ställa in identifieringsuppgifter om inmatningens URL matchar identifieringsuppgifternas URL-mönster. URL-mönstret är ett reguljärt uttryck. ' +
+            ' Använd detta reguljära uttryck som grund för att definiera ditt eget: (?<scheme>https?)://(?<domain>mydomain.fi+)(?<path>/[^?])?(\\?(?<params>.))?',
         },
         actions: {
           create: 'Skapa ny identifieringsuppgifter',
@@ -424,7 +426,7 @@ export const sv = {
           name: 'Namn',
           type: 'Typ',
           description: 'Beskrivning',
-          urlPattern: 'Url pattern'
+          urlPattern: 'URL-mönster'
         },
         modal: {
           edit: 'Redigera identifieringsuppgifter',
@@ -437,7 +439,7 @@ export const sv = {
           type: 'typ',
           userid: 'användarnamn ',
           password: 'ösenord',
-          urlPattern: 'Url pattern'
+          urlPattern: 'URL-mönster'
         }
       }
     },

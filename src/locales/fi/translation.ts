@@ -415,7 +415,8 @@ export const fi = {
       credentials: {
         section: {
           title: 'Tunnistautumistiedot',
-          description: 'Tunnistautumistietoihin voi tarvittaessa tallentaa lähdekohtaisen käyttäjätunnuksen ja salasanan (HTTP basic), jolla lähteen voi avata validoitavaksi. Avaamisen tunnistautumistieto tulee pyytää aineiston omistajalta.',
+          description: 'Tunnistautumistietoihin voi tarvittaessa tallentaa lähdekohtaisen käyttäjätunnuksen ja salasanan (HTTP basic), jolla lähteen voi avata validoitavaksi. Avaamisen tunnistautumistieto tulee pyytää aineiston omistajalta.' +
+            ' URL-mallia käytetään tunnistetietojen määrittämiseen automaattisesti, jos syötteen URL vastaa tunnistetietojen URL-mallia. URL-malli on säännöllinen lauseke. Käytä tätä säännöllistä lauseketta pohjana lausekkeen määrittämiseen: (?<scheme>https?)://(?<domain>mydomain.fi+)(?<path>/[^?])?(\\?(?<params>.)',
         },
         actions: {
           create: 'Lisää uusi tunnistautumistieto',
@@ -425,7 +426,7 @@ export const fi = {
           name: 'Nimi',
           type: 'Tyyppi',
           description: 'Kuvaus',
-          urlPattern: 'Url pattern'
+          urlPattern: 'URL-malli'
         },
         modal: {
           edit: 'Muokkaa tunnistautumistietoja',
@@ -438,7 +439,7 @@ export const fi = {
           type: 'tyyppi',
           userid: 'käyttäjätunnus',
           password: 'salasana',
-          urlPattern: 'Url pattern'
+          urlPattern: 'URL-malli'
         }
       }
     },
