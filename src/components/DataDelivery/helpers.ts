@@ -31,7 +31,8 @@ export const getTableHeaders = (t: TFunction<'translation', undefined>): HeaderI
     {
       name: 'format',
       value: t('admin:dataDelivery:table:format'),
-      colSpan: 1
+      colSpan: 1,
+      filterable: true
     },
     {
       name: 'convertedFormat',

@@ -6,6 +6,8 @@ import SortComponent, { SortColumn } from '../Table/SortComponent'
 import { sortTableAlphabetically, sortTableByDate, sortTableCustom, sortTableNumerically } from '../../../util/sort'
 import { useTranslation } from 'react-i18next'
 import { HeaderItem, TableItem, TablePaginationProps } from '../Table/Table'
+import FilterComponent from '../Table/FilterComponent.tsx'
+import { getUniqueValues } from '../../../util/array'
 
 export interface TableProps {
   tableTitle: string
@@ -35,6 +37,7 @@ const TableGroupedByColumn = ({
   const { t } = useTranslation()
   const [groupingUniqueValues, setGroupingUniqueValues] = useState<string[]>([])
   const [rowsMapByGroupingColumn, setRowsMapByGroupingColumn] = useState<Map>({})
+  const [selectedFilters, setSelectedFilters] = useState<Map>()
 
   /**
    * This is important also re-rendering the content if
@@ -47,6 +50,9 @@ const TableGroupedByColumn = ({
     }
 
     let newRows = rows
+    if (selectedFilters) {
+      newRows = getFilteredRows(rows, selectedFilters)
+    }
     if (selectedSortColumn) {
       newRows = getOrderedRows(newRows, selectedSortColumn)
     }
@@ -68,7 +74,7 @@ const TableGroupedByColumn = ({
     setRowsMapByGroupingColumn(newRowsMapByGroupingColumn)
     // Important at this point to set the number of pages, if table is wrapped with pagination
     resetCallback && resetCallback(newGroupingUniqueValues.length)
-  }, [resetCallback, rows, selectedSortColumn])
+  }, [resetCallback, rows, selectedFilters, selectedSortColumn])
 
   const sortCallback = (newSortColumn: SortColumn) => {
     setSelectedSortColumn(newSortColumn)
@@ -96,6 +102,30 @@ const TableGroupedByColumn = ({
     }
   }
 
+  const getFilteredRows = (newRows: TableItem[][], newFilteringState: Map): TableItem[][] => {
+    return newRows.filter((row) => {
+      const filterColumns = Object.keys(newFilteringState)
+      return filterColumns.reduce((accumulator, filterColumn) => {
+        const columnFilters = newFilteringState[filterColumn] as string[]
+        const columnValue = row.filter((col) => col.name === filterColumn)[0].plainValue as string
+        const canColumnBeShown = !columnFilters || columnFilters.length === 0 || columnFilters.includes(columnValue)
+        return accumulator && canColumnBeShown
+      }, true)
+    })
+  }
+
+  const filterCallback = (selectedFilterOptions: string[], columnName: string) => {
+    const newFilteringState: Map = { ...selectedFilters }
+    newFilteringState[columnName] = selectedFilterOptions
+    setSelectedFilters(newFilteringState)
+
+    let newRows = getFilteredRows(rows, newFilteringState)
+    if (selectedSortColumn) {
+      newRows = getOrderedRows(newRows, selectedSortColumn)
+    }
+    setShownRows(newRows)
+    resetCallback && resetCallback(newRows.length)
+  }
   const getHeader = () => {
     return headerItems.map((column) => (
       <th
@@ -111,6 +141,19 @@ const TableGroupedByColumn = ({
             sortCallback={sortCallback}
             selectedSortedColumn={selectedSortColumn}
             column={column}
+          />
+        )}
+        {column.filterable && (
+          <FilterComponent
+            column={column}
+            tableTitle={tableTitle}
+            filterOptions={getUniqueValues(
+              rows.map((row) => row.filter((col) => col.name === column.name)[0].plainValue as string)
+            )}
+            selectedFilterOptions={selectedFilters ? (selectedFilters[column.name] as string[]) : []}
+            filterCallback={(selectedFilterOptions: string[]) => {
+              filterCallback(selectedFilterOptions, column.name)
+            }}
           />
         )}
       </th>
