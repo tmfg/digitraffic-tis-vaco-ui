@@ -1,6 +1,6 @@
-import { ReactComponent as ErrorSvg } from '../../../assets/svg/error.svg'
-import { ReactComponent as WarningSvg } from '../../../assets/svg/warning.svg'
-import { ReactComponent as InfoSvg } from '../../../assets/svg/info.svg'
+import ErrorSvg from '../../../assets/svg/error.svg'
+import WarningSvg from '../../../assets/svg/warning.svg'
+import InfoSvg from '../../../assets/svg/info.svg'
 import { useTranslation } from 'react-i18next'
 import { AggregatedFinding } from '../../../types/EntryStateResource'
 

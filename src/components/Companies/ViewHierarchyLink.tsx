@@ -1,4 +1,4 @@
-import { ReactComponent as NetworkSvg } from '../../assets/svg/network.svg'
+import NetworkSvg from '../../assets/svg/network.svg'
 import CompanyHierarchyModal from './CompanyHierarchyModal'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'

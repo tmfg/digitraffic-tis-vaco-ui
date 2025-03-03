@@ -1,5 +1,5 @@
 import { FdsNavigationItem, FdsNavigationVariant } from '../../../coreui-components/src/fds-navigation'
-import { ReactComponent as FintrafficLogo } from '../../assets/svg/fintraffic_logo.svg'
+import FintrafficLogo from '../../assets/svg/fintraffic_logo.svg'
 
 import Navbar from './Navbar'
 import { useTranslation } from 'react-i18next'
