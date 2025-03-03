@@ -1,4 +1,4 @@
-import { ReactComponent as LoadSpinnerSvg } from '../../../assets/svg/load_spinner.svg'
+import LoadSpinnerSvg from '../../../assets/svg/load_spinner.svg'
 import './_loadSpinner.scss'
 
 export enum SpinnerVariant {

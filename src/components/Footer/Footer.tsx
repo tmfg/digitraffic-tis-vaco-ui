@@ -1,5 +1,5 @@
 import './_footer.scss'
-import { ReactComponent as FintrafficLogo } from '../../assets/svg/fintraffic_logo.svg'
+import FintrafficLogo from '../../assets/svg/fintraffic_logo.svg'
 import { useTranslation } from 'react-i18next'
 
 const Footer = () => {

@@ -14,7 +14,10 @@ export default defineConfig({
   plugins: [
     nodePolyfills(),
     react(),
-    svgr(),
+    svgr({
+      svgrOptions: { exportType: 'default', ref: true, svgo: false, titleProp: true },
+      include: '**/*.svg',
+    }),
     pluginChecker({ typescript: true }),
     istanbul({
       include: 'src/*',
