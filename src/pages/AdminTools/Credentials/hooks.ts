@@ -1,24 +1,7 @@
-import { useContext, useEffect, useState } from 'react'
-import { rolesContainVacoAdmin, rolesContainVacoCompanyAdmin } from '../../..//util/role'
-import { AppContext, AppContextType } from '../../../AppContextProvider'
+import { useState } from 'react'
 import { Credential } from '../../../types/Credential.ts'
 import { getHeaders, HttpClient } from '../../../HttpClient.ts'
 import { Company } from '../../../types/Company.ts'
-
-export const useAdminRightsCheck = () => {
-  const appContext: AppContextType = useContext(AppContext)
-  const [hasAdminRole, setHasAdminRole] = useState<boolean | undefined>(undefined)
-  const [hasCompanyAdminRole, setHasCompanyAdminRole] = useState<boolean | undefined>(undefined)
-
-  useEffect(() => {
-    if (appContext?.roles) {
-      setHasAdminRole(rolesContainVacoAdmin(appContext.roles))
-      setHasCompanyAdminRole(rolesContainVacoCompanyAdmin(appContext.roles))
-    }
-  }, [appContext])
-
-  return [hasAdminRole, hasCompanyAdminRole] as const
-}
 
 export const useCredentialsApi = () => {
   const [credentials, setCredentials] = useState<Credential[]>([])

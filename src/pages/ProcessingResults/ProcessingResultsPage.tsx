@@ -26,6 +26,7 @@ import SubmissionModal from '../../components/TestData/SubmissionModal/Submissio
 import { useUserEmail } from '../../components/TestData/hooks.ts'
 import { EntryResource } from '../../types/EntryResource.ts'
 import { Credential } from '../../types/Credential.ts'
+import { useAdminRightsCheck } from '../AdminTools/hooks.ts'
 
 //const isReportContentAvailable = (reports: RuleReport[]) => {
 //  return reports.filter((report) => report.findings?.length || report.packages?.length > 0).length
@@ -58,6 +59,7 @@ const ProcessingResultsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [email] = useUserEmail(accessToken)
   const [credentials, setCredentials] = useState<Credential| undefined>(undefined)
+  const [hasAdminRole] = useAdminRightsCheck()
 
   useEffect(() => {
     if (appContext?.companies) {
@@ -151,7 +153,7 @@ const ProcessingResultsPage = () => {
             </h1>
             <span className={'icon'}>
               <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'flex-start'}}>
-                {hasRightToRerun(entryState?.data.entry.data.businessId) && (
+                {hasRightToRerun(entryState?.data.entry.data.businessId) && hasAdminRole && (
                  <FdsButtonComponent
                    onClick={() => rerunEntry(entryState, accessToken, setIsModalOpen, setEntryResource)}
                    icon="refresh-cw"
