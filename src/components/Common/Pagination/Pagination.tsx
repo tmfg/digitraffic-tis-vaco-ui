@@ -169,11 +169,11 @@ const Pagination = ({ children, contentName, tableTitle, defaultItemsPerPage }: 
 
   const renderChildContent = () => {
     return React.Children.map<ReactNode, ReactNode>(children, (child) => {
-      if (React.isValidElement(child)) {
+      if (React.isValidElement<{ paginationProps?: any; resetCallback?: any }>(child)) {
         return React.cloneElement(child, {
           ...child.props,
           paginationProps: { itemOffset, endOffset },
-          resetCallback: resetCallback
+          resetCallback
         })
       }
     })
