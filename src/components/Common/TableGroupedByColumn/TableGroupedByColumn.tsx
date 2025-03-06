@@ -1,6 +1,6 @@
 import './_tableGroupedByColumn.scss'
 import { Link } from 'react-router-dom'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, JSX } from 'react'
 import { Map } from '../../../types/Map'
 import SortComponent, { SortColumn } from '../Table/SortComponent'
 import { sortTableAlphabetically, sortTableByDate, sortTableCustom, sortTableNumerically } from '../../../util/sort'

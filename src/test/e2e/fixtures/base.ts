@@ -6,11 +6,8 @@ import path from 'path'
 
 const istanbulCLIOutput = path.join(process.cwd(), '../coverage')
 
-export const test = baseTest.extend({
-  ...i18nFixture,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  context: async ({ context}, use) => {
+export const test = baseTest.extend(i18nFixture).extend({
+  context: async ({ context }, use) => {
     await context.addInitScript(() =>
       window.addEventListener('beforeunload', () =>
         (window as any).collectIstanbulCoverage(JSON.stringify((window as any).__coverage__))
