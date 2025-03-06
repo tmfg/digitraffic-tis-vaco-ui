@@ -7,7 +7,6 @@ import { sortTableAlphabetically, sortTableByDate, sortTableCustom, sortTableNum
 import { useTranslation } from 'react-i18next'
 import { HeaderItem, TableItem, TablePaginationProps } from '../Table/Table'
 import FilterComponent from '../Table/FilterComponent.tsx'
-import { getUniqueValues } from '../../../util/array'
 
 export interface TableProps {
   tableTitle: string
@@ -38,6 +37,8 @@ const TableGroupedByColumn = ({
   const [groupingUniqueValues, setGroupingUniqueValues] = useState<string[]>([])
   const [rowsMapByGroupingColumn, setRowsMapByGroupingColumn] = useState<Map>({})
   const [selectedFilters, setSelectedFilters] = useState<Map>()
+  const filterableFormats = [... new Set([ 'GTFS', 'GTFS-RT', 'GBFS', 'Kalkati',
+    'NeTEx', 'GeoJSON', 'JSON', 'CSV', 'Datex ||', 'SIRI', 'SIRI-ET', 'SIRI-SX', 'SIRI-VM'])]
 
   /**
    * This is important also re-rendering the content if
@@ -147,9 +148,7 @@ const TableGroupedByColumn = ({
           <FilterComponent
             column={column}
             tableTitle={tableTitle}
-            filterOptions={getUniqueValues(
-              rows.map((row) => row.filter((col) => col.name === column.name)[0].plainValue as string)
-            )}
+            filterOptions={filterableFormats}
             selectedFilterOptions={selectedFilters ? (selectedFilters[column.name] as string[]) : []}
             filterCallback={(selectedFilterOptions: string[]) => {
               filterCallback(selectedFilterOptions, column.name)
