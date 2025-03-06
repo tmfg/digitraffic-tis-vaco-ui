@@ -24,13 +24,10 @@ const DataDeliveryView = ({ data }: DataDeliveryProps) => {
   const [allRows, setAllRows] = useState<TableItem[][] | null>(null)
   const [rowsToShow, setRowsToShow] = useState<TableItem[][] | null>(null)
   const headerItems: HeaderItem[] = getTableHeaders(t)
-  const selectedFormats = ['GTFS', 'NeTEx']
 
   useEffect(() => {
     if (bootstrap && data) {
-      const rows: TableItem[][] = data.filter(entry => {
-        return selectedFormats.includes(entry.data.format || '')
-      }).map((latestCompanyEntry: CompanyLatestEntryResource) => {
+      const rows: TableItem[][] = data.map((latestCompanyEntry: CompanyLatestEntryResource) => {
         const row: TableItem[] = getTableRow(latestCompanyEntry, t)
         const finalRow: TableItem[] = row.slice(0, 7)
         // insert status related column value just between submission date and link to the entry page:
