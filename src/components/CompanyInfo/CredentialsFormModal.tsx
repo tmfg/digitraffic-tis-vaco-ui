@@ -18,7 +18,7 @@ import { Company } from '../../types/Company.ts'
 import { AuthenticationDetailsEditor } from './AuthenticationDetailsEditor.tsx'
 import { FdsDropdownComponent } from '../fds/FdsDropdownComponent.ts'
 
-type Mode = 'create' | 'edit';
+type Mode = 'create' | 'edit'
 
 interface ModalProps {
   mode: Mode
@@ -29,66 +29,67 @@ interface ModalProps {
   modalStateCallback: (isOpen: boolean) => void
 }
 
-const typeOptions = [
-  { label: 'HTTP Basic', value: 'HTTP Basic' }
-];
+const typeOptions = [{ label: 'HTTP Basic', value: 'HTTP Basic' }]
 
-const CredentialsFormModal = ({ mode, owner, close, credential, updateCredentialsCallback, modalStateCallback }: ModalProps) => {
+const CredentialsFormModal = ({
+  mode,
+  owner,
+  close,
+  credential,
+  updateCredentialsCallback,
+  modalStateCallback
+}: ModalProps) => {
   const { t } = useTranslation()
-  const [formData, setFormData] = useState<Map>(
-    {
-      name: '' || credential?.name,
-      type: '' || credential?.type,
-      description: '' || credential?.description,
-      details: {
-        password: '',
-        userId: ''
-      },
-      publicId: '' || credential?.publicId,
-      owner: owner.businessId,
-      urlPattern: '' || credential?.urlPattern
-    }
-  )
+  const [formData, setFormData] = useState<Map>({
+    name: credential?.name || '',
+    type: credential?.type || '',
+    description: credential?.description || '',
+    details: {
+      password: '',
+      userId: ''
+    },
+    publicId: credential?.publicId || '',
+    owner: owner.businessId,
+    urlPattern: credential?.urlPattern || ''
+  })
   const [formErrors, setFormErrors] = useState<Map>({})
   const { instance, inProgress } = useMsal()
 
   const saveCredentials = () => {
-
     if (!formData.name) {
       setFormErrors({
-        name: t('formValidation:isRequired', { value: t('admin:company.credentials.modal.name') }),
-      });
-      return;
+        name: t('formValidation:isRequired', { value: t('admin:company.credentials.modal.name') })
+      })
+      return
     }
 
     if (!formData.description) {
       setFormErrors({
-        description: t('formValidation:isRequired', { value: t('admin:company.credentials.modal.description') }),
-      });
-      return;
+        description: t('formValidation:isRequired', { value: t('admin:company.credentials.modal.description') })
+      })
+      return
     }
 
     if (!formData.type) {
       setFormErrors({
-        type: t('formValidation:isRequired', { value: t('admin:company.credentials.modal.type') }),
-      });
-      return;
+        type: t('formValidation:isRequired', { value: t('admin:company.credentials.modal.type') })
+      })
+      return
     }
 
     if (!formData.details_userId) {
       setFormErrors({
-        details_userId: t('formValidation:isRequired', { value: t('admin:company.credentials.modal.userid') }),
-      });
-      return;
+        details_userId: t('formValidation:isRequired', { value: t('admin:company.credentials.modal.userid') })
+      })
+      return
     }
 
     if (!formData.details_password) {
       setFormErrors({
-        details_password: t('formValidation:isRequired', { value: t('admin:company.credentials.modal.password') }),
-      });
-      return;
+        details_password: t('formValidation:isRequired', { value: t('admin:company.credentials.modal.password') })
+      })
+      return
     }
-
 
     acquireToken(instance, inProgress).then(
       (tokenResult) => {
@@ -111,9 +112,14 @@ const CredentialsFormModal = ({ mode, owner, close, credential, updateCredential
           urlPattern: formData.urlPattern as string
         }
 
-        const httpRequest = mode === 'edit' && credential?.publicId !== undefined
-          ? HttpClient.put(`/api/v1/credentials/` + credential?.publicId, requestBody, getHeaders(tokenResult.accessToken))
-          : HttpClient.post(`/api/v1/credentials`, requestBody, getHeaders(tokenResult.accessToken))
+        const httpRequest =
+          mode === 'edit' && credential?.publicId !== undefined
+            ? HttpClient.put(
+                `/api/v1/credentials/` + credential?.publicId,
+                requestBody,
+                getHeaders(tokenResult.accessToken)
+              )
+            : HttpClient.post(`/api/v1/credentials`, requestBody, getHeaders(tokenResult.accessToken))
 
         httpRequest.then((_response) => {
           updateCredentialsCallback(owner, tokenResult.accessToken)
@@ -199,10 +205,14 @@ const CredentialsFormModal = ({ mode, owner, close, credential, updateCredential
       <FdsDialogComponent modal={true}>
         <FdsCardComponent elevation={FdsCardElevation.none}>
           <h4 slot="header-title">
-            {credential ? t('admin:company.credentials.modal.edit', { credential }) : t('admin:company.credentials.modal.create')}
+            {credential
+              ? t('admin:company.credentials.modal.edit', { credential })
+              : t('admin:company.credentials.modal.create')}
           </h4>
           <div style={{ textAlign: 'left', width: '26rem', marginRight: '8rem', marginBottom: '1rem' }}>
-            {credential ? t('admin:company.credentials.modal.infoText', { credential }) : t('admin:company.credentials.modal.createInfoText') + owner.name}
+            {credential
+              ? t('admin:company.credentials.modal.infoText', { credential })
+              : t('admin:company.credentials.modal.createInfoText') + owner.name}
           </div>
           <FdsButtonComponent
             onClick={close}
@@ -263,16 +273,16 @@ const CredentialsFormModal = ({ mode, owner, close, credential, updateCredential
               name={'type'}
               label={t('admin:company.credentials.modal.type')}
               options={typeOptions}
-              message={formErrors.type as string || ''}
+              message={(formErrors.type as string) || ''}
               error={!!formErrors.type}
               value={formData.type ? typeOptions.filter((o) => o.value === formData.type)[0] : undefined}
             />
           </div>
-            <AuthenticationDetailsEditor
-              authenticationDetails={formData}
-              formErrors={formErrors}
-              type={formData.type as string}
-            />
+          <AuthenticationDetailsEditor
+            authenticationDetails={formData}
+            formErrors={formErrors}
+            type={formData.type as string}
+          />
           <FdsActionSheetComponent>
             <FdsButtonComponent
               onClick={close}
