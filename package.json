@@ -6,7 +6,7 @@
   "author": "",
   "license": "EUPL-1.2",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "private": true,
   "type": "module",
