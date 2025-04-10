@@ -468,6 +468,9 @@ export const sv = {
       link: 'Länka till nytt överordnat företag',
       linkInstruction:
         'För att länka företaget {{name}} till ett nytt överordnat företag, välj överordnat företag från hierarkin genom att klicka på det.'
+    },
+    statistics: {
+      header: 'Statistik'
     }
   },
   languages: {

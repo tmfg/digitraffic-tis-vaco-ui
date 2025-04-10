@@ -468,6 +468,10 @@ export const fi = {
       link: 'Linkitä uuteen ylätason yritykseen',
       linkInstruction:
         'Jos haluat yhdistää yrityksen {{name}} uuteen ylätason yritykseen, valitse ylätason yritys hierarkiasta klikkaamalla sitä.'
+    },
+    statistics: {
+      header: 'Tilastot',
+      statusHeader: 'Datajulkaisujen tilat (viimeiset 30 päivää) '
     }
   },
   languages: {

@@ -469,6 +469,10 @@ export const en = {
       link: 'Link to new parent company',
       linkInstruction:
         'To link company {{name}} to a new parent, select the parent company from the hierarchy by clicking on it.'
+    },
+    statistics: {
+      header: 'Statistics',
+      statusHeader: 'Entry status summary (Last 30 Days)'
     }
   },
   languages: {
