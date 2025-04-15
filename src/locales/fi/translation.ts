@@ -235,6 +235,9 @@ export const fi = {
         lines: 'Linjat',
         routesCount: 'Routes',
         transportMode: 'Transport mode'
+      },
+      DownloadResponse: {
+        not_modified: 'Sisältö ei ole muuttunut'
       }
     },
     myData: {
