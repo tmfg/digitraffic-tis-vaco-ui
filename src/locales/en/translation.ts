@@ -234,6 +234,9 @@ export const en = {
         lines: 'Lines',
         routesCount: 'Routes',
         transportMode: 'Transport mode'
+      },
+      DownloadResponse: {
+        not_modified: 'Content has not changed'
       }
     },
     myData: {
