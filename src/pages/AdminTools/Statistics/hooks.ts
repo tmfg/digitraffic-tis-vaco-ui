@@ -4,15 +4,16 @@ import { StatResource} from '../../../types/Statistics.ts'
 
 export const useStatisticsFetch = (accessToken: string | null) => {
   const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
-  const [statusStats, setStatusStats] = useState<StatResource[] | null>(null)
+  const [entryStatusStats, setEntryStatusStats] = useState<StatResource[] | null>(null)
+  const [taskStatusStats, setTaskStatusStats] = useState<StatResource[] | null>(null)
 
   useEffect(() => {
     let ignore = false
     if (accessToken && !ignore) {
       setIsFetchInProgress(true)
-      HttpClient.get('/api/ui/statistics', getHeaders(accessToken)).then(
+      HttpClient.get('/api/ui/entry-statistics', getHeaders(accessToken)).then(
         (response) => {
-          setStatusStats(response.data)
+          setEntryStatusStats(response.data)
           setIsFetchInProgress(false)
         },
         (error) => {
@@ -26,14 +27,15 @@ export const useStatisticsFetch = (accessToken: string | null) => {
     }
   }, [accessToken])
 
-  /*
+
   useEffect(() => {
     let ignore = false
     if (accessToken && !ignore) {
       setIsFetchInProgress(true)
-      HttpClient.get('/api/ui/refresh-materialized-view', getHeaders(accessToken)).then(
-        (_response) => {
-
+      HttpClient.get('/api/ui/task-statistics', getHeaders(accessToken)).then(
+        (response) => {
+          setTaskStatusStats(response.data)
+          setIsFetchInProgress(false)
         },
         (error) => {
           setIsFetchInProgress(false)
@@ -44,7 +46,9 @@ export const useStatisticsFetch = (accessToken: string | null) => {
     return () => {
       ignore = true
     }
-  }, [accessToken])*/
+  }, [accessToken])
 
-  return [statusStats, isFetchInProgress] as const
+  return [entryStatusStats, taskStatusStats, isFetchInProgress] as const
+
+
 }
