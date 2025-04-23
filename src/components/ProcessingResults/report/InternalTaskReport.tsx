@@ -19,6 +19,12 @@ const InternalTaskReport = ({ report }: InternalTaskReportProps) => {
   const { t, i18n } = useTranslation()
   const task = useContext(TaskContext)
 
+  const modifiedFindings = report.findings?.map((findingGroup) => ({
+    ...findingGroup,
+    code: `services:processingResults:DownloadResponse:${findingGroup.code}`,
+    findings: findingGroup.findings || [],
+  })) || [];
+
   return (
     <div className={'report-container'}>
       <div>
@@ -33,7 +39,7 @@ const InternalTaskReport = ({ report }: InternalTaskReportProps) => {
       {report.findings?.length == 1 && (
         <>
           <Severity finding={report.findings[0]} />:{' '}
-          <span style={{ marginLeft: '0.5rem' }}>{report.findings[0].code}</span>
+          <span style={{ marginLeft: '0.5rem' }}>{t(modifiedFindings[0].code)}</span>
         </>
       )}
       {report.findings && report.findings.length > 1 && (

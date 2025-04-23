@@ -234,6 +234,9 @@ export const sv = {
         lines: 'Linjer',
         routesCount: 'Routes',
         transportMode: 'Transport mode'
+      },
+      DownloadResponse: {
+        not_modified: 'Innehållet har inte ändrats.'
       }
     },
     myData: {
