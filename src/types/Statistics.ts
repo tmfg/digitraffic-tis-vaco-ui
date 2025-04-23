@@ -4,7 +4,7 @@ export interface StatusStatistics {
   count: number,
   timestamp: string
   unit: string
-
+  name: string
 }
 
 export interface StatResource {
