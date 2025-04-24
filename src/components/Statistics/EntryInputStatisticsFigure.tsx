@@ -11,9 +11,9 @@ const EntryInputStatisticsFigure = ({ groupedData } : { groupedData: Record<stri
     if (groupedData && plotRef.current) {
 
       const statusColors: Record<string, string> = {
-        'gtfs': "#25A794",
-        'netex': "#EEC200",
-        'gbfs': "#1777F8"
+        'gtfs': "#E55636",
+        'netex': "#1777F8",
+        'gbfs': "#9696AA"
       };
 
       const allNames = ["gtfs", "netex", "gbfs"];
@@ -42,7 +42,7 @@ const EntryInputStatisticsFigure = ({ groupedData } : { groupedData: Record<stri
         x: {
           label: "",
           type: "point",
-          padding: 0,
+          padding: 0.025,
         },
 
         y: {

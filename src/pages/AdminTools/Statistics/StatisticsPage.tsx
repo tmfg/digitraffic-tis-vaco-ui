@@ -70,58 +70,34 @@ const StatisticsPage = () => {
       const todayInputFormatStats = inputFormatGroupedData[today] || {};
       const todayEntryStatusStats = entryGroupedData[today] || {};
 
-      const taskFilteredRows = Object.entries(todayTaskStats).map(([name, count]) => ([
-        {
-          name: 'name',
-          value: name,
-          colSpan: 1,
-          plainValue: name
-        },
-        {
-          name: 'count',
-          value: count,
-          colSpan: 1,
-          plainValue: count
-        }
-      ]));
-      const entryFilteredRows = Object.entries(todayEntryStatusStats).map(([statusName, count]) => ([
-        {
-          name: 'status',
-          value: statusName,
-          colSpan: 1,
-          plainValue: statusName
-        },
-        {
-          name: 'count',
-          value: count,
-          colSpan: 1,
-          plainValue: count
-        }
-      ]));
-
-      const inputFilteredRowsFilteredRows = Object.entries(todayInputFormatStats).map(([name, count]) => ([
-        {
-          name: 'name',
-          value: name,
-          colSpan: 1,
-          plainValue: name
-        },
-        {
-          name: 'count',
-          value: count,
-          colSpan: 1,
-          plainValue: count
-        }
-      ]));
+      const taskFilteredRows = TableRows(todayTaskStats);
+      const inputFilteredRows = TableRows(todayInputFormatStats);
+      const entryFilteredRows = TableRows(todayEntryStatusStats)
 
       setEntryRowItems(entryFilteredRows);
       setTaskRowItems(taskFilteredRows)
-      setInputRowItems(inputFilteredRowsFilteredRows)
+      setInputRowItems(inputFilteredRows)
     }
   }, [entryStatusStats, taskStatusStats]);
 
-  const GroupDataByName = (stats: StatResource[]) => {
+  const TableRows = (todayStats:  Record<string, number>) => {
+    return Object.entries(todayStats).map(([name, count]) => ([
+      {
+        name: 'name',
+        value: name,
+        colSpan: 1,
+        plainValue: name
+      },
+      {
+        name: 'count',
+        value: count,
+        colSpan: 1,
+        plainValue: count
+      }
+    ]));
+  }
 
+  const GroupDataByName = (stats: StatResource[]) => {
     if (stats) {
       return stats.reduce((allForDay, oneStat) => {
         const dateStr = oneStat.data.timestamp
