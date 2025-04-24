@@ -1,13 +1,11 @@
-import EntryStatisticsFigure from '../../../components/Statistics/EntryStatisticsFigure.tsx'
-import { useStatisticsFetch } from './hooks.ts'
+import { entryStatusConfig, InputFormatConfig, taskStatusConfig, useStatisticsFetch } from './hooks.ts'
 import { useAcquireToken } from '../../../hooks/auth.ts'
 import { useTranslation } from 'react-i18next'
 import { AuthenticatedTemplate } from '@azure/msal-react'
-import EntryInputStatisticsFigure from '../../../components/Statistics/EntryInputStatisticsFigure.tsx'
 import Table, { HeaderItem, TableItem } from '../../../components/Common/Table/Table.tsx'
 import { useEffect, useState } from 'react'
 import { StatResource } from '../../../types/Statistics.ts'
-import TaskStatisticsFigure from '../../../components/Statistics/TaskStatisticsFigure.tsx'
+import StatisticsFigure from '../../../components/Statistics/StatisticsFigure.tsx'
 import Section from '../../../components//Common/Section/Section.tsx'
 
 const StatisticsPage = () => {
@@ -156,9 +154,9 @@ const StatisticsPage = () => {
                 </div>
               </div>
               </Section>
-              <EntryStatisticsFigure groupedData={entryStatusGroupedData}/>
-              <TaskStatisticsFigure groupedData={taskGroupedData}/>
-              <EntryInputStatisticsFigure groupedData={entryInputGroupedData} />
+              <StatisticsFigure groupedData={entryStatusGroupedData} config={entryStatusConfig}/>
+              <StatisticsFigure groupedData={taskGroupedData} config={taskStatusConfig}/>
+              <StatisticsFigure groupedData={entryInputGroupedData} config={InputFormatConfig} />
             </div>
           </div>
         </div>
