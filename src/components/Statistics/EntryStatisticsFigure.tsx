@@ -45,7 +45,7 @@ const EntryStatisticsFigure = ({ groupedData } : { groupedData: Record<string, R
         x: {
           label: "",
           type: "point",
-          padding: 0,
+          padding: 0.025,
         },
 
         y: {

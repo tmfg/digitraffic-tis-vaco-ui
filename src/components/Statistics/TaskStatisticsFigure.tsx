@@ -44,7 +44,7 @@ const TaskStatisticsFigure = ({ groupedData } : { groupedData: Record<string, Re
         x: {
           label: "",
           type: "point",
-          padding: 0,
+          padding: 0.025,
         },
 
         y: {
