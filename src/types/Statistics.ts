@@ -1,12 +1,7 @@
 export interface StatusStatistics {
-
-  status: string,
-  count: number,
+  status: string
+  count: number
   timestamp: string
   unit: string
   name: string
-}
-
-export interface StatResource {
-  data: StatusStatistics
 }
