@@ -475,11 +475,11 @@ export const en = {
     },
     statistics: {
       header: 'Statistics',
-      statusHeader: 'Entry status summary (Last 30 Days)',
-      tasksStatusHeader: 'Task summary (Last 30 Days)',
+      statusHeader: 'Entry status summary (Last 30 days)',
+      tasksStatusHeader: 'Task summary (Last 30 days)',
       InputFormatStatusHeader: 'Input format summary (Last 30 days)',
       summary: {
-        todayStatusHeader: 'Todays summary',
+        todayStatusHeader: "Today's summary",
         EntryStatus: 'Entry status',
         TaskName: 'Task name',
         InputFormatName: 'Input format name',
