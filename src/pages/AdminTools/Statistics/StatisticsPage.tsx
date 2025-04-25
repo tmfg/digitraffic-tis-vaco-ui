@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { AuthenticatedTemplate } from '@azure/msal-react'
 import Table, { HeaderItem, TableItem } from '../../../components/Common/Table/Table.tsx'
 import { useEffect, useState } from 'react'
-import { StatResource } from '../../../types/Statistics.ts'
+import { StatusStatistics } from '../../../types/Statistics.ts'
 import StatisticsFigure from '../../../components/Statistics/StatisticsFigure.tsx'
 import Section from '../../../components//Common/Section/Section.tsx'
 
@@ -95,24 +95,24 @@ const StatisticsPage = () => {
     ]));
   }
 
-  const GroupDataByName = (stats: StatResource[]) => {
+  const GroupDataByName = (stats: StatusStatistics[]) => {
     if (stats) {
       return stats.reduce((allForDay, oneStat) => {
-        const dateStr = oneStat.data.timestamp
+        const dateStr = oneStat.timestamp
         allForDay[dateStr] = allForDay[dateStr] || {}
-        allForDay[dateStr][oneStat.data.name] = (allForDay[dateStr][oneStat.data.name] || 0) + oneStat.data.count
+        allForDay[dateStr][oneStat.name] = (allForDay[dateStr][oneStat.name] || 0) + oneStat.count
         return allForDay
       }, {} as Record<string, Record<string, number>>)
     }
     return {};
   }
 
-  const GroupDataByStatus = (stats: StatResource[]) => {
+  const GroupDataByStatus = (stats: StatusStatistics[]) => {
     if (stats) {
       return stats.reduce((allForDay, oneStat) => {
-        const dateStr = oneStat.data.timestamp;
+        const dateStr = oneStat.timestamp;
         allForDay[dateStr] = allForDay[dateStr] || {};
-        allForDay[dateStr][oneStat.data.status] = (allForDay[dateStr][oneStat.data.status] || 0) + oneStat.data.count;
+        allForDay[dateStr][oneStat.status] = (allForDay[dateStr][oneStat.status] || 0) + oneStat.count;
         return allForDay;
       }, {} as Record<string, Record<string, number>>);
     }
@@ -154,9 +154,15 @@ const StatisticsPage = () => {
                 </div>
               </div>
               </Section>
-              <StatisticsFigure groupedData={entryStatusGroupedData} config={entryStatusConfig}/>
-              <StatisticsFigure groupedData={taskGroupedData} config={taskStatusConfig}/>
-              <StatisticsFigure groupedData={entryInputGroupedData} config={InputFormatConfig} />
+              <Section titleKey={t(entryStatusConfig.header)} hidable={true}>
+                <StatisticsFigure groupedData={entryStatusGroupedData} config={entryStatusConfig} isOpen={true}/>
+              </Section>
+              <Section titleKey={t(taskStatusConfig.header)} hidable={true}>
+                <StatisticsFigure groupedData={taskGroupedData} config={taskStatusConfig} isOpen={true}/>
+              </Section>
+              <Section titleKey={t(InputFormatConfig.header)} hidable={true}>
+                <StatisticsFigure groupedData={entryInputGroupedData} config={InputFormatConfig} isOpen={true}/>
+              </Section>
             </div>
           </div>
         </div>

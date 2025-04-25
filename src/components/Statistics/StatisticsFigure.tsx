@@ -1,8 +1,5 @@
 import { useEffect, useRef } from 'react'
 import * as Plot from '@observablehq/plot'
-import Section from '../Common/Section/Section.tsx'
-import { t } from 'i18next'
-
 
 interface StatusConfig {
   header: string
@@ -13,10 +10,13 @@ interface StatusConfig {
 interface TaskStatisticsFigureProps {
   groupedData: Record<string, Record<string, number>>;
   config: StatusConfig;
+  isOpen: boolean
 }
+
+
 const StatisticsFigure = ({ groupedData, config } :  TaskStatisticsFigureProps) => {
   const plotRef = useRef<HTMLDivElement | null>(null);
-  const { allNames, statusColors, header } = config;
+  const { allNames, statusColors } = config;
 
   useEffect(() => {
 
@@ -73,9 +73,7 @@ const StatisticsFigure = ({ groupedData, config } :  TaskStatisticsFigureProps) 
   }, [groupedData]);
 
   return (
-    <Section titleKey={t(header)} hidable={true}>
       <div ref={plotRef}/>
-    </Section>
   )
 
 }
