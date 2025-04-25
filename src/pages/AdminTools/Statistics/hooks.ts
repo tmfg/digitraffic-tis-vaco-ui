@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 import { getHeaders, HttpClient } from '../../../HttpClient'
-import { StatResource} from '../../../types/Statistics.ts'
+import { StatusStatistics } from '../../../types/Statistics.ts'
 
 export const taskStatusConfig = {
   header: "admin:statistics:tasksStatusHeader",
   allNames: ["gtfs.canonical", "netex.entur", "netex2gtfs.entur", "gtfs2netex.fintraffic", "gbfs.entur"],
   statusColors: {
-    'gtfs.canonical': "#25A794",
-    'netex.entur': "#EEC200",
-    'netex2gtfs.entur': "#E65636",
+    'gtfs.canonical': "#001C5B",
+    'netex.entur': "#0034AC",
     'gtfs2netex.fintraffic': "#1777F8",
-    'gbfs.entur': "#9696AA",
+    'netex2gtfs.entur': "#90CEFE",
+    'gbfs.entur': "#EFF8FF",
   }
 }
 
@@ -31,16 +31,16 @@ export const InputFormatConfig = {
   header: "admin:statistics:InputFormatStatusHeader",
   allNames: ["gtfs", "netex", "gbfs"],
   statusColors: {
-    'gtfs': "#E55636",
-    'netex': "#1777F8",
-    'gbfs': "#9696AA"
+    'gtfs': "#EEC200",
+    'netex': "#B47324",
+    'gbfs': "#FFFADB"
   }
 }
 
 export const useStatisticsFetch = (accessToken: string | null) => {
   const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
-  const [entryStatusStats, setEntryStatusStats] = useState<StatResource[] | null>(null)
-  const [taskStatusStats, setTaskStatusStats] = useState<StatResource[] | null>(null)
+  const [entryStatusStats, setEntryStatusStats] = useState<StatusStatistics[] | null>(null)
+  const [taskStatusStats, setTaskStatusStats] = useState<StatusStatistics[] | null>(null)
 
   useEffect(() => {
     let ignore = false
@@ -48,7 +48,7 @@ export const useStatisticsFetch = (accessToken: string | null) => {
       setIsFetchInProgress(true)
       HttpClient.get('/api/ui/entry-statistics', getHeaders(accessToken)).then(
         (response) => {
-          setEntryStatusStats(response.data)
+          setEntryStatusStats(response.data.data)
           setIsFetchInProgress(false)
         },
         (error) => {
@@ -69,7 +69,7 @@ export const useStatisticsFetch = (accessToken: string | null) => {
       setIsFetchInProgress(true)
       HttpClient.get('/api/ui/task-statistics', getHeaders(accessToken)).then(
         (response) => {
-          setTaskStatusStats(response.data)
+          setTaskStatusStats(response.data.data)
           setIsFetchInProgress(false)
         },
         (error) => {
