@@ -82,6 +82,10 @@ export const adminToolsItem = (t: TFunction<'translation', undefined>): FdsNavig
       {
         label: t('admin:featureFlags:header'),
         value: '/admin/feature-flags'
+      },
+      {
+        label: t('admin:statistics:header'),
+        value: 'admin/statistics'
       }
     ]
   }

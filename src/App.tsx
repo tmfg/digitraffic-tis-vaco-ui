@@ -13,6 +13,7 @@ import CompanyEntriesPage from './pages/AdminTools/CompanyEntries/CompanyEntries
 import CompaniesPage from './pages/AdminTools/Companies/CompaniesPage'
 import CompanyInfoPage from './pages/AdminTools/CompanyInfo/CompanyInfoPage'
 import FeatureFlagsPage from './pages/AdminTools/FeatureFlags/FeatureFlagsPage'
+import StatisticsPage from './pages/AdminTools/Statistics/StatisticsPage.tsx'
 
 // The way for components that don't need wrapping (e.g. one without our own custom events)
 // or while initial testing
@@ -78,6 +79,10 @@ const App = () => {
           {
             path: '/admin/feature-flags',
             element: <FeatureFlagsPage />
+          },
+          {
+            path: '/admin/statistics',
+            element: <StatisticsPage/>
           }
         ]
       }

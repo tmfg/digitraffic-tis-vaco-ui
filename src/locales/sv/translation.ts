@@ -471,6 +471,19 @@ export const sv = {
       link: 'Länka till nytt överordnat företag',
       linkInstruction:
         'För att länka företaget {{name}} till ett nytt överordnat företag, välj överordnat företag från hierarkin genom att klicka på det.'
+    },
+    statistics: {
+      header: 'Statistik',
+      statusHeader: 'Sammanfattning av inmatningsstatus (Senaste 30 dagarna)',
+      tasksStatusHeader: 'Sammanfattning av uppgifter (Senaste 30 dagarna)',
+      InputFormatStatusHeader: 'Sammanfattning av inmatningsformat (Senaste 30 dagarna)',
+      summary: {
+        todayStatusHeader: 'Dagens sammanfattning',
+        EntryStatus: 'Inmatningsstatus',
+        TaskName: 'Uppgiftsnamn',
+        InputFormatName: 'Inmatningsformatnamn',
+        count: 'Antal'
+      }
     }
   },
   languages: {

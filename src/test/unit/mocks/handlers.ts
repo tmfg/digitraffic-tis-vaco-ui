@@ -227,5 +227,34 @@ export const httpHandlers = [
       ],
       { status: 200 }
     )
+  }),
+  http.get('http://localhost:8080/api/ui/entry-statistics', () => {
+    return HttpResponse.json(
+      [
+        {
+          data: {
+            status: "errors",
+            count: 3,
+            unit: "pieces",
+            name: "gtfs",
+            timestamp: "2025-04-22"
+          },
+          error: null,
+          links: {}
+        },
+        {
+          data: {
+            status: "cancelled",
+            count: 1,
+            unit: "pieces",
+            name: "gtfs",
+            timestamp: "2025-04-23"
+          },
+          error: null,
+          links: {}
+        }
+      ],
+      { status: 200 }
+    )
   })
 ]
