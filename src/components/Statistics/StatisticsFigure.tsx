@@ -73,7 +73,6 @@ const StatisticsFigure = ({ groupedData, config } :  TaskStatisticsFigureProps) 
             y: "count",
             z: "name",
             fill: d => statusColors[d.name as keyof typeof statusColors],
-            offset: "wiggle",
             curve: "bump-x",
           }),
         ],
@@ -83,7 +82,6 @@ const StatisticsFigure = ({ groupedData, config } :  TaskStatisticsFigureProps) 
           padding: 0,
           tickFormat: "%d/%m%/%y",
         },
-
         y: {
           label:"",
           grid: true,
