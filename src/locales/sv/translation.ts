@@ -394,6 +394,8 @@ export const sv = {
       codespaces: 'NeTEx Codespacer',
       notificationWebhookUri: 'Webhook-anmälangränsnittens URI',
       website: 'Företagets webbsida',
+      authority: 'Myndighet?',
+      operator: 'Operatör?',
       subscriptions: {
         section: {
           title: 'Prenumerationer',

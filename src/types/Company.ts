@@ -12,6 +12,7 @@ export interface Company {
   codespaces?: string[]
   notificationWebhookUri?: string
   website?: string
+  roles: string[]
 }
 
 export interface CompaniesResource {

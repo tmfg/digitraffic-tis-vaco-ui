@@ -139,7 +139,15 @@ export const getCompanyInfoKeyValuePairs = (company: Company, t: TFunction<'tran
     {
       label: t('admin:company:website'),
       value: company.website
-    }
+    },
+    {
+      label: t('admin:company.authority'),
+      value: company.roles.indexOf("authority") !== -1 ? t('common:yes') : t('common:no')
+    },
+    {
+      label: t('admin:company.operator'),
+      value: company.roles.indexOf("operator") !== -1 ? t('common:yes') : t('common:no')
+    },
   ]
 }
 
@@ -174,6 +182,14 @@ export const submitCompanyData = async (
     return
   }
 
+  const roles = [];
+  if (formData.authority === true) {
+    roles.push("authority")
+  }
+  if (formData.operator === true) {
+    roles.push("operator")
+  }
+
   const requestBody: Company = {
     name: formData.name as string,
     businessId: formData.businessId as string,
@@ -183,7 +199,8 @@ export const submitCompanyData = async (
     publish: formData.publish as boolean,
     codespaces: (formData.codespaces as string)?.split(/\s*,\s*/),
     notificationWebhookUri: formData.notificationWebhookUri as string,
-    website: formData.website as string
+    website: formData.website as string,
+    roles: roles,
   }
 
   const { data } = await HttpClient.put(

@@ -88,6 +88,14 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
     if (website && website.getAttribute('listener') !== 'true') {
       website.addEventListener('change', useGeneralListener)
     }
+    const authorityCheckboxElement = document.querySelector('[id="authority"]')
+    if (authorityCheckboxElement && authorityCheckboxElement.getAttribute('listener') !== 'true') {
+      authorityCheckboxElement.addEventListener('check', useGeneralListener)
+    }
+    const operatorCheckboxElement = document.querySelector('[id="operator"]')
+    if (operatorCheckboxElement && operatorCheckboxElement.getAttribute('listener') !== 'true') {
+      operatorCheckboxElement.addEventListener('check', useGeneralListener)
+    }
     return () => {
       nameElement?.removeEventListener('change', useGeneralListener)
       contactEmailsElement?.removeEventListener('change', useGeneralListener)
@@ -97,6 +105,8 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
       codespacesElement?.removeEventListener('change', useGeneralListener)
       notificationWebhookUriElement?.removeEventListener('change', useGeneralListener)
       website?.removeEventListener('change', useGeneralListener)
+      authorityCheckboxElement?.removeEventListener('check', useGeneralListener)
+      operatorCheckboxElement?.removeEventListener('check', useGeneralListener)
     }
   }, [useGeneralListener])
 
@@ -118,7 +128,9 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
               publish: company.publish,
               codespaces: company.codespaces?.join(', '),
               notificationWebhookUri: company.notificationWebhookUri,
-              website: company.website
+              website: company.website,
+              authority: company.roles.indexOf("authority") !== -1,
+              operator: company.roles.indexOf("operator") !== -1,
             }
             setFormData(formData)
             setFormErrors({})
@@ -229,6 +241,20 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
                 value={formData.website ? (formData.website as string) : ''}
                 name={'website'}
                 label={t('admin:company:website')}
+              />
+            </div>
+            <div id={'authority'} className={'input-wrapper'}>
+              <FdsCheckboxComponent
+                checked={formData.authority === true}
+                name={'authority'}
+                label={t('admin:company:authority')}
+              />
+            </div>
+            <div id={'operator'} className={'input-wrapper'}>
+              <FdsCheckboxComponent
+                checked={formData.operator === true}
+                name={'operator'}
+                label={t('admin:company:operator')}
               />
             </div>
           </div>
