@@ -395,6 +395,8 @@ export const fi = {
       codespaces: 'NeTEx codespacet',
       notificationWebhookUri: 'Webhook-heräterajapinnan URI',
       website: 'Yrityksen verkkosivu',
+      authority: 'Viranomainen?',
+      operator: 'Operaattori?',
       subscriptions: {
         section: {
           title: 'Tilaukset',
