@@ -1,4 +1,4 @@
-import { Company, CompanyHierarchy } from '../../types/Company'
+import { Company, CompanyHierarchy, CompanyRole } from '../../types/Company'
 import { useCallback, useEffect, useState } from 'react'
 import KeyValuePairs, { KeyValuePairItem, KeyValuePairVariant } from '../Common/KeyValuePairs/KeyValuePairs'
 import { useTranslation } from 'react-i18next'
@@ -129,8 +129,8 @@ const CompanyDetails = ({ company, onEditCompanyCallback, onEditHierarchiesCallb
               codespaces: company.codespaces?.join(', '),
               notificationWebhookUri: company.notificationWebhookUri,
               website: company.website,
-              authority: company.roles.indexOf("authority") !== -1,
-              operator: company.roles.indexOf("operator") !== -1,
+              authority: company.roles.includes(CompanyRole.AUTHORITY),
+              operator: company.roles.includes(CompanyRole.OPERATOR),
             }
             setFormData(formData)
             setFormErrors({})

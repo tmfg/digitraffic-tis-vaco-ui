@@ -5,7 +5,7 @@ import { Map } from '../../types/Map'
 import { InteractionStatus, IPublicClientApplication } from '@azure/msal-browser'
 import { acquireToken } from '../../hooks/auth'
 import { getHeaders, HttpClient } from '../../HttpClient'
-import { Company, CompanyHierarchy } from '../../types/Company'
+import { Company, CompanyHierarchy, CompanyRole } from '../../types/Company'
 import { getBusinessId, getCompanyName } from '../../util/company'
 
 export const getContextTableHeaders = (t: TFunction<'translation', undefined>): HeaderItem[] => {
@@ -142,11 +142,11 @@ export const getCompanyInfoKeyValuePairs = (company: Company, t: TFunction<'tran
     },
     {
       label: t('admin:company.authority'),
-      value: company.roles.indexOf("authority") !== -1 ? t('common:yes') : t('common:no')
+      value: company.roles.includes(CompanyRole.AUTHORITY) ? t('common:yes') : t('common:no')
     },
     {
       label: t('admin:company.operator'),
-      value: company.roles.indexOf("operator") !== -1 ? t('common:yes') : t('common:no')
+      value: company.roles.includes(CompanyRole.OPERATOR) ? t('common:yes') : t('common:no')
     },
   ]
 }
@@ -200,7 +200,7 @@ export const submitCompanyData = async (
     codespaces: (formData.codespaces as string)?.split(/\s*,\s*/),
     notificationWebhookUri: formData.notificationWebhookUri as string,
     website: formData.website as string,
-    roles: roles,
+    roles,
   }
 
   const { data } = await HttpClient.put(

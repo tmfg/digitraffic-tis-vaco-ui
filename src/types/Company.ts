@@ -50,3 +50,8 @@ export interface CreatePartnershipRequest {
   partnerABusinessId: string
   partnerBBusinessId: string
 }
+
+export enum CompanyRole {
+  AUTHORITY = "authority",
+  OPERATOR = "operator",
+}
