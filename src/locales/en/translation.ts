@@ -393,6 +393,8 @@ export const en = {
       codespaces: 'NeTEx Codespaces',
       notificationWebhookUri: 'Webhook notification URI',
       website: 'Company website',
+      authority: 'Authority?',
+      operator: 'Operator?',
       subscriptions: {
         section: {
           title: 'Subscriptions',
