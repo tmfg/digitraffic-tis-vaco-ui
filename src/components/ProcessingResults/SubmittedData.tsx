@@ -11,9 +11,10 @@ interface SubmittedDataProps {
   entry: Entry
   company: string
   credentials?: Credential | undefined
+  hasPackages: boolean | undefined
 }
 
-const SubmittedData = ({ entry, company, credentials }: SubmittedDataProps) => {
+const SubmittedData = ({ entry, company, credentials, hasPackages }: SubmittedDataProps) => {
   const { t } = useTranslation()
   const rules = entry.validations?.map((item) => (
     <div key={item.name}>{t('services:testData:form:rules:' + item.name)}</div>
@@ -75,7 +76,7 @@ const SubmittedData = ({ entry, company, credentials }: SubmittedDataProps) => {
 
   return (
     <section>
-      <ExpiryWarning entry={entry} />
+      <ExpiryWarning entry={entry} hasPackages={hasPackages}/>
       <KeyValuePairs items={items} variant={KeyValuePairVariant.big} />
     </section>
   )
