@@ -144,7 +144,7 @@ export const sv = {
       header: 'Datapublikationens resultat',
       magicLink: 'Kopiera delbar länk',
       rerun: 'Omstartsmatning',
-      expiryWarning: 'Observera! Publikationen är äldre än 5 dagar.',
+      expiryWarning: 'Observera! Publikationen är äldre än {{days}} dagar.',
       dataNotAvailable: 'Vissa publicering resultat kanske inte är tillgängliga, vänligen publicera dina data igen.',
       summary: 'Sammanfattning',
       reports: 'Specifikationsrapporter om efterlevnad',

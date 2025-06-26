@@ -1,5 +1,5 @@
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { HttpClient } from '../../HttpClient'
 import { useAcquireToken } from '../../hooks/auth'
 import { useIsAuthenticated } from '@azure/msal-react'
@@ -127,6 +127,14 @@ const ProcessingResultsPage = () => {
     postRerunEntry(entryState?.data.entry, accessToken, setIsModalOpen, setEntryResource)
   }
 
+  const hasPackages= useMemo(() => {
+    if (entryState === null) {
+      return undefined;
+    }
+    return entryState.data.reports.some((report) => report.packages.length > 0);
+
+  }, [entryState])
+
   return (
     <div className={'page-content'}>
       {searchParams.has('magic') || isAuthenticated ? (
@@ -185,7 +193,11 @@ const ProcessingResultsPage = () => {
           {isFetchInProgress && <LoadSpinner variant={SpinnerVariant.padded} />}
           {entryState && (
             <div>
-              <SubmittedData entry={entryState.data.entry.data} company={entryState.data.company} credentials={credentials} />
+              <SubmittedData
+                entry={entryState.data.entry.data}
+                company={entryState.data.company}
+                credentials={credentials}
+                hasPackages={hasPackages} />
 
               {!entryState.data.entry.data.completed && processingProgress !== 100 && !entryState.error && (
                 <Section hidable={false} titleKey={'services:processingResults:inProgress'}>

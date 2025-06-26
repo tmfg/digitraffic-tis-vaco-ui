@@ -10,17 +10,22 @@ const isEntryExpired = (entry: Entry) => {
 
 interface ExpiryWarningProps {
   entry: Entry
+  hasPackages: boolean | undefined;
 }
 
-const ExpiryWarning = ({ entry }: ExpiryWarningProps) => {
+const ExpiryWarning = ({ entry, hasPackages }: ExpiryWarningProps) => {
   const { t } = useTranslation()
-  return isEntryExpired(entry) ? (
+  const showWarning = isEntryExpired(entry) ? hasPackages === false : false;
+  const age = new Date().getTime() - new Date(entry.completed ?? entry.created).getTime();
+  const days = Math.floor(age / (24 * 3600_000))
+
+  return showWarning ? (
     <FdsAlertComponent
       style={{ width: 'fit-content', marginBottom: '24px' }}
       variant={FdsAlertVariant.warning}
       icon={'alert-triangle'}
     >
-      {t('services:processingResults:expiryWarning')} <br />
+      {t('services:processingResults:expiryWarning', { days })} <br />
       {t('services:processingResults:dataNotAvailable')}
     </FdsAlertComponent>
   ) : (

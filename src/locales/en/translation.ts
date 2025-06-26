@@ -144,7 +144,7 @@ export const en = {
       header: 'Data publication results',
       magicLink: 'Copy shareable link',
       rerun: 'Rerun entry',
-      expiryWarning: 'Note! The publication is older than 5 days.',
+      expiryWarning: 'Note! The publication is older than {{days}} days.',
       dataNotAvailable: 'Some publication results may not be available, please publish your data again.',
       summary: 'Summary',
       reports: 'Specification Compliance reports',

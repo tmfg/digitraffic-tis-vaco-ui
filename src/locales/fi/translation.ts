@@ -146,7 +146,7 @@ export const fi = {
       header: 'Datajulkaisun tulokset',
       magicLink: 'Kopioi jaettava linkki',
       rerun: 'Aja syöte uudelleen',
-      expiryWarning: 'Huomio! Julkaisu on yli 5 päivää vanha.',
+      expiryWarning: 'Huomio! Julkaisu on yli {{days}} päivää vanha.',
       dataNotAvailable: 'Joitakin julkaisutuloksia ei ehkä ole saatavilla, tarvittaessa suorita julkaisu uudelleen.',
       summary: 'Yhteenveto',
       reports: 'Määritystenmukaisuusraportit',
