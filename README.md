@@ -17,7 +17,7 @@
 > See [Development Environment Setup](https://finrail.atlassian.net/wiki/spaces/VACO1/pages/2720825453/Development+Environment+Setup)
 > on Confluence for initial common setup instructions.
 
-- NodeJS (v18.17.0)
+- NodeJS (v22+)
 - npm
 - nvm (optional)
 - Fintraffic Design System repositories
@@ -38,7 +38,7 @@ git clone git@github.com:fintraffic-design/coreui-css.git
 In the cloned `coreui-components` (important: node version should be set the same as digitraffic-tis-vaco-ui):
 ```shell
 cd coreui-components
-nvm use v18.17.0
+nvm use v22
 npm install
 npm link
 ```
@@ -46,7 +46,7 @@ npm link
 In the cloned `coreui-css`:
 ```shell
 cd ../coreui-css
-nvm use v18.17.0
+nvm use v22
 npm install
 npm link
 ```
