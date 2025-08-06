@@ -1,11 +1,9 @@
 version: 2
 updates:
-  - package-ecosystem: 'npm'
-    directory: '/'
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: 'monthly'
-    reviewers:
-      - "tmfg/digitraffic-tis-solita"
+      interval: "monthly"
     groups:
       dev-deps:
         dependency-type: "development"
@@ -16,8 +14,6 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
-    reviewers:
-      - "tmfg/digitraffic-tis-solita"
     groups:
       actions-deps:
         patterns:
