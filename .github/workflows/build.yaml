@@ -61,7 +61,7 @@ jobs:
           retention-days: 30
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarqube-scan-action@v6
         if: ${{ github.actor != 'dependabot[bot]' }} # GHA doesn't expose tokens to PRs from forks
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
