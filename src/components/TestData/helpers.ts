@@ -68,7 +68,8 @@ export const submitData = async (
         return {
           name: rule.data.identifyingName,
           config: {
-            codespace: formData[rule.data.identifyingName + '-codespace']
+            codespace: formData[rule.data.identifyingName + '-codespace'],
+            stopsOnly: formData[rule.data.identifyingName + '-stopsOnly'] === true,
           }
         }
       }
