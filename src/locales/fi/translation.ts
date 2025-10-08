@@ -118,7 +118,8 @@ export const fi = {
             fintraffic: 'GTFS to NeTEx Converter by Fintraffic'
           },
           netex2gtfs: {
-            entur: 'NeTEx to GTFS Converter by Entur'
+            entur: 'NeTEx to GTFS Converter by Entur',
+            stopsOnly: 'Muunna vain pysäkit'
           },
           'gbfs.entur': 'GBFS Validator by Entur'
         },

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useCallback, useEffect } from 'react'
 import { generalListener } from '../../../../util/form'
 import { FdsInputComponent } from '../../../fds/FdsInputComponent'
+import { FdsCheckboxComponent } from '../../../fds/FdsCheckboxComponent.ts'
 
 interface NetexEnturConverterProps extends FormSectionProps {
   ruleName: string
@@ -14,6 +15,10 @@ export const getNetexConverterAdditionalInputs = (ruleName: string): FdsInputCha
     {
       name: ruleName + '-codespace',
       value: ''
+    },
+    {
+      name: ruleName + '-stopsOnly',
+      value: false,
     }
   ]
 }
@@ -36,6 +41,12 @@ const NetexEnturConverter = ({ ruleName, formErrors, formData, formStateUpdateCa
       netexInputs.push(codespaceElement)
     }
 
+    const stopsOnlyElement = document.querySelector('[id="' + ruleName + '-stopsOnly' + '"]')
+    if (stopsOnlyElement && stopsOnlyElement.getAttribute('listener') !== 'true') {
+      stopsOnlyElement.addEventListener('change', useGeneralListener)
+      netexInputs.push(stopsOnlyElement)
+    }
+
     return () => {
       netexInputs.forEach((input) => {
         input?.removeEventListener('change', useGeneralListener)
@@ -46,12 +57,20 @@ const NetexEnturConverter = ({ ruleName, formErrors, formData, formStateUpdateCa
   return (
     <div className={'format-config-wrapper'}>
       <div id={ruleName + '-codespace'} className={'format-config-input-wrapper'}>
-        <FdsInputComponent
-          name={ruleName + '-codespace'}
-          label={t('services:testData:form:netex:codespace') + ' *'}
-          message={(formErrors[ruleName + '-codespace'] as string) || ''}
-          error={!!formErrors[ruleName + '-codespace']}
-        />
+        <div className="input-wrapper">
+          <FdsInputComponent
+            name={ruleName + '-codespace'}
+            label={t('services:testData:form:netex:codespace') + ' *'}
+            message={(formErrors[ruleName + '-codespace'] as string) || ''}
+            error={!!formErrors[ruleName + '-codespace']}
+          />
+        </div>
+        <div className="input-wrapper">
+          <FdsCheckboxComponent
+            name={ruleName + '-stopsOnly'}
+            label={t('services:testData:form:rules:netex2gtfs:stopsOnly')}
+          />
+        </div>
       </div>
     </div>
   )
