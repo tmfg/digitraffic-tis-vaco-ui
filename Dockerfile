@@ -9,4 +9,7 @@ COPY --from=build /app/dist /var/www/html/ui
 RUN rm /etc/nginx/conf.d/default.conf
 COPY ./nginx.conf /etc/nginx/conf.d
 EXPOSE 5173
+
+VOLUME ["/var/cache/nginx", "/var/run"]
+
 CMD ["nginx","-g","daemon off;"]
