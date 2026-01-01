@@ -39,21 +39,21 @@ jobs:
       - name: Aggregate all coverage results into nyc-based report
         run: npm run nyc:coverage
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: aggregated-coverage
           path: coverage/
           retention-days: 30
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: coverage-source
@@ -61,7 +61,7 @@ jobs:
           retention-days: 30
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v6
+        uses: SonarSource/sonarqube-scan-action@v7
         if: ${{ github.actor != 'dependabot[bot]' }} # GHA doesn't expose tokens to PRs from forks
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
