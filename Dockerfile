@@ -6,7 +6,7 @@ RUN npm ci
 # Generate SBOM
 ARG GITHUB_SHA
 RUN mkdir -p sbom && \
-    npx @cyclonedx/cyclonedx-npm --output-file sbom/${GITHUB_SHA}.json
+    npx @cyclonedx/cyclonedx-npm@4.1.2 --output-file sbom/${GITHUB_SHA}.json
 
 RUN npm run build
 
