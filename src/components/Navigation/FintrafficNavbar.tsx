@@ -26,6 +26,14 @@ const FintrafficNavbar = () => {
       value: t('fintraffic:appUrl')
     },
     {
+      label: t('fintraffic:matka'),
+      value: 'https://matka.fintraffic.fi/'
+    },
+    {
+      label: t('fintraffic:sky'),
+      value: 'https://sky.fintraffic.fi/'
+    },
+    {
       label: 'Digitraffic',
       value: 'https://www.digitraffic.fi/'
     },
