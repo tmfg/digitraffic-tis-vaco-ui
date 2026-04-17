@@ -10,6 +10,8 @@ export const sv = {
     train: 'Tågavgångar',
     app: 'Fintraffic Appen',
     appUrl: 'https://www.fintraffic.fi/sv/fintraffic_appen',
+    matka: 'Fintraffic Matka',
+    sky: 'Fintraffic Sky',
     digitraffic: 'Digitraffic',
     digitransit: 'Digitransit',
     nap: 'NAP',

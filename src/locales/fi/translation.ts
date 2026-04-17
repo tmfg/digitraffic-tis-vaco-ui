@@ -10,6 +10,8 @@ export const fi = {
     train: 'Junalähdöt',
     app: 'Fintraffic Mobiili',
     appUrl: 'https://www.fintraffic.fi/fi/digitaalisetpalvelut/mobiili',
+    matka: 'Fintraffic Matka',
+    sky: 'Fintraffic Sky',
     digitraffic: 'Digitraffic',
     digitransit: 'Digitransit',
     nap: 'NAP',
