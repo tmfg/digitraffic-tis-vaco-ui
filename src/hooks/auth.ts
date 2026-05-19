@@ -61,7 +61,7 @@ export const logout = (msalInstance: IPublicClientApplication) => {
   const activeAccount = msalInstance.getActiveAccount()
   if (activeAccount) {
     const logoutRequest = {
-      account: msalInstance.getAccountByHomeId(activeAccount.homeAccountId)
+      account: msalInstance.getActiveAccount()
     }
     msalInstance.logoutRedirect(logoutRequest).catch((error) => {
       console.error(error)
@@ -71,7 +71,7 @@ export const logout = (msalInstance: IPublicClientApplication) => {
 
 export const isUserInTransition = (status: InteractionStatus) => {
   return (
-    status === InteractionStatus.Login ||
+    status === InteractionStatus.Startup ||
     status === InteractionStatus.Logout ||
     status == InteractionStatus.HandleRedirect
   )

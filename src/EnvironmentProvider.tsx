@@ -43,7 +43,9 @@ const EnvironmentProvider = ({ children }: Props) => {
   const [msalInstance, setMsalInstance] = useState<IPublicClientApplication>()
 
   const initializeMsal = async (data: Bootstrap) => {
-    const pca: IPublicClientApplication = await PublicClientApplication.createPublicClientApplication(msalConfig(data))
+    const pca: IPublicClientApplication = new PublicClientApplication(msalConfig(data))
+    await pca.initialize()
+
     pca.addEventCallback((event: EventMessage) => {
       if (event.eventType === EventType.LOGIN_SUCCESS) {
         const account: AccountInfo = event.payload as AccountInfo
