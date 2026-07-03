@@ -64,7 +64,7 @@
     "lit-html": "3.3.2",
     "msal-react-tester": "0.3.1",
     "msw": "2.12.14",
-    "nyc": "17.1.0",
+    "nyc": "18.0.0",
     "playwright-i18next-fixture": "1.0.0",
     "prettier": "3.8.1",
     "sass": "1.97.3",
