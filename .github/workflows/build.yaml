@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Checkout project files
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Set up Node
         uses: actions/setup-node@v6
@@ -61,7 +61,7 @@ jobs:
           retention-days: 30
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@299e4b793aaa83bf2aba7c9c14bedbb485688ec4 # v7.1.0
+        uses: SonarSource/sonarqube-scan-action@713881670b6b3676cda39549040e2d88c70d582e # v8.2.0
         if: ${{ github.actor != 'dependabot[bot]' }} # GHA doesn't expose tokens to PRs from forks
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
