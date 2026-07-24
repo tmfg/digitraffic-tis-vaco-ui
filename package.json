@@ -79,5 +79,10 @@
     "vite-plugin-svgr": "5.2.0",
     "vite-tsconfig-paths": "6.0.5",
     "vitest": "4.1.8"
+  },
+  "overrides": {
+    "minimatch@>=10": {
+      "brace-expansion": "^5.0.7"
+    }
   }
 }
