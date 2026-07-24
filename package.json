@@ -87,6 +87,12 @@
     "js-yaml": "^4.3.0",
     "@istanbuljs/load-nyc-config": {
       "js-yaml": "^3.15.0"
+    },
+    "minimatch@<5": {
+      "brace-expansion": "^1.1.16"
+    },
+    "minimatch@>=5 <10": {
+      "brace-expansion": "^2.1.2"
     }
   }
 }
