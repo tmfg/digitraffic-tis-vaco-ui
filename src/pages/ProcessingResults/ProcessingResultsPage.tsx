@@ -116,7 +116,7 @@ const ProcessingResultsPage = () => {
       return
     }
     const url = new URL(window.location.href)
-    url.searchParams.append('magic', magicLinkToken)
+    url.searchParams.set('magic', magicLinkToken)
     await navigator.clipboard.writeText(url.toString()).then(() => {
     })
     setShowMagicLinkGotCopied(true)
