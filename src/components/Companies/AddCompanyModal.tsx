@@ -21,6 +21,9 @@ interface ModalProps {
   onCreated: (company: Company) => void
 }
 
+// Reserves room for a two-line validation message so the dialog does not resize when one appears
+const fieldStyle = { minHeight: '114px' }
+
 const AddCompanyModal = ({ close, onCreated }: ModalProps) => {
   const { t } = useTranslation()
   const { instance, inProgress } = useMsal()
@@ -96,22 +99,26 @@ const AddCompanyModal = ({ close, onCreated }: ModalProps) => {
             style={{ textAlign: 'left', width: '26rem', marginBottom: '3rem' }}
             className={'input-wrapper'}
           >
-            <FdsInputComponent
-              clearable={true}
-              name={'name'}
-              label={t('admin:company:name')}
-              value={name}
-              message={nameError}
-              error={!!nameError}
-            />
-            <FdsInputComponent
-              clearable={true}
-              name={'businessId'}
-              label={t('admin:company:businessId')}
-              value={businessId}
-              message={businessIdError}
-              error={!!businessIdError}
-            />
+            <div style={fieldStyle}>
+              <FdsInputComponent
+                clearable={true}
+                name={'name'}
+                label={t('admin:company:name')}
+                value={name}
+                message={nameError}
+                error={!!nameError}
+              />
+            </div>
+            <div style={fieldStyle}>
+              <FdsInputComponent
+                clearable={true}
+                name={'businessId'}
+                label={t('admin:company:businessId')}
+                value={businessId}
+                message={businessIdError}
+                error={!!businessIdError}
+              />
+            </div>
           </div>
 
           <FdsActionSheetComponent>
