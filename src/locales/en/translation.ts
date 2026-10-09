@@ -369,7 +369,11 @@ export const en = {
         viewHierarchy: 'View hierarchy'
       },
       viewFullHierarchy: 'View complete company hierarchy',
-      completeHierarchy: 'Complete company hierarchy'
+      completeHierarchy: 'Complete company hierarchy',
+      add: {
+        button: 'Add company',
+        title: 'Add a new company'
+      }
     },
     featureFlags: {
       header: 'Feature flags',
@@ -391,6 +395,23 @@ export const en = {
       createContext: 'Create new context',
       rulesets: 'Rulesets',
       edit: 'Edit company details',
+      delete: {
+        button: 'Delete company',
+        title: 'Delete company',
+        confirm: 'Delete {{company}}? This cannot be undone.',
+        refused: 'The company cannot be deleted because it has linked data. Remove the linked data first:',
+        protected: 'This company is required by the system and cannot be deleted.',
+        action: 'Delete',
+        linkedKinds: {
+          entries: 'Entries',
+          partnerships: 'Partnerships',
+          ruleset_grants: 'Ruleset grants',
+          contexts: 'Contexts',
+          subscriptions: 'Subscriptions',
+          feeds: 'Feeds',
+          credentials: 'Credentials'
+        }
+      },
       contactEmails: 'Contact emails',
       publish: 'Publish feeds?',
       codespaces: 'NeTEx Codespaces',

@@ -371,7 +371,11 @@ export const fi = {
         viewHierarchy: 'Näytä hierarkia'
       },
       viewFullHierarchy: 'Näytä koko yrityshierarkia',
-      completeHierarchy: 'Koko yrityshierarkia'
+      completeHierarchy: 'Koko yrityshierarkia',
+      add: {
+        button: 'Lisää yritys',
+        title: 'Lisää uusi yritys'
+      }
     },
     featureFlags: {
       header: 'Ominaisuuskytkimet',
@@ -393,6 +397,23 @@ export const fi = {
       createContext: 'Luo uusi kontekstitunniste',
       rulesets: 'Säännöt',
       edit: 'Muokkaa yrityksen tietoja',
+      delete: {
+        button: 'Poista yritys',
+        title: 'Poista yritys',
+        confirm: 'Poistetaanko {{company}}? Toimintoa ei voi perua.',
+        refused: 'Yritystä ei voi poistaa, koska siihen on liitetty tietoja. Poista liitetyt tiedot ensin:',
+        protected: 'Järjestelmä tarvitsee tätä yritystä, eikä sitä voi poistaa.',
+        action: 'Poista',
+        linkedKinds: {
+          entries: 'Toimitukset',
+          partnerships: 'Kumppanuudet',
+          ruleset_grants: 'Sääntöjoukkojen käyttöoikeudet',
+          contexts: 'Konteksti-tunnisteet',
+          subscriptions: 'Tilaukset',
+          feeds: 'Syötteet',
+          credentials: 'Tunnistautumistiedot'
+        }
+      },
       contactEmails: 'Yhteydenottosähköpostit',
       publish: 'Julkaise syötteet?',
       codespaces: 'NeTEx codespacet',

@@ -17,6 +17,8 @@ import ViewHierarchyLink from '../../../components/Companies/ViewHierarchyLink'
 import { useAdminRightsCheck } from '../hooks'
 import { useCompaniesFetch } from './hooks'
 import LoadSpinner from '../../../components/Common/LoadSpinner/LoadSpinner'
+import AddCompanyModal from '../../../components/Companies/AddCompanyModal'
+import { useNavigate } from 'react-router-dom'
 import { useSearchInputListener } from '../../../hooks/searchInputListener'
 
 const CompaniesPage = () => {
@@ -31,6 +33,8 @@ const CompaniesPage = () => {
   const headerItems: HeaderItem[] = getTableHeaders(t)
   const [isCompleteHierarchyShown, setIsCompleteHierarchyShown] = useState<boolean>(false)
   const [hasAdminRole, hasCompanyAdminRole] = useAdminRightsCheck()
+  const [isAddCompanyShown, setIsAddCompanyShown] = useState<boolean>(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (companiesData) {
@@ -87,6 +91,22 @@ const CompaniesPage = () => {
                 </div>
               </form>
             </div>
+            {hasAdminRole && (
+              <div style={{ marginTop: '1.5rem' }}>
+                <FdsButtonComponent
+                  onClick={() => setIsAddCompanyShown(true)}
+                  icon="plus"
+                  iconSize={FdsTokenSize2}
+                  label={t('admin:companies:add:button')}
+                />
+              </div>
+            )}
+            {isAddCompanyShown && (
+              <AddCompanyModal
+                close={() => setIsAddCompanyShown(false)}
+                onCreated={(company) => navigate('/admin/companies/' + company.businessId + '/info')}
+              />
+            )}
             <h5 className={'header-wrapper__big'}></h5>
             {isFetchInProgress && <LoadSpinner />}
             {companiesToShow && companiesToShow.length > 0 && (

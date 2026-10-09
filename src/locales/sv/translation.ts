@@ -370,7 +370,11 @@ export const sv = {
         viewHierarchy: 'Se hierarki'
       },
       viewFullHierarchy: 'Se fullständig företagshierarki',
-      completeHierarchy: 'Komplett företagshierarki'
+      completeHierarchy: 'Komplett företagshierarki',
+      add: {
+        button: 'Lägg till företag',
+        title: 'Lägg till ett nytt företag'
+      }
     },
     featureFlags: {
       header: 'Funktionsflaggor',
@@ -392,6 +396,23 @@ export const sv = {
       createContext: 'Skapa ny kontextidentifierare',
       rulesets: 'Regler',
       edit: 'Redigera företagsuppgifter',
+      delete: {
+        button: 'Ta bort företag',
+        title: 'Ta bort företag',
+        confirm: 'Ta bort {{company}}? Åtgärden kan inte ångras.',
+        refused: 'Företaget kan inte tas bort eftersom det har länkade uppgifter. Ta bort de länkade uppgifterna först:',
+        protected: 'Systemet behöver detta företag och det kan inte tas bort.',
+        action: 'Ta bort',
+        linkedKinds: {
+          entries: 'Leveranser',
+          partnerships: 'Partnerskap',
+          ruleset_grants: 'Regeluppsättningsrättigheter',
+          contexts: 'Kontextidentifierare',
+          subscriptions: 'Prenumerationer',
+          feeds: 'Flöden',
+          credentials: 'Autentiseringsuppgifter'
+        }
+      },
       contactEmails: 'Kontakt e-post',
       publish: 'Publicera datakällor?',
       codespaces: 'NeTEx Codespacer',

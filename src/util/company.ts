@@ -18,3 +18,7 @@ export const getCompanyName = (companyName: string | undefined, t: TFunction<'tr
 export const getBusinessId = (businessId: string) => {
   return businessId !== PublicValidationTest.businessId ? businessId : ''
 }
+
+const BUSINESS_ID_FORMAT = /^\d{7}-\d$/
+
+export const isValidBusinessId = (businessId: string) => BUSINESS_ID_FORMAT.test(businessId)
