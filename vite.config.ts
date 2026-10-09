@@ -19,8 +19,9 @@ export default defineConfig({
       include: '**/*.svg'
     }),
     pluginChecker({ typescript: true }),
-    // Instruments the dev server for Playwright coverage. Vitest instruments on its own, and a file this plugin
-    // has already instrumented is missing from the Vitest coverage report.
+    // Measures which lines the Playwright browser tests run, through the dev server (`npm run dev`).
+    // Off when Vitest runs (Vitest sets VITEST): Vitest measures the unit tests itself and skips
+    // any file this plugin has already processed, so those files would be missing from its report.
     !process.env.VITEST &&
       istanbul({
         include: 'src/*',
