@@ -374,7 +374,8 @@ export const fi = {
       completeHierarchy: 'Koko yrityshierarkia',
       add: {
         button: 'Lisää yritys',
-        title: 'Lisää uusi yritys'
+        title: 'Lisää uusi yritys',
+        invalidBusinessId: 'Y-tunnuksen muoto on 1234567-8, ja viimeisen numeron on oltava oikea tarkistusnumero'
       }
     },
     featureFlags: {

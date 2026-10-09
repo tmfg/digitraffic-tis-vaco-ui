@@ -372,7 +372,8 @@ export const en = {
       completeHierarchy: 'Complete company hierarchy',
       add: {
         button: 'Add company',
-        title: 'Add a new company'
+        title: 'Add a new company',
+        invalidBusinessId: 'Business ID must have the form 1234567-8, and the last digit must be a valid check digit'
       }
     },
     featureFlags: {

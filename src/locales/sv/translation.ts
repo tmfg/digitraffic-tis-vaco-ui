@@ -373,7 +373,8 @@ export const sv = {
       completeHierarchy: 'Komplett företagshierarki',
       add: {
         button: 'Lägg till företag',
-        title: 'Lägg till ett nytt företag'
+        title: 'Lägg till ett nytt företag',
+        invalidBusinessId: 'Företags-id ska ha formen 1234567-8, och den sista siffran ska vara en giltig kontrollsiffra'
       }
     },
     featureFlags: {

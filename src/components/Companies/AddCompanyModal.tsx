@@ -51,9 +51,7 @@ const AddCompanyModal = ({ close, onCreated }: ModalProps) => {
     const trimmedName = name.trim()
     const trimmedBusinessId = businessId.trim()
     const newNameError = trimmedName ? '' : t('formValidation:isRequired', { value: t('admin:company:name') })
-    const newBusinessIdError = isValidBusinessId(trimmedBusinessId)
-      ? ''
-      : t('formValidation:isInvalid', { value: t('admin:company:businessId') })
+    const newBusinessIdError = isValidBusinessId(trimmedBusinessId) ? '' : t('admin:companies:add:invalidBusinessId')
     setNameError(newNameError)
     setBusinessIdError(newBusinessIdError)
     if (newNameError || newBusinessIdError) {
@@ -71,7 +69,7 @@ const AddCompanyModal = ({ close, onCreated }: ModalProps) => {
           if (error.response?.status === 409) {
             setBusinessIdError(t('formValidation:exists'))
           } else if (error.response?.status === 400) {
-            setBusinessIdError(t('formValidation:isInvalid', { value: t('admin:company:businessId') }))
+            setBusinessIdError(t('admin:companies:add:invalidBusinessId'))
           } else {
             setBusinessIdError(error.message as string)
           }
