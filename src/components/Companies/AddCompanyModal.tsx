@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { useEffect, useRef, useState } from 'react'
 import { useMsal } from '@azure/msal-react'
 import { useTranslation } from 'react-i18next'
@@ -50,7 +51,7 @@ const AddCompanyModal = ({ close, onCreated }: ModalProps) => {
     return () => wrapper?.removeEventListener('change', listener)
   }, [])
 
-  const save = () => {
+  const save = async () => {
     const trimmedName = name.trim()
     const trimmedBusinessId = businessId.trim()
     const newNameError = trimmedName ? '' : t('formValidation:isRequired', { value: t('admin:company:name') })
@@ -61,24 +62,26 @@ const AddCompanyModal = ({ close, onCreated }: ModalProps) => {
       return
     }
 
-    acquireToken(instance, inProgress).then((tokenResult) => {
-      if (!tokenResult) {
-        return
+    const tokenResult = await acquireToken(instance, inProgress)
+    if (!tokenResult) {
+      return
+    }
+    const requestBody: Company = { businessId: trimmedBusinessId, name: trimmedName, publish: true, roles: [] }
+    let response
+    try {
+      response = await HttpClient.post('/api/ui/admin/companies', requestBody, getHeaders(tokenResult.accessToken))
+    } catch (e) {
+      const error = e as AxiosError
+      if (error.response?.status === 409) {
+        setBusinessIdError(t('formValidation:exists'))
+      } else if (error.response?.status === 400) {
+        setBusinessIdError(t('admin:companies:add:invalidBusinessId'))
+      } else {
+        setBusinessIdError(error.message)
       }
-      const requestBody: Company = { businessId: trimmedBusinessId, name: trimmedName, publish: true, roles: [] }
-      HttpClient.post('/api/ui/admin/companies', requestBody, getHeaders(tokenResult.accessToken)).then(
-        (response) => onCreated(response.data.data as Company),
-        (error) => {
-          if (error.response?.status === 409) {
-            setBusinessIdError(t('formValidation:exists'))
-          } else if (error.response?.status === 400) {
-            setBusinessIdError(t('admin:companies:add:invalidBusinessId'))
-          } else {
-            setBusinessIdError(error.message as string)
-          }
-        }
-      )
-    })
+      return
+    }
+    onCreated(response.data.data as Company)
   }
 
   return (
@@ -133,7 +136,7 @@ const AddCompanyModal = ({ close, onCreated }: ModalProps) => {
             <FdsButtonComponent
               variant={FdsButtonVariant.primary}
               iconSize={FdsTokenSize2}
-              onClick={save}
+              onClick={() => void save()}
               label={t('common:save')}
             />
           </FdsActionSheetComponent>

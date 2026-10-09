@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { useState } from 'react'
 import { useMsal } from '@azure/msal-react'
 import { useTranslation } from 'react-i18next'
@@ -28,29 +29,33 @@ const DeleteCompanyModal = ({ close, company, onDeleted }: ModalProps) => {
   const [references, setReferences] = useState<Record<string, number> | null>(null)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-  const deleteCompany = () => {
+  const deleteCompany = async () => {
     setReferences(null)
     setErrorMessage(null)
-    acquireToken(instance, inProgress).then((tokenResult) => {
-      if (!tokenResult) {
-        return
-      }
-      HttpClient.delete(
+    const tokenResult = await acquireToken(instance, inProgress)
+    if (!tokenResult) {
+      return
+    }
+    try {
+      await HttpClient.delete(
         `/api/ui/admin/companies/${encodeURIComponent(company.businessId)}`,
         getHeaders(tokenResult.accessToken)
-      ).then(onDeleted, (error) => {
-        if (error.response?.status === 409) {
-          const linked = error.response.data?.data as Record<string, number> | null | undefined
-          if (linked && Object.keys(linked).length > 0) {
-            setReferences(linked)
-          } else {
-            setErrorMessage(t('admin:company:delete:protected'))
-          }
+      )
+    } catch (e) {
+      const error = e as AxiosError<{ data?: Record<string, number> | null }>
+      if (error.response?.status === 409) {
+        const linked = error.response.data?.data
+        if (linked && Object.keys(linked).length > 0) {
+          setReferences(linked)
         } else {
-          setErrorMessage(error.message as string)
+          setErrorMessage(t('admin:company:delete:protected'))
         }
-      })
-    })
+      } else {
+        setErrorMessage(error.message)
+      }
+      return
+    }
+    onDeleted()
   }
 
   return (
@@ -95,7 +100,7 @@ const DeleteCompanyModal = ({ close, company, onDeleted }: ModalProps) => {
             <FdsButtonComponent
               variant={FdsButtonVariant.danger}
               iconSize={FdsTokenSize2}
-              onClick={deleteCompany}
+              onClick={() => void deleteCompany()}
               label={t('admin:company:delete:action')}
             />
           </FdsActionSheetComponent>
