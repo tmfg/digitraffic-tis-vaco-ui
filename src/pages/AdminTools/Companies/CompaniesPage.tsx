@@ -66,7 +66,17 @@ const CompaniesPage = () => {
         )}
         {(hasAdminRole || hasCompanyAdminRole) && (
           <>
-            <div style={{ marginTop: '2.5rem' }} className={'searchEntries'}>
+            <div
+              style={{
+                marginTop: '2.5rem',
+                display: 'flex',
+                flexWrap: 'wrap',
+                alignItems: 'flex-end',
+                justifyContent: 'space-between',
+                gap: '1.5rem'
+              }}
+              className={'searchEntries'}
+            >
               <form>
                 <div id={'searchInput'} ref={searchInputRef} className={'search-input'}>
                   <FdsInputComponent
@@ -90,17 +100,15 @@ const CompaniesPage = () => {
                   />
                 </div>
               </form>
-            </div>
-            {hasAdminRole && (
-              <div style={{ marginTop: '1.5rem' }}>
+              {hasAdminRole && (
                 <FdsButtonComponent
                   onClick={() => setIsAddCompanyShown(true)}
                   icon="plus"
                   iconSize={FdsTokenSize2}
                   label={t('admin:companies:add:button')}
                 />
-              </div>
-            )}
+              )}
+            </div>
             {isAddCompanyShown && (
               <AddCompanyModal
                 close={() => setIsAddCompanyShown(false)}
