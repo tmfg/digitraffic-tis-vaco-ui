@@ -16,27 +16,30 @@ export default defineConfig({
     react(),
     svgr({
       svgrOptions: { exportType: 'default', ref: true, svgo: false, titleProp: true },
-      include: '**/*.svg',
+      include: '**/*.svg'
     }),
     pluginChecker({ typescript: true }),
-    istanbul({
-      include: 'src/*',
-      exclude: [
-        'node_modules',
-        'src/test/**',
-        '**/node_modules/**',
-        '**/dist/**',
-        'coreui-components/**',
-        'coreui-css/**',
-        '**coverage**',
-        'src/locales/**',
-        'src/types/**',
-        'vite.config.ts',
-        '**.d.ts'
-      ],
-      extension: ['.ts', '.tsx']
-      //requireEnv: true
-    })
+    // Instruments the dev server for Playwright coverage. Vitest instruments on its own, and a file this plugin
+    // has already instrumented is missing from the Vitest coverage report.
+    !process.env.VITEST &&
+      istanbul({
+        include: 'src/*',
+        exclude: [
+          'node_modules',
+          'src/test/**',
+          '**/node_modules/**',
+          '**/dist/**',
+          'coreui-components/**',
+          'coreui-css/**',
+          '**coverage**',
+          'src/locales/**',
+          'src/types/**',
+          'vite.config.ts',
+          '**.d.ts'
+        ],
+        extension: ['.ts', '.tsx']
+        //requireEnv: true
+      })
   ],
   base: '/ui',
   preview: {
