@@ -7,6 +7,7 @@ import Table, { HeaderItem, TableItem } from '../../../components/Common/Table/T
 import { FdsButtonComponent } from '../../../components/fds/FdsButtonComponent'
 import { FdsInputComponent } from '../../../components/fds/FdsInputComponent'
 import '../../MyData/_mydata.scss'
+import '../../../components/Common/SearchPanel/_search-panel.scss'
 import { filterTableRowsBySearchWord, getTableHeaders, getTableRow } from '../../../components/Companies/helpers'
 import Pagination from '../../../components/Common/Pagination/Pagination'
 import AdminRoleRequiredPage from '../../Error/AdminRoleRequiredPage'
@@ -17,8 +18,7 @@ import ViewHierarchyLink from '../../../components/Companies/ViewHierarchyLink'
 import { useAdminRightsCheck } from '../hooks'
 import { useCompaniesFetch } from './hooks'
 import LoadSpinner from '../../../components/Common/LoadSpinner/LoadSpinner'
-import AddCompanyModal from '../../../components/Companies/AddCompanyModal'
-import { useNavigate } from 'react-router-dom'
+import AddCompany from '../../../components/Companies/AddCompany'
 import { useSearchInputListener } from '../../../hooks/searchInputListener'
 
 const CompaniesPage = () => {
@@ -33,8 +33,6 @@ const CompaniesPage = () => {
   const headerItems: HeaderItem[] = getTableHeaders(t)
   const [isCompleteHierarchyShown, setIsCompleteHierarchyShown] = useState<boolean>(false)
   const [hasAdminRole, hasCompanyAdminRole] = useAdminRightsCheck()
-  const [isAddCompanyShown, setIsAddCompanyShown] = useState<boolean>(false)
-  const navigate = useNavigate()
 
   useEffect(() => {
     if (companiesData) {
@@ -66,17 +64,7 @@ const CompaniesPage = () => {
         )}
         {(hasAdminRole || hasCompanyAdminRole) && (
           <>
-            <div
-              style={{
-                marginTop: '2.5rem',
-                display: 'flex',
-                flexWrap: 'wrap',
-                alignItems: 'flex-end',
-                justifyContent: 'space-between',
-                gap: '1.5rem'
-              }}
-              className={'searchEntries'}
-            >
+            <div style={{ marginTop: '2.5rem' }} className={'search-panel search-panel--with-actions'}>
               <form>
                 <div id={'searchInput'} ref={searchInputRef} className={'search-input'}>
                   <FdsInputComponent
@@ -100,21 +88,8 @@ const CompaniesPage = () => {
                   />
                 </div>
               </form>
-              {hasAdminRole && (
-                <FdsButtonComponent
-                  onClick={() => setIsAddCompanyShown(true)}
-                  icon="plus"
-                  iconSize={FdsTokenSize2}
-                  label={t('admin:companies:add:button')}
-                />
-              )}
+              {hasAdminRole && <AddCompany />}
             </div>
-            {isAddCompanyShown && (
-              <AddCompanyModal
-                close={() => setIsAddCompanyShown(false)}
-                onCreated={(company) => navigate('/admin/companies/' + company.businessId + '/info')}
-              />
-            )}
             <h5 className={'header-wrapper__big'}></h5>
             {isFetchInProgress && <LoadSpinner />}
             {companiesToShow && companiesToShow.length > 0 && (

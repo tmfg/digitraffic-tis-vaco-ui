@@ -16,6 +16,8 @@ import { getHeaders, HttpClient } from '../../HttpClient'
 import { Company } from '../../types/Company'
 import { isValidBusinessId } from '../../util/company'
 import { FdsInputChange } from '../../../coreui-components/src/fds-input'
+import { Map } from '../../types/Map'
+import { getNewFormErrorsState, getNewFormState } from '../../util/form'
 
 interface ModalProps {
   close: () => void
@@ -25,40 +27,44 @@ interface ModalProps {
 // Reserves room for a two-line validation message so the dialog does not resize when one appears
 const fieldStyle = { minHeight: '114px' }
 
+const errorMessageKeys: Record<number, string> = {
+  400: 'admin:companies:add:invalidBusinessId',
+  409: 'formValidation:exists'
+}
+
 const AddCompanyModal = ({ close, onCreated }: ModalProps) => {
   const { t } = useTranslation()
   const { instance, inProgress } = useMsal()
-  const [name, setName] = useState('')
-  const [businessId, setBusinessId] = useState('')
-  const [nameError, setNameError] = useState('')
-  const [businessIdError, setBusinessIdError] = useState('')
+  const [formData, setFormData] = useState<Map>({})
+  const [formErrors, setFormErrors] = useState<Map>({})
 
   const inputsRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const wrapper = inputsRef.current
     const listener = (e: Event) => {
-      const { name: inputName, value } = (e as CustomEvent).detail as FdsInputChange
-      if (inputName === 'name') {
-        setName(value as string)
-        setNameError('')
-      } else if (inputName === 'businessId') {
-        setBusinessId(value as string)
-        setBusinessIdError('')
-      }
+      const inputChange = (e as CustomEvent).detail as FdsInputChange
+      setFormData((previous) => getNewFormState(previous, inputChange))
+      setFormErrors((previous) => getNewFormErrorsState(previous, inputChange))
     }
     wrapper?.addEventListener('change', listener)
     return () => wrapper?.removeEventListener('change', listener)
   }, [])
 
+  const apiErrorMessage = (error: AxiosError): string => {
+    const messageKey = errorMessageKeys[error.response?.status ?? 0]
+    return messageKey ? t(messageKey) : error.message
+  }
+
   const save = async () => {
-    const trimmedName = name.trim()
-    const trimmedBusinessId = businessId.trim()
-    const newNameError = trimmedName ? '' : t('formValidation:isRequired', { value: t('admin:company:name') })
-    const newBusinessIdError = isValidBusinessId(trimmedBusinessId) ? '' : t('admin:companies:add:invalidBusinessId')
-    setNameError(newNameError)
-    setBusinessIdError(newBusinessIdError)
-    if (newNameError || newBusinessIdError) {
+    const trimmedName = ((formData.name as string | undefined) ?? '').trim()
+    const trimmedBusinessId = ((formData.businessId as string | undefined) ?? '').trim()
+    const newFormErrors: Map = {
+      name: trimmedName ? undefined : t('formValidation:isRequired', { value: t('admin:company:name') }),
+      businessId: isValidBusinessId(trimmedBusinessId) ? undefined : t('admin:companies:add:invalidBusinessId')
+    }
+    setFormErrors(newFormErrors)
+    if (newFormErrors.name || newFormErrors.businessId) {
       return
     }
 
@@ -72,13 +78,7 @@ const AddCompanyModal = ({ close, onCreated }: ModalProps) => {
       response = await HttpClient.post('/api/ui/admin/companies', requestBody, getHeaders(tokenResult.accessToken))
     } catch (e) {
       const error = e as AxiosError
-      if (error.response?.status === 409) {
-        setBusinessIdError(t('formValidation:exists'))
-      } else if (error.response?.status === 400) {
-        setBusinessIdError(t('admin:companies:add:invalidBusinessId'))
-      } else {
-        setBusinessIdError(error.message)
-      }
+      setFormErrors({ businessId: apiErrorMessage(error) })
       return
     }
     onCreated(response.data.data as Company)
@@ -107,9 +107,9 @@ const AddCompanyModal = ({ close, onCreated }: ModalProps) => {
                 clearable={true}
                 name={'name'}
                 label={t('admin:company:name')}
-                value={name}
-                message={nameError}
-                error={!!nameError}
+                value={(formData.name as string | undefined) ?? ''}
+                message={(formErrors.name as string | undefined) ?? ''}
+                error={!!formErrors.name}
               />
             </div>
             <div style={fieldStyle}>
@@ -117,9 +117,9 @@ const AddCompanyModal = ({ close, onCreated }: ModalProps) => {
                 clearable={true}
                 name={'businessId'}
                 label={t('admin:company:businessId')}
-                value={businessId}
-                message={businessIdError}
-                error={!!businessIdError}
+                value={(formData.businessId as string | undefined) ?? ''}
+                message={(formErrors.businessId as string | undefined) ?? ''}
+                error={!!formErrors.businessId}
               />
             </div>
           </div>

@@ -2,11 +2,8 @@ import { AuthenticatedTemplate, UnauthenticatedTemplate } from '@azure/msal-reac
 import { useAcquireToken } from '../../../hooks/auth'
 import AdminRoleRequiredPage from '../../Error/AdminRoleRequiredPage'
 import AuthRequiredPage from '../../Error/AuthRequiredPage'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useState } from 'react'
-import { FdsButtonComponent } from '../../../components/fds/FdsButtonComponent'
-import { FdsButtonVariant } from '../../../../coreui-components/src/fds-button'
-import DeleteCompanyModal from '../../../components/CompanyInfo/DeleteCompanyModal'
+import { useParams } from 'react-router-dom'
+import DeleteCompany from '../../../components/CompanyInfo/DeleteCompany'
 import CompanyDetails from '../../../components/CompanyInfo/CompanyDetails'
 import Rulesets from '../../../components/CompanyInfo/Rulesets'
 import { FdsAlertComponent } from '../../../components/fds/FdsAlertComponent'
@@ -25,8 +22,6 @@ const CompanyInfoPage = () => {
   const [accessToken] = useAcquireToken()
   const [hasAdminRole, hasCompanyAdminRole] = useAdminRightsCheck()
   const { businessId } = useParams()
-  const navigate = useNavigate()
-  const [isDeleteShown, setIsDeleteShown] = useState(false)
   const [company, contexts, hierarchies, rulesets, apiError, setCompany, setHierarchies, isFetchInProgress] =
     useCompanyInfoFetch(accessToken, businessId, hasAdminRole, hasCompanyAdminRole)
 
@@ -49,29 +44,10 @@ const CompanyInfoPage = () => {
                 accessToken={accessToken}
                 businessId={company.businessId}
               />
-              <Credentials
-                accessToken={accessToken}
-                owner={company}
-              />
+              <Credentials accessToken={accessToken} owner={company} />
               <Contexts key={'contexts-' + company.businessId} contexts={contexts} businessId={company.businessId} />
               <Rulesets key={'rulesets-' + company.businessId} rulesets={rulesets} />
-              {hasAdminRole && (
-                <div style={{ marginTop: '2.5rem' }}>
-                  <FdsButtonComponent
-                    variant={FdsButtonVariant.danger}
-                    icon="trash-2"
-                    onClick={() => setIsDeleteShown(true)}
-                    label={t('admin:company:delete:button')}
-                  />
-                </div>
-              )}
-              {isDeleteShown && (
-                <DeleteCompanyModal
-                  company={company}
-                  close={() => setIsDeleteShown(false)}
-                  onDeleted={() => navigate('/admin/companies')}
-                />
-              )}
+              {hasAdminRole && <DeleteCompany company={company} />}
             </>
           </>
         )}

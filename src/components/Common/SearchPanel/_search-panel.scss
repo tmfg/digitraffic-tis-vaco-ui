@@ -1,0 +1,25 @@
+.search-panel {
+  > form {
+    display: flex;
+    width: 33rem;
+
+    .search-input {
+      align-self: center;
+      margin-right: 1.6rem;
+      width: 80%;
+    }
+
+    .search-button {
+      align-self: end;
+    }
+  }
+}
+
+// Places action buttons on the same row as the search form, and wraps them below it on a narrow screen
+.search-panel--with-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
