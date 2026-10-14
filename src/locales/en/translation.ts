@@ -400,7 +400,8 @@ export const en = {
         button: 'Delete company',
         title: 'Delete company',
         confirm: 'Delete {{company}}? This cannot be undone.',
-        refused: 'The company cannot be deleted because it has linked data. Remove the linked data first:',
+        linkedWarning: 'The delete also removes this linked data:',
+        inProgress: 'The company has entries that are still in processing. Try again later.',
         protected: 'This company is required by the system and cannot be deleted.',
         action: 'Delete',
         linkedKinds: {

@@ -401,7 +401,8 @@ export const sv = {
         button: 'Ta bort företag',
         title: 'Ta bort företag',
         confirm: 'Ta bort {{company}}? Åtgärden kan inte ångras.',
-        refused: 'Företaget kan inte tas bort eftersom det har länkade uppgifter. Ta bort de länkade uppgifterna först:',
+        linkedWarning: 'Borttagningen tar också bort dessa länkade uppgifter:',
+        inProgress: 'Företaget har leveranser som fortfarande behandlas. Försök igen senare.',
         protected: 'Systemet behöver detta företag och det kan inte tas bort.',
         action: 'Ta bort',
         linkedKinds: {

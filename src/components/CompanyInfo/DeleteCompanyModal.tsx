@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useMsal } from '@azure/msal-react'
 import { useTranslation } from 'react-i18next'
 import { FdsCardComponent } from '../fds/FdsCardComponent'
@@ -23,36 +23,58 @@ interface ModalProps {
   onDeleted: () => void
 }
 
+const refusalMessageKeys: Record<string, string> = {
+  IN_PROGRESS: 'admin:company:delete:inProgress',
+  PROTECTED: 'admin:company:delete:protected'
+}
+
 const DeleteCompanyModal = ({ close, company, onDeleted }: ModalProps) => {
   const { t } = useTranslation()
   const { instance, inProgress } = useMsal()
   const [references, setReferences] = useState<Record<string, number> | null>(null)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const companyUrl = `/api/ui/admin/companies/${encodeURIComponent(company.businessId)}`
+
+  useEffect(() => {
+    let ignore = false
+    const loadReferences = async () => {
+      const tokenResult = await acquireToken(instance, inProgress)
+      if (!tokenResult) {
+        return
+      }
+      try {
+        const response = await HttpClient.get<{ data: Record<string, number> }>(
+          `${companyUrl}/references`,
+          getHeaders(tokenResult.accessToken)
+        )
+        if (!ignore) {
+          setReferences(response.data.data)
+        }
+      } catch (e) {
+        if (!ignore) {
+          setErrorMessage((e as AxiosError).message)
+        }
+      }
+    }
+    void loadReferences()
+    return () => {
+      ignore = true
+    }
+  }, [companyUrl, instance, inProgress])
 
   const deleteCompany = async () => {
-    setReferences(null)
     setErrorMessage(null)
     const tokenResult = await acquireToken(instance, inProgress)
     if (!tokenResult) {
       return
     }
     try {
-      await HttpClient.delete(
-        `/api/ui/admin/companies/${encodeURIComponent(company.businessId)}`,
-        getHeaders(tokenResult.accessToken)
-      )
+      await HttpClient.delete(companyUrl, getHeaders(tokenResult.accessToken))
     } catch (e) {
-      const error = e as AxiosError<{ data?: Record<string, number> | null }>
-      if (error.response?.status === 409) {
-        const linked = error.response.data?.data
-        if (linked && Object.keys(linked).length > 0) {
-          setReferences(linked)
-        } else {
-          setErrorMessage(t('admin:company:delete:protected'))
-        }
-      } else {
-        setErrorMessage(error.message)
-      }
+      const error = e as AxiosError<{ data?: string | null }>
+      const refusalKey =
+        error.response?.status === 409 ? refusalMessageKeys[error.response.data?.data ?? ''] : undefined
+      setErrorMessage(refusalKey ? t(refusalKey) : error.message)
       return
     }
     onDeleted()
@@ -75,9 +97,9 @@ const DeleteCompanyModal = ({ close, company, onDeleted }: ModalProps) => {
             <p>
               {t('admin:company:delete:confirm', { company: getCompanyFullName(company.name, company.businessId, t) })}
             </p>
-            {references && (
+            {references && Object.keys(references).length > 0 && (
               <FdsAlertComponent icon={'alert-triangle'}>
-                <div>{t('admin:company:delete:refused')}</div>
+                <div>{t('admin:company:delete:linkedWarning')}</div>
                 <LinkedDataList references={references} />
               </FdsAlertComponent>
             )}
@@ -97,12 +119,14 @@ const DeleteCompanyModal = ({ close, company, onDeleted }: ModalProps) => {
               variant={FdsButtonVariant.secondary}
               label={t('common:cancel')}
             />
-            <FdsButtonComponent
-              variant={FdsButtonVariant.danger}
-              iconSize={FdsTokenSize2}
-              onClick={() => void deleteCompany()}
-              label={t('admin:company:delete:action')}
-            />
+            {references && (
+              <FdsButtonComponent
+                variant={FdsButtonVariant.danger}
+                iconSize={FdsTokenSize2}
+                onClick={() => void deleteCompany()}
+                label={t('admin:company:delete:action')}
+              />
+            )}
           </FdsActionSheetComponent>
         </FdsCardComponent>
       </FdsDialogComponent>

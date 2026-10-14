@@ -402,7 +402,8 @@ export const fi = {
         button: 'Poista yritys',
         title: 'Poista yritys',
         confirm: 'Poistetaanko {{company}}? Toimintoa ei voi perua.',
-        refused: 'Yritystä ei voi poistaa, koska siihen on liitetty tietoja. Poista liitetyt tiedot ensin:',
+        linkedWarning: 'Poisto poistaa myös nämä liitetyt tiedot:',
+        inProgress: 'Yrityksellä on toimituksia, joiden käsittely on kesken. Yritä myöhemmin uudelleen.',
         protected: 'Järjestelmä tarvitsee tätä yritystä, eikä sitä voi poistaa.',
         action: 'Poista',
         linkedKinds: {
