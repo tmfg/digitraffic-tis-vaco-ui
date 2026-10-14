@@ -7,7 +7,7 @@ interface LinkedDataListProps {
 const LinkedDataList = ({ references }: LinkedDataListProps) => {
   const { t } = useTranslation()
   return (
-    <ul>
+    <ul style={{ marginBottom: 0, paddingBottom: 0 }}>
       {Object.entries(references).map(([kind, count]) => (
         <li key={kind}>
           {t(`admin:company:delete:linkedKinds:${kind}`, { defaultValue: kind })}: {count}
