@@ -371,7 +371,12 @@ export const fi = {
         viewHierarchy: 'Näytä hierarkia'
       },
       viewFullHierarchy: 'Näytä koko yrityshierarkia',
-      completeHierarchy: 'Koko yrityshierarkia'
+      completeHierarchy: 'Koko yrityshierarkia',
+      add: {
+        button: 'Lisää yritys',
+        title: 'Lisää uusi yritys',
+        invalidBusinessId: 'Y-tunnuksen muoto on 1234567-8, ja viimeisen numeron on oltava oikea tarkistusnumero'
+      }
     },
     featureFlags: {
       header: 'Ominaisuuskytkimet',
@@ -393,6 +398,24 @@ export const fi = {
       createContext: 'Luo uusi kontekstitunniste',
       rulesets: 'Säännöt',
       edit: 'Muokkaa yrityksen tietoja',
+      delete: {
+        button: 'Poista yritys',
+        title: 'Poista yritys',
+        confirm: 'Poistetaanko {{company}}? Toimintoa ei voi perua.',
+        linkedWarning: 'Poisto poistaa myös nämä liitetyt tiedot:',
+        inProgress: 'Yrityksellä on toimituksia, joiden käsittely on kesken. Yritä myöhemmin uudelleen.',
+        protected: 'Järjestelmä tarvitsee tätä yritystä, eikä sitä voi poistaa.',
+        action: 'Poista',
+        linkedKinds: {
+          entries: 'Toimitukset',
+          partnerships: 'Kumppanuudet',
+          ruleset_grants: 'Sääntöjoukkojen käyttöoikeudet',
+          contexts: 'Konteksti-tunnisteet',
+          subscriptions: 'Tilaukset',
+          feeds: 'Syötteet',
+          credentials: 'Tunnistautumistiedot'
+        }
+      },
       contactEmails: 'Yhteydenottosähköpostit',
       publish: 'Julkaise syötteet?',
       codespaces: 'NeTEx codespacet',

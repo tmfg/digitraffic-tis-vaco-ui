@@ -3,6 +3,7 @@ import { useAcquireToken } from '../../../hooks/auth'
 import AdminRoleRequiredPage from '../../Error/AdminRoleRequiredPage'
 import AuthRequiredPage from '../../Error/AuthRequiredPage'
 import { useParams } from 'react-router-dom'
+import DeleteCompany from '../../../components/CompanyInfo/DeleteCompany'
 import CompanyDetails from '../../../components/CompanyInfo/CompanyDetails'
 import Rulesets from '../../../components/CompanyInfo/Rulesets'
 import { FdsAlertComponent } from '../../../components/fds/FdsAlertComponent'
@@ -43,12 +44,10 @@ const CompanyInfoPage = () => {
                 accessToken={accessToken}
                 businessId={company.businessId}
               />
-              <Credentials
-                accessToken={accessToken}
-                owner={company}
-              />
+              <Credentials accessToken={accessToken} owner={company} />
               <Contexts key={'contexts-' + company.businessId} contexts={contexts} businessId={company.businessId} />
               <Rulesets key={'rulesets-' + company.businessId} rulesets={rulesets} />
+              {hasAdminRole && <DeleteCompany company={company} />}
             </>
           </>
         )}
