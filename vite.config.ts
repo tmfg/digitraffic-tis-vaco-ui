@@ -43,6 +43,11 @@ export default defineConfig({
       })
   ],
   base: '/ui',
+  server: {
+    // Crawls the app's imports at start, so the dev server optimizes all dependencies before the first
+    // page load. Without it, a cold start reloads the page mid-test, and the Playwright test fails.
+    warmup: { clientFiles: ['./src/main.tsx'] }
+  },
   preview: {
     port: 5173
   },
