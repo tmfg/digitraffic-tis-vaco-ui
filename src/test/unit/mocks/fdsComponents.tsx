@@ -3,6 +3,7 @@ import { ReactNode, useRef } from 'react'
 interface ButtonProps {
   label?: string
   icon?: string
+  disabled?: boolean
   onClick?: () => void
 }
 
@@ -18,8 +19,10 @@ interface ChildrenProps {
 
 const Passthrough = ({ children }: ChildrenProps) => <div>{children}</div>
 
-const FdsButtonComponent = ({ label, icon, onClick }: ButtonProps) => (
-  <button type="button" aria-label={label ?? icon} onClick={onClick}>
+// Marks disabled with aria-disabled and keeps firing onClick: the real fds-button emits its click event
+// (pointerdown) on the host even when disabled, so handlers must guard themselves
+const FdsButtonComponent = ({ label, icon, disabled, onClick }: ButtonProps) => (
+  <button type="button" aria-label={label ?? icon} aria-disabled={disabled || undefined} onClick={onClick}>
     {label}
   </button>
 )

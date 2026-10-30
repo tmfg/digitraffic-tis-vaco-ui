@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useMsal } from '@azure/msal-react'
 import { useTranslation } from 'react-i18next'
 import { FdsCardComponent } from '../fds/FdsCardComponent'
@@ -16,6 +16,7 @@ import { getHeaders, HttpClient } from '../../HttpClient'
 import { Company } from '../../types/Company'
 import { getCompanyFullName } from '../../util/company'
 import LinkedDataList from './LinkedDataList'
+import LoadSpinner from '../Common/LoadSpinner/LoadSpinner'
 
 interface ModalProps {
   close: () => void
@@ -33,6 +34,9 @@ const DeleteCompanyModal = ({ close, company, onDeleted }: ModalProps) => {
   const { instance, inProgress } = useMsal()
   const [references, setReferences] = useState<Record<string, number> | null>(null)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
+  // Set synchronously, so a second click in the same tick is ignored before the state re-renders
+  const deletingRef = useRef(false)
   const companyUrl = `/api/ui/admin/companies/${encodeURIComponent(company.businessId)}`
 
   useEffect(() => {
@@ -62,10 +66,28 @@ const DeleteCompanyModal = ({ close, company, onDeleted }: ModalProps) => {
     }
   }, [companyUrl, instance, inProgress])
 
+  // fds-button emits its click event even when disabled, so the handlers ignore calls while deleting
+  const closeUnlessDeleting = () => {
+    if (!deletingRef.current) {
+      close()
+    }
+  }
+
+  const stopDeleting = () => {
+    deletingRef.current = false
+    setDeleting(false)
+  }
+
   const deleteCompany = async () => {
+    if (deletingRef.current) {
+      return
+    }
+    deletingRef.current = true
+    setDeleting(true)
     setErrorMessage(null)
     const tokenResult = await acquireToken(instance, inProgress)
     if (!tokenResult) {
+      stopDeleting()
       return
     }
     try {
@@ -75,8 +97,10 @@ const DeleteCompanyModal = ({ close, company, onDeleted }: ModalProps) => {
       const refusalKey =
         error.response?.status === 409 ? refusalMessageKeys[error.response.data?.data ?? ''] : undefined
       setErrorMessage(refusalKey ? t(refusalKey) : error.message)
+      stopDeleting()
       return
     }
+    // On success the deleting flag stays set: the spinner and disabled buttons remain until onDeleted() closes the modal
     onDeleted()
   }
 
@@ -86,10 +110,11 @@ const DeleteCompanyModal = ({ close, company, onDeleted }: ModalProps) => {
         <FdsCardComponent elevation={FdsCardElevation.none}>
           <h4 slot="header-title">{t('admin:company:delete:title')}</h4>
           <FdsButtonComponent
-            onClick={close}
+            onClick={closeUnlessDeleting}
             variant={FdsButtonVariant.tertiary}
             icon={'x'}
             iconSize={FdsTokenSize21}
+            disabled={deleting}
             slot="header-corner"
           />
 
@@ -108,21 +133,28 @@ const DeleteCompanyModal = ({ close, company, onDeleted }: ModalProps) => {
                 <div>{errorMessage}</div>
               </FdsAlertComponent>
             )}
+            {deleting && (
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <LoadSpinner />
+              </div>
+            )}
           </div>
 
           <FdsActionSheetComponent>
             <FdsButtonComponent
-              onClick={close}
+              onClick={closeUnlessDeleting}
               slot="separated"
               icon="x"
               iconSize={FdsTokenSize2}
               variant={FdsButtonVariant.secondary}
+              disabled={deleting}
               label={t('common:cancel')}
             />
             {references && (
               <FdsButtonComponent
                 variant={FdsButtonVariant.danger}
                 iconSize={FdsTokenSize2}
+                disabled={deleting}
                 onClick={() => void deleteCompany()}
                 label={t('admin:company:delete:action')}
               />
