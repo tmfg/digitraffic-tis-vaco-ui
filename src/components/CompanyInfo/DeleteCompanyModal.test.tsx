@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { http, HttpResponse } from 'msw'
 import i18next from 'i18next'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -7,8 +7,9 @@ import { Company } from '../../types/Company'
 import DeleteCompanyModal from './DeleteCompanyModal'
 
 const msal = { instance: {}, inProgress: 'none' }
+const acquireToken = vi.hoisted(() => vi.fn())
 vi.mock('@azure/msal-react', () => ({ useMsal: () => msal }))
-vi.mock('../../hooks/auth', () => ({ acquireToken: () => Promise.resolve({ accessToken: 'token' }) }))
+vi.mock('../../hooks/auth', () => ({ acquireToken }))
 vi.mock(
   '../fds/FdsButtonComponent',
   async () => (await import('../../test/unit/mocks/fdsComponents')).fdsComponentMocks.button
@@ -35,7 +36,7 @@ const company: Company = { businessId: '2499374-6', name: 'Test company', publis
 
 const renderModal = (references: Record<string, number>) => {
   server.use(http.get(`${COMPANY_URL}/references`, () => HttpResponse.json({ data: references })))
-  render(<DeleteCompanyModal close={close} company={company} onDeleted={onDeleted} />)
+  return render(<DeleteCompanyModal close={close} company={company} onDeleted={onDeleted} />)
 }
 
 const close = vi.fn()
@@ -45,10 +46,31 @@ const findDeleteButton = () => screen.findByRole('button', { name: i18next.t('ad
 
 const confirmDelete = async () => fireEvent.click(await findDeleteButton())
 
+const querySpinner = (container: HTMLElement) => container.querySelector('svg.spinner')
+
+// A delete request that stays pending until release() is called, then succeeds
+const holdDeleteRequest = () => {
+  let release = () => {}
+  const gate = new Promise<void>((resolve) => {
+    release = resolve
+  })
+  let requestCount = 0
+  server.use(
+    http.delete(COMPANY_URL, async () => {
+      requestCount++
+      await gate
+      return new HttpResponse(null, { status: 204 })
+    })
+  )
+  return { release, requestCount: () => requestCount }
+}
+
 describe('DeleteCompanyModal', () => {
   beforeEach(() => {
     close.mockReset()
     onDeleted.mockReset()
+    acquireToken.mockReset()
+    acquireToken.mockResolvedValue({ accessToken: 'token' })
   })
 
   it('names the company in the confirmation text', async () => {
@@ -111,12 +133,117 @@ describe('DeleteCompanyModal', () => {
     expect(onDeleted).not.toHaveBeenCalled()
   })
 
+  it('recovers when the access token cannot be acquired', async () => {
+    const { container } = renderModal({})
+    const deleteButton = await findDeleteButton()
+    acquireToken.mockRejectedValueOnce(new Error('token failed'))
+
+    fireEvent.click(deleteButton)
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('token failed')
+    expect(querySpinner(container)).not.toBeInTheDocument()
+    expect(await findDeleteButton()).not.toHaveAttribute('aria-disabled')
+    expect(onDeleted).not.toHaveBeenCalled()
+  })
+
   it('shows the error message when the linked data cannot be loaded', async () => {
     server.use(http.get(`${COMPANY_URL}/references`, () => HttpResponse.json({}, { status: 500 })))
     render(<DeleteCompanyModal close={close} company={company} onDeleted={onDeleted} />)
 
     expect(await screen.findByRole('alert')).toHaveTextContent('500')
     expect(screen.queryByRole('button', { name: i18next.t('admin:company:delete:action') })).not.toBeInTheDocument()
+  })
+
+  it('shows no spinner before the delete is confirmed', async () => {
+    const { container } = renderModal({ entries: 3 })
+
+    expect(await findDeleteButton()).not.toHaveAttribute('aria-disabled')
+    expect(querySpinner(container)).not.toBeInTheDocument()
+  })
+
+  it('shows a spinner and disables the delete button while the request is pending', async () => {
+    const { container } = renderModal({})
+    const request = holdDeleteRequest()
+
+    await confirmDelete()
+
+    await waitFor(() => expect(querySpinner(container)).toBeInTheDocument())
+    expect(await findDeleteButton()).toHaveAttribute('aria-disabled', 'true')
+    request.release()
+    await waitFor(() => expect(onDeleted).toHaveBeenCalledOnce())
+  })
+
+  it('does not send a second request when delete is clicked again while pending', async () => {
+    renderModal({})
+    const request = holdDeleteRequest()
+    const deleteButton = await findDeleteButton()
+
+    fireEvent.click(deleteButton)
+    await waitFor(() => expect(request.requestCount()).toBe(1))
+    fireEvent.click(deleteButton)
+    request.release()
+
+    await waitFor(() => expect(onDeleted).toHaveBeenCalledOnce())
+    expect(request.requestCount()).toBe(1)
+  })
+
+  it('sends one request when delete is clicked twice before the component re-renders', async () => {
+    renderModal({})
+    const request = holdDeleteRequest()
+    const deleteButton = await findDeleteButton()
+
+    act(() => {
+      fireEvent.click(deleteButton)
+      fireEvent.click(deleteButton)
+    })
+    request.release()
+
+    await waitFor(() => expect(onDeleted).toHaveBeenCalledOnce())
+    expect(request.requestCount()).toBe(1)
+  })
+
+  it.each([
+    ['cancel', () => screen.getByRole('button', { name: i18next.t('common:cancel') })],
+    ['close', () => screen.getByRole('button', { name: 'x' })]
+  ])('ignores %s while the request is pending', async (_, getButton) => {
+    const { container } = renderModal({})
+    const request = holdDeleteRequest()
+    await confirmDelete()
+    await waitFor(() => expect(querySpinner(container)).toBeInTheDocument())
+
+    fireEvent.click(getButton())
+
+    expect(close).not.toHaveBeenCalled()
+    request.release()
+    await waitFor(() => expect(onDeleted).toHaveBeenCalledOnce())
+  })
+
+  it.each([
+    ['a 409 refusal', 409, { data: 'PROTECTED' }, 'admin:company:delete:protected'],
+    ['another error', 500, {}, '500']
+  ])('stops the spinner and allows a retry after %s', async (_, status, body, expectedText) => {
+    const { container } = renderModal({})
+    server.use(http.delete(COMPANY_URL, () => HttpResponse.json(body, { status })))
+
+    await confirmDelete()
+
+    expect(await screen.findByRole('alert')).toHaveTextContent(i18next.t(expectedText))
+    expect(querySpinner(container)).not.toBeInTheDocument()
+    expect(await findDeleteButton()).not.toHaveAttribute('aria-disabled')
+
+    fireEvent.click(screen.getByRole('button', { name: i18next.t('common:cancel') }))
+    expect(close).toHaveBeenCalledOnce()
+
+    let retried = false
+    server.use(
+      http.delete(COMPANY_URL, () => {
+        retried = true
+        return new HttpResponse(null, { status: 204 })
+      })
+    )
+    await confirmDelete()
+    await waitFor(() => expect(onDeleted).toHaveBeenCalledOnce())
+    expect(retried).toBe(true)
   })
 
   it('closes when the user cancels', async () => {
