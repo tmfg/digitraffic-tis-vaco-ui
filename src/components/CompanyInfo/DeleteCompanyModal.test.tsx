@@ -7,8 +7,9 @@ import { Company } from '../../types/Company'
 import DeleteCompanyModal from './DeleteCompanyModal'
 
 const msal = { instance: {}, inProgress: 'none' }
+const acquireToken = vi.hoisted(() => vi.fn())
 vi.mock('@azure/msal-react', () => ({ useMsal: () => msal }))
-vi.mock('../../hooks/auth', () => ({ acquireToken: () => Promise.resolve({ accessToken: 'token' }) }))
+vi.mock('../../hooks/auth', () => ({ acquireToken }))
 vi.mock(
   '../fds/FdsButtonComponent',
   async () => (await import('../../test/unit/mocks/fdsComponents')).fdsComponentMocks.button
@@ -68,6 +69,8 @@ describe('DeleteCompanyModal', () => {
   beforeEach(() => {
     close.mockReset()
     onDeleted.mockReset()
+    acquireToken.mockReset()
+    acquireToken.mockResolvedValue({ accessToken: 'token' })
   })
 
   it('names the company in the confirmation text', async () => {
@@ -127,6 +130,19 @@ describe('DeleteCompanyModal', () => {
     await confirmDelete()
 
     expect(await screen.findByRole('alert')).toHaveTextContent('500')
+    expect(onDeleted).not.toHaveBeenCalled()
+  })
+
+  it('recovers when the access token cannot be acquired', async () => {
+    const { container } = renderModal({})
+    const deleteButton = await findDeleteButton()
+    acquireToken.mockRejectedValueOnce(new Error('token failed'))
+
+    fireEvent.click(deleteButton)
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('token failed')
+    expect(querySpinner(container)).not.toBeInTheDocument()
+    expect(await findDeleteButton()).not.toHaveAttribute('aria-disabled')
     expect(onDeleted).not.toHaveBeenCalled()
   })
 

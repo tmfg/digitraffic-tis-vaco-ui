@@ -85,12 +85,12 @@ const DeleteCompanyModal = ({ close, company, onDeleted }: ModalProps) => {
     deletingRef.current = true
     setDeleting(true)
     setErrorMessage(null)
-    const tokenResult = await acquireToken(instance, inProgress)
-    if (!tokenResult) {
-      stopDeleting()
-      return
-    }
     try {
+      const tokenResult = await acquireToken(instance, inProgress)
+      if (!tokenResult) {
+        stopDeleting()
+        return
+      }
       await HttpClient.delete(companyUrl, getHeaders(tokenResult.accessToken))
     } catch (e) {
       const error = e as AxiosError<{ data?: string | null }>
