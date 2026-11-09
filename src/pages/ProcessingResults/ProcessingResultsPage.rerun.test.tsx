@@ -118,4 +118,18 @@ describe('Processing Results page rerun button', () => {
     await waitFor(() => expect(requests).toHaveLength(1))
     expect(requests[0].body).toBe('')
   })
+
+  it('closes the dialog when the rerun request fails', async () => {
+    server.use(
+      http.post(RERUN_URL, () => HttpResponse.json({ data: { publicId: 'new-entry-id', sendNotifications: false }, links: {} }))
+    )
+    await renderPage(['vaco.admin'])
+    fireEvent.click(screen.getByRole('button', { name: rerunButtonName() }))
+    await screen.findByText('submission modal')
+
+    server.use(http.post(RERUN_URL, () => new HttpResponse(null, { status: 500 })))
+    fireEvent.click(screen.getByRole('button', { name: rerunButtonName() }))
+
+    await waitFor(() => expect(screen.queryByText('submission modal')).toBeNull())
+  })
 })

@@ -33,12 +33,14 @@ export const useCompanyEntriesFetch = (accessToken: string | null, businessId: s
 
 export const postRerunEntry = (publicId: string, accessToken: string | null, setIsModalOpen: (status: boolean) => void, setEntryResource: (entry: EntryResource) => void) => {
   if (accessToken) {
-    HttpClient.post('/api/ui/admin/entries/' + publicId + '/rerun', undefined, getHeaders(accessToken)).then(
-      (response) => {
+    HttpClient.post('/api/ui/admin/entries/' + publicId + '/rerun', undefined, getHeaders(accessToken))
+      .then((response) => {
         const data = response.data as EntryResource
         setEntryResource(data)
-      }
-    )
+      })
+      .catch(() => {
+        setIsModalOpen(false)
+      })
     setIsModalOpen(true)
   }
 }
