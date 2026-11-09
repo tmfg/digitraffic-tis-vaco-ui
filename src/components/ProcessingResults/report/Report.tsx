@@ -6,14 +6,14 @@ import ConversionReport from './ConversionReport.tsx'
 import { useContext } from 'react'
 import VacoBadge from '../../Common/VacoBadge/VacoBadge'
 import { EnvironmentContext } from '../../../EnvironmentProvider'
-import { Entry } from '../../../types/EntryResource'
+import { ResultsPageEntry } from '../../../types/EntryStateResource'
 import InternalTaskReport from './InternalTaskReport'
 import { TaskContext } from '../../../pages/ProcessingResults/ProcessingResultsPage'
 import { Status } from '../../../types/Task'
 import { useTranslation } from 'react-i18next'
 
 interface ReportProps {
-  entry: Entry
+  entry: ResultsPageEntry
   report: TaskReport
 }
 

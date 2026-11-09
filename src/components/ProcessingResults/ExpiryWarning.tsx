@@ -1,15 +1,15 @@
-import { Entry } from '../../types/EntryResource'
+import { ResultsPageEntry } from '../../types/EntryStateResource'
 import { FdsAlertComponent } from '../fds/FdsAlertComponent'
 import { FdsAlertVariant } from '../../../coreui-components/src/fds-alert'
 import { useTranslation } from 'react-i18next'
 
-const isEntryExpired = (entry: Entry) => {
+const isEntryExpired = (entry: ResultsPageEntry) => {
   const sixDaysAgo = new Date(new Date().setDate(new Date().getDate() - 6))
   return new Date(entry.completed || entry.created) < sixDaysAgo
 }
 
 interface ExpiryWarningProps {
-  entry: Entry
+  entry: ResultsPageEntry
   hasPackages: boolean | undefined;
 }
 

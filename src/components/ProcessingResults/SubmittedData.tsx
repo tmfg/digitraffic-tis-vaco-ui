@@ -1,16 +1,15 @@
 import '../Common/Section/_section.scss'
 import KeyValuePairs, { KeyValuePairItem, KeyValuePairVariant } from '../Common/KeyValuePairs/KeyValuePairs'
 import { useTranslation } from 'react-i18next'
-import { Entry } from '../../types/EntryResource'
+import { ResultsPageCredentials, ResultsPageEntry } from '../../types/EntryStateResource'
 import { formatDate } from '../../util/date'
 import { PublicValidationTest } from '../../types/PublicValidationTest'
 import ExpiryWarning from './ExpiryWarning'
-import { Credential } from '../../types/Credential.ts'
 
 interface SubmittedDataProps {
-  entry: Entry
+  entry: ResultsPageEntry
   company: string
-  credentials?: Credential | undefined
+  credentials?: ResultsPageCredentials | null
   hasPackages: boolean | undefined
 }
 
