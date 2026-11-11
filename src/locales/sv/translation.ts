@@ -122,7 +122,13 @@ export const sv = {
             entur: 'NeTEx to GTFS Converter by Entur',
             stopsOnly: 'Konvertera endast hållplatser'
           },
-          'gbfs.entur': 'GBFS Validator by Entur'
+          'gbfs.entur': 'GBFS Validator by Entur',
+          ssim: {
+            fintraffic: 'SSIM Validator by Fintraffic'
+          },
+          ssim2netex: {
+            fintraffic: 'SSIM to NeTEx converter by Fintraffic'
+          }
         },
         noFormatsFound: 'Inga dataformat och regler hittades',
         netex: {
@@ -235,8 +241,15 @@ export const sv = {
         url: 'URL',
         operators: 'Inkluderade byråer',
         lines: 'Linjer',
-        routesCount: 'Routes',
-        transportMode: 'Transport mode'
+        routesCount: 'Rutter',
+        transportMode: 'Transportmedel',
+        airlines: 'Flygbolag',
+        airports: 'Flygplatser',
+        periodFrom: 'Från',
+        periodTo: 'Tills',
+        flightCount: 'Antal flygningar',
+        inboundFlightsCount: 'Antal inkommande flygningar',
+        outboundFlightsCount: 'Antal utgående flygningar'
       },
       DownloadResponse: {
         not_modified: 'Innehållet har inte ändrats.'
@@ -261,7 +274,7 @@ export const sv = {
         dateCompleted: 'Slutförd',
         status: 'Status'
       },
-      noDataFound: 'Inga data hittades',
+      noDataFound: 'Inga data `hittades',
       noResultsFound: 'Inga resultat hittades'
     }
   },
@@ -422,9 +435,10 @@ export const sv = {
       credentials: {
         section: {
           title: 'Identifieringsuppgifter',
-          description: 'Identifieringsuppgifter kan vid behov sparas för varje källa individuellt, inklusive användarnamn och lösenord (HTTP basic), som kan användas för att öppna källan för validering. Identifieringsuppgifterna för att öppna källan bör begäras från materialets ägare.' +
+          description:
+            'Identifieringsuppgifter kan vid behov sparas för varje källa individuellt, inklusive användarnamn och lösenord (HTTP basic), som kan användas för att öppna källan för validering. Identifieringsuppgifterna för att öppna källan bör begäras från materialets ägare.' +
             ' URL-mönster används för att automatiskt ställa in identifieringsuppgifter om inmatningens URL matchar identifieringsuppgifternas URL-mönster. URL-mönstret är ett reguljärt uttryck. ' +
-            ' Använd detta reguljära uttryck som grund för att definiera ditt eget: (?<scheme>https?)://(?<domain>mydomain.fi+)(?<path>/[^?])?(\\?(?<params>.))?',
+            ' Använd detta reguljära uttryck som grund för att definiera ditt eget: (?<scheme>https?)://(?<domain>mydomain.fi+)(?<path>/[^?])?(\\?(?<params>.))?'
         },
         actions: {
           create: 'Skapa ny identifieringsuppgifter',
