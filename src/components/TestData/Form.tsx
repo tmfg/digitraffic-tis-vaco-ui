@@ -1,45 +1,41 @@
 import './_form.scss'
 import { FdsAlertComponent } from '../fds/FdsAlertComponent'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { EntryResource } from '../../types/EntryResource'
 import { useMsal } from '@azure/msal-react'
 import { useTranslation } from 'react-i18next'
-import { useAcquireToken } from '../../hooks/auth'
+import { useOptionalAccessToken } from '../../hooks/optionalAccessToken'
 import { FdsButtonComponent } from '../fds/FdsButtonComponent'
 import SubmissionModal from './SubmissionModal/SubmissionModal'
 import { useNavigate } from 'react-router-dom'
 import { submitData } from './helpers'
-import { useCompanyContextsFetch, useCompanyRulesFetch, useRulesForFormat, useUserEmail } from './hooks'
+import { useCompanyRulesFetch, useRulesForFormat } from './hooks'
 import BasicInformation from './BasicInformation/BasicInformation'
 import Rules from './Rules/Rules'
 import { FormError, FormData } from './types'
-import { useCredentialsApi } from '../../pages/AdminTools/Credentials/hooks.ts'
+import { PublicValidationTest } from '../../types/PublicValidationTest'
 
 const Form = () => {
   const navigate = useNavigate()
   const { t } = useTranslation()
-  const [accessToken] = useAcquireToken()
+  const [accessToken, ready] = useOptionalAccessToken()
   const { instance, inProgress } = useMsal()
-  const [formData, setFormData] = useState<FormData>({ sendNotifications: false })
+  // Everyone submits to the public test company. The server ignores any other company, context, credentials or
+  // notification, so the form does not ask for them.
+  const [formData, setFormData] = useState<FormData>({
+    sendNotifications: false,
+    businessId: PublicValidationTest.businessId
+  })
   const [formErrors, setFormErrors] = useState<FormError>({})
   const [formats, validationRules, conversionRules, isFetchInProgress] = useCompanyRulesFetch(
-    formData.businessId,
-    accessToken
+    PublicValidationTest.businessId,
+    accessToken,
+    ready
   )
-  const [contexts] = useCompanyContextsFetch(formData.businessId, accessToken)
-  const [credentials, _reloadCredentials, _deleteCredentials, fetchCredentials] = useCredentialsApi()
   const [validationRulesForSelectedFormat] = useRulesForFormat(formData.format, validationRules)
   const [conversionRulesForSelectedFormat] = useRulesForFormat(formData.format, conversionRules)
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const [email] = useUserEmail(accessToken)
-
-
-  useEffect(() => {
-    if (accessToken && formData.businessId) {
-      fetchCredentials(formData.businessId, accessToken)
-    }
-  }, [formData.businessId, accessToken])
 
   const closeModal = () => {
     setIsModalOpen(false)
@@ -62,10 +58,9 @@ const Form = () => {
       {entryResource && isModalOpen && (
         <SubmissionModal
           publicId={entryResource.data.publicId}
-          email={email}
           close={closeModal}
           proceed={navigateToProcessingResults}
-          sendNotifications={entryResource.data.sendNotifications}
+          sendNotifications={false}
         />
       )}
       <h3 className={'form-title'}>{t('services:testData:form:title')}</h3>
@@ -75,9 +70,7 @@ const Form = () => {
           formErrors={formErrors}
           formStateUpdateCallback={updateFormState}
           formats={formats}
-          contexts={contexts}
           isFetchInProgress={isFetchInProgress}
-          credentials={credentials}
         />
 
         <Rules
@@ -113,8 +106,7 @@ const Form = () => {
                 setEntryResource,
                 setIsModalOpen,
                 t,
-                (validationRulesForSelectedFormat || []).concat(conversionRulesForSelectedFormat || []),
-                email
+                (validationRulesForSelectedFormat || []).concat(conversionRulesForSelectedFormat || [])
               ).catch(
                 (err) => console.error('Data submission error', err)
                 // TODO: show some alert

@@ -35,8 +35,9 @@ describe('Processing Results Page', () => {
     })
 
     await msalTester.waitForRedirect()
-    expect(screen.getByText(i18next.t('error:authRequired'))).toBeInTheDocument()
-    expect(screen.queryByText(i18next.t('services:processingResults:header'))).toBeNull()
+    // The results page is open to visitors
+    expect(screen.getByText(i18next.t('services:processingResults:header'))).toBeInTheDocument()
+    expect(screen.queryByText(i18next.t('error:authRequired'))).toBeNull()
   })
 
   it('Processing Results page renders correctly when user got logged in', async () => {

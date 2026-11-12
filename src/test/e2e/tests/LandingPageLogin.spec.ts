@@ -22,15 +22,13 @@ test.describe(`Home Page, with authentication, admin rights`, () => {
     await expect(page.locator(`li >> text=${i18n.t('vaco:user')}`)).toBeVisible()
     await expect(page.locator(`li >> text=${i18n.t('vaco:logout')}`)).toBeVisible()
     await page.locator(`span >> text=${i18n.t('vaco:services')}`).click()
-    await expect(page.locator(`li >> text=${i18n.t('vaco:myData')}`)).toBeVisible()
+    await expect(page.locator(`li >> text=${i18n.t('admin:dataDelivery:header')}`)).toBeVisible()
     await expect(page.locator(`li >> text=${i18n.t('vaco:testData')}`)).toBeVisible()
 
     await page.locator(`span >> text=${i18n.t('admin:tools')}`).click()
-    await expect(page.locator(`li >> text=${i18n.t('admin:dataDelivery:header')}`)).toBeVisible()
     await expect(page.locator(`li >> text=${i18n.t('admin:companies:header')}`)).toBeVisible()
     await expect(page.locator(`li >> text=${i18n.t('admin:featureFlags:header')}`)).toBeVisible()
 
-    await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('home:shortcut:myData:label')}`)).toBeVisible()
     await expect(page.locator(`.shortcut-card__label >> text=${i18n.t('home:shortcut:testData:label')}`)).toBeVisible()
     await expect(
       page.locator(`.shortcut-card__label >> text=${i18n.t('home:shortcut:dataDelivery:label')}`)

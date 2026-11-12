@@ -22,10 +22,6 @@ export const validateFormData = (
     errors.format = translate('services:testData.form.formatRequired')
   }
 
-  if (!formData.businessId) {
-    errors.businessId = translate('services:testData.form.companyRequired')
-  }
-
   if (formData.format && selectedRules.length === 0) {
     errors.rulesRequired = translate('services:testData.form.rulesRequired')
   }

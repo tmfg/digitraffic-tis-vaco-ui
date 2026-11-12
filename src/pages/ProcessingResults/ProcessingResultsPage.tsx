@@ -1,9 +1,7 @@
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { HttpClient } from '../../HttpClient'
-import { useAcquireToken } from '../../hooks/auth'
-import { useIsAuthenticated } from '@azure/msal-react'
-import AuthRequiredPage from '../Error/AuthRequiredPage'
+import { getHeaders, HttpClient } from '../../HttpClient'
+import { useOptionalAccessToken } from '../../hooks/optionalAccessToken'
 import { Trans, useTranslation } from 'react-i18next'
 import Section from '../../components/Common/Section/Section'
 import { EntryStateResource, ResultsPageCredentials, ResultsPageTask } from '../../types/EntryStateResource'
@@ -13,7 +11,6 @@ import Summary from '../../components/ProcessingResults/summary/Summary'
 import { FdsButtonVariant } from '../../../coreui-components/src/fds-button'
 import { FdsTokenSize2 } from '../../../coreui-css/lib'
 import { AxiosResponse } from 'axios'
-import { useProcessingResultsPageState } from '../../components/ProcessingResults/hooks'
 import { EnvironmentContext } from '../../EnvironmentProvider.tsx'
 import VacoBadge from '../../components/Common/VacoBadge/VacoBadge.tsx'
 import LoadSpinner, { SpinnerVariant } from '../../components/Common/LoadSpinner/LoadSpinner'
@@ -39,17 +36,12 @@ const ProcessingResultsPage = () => {
   const bootstrap = useContext(EnvironmentContext)
   const navigate = useNavigate()
   const { entryId } = useParams<PageParams>()
-  const [searchParams, _] = useSearchParams()
-  const magic = searchParams.get('magic')
   const [entryState, setEntryState] = useState<EntryStateResource | null>(null)
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
   const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
-  const isAuthenticated = useIsAuthenticated()
   const { t } = useTranslation()
-  const [accessToken] = useAcquireToken()
-  const [magicLinkToken] = useProcessingResultsPageState(entryId, accessToken)
+  const [accessToken, ready] = useOptionalAccessToken()
   const [processingProgress, setProcessingProgress] = useState<number>(100)
-  const [showMagicLinkGotCopied, setShowMagicLinkGotCopied] = useState<boolean>(false)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [email] = useUserEmail(accessToken)
   const [credentials, setCredentials] = useState<ResultsPageCredentials | null | undefined>(undefined)
@@ -85,27 +77,14 @@ const ProcessingResultsPage = () => {
 
   // TODO: this will move to hooks.ts once stable version of React supports useEffectEvent
   useEffect(() => {
-    if (magic || accessToken) {
-      const config = {
-        params: { magic },
-        headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {}
-      }
+    if (ready) {
       setIsFetchInProgress(true)
-      HttpClient.get('/api/ui/entries/' + entryId + '/state', config).then(handleEntryStateResponse, handleError)
+      HttpClient.get('/api/ui/entries/' + entryId + '/state', getHeaders(accessToken)).then(
+        handleEntryStateResponse,
+        handleError
+      )
     }
-  }, [accessToken, entryId, magic])
-
-  const copyMagicLinkToClipboard = async () => {
-    if (!magicLinkToken) {
-      return
-    }
-    const url = new URL(window.location.href)
-    url.searchParams.set('magic', magicLinkToken)
-    await navigator.clipboard.writeText(url.toString()).then(() => {
-    })
-    setShowMagicLinkGotCopied(true)
-    setTimeout(() => setShowMagicLinkGotCopied(false), 3000)
-  }
+  }, [accessToken, ready, entryId])
 
   const rerunEntry = (publicId: string, accessToken: string | null, setIsModalOpen: (status: boolean) => void, setEntryResource: (entry: EntryResource) => void) => {
     postRerunEntry(publicId, accessToken, setIsModalOpen, setEntryResource)
@@ -121,59 +100,43 @@ const ProcessingResultsPage = () => {
 
   return (
     <div className={'page-content'}>
-      {searchParams.has('magic') || isAuthenticated ? (
-        <>
-          {entryResource && isModalOpen && (
-            <SubmissionModal
-              publicId={entryResource.data.publicId}
-              email={email}
-              close={closeModal}
-              proceed={navigateToProcessingResults}
-              sendNotifications={entryResource.data.sendNotifications}
-            />
-          )}
-          <div style={{ display: 'flex', marginBottom: 0, alignItems: 'center', justifyContent: 'space-between' }}>
-            <h1 style={{ marginRight: '3rem' }}>
-              {t('services:processingResults:header')}
-              {bootstrap && entryState && (
-                <VacoBadge
-                  style={{ width: '120px', marginLeft: '3rem' }}
-                  bootstrap={bootstrap}
-                  publicId={entryState.data.entry.data.publicId}
+      <>
+        {entryResource && isModalOpen && (
+          <SubmissionModal
+            publicId={entryResource.data.publicId}
+            email={email}
+            close={closeModal}
+            proceed={navigateToProcessingResults}
+            sendNotifications={entryResource.data.sendNotifications}
+          />
+        )}
+        <div style={{ display: 'flex', marginBottom: 0, alignItems: 'center', justifyContent: 'space-between' }}>
+          <h1 style={{ marginRight: '3rem' }}>
+            {t('services:processingResults:header')}
+            {bootstrap && entryState && (
+              <VacoBadge
+                style={{ width: '120px', marginLeft: '3rem' }}
+                bootstrap={bootstrap}
+                publicId={entryState.data.entry.data.publicId}
+              />
+            )}
+          </h1>
+          <span className={'icon'}>
+            <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'flex-start' }}>
+              {entryState && hasAdminRole && (
+                <FdsButtonComponent
+                  onClick={() =>
+                    rerunEntry(entryState.data.entry.data.publicId, accessToken, setIsModalOpen, setEntryResource)
+                  }
+                  icon="refresh-cw"
+                  iconSize={FdsTokenSize2}
+                  variant={FdsButtonVariant.secondary}
+                  label={t('services:processingResults.rerun')}
                 />
               )}
-            </h1>
-            <span className={'icon'}>
-              <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'flex-start'}}>
-                {entryState && hasAdminRole && (
-                 <FdsButtonComponent
-                   onClick={() => rerunEntry(entryState.data.entry.data.publicId, accessToken, setIsModalOpen, setEntryResource)}
-                   icon="refresh-cw"
-                   iconSize={FdsTokenSize2}
-                   variant={FdsButtonVariant.secondary}
-                   label={t('services:processingResults.rerun')}
-                 />
-                )}
-              {magicLinkToken && (
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                  <FdsButtonComponent
-                    onClick={() => copyMagicLinkToClipboard()}
-                    slot="separated"
-                    icon="wand-2"
-                    iconSize={FdsTokenSize2}
-                    variant={FdsButtonVariant.secondary}
-                    label={t('services:processingResults:magicLink')}
-                  />
-                  {showMagicLinkGotCopied && (
-                    <div style={{ marginTop: '12px', marginRight: '12px', color: '#1777F8', fontWeight: 700, marginLeft: '3px' }}>
-                      {t('common:copied')}
-                    </div>
-                  )}
-                </div>
-              )}
-                 </div>
-            </span>
-          </div>
+            </div>
+          </span>
+        </div>
           {isFetchInProgress && <LoadSpinner variant={SpinnerVariant.padded} />}
           {entryState && (
             <div>
@@ -223,9 +186,6 @@ const ProcessingResultsPage = () => {
             </div>
           )}
         </>
-      ) : (
-        <AuthRequiredPage />
-      )}
     </div>
   )
 }

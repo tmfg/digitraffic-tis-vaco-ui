@@ -4,7 +4,6 @@ import { Shortcut } from '../../components/Shortcut/types'
 import ShortcutPanel from '../../components/Shortcut/ShortcutPanel'
 import LoginSvg from '../../assets/svg/login.svg'
 import NewUserSvg from '../../assets/svg/new_user.svg'
-import MyDataSvg from '../../assets/svg/my_data.svg'
 import TestDataSvg from '../../assets/svg/test_data.svg'
 import DataDeliverySvg from '../../assets/svg/book_open_check.svg'
 import CompaniesSvg from '../../assets/svg/building.svg'
@@ -44,12 +43,12 @@ const HomePage = () => {
     }
   ]
 
-  const userShortcuts: Shortcut[] = [
+  const publicShortcuts: Shortcut[] = [
     {
-      label: t('home:shortcut:myData:label'),
+      label: t('home:shortcut:dataDelivery:label'),
       to: '/data',
-      icon: <MyDataSvg />,
-      description: t('home:shortcut:myData:intro')
+      icon: <DataDeliverySvg />,
+      description: t('home:shortcut:dataDelivery:intro')
     },
     {
       label: t('home:shortcut:testData:label'),
@@ -60,12 +59,6 @@ const HomePage = () => {
   ]
 
   const adminShortcuts: Shortcut[] = [
-    {
-      label: t('home:shortcut:dataDelivery:label'),
-      to: '/admin/data-delivery',
-      icon: <DataDeliverySvg />,
-      description: t('home:shortcut:dataDelivery:intro')
-    } ,
     {
       label: t('home:shortcut:companies:label'),
       to: '/admin/companies',
@@ -92,7 +85,7 @@ const HomePage = () => {
       </div>
 
       <h2>{t('home:shortcuts')}</h2>
-      <ShortcutPanel items={isAuthenticated ? userShortcuts : landingShortcuts} />
+      <ShortcutPanel items={isAuthenticated ? publicShortcuts : [...landingShortcuts, ...publicShortcuts]} />
       {isAuthenticated && (hasAdminRole || hasCompanyAdminRole) && <ShortcutPanel items={adminShortcuts} />}
     </div>
   )

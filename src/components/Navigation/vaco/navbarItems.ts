@@ -55,7 +55,7 @@ export const myServicesItem = (t: TFunction<'translation', undefined>): FdsNavig
     value: '',
     dropDownItems: [
       {
-        label: t('vaco:myData'),
+        label: t('admin:dataDelivery:header'),
         value: '/data'
       },
       {
@@ -71,10 +71,6 @@ export const adminToolsItem = (t: TFunction<'translation', undefined>): FdsNavig
     label: t('admin:tools'),
     value: '',
     dropDownItems: [
-      {
-        label: t('admin:dataDelivery:header'),
-        value: '/admin/data-delivery'
-      },
       {
         label: t('admin:companies:header'),
         value: '/admin/companies'
