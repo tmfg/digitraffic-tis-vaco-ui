@@ -7,18 +7,3 @@
   margin-top: 3rem;
   margin-bottom: 2rem;
 }
-
-.searchEntries > form {
-  display: flex;
-  width: 33rem;
-
-  .search-input {
-    align-self: center;
-    margin-right: 1.6rem;
-    width: 80%;
-  }
-
-  .search-button {
-    align-self: end;
-  }
-}

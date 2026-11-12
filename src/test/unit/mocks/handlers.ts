@@ -58,29 +58,12 @@ export const httpHandlers = [
               name: 'Automated publish of package',
               format: 'gtfs',
               url: 'https://test.fi/473/all.zip',
-              businessId: '1764646-5',
               etag: 'W/"17319-1706036419904',
-              metadata: {},
               tasks: [],
-              validations: [
-                {
-                  name: 'gtfs.canonical.v4_1_0',
-                  config: null
-                }
-              ],
-              conversions: [
-                {
-                  name: 'gtfs2netex.fintraffic.v1_0_0',
-                  config: null
-                }
-              ],
-              findings: null,
-              notifications: [],
+              validations: [{ name: 'gtfs.canonical.v4_1_0' }],
+              conversions: [{ name: 'gtfs2netex.fintraffic.v1_0_0' }],
               created: '2024-01-28T22:16:41.73',
-              started: '2024-01-28T22:16:41.855',
-              updated: '2024-01-28T22:17:43.762',
-              completed: '2024-01-28T22:17:43.762',
-              status: 'errors'
+              completed: '2024-01-28T22:17:43.762'
             },
             error: null,
             links: {

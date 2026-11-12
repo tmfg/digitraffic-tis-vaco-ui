@@ -6,7 +6,7 @@ import { useIsAuthenticated } from '@azure/msal-react'
 import AuthRequiredPage from '../Error/AuthRequiredPage'
 import { Trans, useTranslation } from 'react-i18next'
 import Section from '../../components/Common/Section/Section'
-import { EntryStateResource } from '../../types/EntryStateResource'
+import { EntryStateResource, ResultsPageCredentials, ResultsPageTask } from '../../types/EntryStateResource'
 import SubmittedData from '../../components/ProcessingResults/SubmittedData'
 import { FdsButtonComponent } from '../../components/fds/FdsButtonComponent'
 import Summary from '../../components/ProcessingResults/summary/Summary'
@@ -18,14 +18,10 @@ import { EnvironmentContext } from '../../EnvironmentProvider.tsx'
 import VacoBadge from '../../components/Common/VacoBadge/VacoBadge.tsx'
 import LoadSpinner, { SpinnerVariant } from '../../components/Common/LoadSpinner/LoadSpinner'
 import Report from '../../components/ProcessingResults/report/Report.tsx'
-import { Task } from '../../types/Task'
 import { postRerunEntry } from '../AdminTools/CompanyEntries/hooks.ts'
-import { AppContext, AppContextType } from '../../AppContextProvider.tsx'
-import { Company } from '../../types/Company.ts'
 import SubmissionModal from '../../components/TestData/SubmissionModal/SubmissionModal.tsx'
 import { useUserEmail } from '../../components/TestData/hooks.ts'
 import { EntryResource } from '../../types/EntryResource.ts'
-import { Credential } from '../../types/Credential.ts'
 import { useAdminRightsCheck } from '../AdminTools/hooks.ts'
 
 //const isReportContentAvailable = (reports: RuleReport[]) => {
@@ -37,7 +33,7 @@ type PageParams = {
   entryId: string
 }
 
-export const TaskContext = createContext<Task | undefined>(undefined)
+export const TaskContext = createContext<ResultsPageTask | undefined>(undefined)
 
 const ProcessingResultsPage = () => {
   const bootstrap = useContext(EnvironmentContext)
@@ -54,22 +50,10 @@ const ProcessingResultsPage = () => {
   const [magicLinkToken] = useProcessingResultsPageState(entryId, accessToken)
   const [processingProgress, setProcessingProgress] = useState<number>(100)
   const [showMagicLinkGotCopied, setShowMagicLinkGotCopied] = useState<boolean>(false)
-  const appContext: AppContextType = useContext(AppContext)
-  const [userCompanies, setUserCompanies] = useState<Company[] | undefined>(undefined)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [email] = useUserEmail(accessToken)
-  const [credentials, setCredentials] = useState<Credential| undefined>(undefined)
+  const [credentials, setCredentials] = useState<ResultsPageCredentials | null | undefined>(undefined)
   const [hasAdminRole] = useAdminRightsCheck()
-
-  useEffect(() => {
-    if (appContext?.companies) {
-      setUserCompanies(appContext.companies)
-    }
-  }, [appContext])
-
-  const hasRightToRerun = (businessId: string | undefined) => {
-    return userCompanies?.map((c) => c.businessId).includes(businessId as string)
-  }
 
   const closeModal = () => {
     setIsModalOpen(false)
@@ -116,15 +100,15 @@ const ProcessingResultsPage = () => {
       return
     }
     const url = new URL(window.location.href)
-    url.searchParams.append('magic', magicLinkToken)
+    url.searchParams.set('magic', magicLinkToken)
     await navigator.clipboard.writeText(url.toString()).then(() => {
     })
     setShowMagicLinkGotCopied(true)
     setTimeout(() => setShowMagicLinkGotCopied(false), 3000)
   }
 
-  const rerunEntry = (entryState: EntryStateResource | null, accessToken: string | null, setIsModalOpen: (status: boolean) => void, setEntryResource: (entry: EntryResource) => void) => {
-    postRerunEntry(entryState?.data.entry, accessToken, setIsModalOpen, setEntryResource)
+  const rerunEntry = (publicId: string, accessToken: string | null, setIsModalOpen: (status: boolean) => void, setEntryResource: (entry: EntryResource) => void) => {
+    postRerunEntry(publicId, accessToken, setIsModalOpen, setEntryResource)
   }
 
   const hasPackages= useMemo(() => {
@@ -161,9 +145,9 @@ const ProcessingResultsPage = () => {
             </h1>
             <span className={'icon'}>
               <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'flex-start'}}>
-                {(hasRightToRerun(entryState?.data?.entry?.data?.businessId) || hasAdminRole) && (
+                {entryState && hasAdminRole && (
                  <FdsButtonComponent
-                   onClick={() => rerunEntry(entryState, accessToken, setIsModalOpen, setEntryResource)}
+                   onClick={() => rerunEntry(entryState.data.entry.data.publicId, accessToken, setIsModalOpen, setEntryResource)}
                    icon="refresh-cw"
                    iconSize={FdsTokenSize2}
                    variant={FdsButtonVariant.secondary}

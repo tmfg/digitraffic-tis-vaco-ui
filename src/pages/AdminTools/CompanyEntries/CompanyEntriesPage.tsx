@@ -7,6 +7,7 @@ import Table, { HeaderItem, TableItem } from '../../../components/Common/Table/T
 import { FdsButtonComponent } from '../../../components/fds/FdsButtonComponent'
 import { FdsInputComponent } from '../../../components/fds/FdsInputComponent'
 import '../../MyData/_mydata.scss'
+import '../../../components/Common/SearchPanel/_search-panel.scss'
 import Pagination from '../../../components/Common/Pagination/Pagination'
 import { useParams, useSearchParams } from 'react-router-dom'
 import AdminRoleRequiredPage from '../../Error/AdminRoleRequiredPage'
@@ -64,7 +65,7 @@ const CompanyEntriesPage = () => {
             <h4 style={{ marginTop: '2.5rem' }} className={'header-wrapper__small'}>
               {t('services:myData:find')}
             </h4>
-            <div className={'searchEntries'}>
+            <div className={'search-panel'}>
               <form>
                 <div id={'searchInput'} ref={searchInputRef} className={'search-input'}>
                   <FdsInputComponent

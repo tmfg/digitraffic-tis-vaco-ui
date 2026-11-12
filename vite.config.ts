@@ -16,29 +16,38 @@ export default defineConfig({
     react(),
     svgr({
       svgrOptions: { exportType: 'default', ref: true, svgo: false, titleProp: true },
-      include: '**/*.svg',
+      include: '**/*.svg'
     }),
     pluginChecker({ typescript: true }),
-    istanbul({
-      include: 'src/*',
-      exclude: [
-        'node_modules',
-        'src/test/**',
-        '**/node_modules/**',
-        '**/dist/**',
-        'coreui-components/**',
-        'coreui-css/**',
-        '**coverage**',
-        'src/locales/**',
-        'src/types/**',
-        'vite.config.ts',
-        '**.d.ts'
-      ],
-      extension: ['.ts', '.tsx']
-      //requireEnv: true
-    })
+    // Measures which lines the Playwright browser tests run, through the dev server (`npm run dev`).
+    // Off when Vitest runs (Vitest sets VITEST): Vitest measures the unit tests itself and skips
+    // any file this plugin has already processed, so those files would be missing from its report.
+    !process.env.VITEST &&
+      istanbul({
+        include: 'src/*',
+        exclude: [
+          'node_modules',
+          'src/test/**',
+          '**/node_modules/**',
+          '**/dist/**',
+          'coreui-components/**',
+          'coreui-css/**',
+          '**coverage**',
+          'src/locales/**',
+          'src/types/**',
+          'vite.config.ts',
+          '**.d.ts'
+        ],
+        extension: ['.ts', '.tsx']
+        //requireEnv: true
+      })
   ],
   base: '/ui',
+  server: {
+    // Crawls the app's imports at start, so the dev server optimizes all dependencies before the first
+    // page load. Without it, a cold start reloads the page mid-test, and the Playwright test fails.
+    warmup: { clientFiles: ['./src/main.tsx'] }
+  },
   preview: {
     port: 5173
   },

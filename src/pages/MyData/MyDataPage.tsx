@@ -5,6 +5,7 @@ import { EntryResource } from '../../types/EntryResource'
 import { FdsButtonComponent } from '../../components/fds/FdsButtonComponent'
 import { FdsInputComponent } from '../../components/fds/FdsInputComponent'
 import './_mydata.scss'
+import '../../components/Common/SearchPanel/_search-panel.scss'
 import { filterTableRowsBySearchWord, getTableHeaders, getTableRow } from './helpers'
 import Pagination from '../../components/Common/Pagination/Pagination'
 import { EnvironmentContext } from '../../EnvironmentProvider.tsx'
@@ -50,7 +51,7 @@ const MyDataPage = () => {
         <h1>{t('services:myData:header')}</h1>
         <div className={'page-intro'}>{t('services:myData:intro')}</div>
         <h4 className={'header-wrapper__small'}>{t('services:myData:find')}</h4>
-        <div className={'searchEntries'}>
+        <div className={'search-panel'}>
           <form>
             <div id={'searchInput'} ref={searchInputRef} className={'search-input'}>
               <FdsInputComponent
