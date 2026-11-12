@@ -246,7 +246,7 @@ export const sv = {
         airlines: 'Flygbolag',
         airports: 'Flygplatser',
         periodFrom: 'Från',
-        periodTo: 'Tills',
+        periodTo: 'Till',
         flightCount: 'Antal flygningar',
         inboundFlightsCount: 'Antal inkommande flygningar',
         outboundFlightsCount: 'Antal utgående flygningar'
@@ -274,7 +274,7 @@ export const sv = {
         dateCompleted: 'Slutförd',
         status: 'Status'
       },
-      noDataFound: 'Inga data `hittades',
+      noDataFound: 'Inga data hittades',
       noResultsFound: 'Inga resultat hittades'
     }
   },

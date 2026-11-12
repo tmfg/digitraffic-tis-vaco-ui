@@ -161,7 +161,7 @@ const ProcessingResultsPage = () => {
             </h1>
             <span className={'icon'}>
               <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'flex-start'}}>
-                {(hasRightToRerun(entryState?.data.entry.data.businessId) || hasAdminRole) && (
+                {(hasRightToRerun(entryState?.data?.entry?.data?.businessId) || hasAdminRole) && (
                  <FdsButtonComponent
                    onClick={() => rerunEntry(entryState, accessToken, setIsModalOpen, setEntryResource)}
                    icon="refresh-cw"

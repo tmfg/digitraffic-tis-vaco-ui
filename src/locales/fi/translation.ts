@@ -248,7 +248,7 @@ export const fi = {
         airports: 'Lentoasemat',
         periodFrom: 'Alkaen',
         periodTo: 'Kunnes',
-        flightCount: 'Lentojen määrä:',
+        flightCount: 'Lentojen määrä',
         inboundFlightsCount: 'Saapuvien lentojen määrä',
         outboundFlightsCount: 'Lähtevien lentojen määrä'
       },
