@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { getHeaders, HttpClient } from '../../HttpClient'
 import { useOptionalAccessToken } from '../../hooks/optionalAccessToken'
 import { Trans, useTranslation } from 'react-i18next'
@@ -89,13 +89,30 @@ const ProcessingResultsPage = () => {
     postRerunEntry(publicId, accessToken, setIsModalOpen, setEntryResource)
   }
 
+  const copiedTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (copiedTimeout.current) {
+        clearTimeout(copiedTimeout.current)
+      }
+    }
+  }, [])
+
   const copyLinkToClipboard = () => {
+    if (!navigator.clipboard) {
+      console.error('Copying the link failed: the clipboard is not available')
+      return
+    }
     // The plain page URL works for everyone, so it carries no query string and no hash.
     navigator.clipboard
       .writeText(window.location.origin + window.location.pathname)
       .then(() => {
         setShowLinkCopied(true)
-        setTimeout(() => setShowLinkCopied(false), 3000)
+        if (copiedTimeout.current) {
+          clearTimeout(copiedTimeout.current)
+        }
+        copiedTimeout.current = setTimeout(() => setShowLinkCopied(false), 3000)
       })
       .catch((error) => console.error('Copying the link failed', error))
   }

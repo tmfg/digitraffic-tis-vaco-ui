@@ -59,7 +59,7 @@ describe('Processing Results page copy link button', () => {
     resetTester(msalTester)
   })
 
-  it('shows a visitor the button, copies the link without the query string and confirms it', async () => {
+  const renderPage = async () => {
     await msalTester.isNotLogged()
     await act(async () => {
       render(
@@ -73,8 +73,53 @@ describe('Processing Results page copy link button', () => {
       )
     })
     await screen.findByText('Shared entry')
+  }
 
+  const clickCopyLink = () =>
     fireEvent.click(screen.getByRole('button', { name: i18next.t('services:processingResults:copyLink') }))
+
+  it('does not throw and shows no copied text when the clipboard is unavailable', async () => {
+    Object.defineProperty(navigator, 'clipboard', { value: undefined, configurable: true })
+    const logged = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+    await renderPage()
+
+    expect(() => clickCopyLink()).not.toThrow()
+
+    expect(screen.queryByText(i18next.t('common:copied'))).not.toBeInTheDocument()
+    expect(logged).toHaveBeenCalled()
+    logged.mockRestore()
+  })
+
+  it('keeps the copied text for 3 seconds after the latest click', async () => {
+    await renderPage()
+    vi.useFakeTimers({ shouldAdvanceTime: false, toFake: ['setTimeout', 'clearTimeout'] })
+    try {
+      clickCopyLink()
+      await act(async () => {
+        await Promise.resolve()
+      })
+      expect(screen.getByText(i18next.t('common:copied'))).toBeInTheDocument()
+
+      act(() => {
+        vi.advanceTimersByTime(2000)
+      })
+      clickCopyLink()
+      await act(async () => {
+        await Promise.resolve()
+      })
+      act(() => {
+        vi.advanceTimersByTime(2000)
+      })
+
+      expect(screen.getByText(i18next.t('common:copied'))).toBeInTheDocument()
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('shows a visitor the button, copies the link without the query string and confirms it', async () => {
+    await renderPage()
+    clickCopyLink()
 
     await waitFor(() => expect(writeText).toHaveBeenCalledTimes(1))
     expect(writeText).toHaveBeenCalledWith(window.location.origin + window.location.pathname)
