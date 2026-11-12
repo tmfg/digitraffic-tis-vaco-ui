@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getHeaders, HttpClient } from '../../../HttpClient'
-import { CompanyEntriesPage, EntryResource, Resource, RuleInput } from '../../../types/EntryResource'
-import { EntryRequest } from '../../../components/TestData/types.ts'
+import { CompanyEntriesPage, EntryResource, Resource } from '../../../types/EntryResource'
 
 export const useCompanyEntriesFetch = (accessToken: string | null, businessId: string | undefined) => {
   const [entryData, setEntryData] = useState<Resource<CompanyEntriesPage> | null>(null)
@@ -32,34 +31,18 @@ export const useCompanyEntriesFetch = (accessToken: string | null, businessId: s
   return [entryData, isFetchInProgress] as const
 }
 
-export const postRerunEntry = (entry: EntryResource | undefined, accessToken: string | null, setIsModalOpen: (status: boolean) => void, setEntryResource: (entry: EntryResource) => void) => {
-
-  const validations : RuleInput[] | undefined = entry?.data.validations
-  const conversions: RuleInput[] | undefined = entry?.data.conversions
-
-  const requestBody: EntryRequest = {
-    name: entry?.data.name as string,
-    businessId: entry?.data.businessId as string,
-    credentials: entry?.data.credentials as string,
-    url: entry?.data.url as string,
-    context: entry?.data.context as string,
-    etag: entry?.data.etag as string,
-    format: (entry?.data.format as string).toLowerCase(),
-    validations,
-    conversions,
-    sendNotifications: entry?.data.sendNotifications as boolean
-  }
-
-  if(accessToken) {
-    HttpClient.post('/api/ui/queue', requestBody, getHeaders(accessToken)).then(
-      (response) => {
+export const postRerunEntry = (publicId: string, accessToken: string | null, setIsModalOpen: (status: boolean) => void, setEntryResource: (entry: EntryResource) => void) => {
+  if (accessToken) {
+    HttpClient.post('/api/ui/admin/entries/' + publicId + '/rerun', undefined, getHeaders(accessToken))
+      .then((response) => {
         const data = response.data as EntryResource
         setEntryResource(data)
-      }
-    )
+      })
+      .catch(() => {
+        setIsModalOpen(false)
+      })
     setIsModalOpen(true)
   }
-
 }
 
 

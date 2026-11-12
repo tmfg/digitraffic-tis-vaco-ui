@@ -1,5 +1,4 @@
-import { AggregatedFinding } from '../../../types/EntryStateResource'
-import { Finding as NoticeInstance } from '../../../types/Finding.ts'
+import { AggregatedFinding, ResultsPageFinding as NoticeInstance } from '../../../types/EntryStateResource'
 import Table, { HeaderItem, TableItem } from '../../Common/Table/Table'
 import { useTranslation } from 'react-i18next'
 import { decodeBase64 } from '../../../util/base64'
