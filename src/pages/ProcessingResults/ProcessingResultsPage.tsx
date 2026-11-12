@@ -78,10 +78,9 @@ const ProcessingResultsPage = () => {
   useEffect(() => {
     if (ready) {
       setIsFetchInProgress(true)
-      HttpClient.get('/api/ui/entries/' + entryId + '/state', getHeaders(accessToken)).then(
-        handleEntryStateResponse,
-        handleError
-      )
+      HttpClient.get('/api/ui/entries/' + entryId + '/state', getHeaders(accessToken))
+        .then(handleEntryStateResponse)
+        .catch(handleError)
     }
   }, [accessToken, ready, entryId])
 

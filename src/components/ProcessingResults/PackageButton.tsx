@@ -20,12 +20,11 @@ const PackageButton = ({ entryPackage }: PackageButtonProps) => {
     HttpClient.get(entryPackage.links.refs.self.href, {
       ...getHeaders(token),
       responseType: 'blob'
-    }).then(
-      (response) => {
+    })
+      .then((response) => {
         downloadFile(response.data, entryPackage.data.name + '.zip', response.data.type)
-      },
-      (error) => console.error('Package download error', error)
-    )
+      })
+      .catch((error) => console.error('Package download error', error))
   }
 
   return (
@@ -39,16 +38,15 @@ const PackageButton = ({ entryPackage }: PackageButtonProps) => {
             download(null)
             return
           }
-          acquireToken(instance, inProgress).then(
-            (tokenResult) => {
+          acquireToken(instance, inProgress)
+            .then((tokenResult) => {
               if (!tokenResult) {
                 // TODO: At some point, show some error notification
                 return
               }
               download(tokenResult.accessToken)
-            },
-            (error) => console.error('Token acquisition error', error)
-          )
+            })
+            .catch((error) => console.error('Token acquisition error', error))
         }}
         label={
           i18n .exists('services:processingResults:packages:' + entryPackage.data.name)

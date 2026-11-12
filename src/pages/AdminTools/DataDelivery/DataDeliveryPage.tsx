@@ -34,7 +34,9 @@ const DataDeliveryPage = () => {
     HttpClient.get('/api/ui/data-delivery/export?language=' + (i18n.resolvedLanguage || i18n.language), {
       ...getHeaders(accessToken),
       responseType: 'blob'
-    }).then(handleDownloadedCsv, (error) => console.error('CSV export error', error))
+    })
+      .then(handleDownloadedCsv)
+      .catch((error) => console.error('CSV export error', error))
   }
 
   return (

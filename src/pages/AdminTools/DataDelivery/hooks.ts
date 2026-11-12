@@ -10,18 +10,17 @@ export const useDataDeliveryFetch = (accessToken: string | null, ready: boolean)
     let ignore = false
     if (ready) {
       setIsFetchInProgress(true)
-      HttpClient.get('/api/ui/data-delivery', getHeaders(accessToken)).then(
-        (response) => {
+      HttpClient.get('/api/ui/data-delivery', getHeaders(accessToken))
+        .then((response) => {
           if (!ignore) {
             setData(response.data as CompanyLatestEntryResource[])
             setIsFetchInProgress(false)
           }
-        },
-        (error) => {
+        })
+        .catch((error) => {
           console.error('Data delivery fetch error', error)
           setIsFetchInProgress(false)
-        }
-      )
+        })
     }
     return () => {
       ignore = true

@@ -10,19 +10,18 @@ export const useCompanyEntriesFetch = (accessToken: string | null, ready: boolea
     let ignore = false
     if (ready && businessId) {
       setIsFetchInProgress(true)
-      HttpClient.get('/api/ui/pages/company-entries/' + businessId, getHeaders(accessToken)).then(
-        (response) => {
+      HttpClient.get('/api/ui/pages/company-entries/' + businessId, getHeaders(accessToken))
+        .then((response) => {
           if (!ignore) {
             const entries = response.data as Resource<CompanyEntriesPage>
             setEntryData(entries)
             setIsFetchInProgress(false)
           }
-        },
-        (error) => {
+        })
+        .catch((error) => {
           console.error('Company entries fetch error', error)
           setIsFetchInProgress(false)
-        }
-      )
+        })
     }
     return () => {
       ignore = true
