@@ -148,6 +148,7 @@ export const fi = {
     processingResults: {
       header: 'Datajulkaisun tulokset',
       rerun: 'Aja syöte uudelleen',
+      copyLink: 'Kopioi linkki',
       expiryWarning: 'Huomio! Julkaisu on yli {{days}} päivää vanha.',
       dataNotAvailable: 'Joitakin julkaisutuloksia ei ehkä ole saatavilla, tarvittaessa suorita julkaisu uudelleen.',
       summary: 'Yhteenveto',

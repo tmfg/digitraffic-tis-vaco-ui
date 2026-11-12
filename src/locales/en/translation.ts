@@ -146,6 +146,7 @@ export const en = {
     processingResults: {
       header: 'Data publication results',
       rerun: 'Rerun entry',
+      copyLink: 'Copy link',
       expiryWarning: 'Note! The publication is older than {{days}} days.',
       dataNotAvailable: 'Some publication results may not be available, please publish your data again.',
       summary: 'Summary',

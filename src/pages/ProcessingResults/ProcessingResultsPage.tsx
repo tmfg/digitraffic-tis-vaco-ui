@@ -43,6 +43,7 @@ const ProcessingResultsPage = () => {
   const [accessToken, ready] = useOptionalAccessToken()
   const [processingProgress, setProcessingProgress] = useState<number>(100)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [showLinkCopied, setShowLinkCopied] = useState<boolean>(false)
   const [email] = useUserEmail(accessToken)
   const [credentials, setCredentials] = useState<ResultsPageCredentials | null | undefined>(undefined)
   const [hasAdminRole] = useAdminRightsCheck()
@@ -88,6 +89,17 @@ const ProcessingResultsPage = () => {
     postRerunEntry(publicId, accessToken, setIsModalOpen, setEntryResource)
   }
 
+  const copyLinkToClipboard = () => {
+    // The plain page URL works for everyone, so it carries no query string and no hash.
+    navigator.clipboard
+      .writeText(window.location.origin + window.location.pathname)
+      .then(() => {
+        setShowLinkCopied(true)
+        setTimeout(() => setShowLinkCopied(false), 3000)
+      })
+      .catch((error) => console.error('Copying the link failed', error))
+  }
+
   const hasPackages= useMemo(() => {
     if (entryState === null) {
       return undefined;
@@ -131,6 +143,23 @@ const ProcessingResultsPage = () => {
                   variant={FdsButtonVariant.secondary}
                   label={t('services:processingResults.rerun')}
                 />
+              )}
+              {entryState && (
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                  <FdsButtonComponent
+                    onClick={copyLinkToClipboard}
+                    slot="separated"
+                    icon="wand-2"
+                    iconSize={FdsTokenSize2}
+                    variant={FdsButtonVariant.secondary}
+                    label={t('services:processingResults:copyLink')}
+                  />
+                  {showLinkCopied && (
+                    <div style={{ marginTop: '12px', marginRight: '12px', color: '#1777F8', fontWeight: 700, marginLeft: '3px' }}>
+                      {t('common:copied')}
+                    </div>
+                  )}
+                </div>
               )}
             </div>
           </span>
