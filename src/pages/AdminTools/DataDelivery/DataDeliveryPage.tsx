@@ -28,16 +28,13 @@ const DataDeliveryPage = () => {
   }
 
   const exportCsv = () => {
+    if (!ready) {
+      return
+    }
     HttpClient.get('/api/ui/data-delivery/export?language=' + (i18n.resolvedLanguage || i18n.language), {
       ...getHeaders(accessToken),
       responseType: 'blob'
-    }).then(
-      (response) => handleDownloadedCsv(response),
-      (error) => {
-        // TODO: show alert
-        return Promise.reject(error)
-      }
-    )
+    }).then(handleDownloadedCsv, (error) => console.error('CSV export error', error))
   }
 
   return (
@@ -46,6 +43,7 @@ const DataDeliveryPage = () => {
         <h1>{t('admin:dataDelivery:header')}</h1>
         <FdsButtonComponent
           onClick={exportCsv}
+          disabled={!ready}
           slot="separated"
           icon="download"
           iconSize={FdsTokenSize2}

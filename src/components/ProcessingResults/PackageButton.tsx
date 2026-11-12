@@ -24,10 +24,7 @@ const PackageButton = ({ entryPackage }: PackageButtonProps) => {
       (response) => {
         downloadFile(response.data, entryPackage.data.name + '.zip', response.data.type)
       },
-      (error) => {
-        // TODO: show alert
-        return Promise.reject(error)
-      }
+      (error) => console.error('Package download error', error)
     )
   }
 
@@ -50,10 +47,7 @@ const PackageButton = ({ entryPackage }: PackageButtonProps) => {
               }
               download(tokenResult.accessToken)
             },
-            (error) => {
-              // TODO: show alert
-              return Promise.reject(error)
-            }
+            (error) => console.error('Token acquisition error', error)
           )
         }}
         label={

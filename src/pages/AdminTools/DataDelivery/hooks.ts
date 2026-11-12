@@ -18,9 +18,8 @@ export const useDataDeliveryFetch = (accessToken: string | null, ready: boolean)
           }
         },
         (error) => {
-          // TODO: show alert
+          console.error('Data delivery fetch error', error)
           setIsFetchInProgress(false)
-          return Promise.reject(error)
         }
       )
     }

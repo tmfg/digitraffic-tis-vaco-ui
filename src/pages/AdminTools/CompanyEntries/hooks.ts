@@ -19,9 +19,8 @@ export const useCompanyEntriesFetch = (accessToken: string | null, ready: boolea
           }
         },
         (error) => {
-          // TODO: show alert
+          console.error('Company entries fetch error', error)
           setIsFetchInProgress(false)
-          return Promise.reject(error)
         }
       )
     }

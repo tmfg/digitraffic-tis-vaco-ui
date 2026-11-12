@@ -70,9 +70,8 @@ const ProcessingResultsPage = () => {
   }
 
   const handleError = (error: any) => {
-    // TODO: show alert
+    console.error('Entry state fetch error', error)
     setIsFetchInProgress(false)
-    return Promise.reject(error)
   }
 
   // TODO: this will move to hooks.ts once stable version of React supports useEffectEvent
