@@ -1,12 +1,11 @@
 import './App.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, Navigate, RouteObject, RouterProvider, useLocation, useParams } from 'react-router-dom'
 import HomePage from './pages/Home/HomePage'
 import NotFoundPage from './pages/Error/NotFoundPage'
 import TestDataPage from './pages/TestData/TestDataPage'
 import ProcessingResultsPage from './pages/ProcessingResults/ProcessingResultsPage'
 import AppLayout from './AppLayout'
 import AuthRequiredPage from './pages/Error/AuthRequiredPage'
-import MyDataPage from './pages/MyData/MyDataPage'
 import MyAccount from './pages/User/MyAccount'
 import DataDeliveryPage from './pages/AdminTools/DataDelivery/DataDeliveryPage'
 import CompanyEntriesPage from './pages/AdminTools/CompanyEntries/CompanyEntriesPage'
@@ -25,66 +24,79 @@ import StatisticsPage from './pages/AdminTools/Statistics/StatisticsPage.tsx'
   }
 }*/
 
+// Old bookmarks of the admin company page keep working, and keep the company name in the query string.
+const CompanyEntriesRedirect = () => {
+  const { businessId } = useParams()
+  const { search } = useLocation()
+  return <Navigate to={'/data/companies/' + businessId + search} replace />
+}
+
+export const appChildRoutes: RouteObject[] = [
+  {
+    path: '/',
+    element: <HomePage />
+  },
+  {
+    path: '/data/request',
+    element: <TestDataPage />
+  },
+  {
+    path: '/data/companies/:businessId',
+    element: <CompanyEntriesPage />
+  },
+  {
+    path: '/data/:entryId',
+    element: <ProcessingResultsPage />
+  },
+  {
+    path: '/data',
+    element: <DataDeliveryPage />
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />
+  },
+  {
+    path: '/error/auth',
+    element: <AuthRequiredPage />
+  },
+  {
+    path: '/user',
+    element: <MyAccount />
+  },
+  {
+    path: '/admin/data-delivery',
+    element: <Navigate to="/data" replace />
+  },
+  {
+    path: '/admin/companies/:businessId/data',
+    element: <CompanyEntriesRedirect />
+  },
+  {
+    path: '/admin/companies',
+    element: <CompaniesPage />
+  },
+  {
+    path: 'admin/companies/:businessId/info',
+    element: <CompanyInfoPage />
+  },
+  {
+    path: '/admin/feature-flags',
+    element: <FeatureFlagsPage />
+  },
+  {
+    path: '/admin/statistics',
+    element: <StatisticsPage />
+  }
+]
+
 const App = () => {
   const router = createBrowserRouter(
     [
       {
         path: '/',
         element: <AppLayout />,
-        children: [
-          {
-            path: '/',
-            element: <HomePage />
-          },
-          {
-            path: '/data/request',
-            element: <TestDataPage />
-          },
-          {
-            path: '/data/:entryId',
-            element: <ProcessingResultsPage />
-          },
-          {
-            path: '/data',
-            element: <MyDataPage />
-          },
-          {
-            path: '*',
-            element: <NotFoundPage />
-          },
-          {
-            path: '/error/auth',
-            element: <AuthRequiredPage />
-          },
-          {
-            path: '/user',
-            element: <MyAccount />
-          },
-          {
-            path: '/admin/data-delivery',
-            element: <DataDeliveryPage />
-          },
-          {
-            path: '/admin/companies/:businessId/data',
-            element: <CompanyEntriesPage />
-          },
-          {
-            path: '/admin/companies',
-            element: <CompaniesPage />
-          },
-          {
-            path: 'admin/companies/:businessId/info',
-            element: <CompanyInfoPage />
-          },
-          {
-            path: '/admin/feature-flags',
-            element: <FeatureFlagsPage />
-          },
-          {
-            path: '/admin/statistics',
-            element: <StatisticsPage/>
-          }
-        ]
+        children: appChildRoutes
       }
     ],
     {

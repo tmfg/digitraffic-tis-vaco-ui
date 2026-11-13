@@ -28,7 +28,7 @@ export const sv = {
     privacy: 'Dataskyddsbeskrivning',
     support: 'Support',
     channels: 'Kundtjänst',
-    services: 'Mina tjänster',
+    services: 'Tjänster',
     testData: 'Testa och validera',
     myData: 'Egna datapublikationer',
     user: 'Mina uppgifter',
@@ -145,8 +145,8 @@ export const sv = {
     },
     processingResults: {
       header: 'Datapublikationens resultat',
-      magicLink: 'Kopiera delbar länk',
       rerun: 'Omstartsmatning',
+      copyLink: 'Kopiera länk',
       expiryWarning: 'Observera! Publikationen är äldre än {{days}} dagar.',
       dataNotAvailable: 'Vissa publicering resultat kanske inte är tillgängliga, vänligen publicera dina data igen.',
       summary: 'Sammanfattning',

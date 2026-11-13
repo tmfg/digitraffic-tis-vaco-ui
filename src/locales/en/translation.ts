@@ -28,7 +28,7 @@ export const en = {
     privacy: 'Privacy Policy',
     support: 'Support',
     channels: 'Support channels',
-    services: 'My services',
+    services: 'Services',
     testData: 'Test and validate',
     myData: 'My data',
     user: 'My account',
@@ -145,8 +145,8 @@ export const en = {
     },
     processingResults: {
       header: 'Data publication results',
-      magicLink: 'Copy shareable link',
       rerun: 'Rerun entry',
+      copyLink: 'Copy link',
       expiryWarning: 'Note! The publication is older than {{days}} days.',
       dataNotAvailable: 'Some publication results may not be available, please publish your data again.',
       summary: 'Summary',

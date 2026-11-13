@@ -4,16 +4,19 @@ import { RulesetResource, RulesetType } from '../../types/Ruleset'
 import { parseJwt } from '../../util/jwt'
 import { useMsal } from '@azure/msal-react'
 import { getUniqueValues } from '../../util/array'
-import { Context, ContextResource } from '../../types/Context'
 
-export const useCompanyRulesFetch = (selectedBusinessId: string | undefined, accessToken: string | null) => {
+export const useCompanyRulesFetch = (
+  selectedBusinessId: string | undefined,
+  accessToken: string | null,
+  ready: boolean
+) => {
   const [validationRules, setValidationRules] = useState<RulesetResource[]>([])
   const [conversionRules, setConversionRules] = useState<RulesetResource[]>([])
   const [formats, setFormats] = useState<string[]>([])
   const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
 
   useEffect(() => {
-    if (accessToken && selectedBusinessId) {
+    if (ready && selectedBusinessId) {
       setIsFetchInProgress(true)
       HttpClient.get(`/api/ui/rules?businessId=${selectedBusinessId}`, getHeaders(accessToken)).then(
         (response) => {
@@ -32,33 +35,9 @@ export const useCompanyRulesFetch = (selectedBusinessId: string | undefined, acc
         }
       )
     }
-  }, [accessToken, selectedBusinessId])
+  }, [accessToken, ready, selectedBusinessId])
 
   return [formats, validationRules, conversionRules, isFetchInProgress] as const
-}
-
-export const useCompanyContextsFetch = (selectedBusinessId: string | undefined, accessToken: string | null) => {
-  const [contexts, setContexts] = useState<Context[]>([])
-  const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
-
-  useEffect(() => {
-    if (accessToken && selectedBusinessId) {
-      setIsFetchInProgress(true)
-      HttpClient.get(`/api/ui/contexts?businessId=${selectedBusinessId}`, getHeaders(accessToken)).then(
-        (response) => {
-          setIsFetchInProgress(false)
-          const contextData = response.data as ContextResource[]
-          setContexts(contextData.map((context) => context.data))
-        },
-        (error) => {
-          setIsFetchInProgress(false)
-          return Promise.reject(error)
-        }
-      )
-    }
-  }, [accessToken, selectedBusinessId])
-
-  return [contexts, isFetchInProgress] as const
 }
 
 export const useRulesForFormat = (selectedFormat: string | undefined, availableRules: RulesetResource[]) => {

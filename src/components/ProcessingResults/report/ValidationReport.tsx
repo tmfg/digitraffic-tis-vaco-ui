@@ -2,7 +2,6 @@ import './_report.scss'
 import { TaskReport } from '../../../types/EntryStateResource'
 import FindingCounters from './FindingCounters'
 import FindingsTable from './FindingsTable'
-import { useIsAuthenticated } from '@azure/msal-react'
 import Packages from './Packages.tsx'
 import { useContext } from 'react'
 import { TaskContext } from '../../../pages/ProcessingResults/ProcessingResultsPage'
@@ -14,7 +13,6 @@ interface ValidationReportProps {
 }
 
 const ValidationReport = ({ report }: ValidationReportProps) => {
-  const isAuthenticated = useIsAuthenticated()
   const task = useContext(TaskContext)
 
   return (
@@ -26,7 +24,7 @@ const ValidationReport = ({ report }: ValidationReportProps) => {
       {report.findings && report.findings.length > 0 && (
         <FindingsTable aggregatedFindings={report.findings} taskName={report.name} />
       )}
-      {isAuthenticated && report.packages && report.packages.length > 0 && (
+      {report.packages && report.packages.length > 0 && (
         <Packages taskType={report.type} packages={report.packages} />
       )}
     </div>

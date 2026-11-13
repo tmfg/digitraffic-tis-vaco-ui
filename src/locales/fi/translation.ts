@@ -28,7 +28,7 @@ export const fi = {
     privacy: 'Tietosuojaseloste',
     support: 'Tuki',
     channels: 'Tukikanavat',
-    services: 'Omat palvelut',
+    services: 'Palvelut',
     testData: 'Testaa ja validoi',
     myData: 'Omat datajulkaisut',
     user: 'Omat tiedot',
@@ -147,8 +147,8 @@ export const fi = {
     },
     processingResults: {
       header: 'Datajulkaisun tulokset',
-      magicLink: 'Kopioi jaettava linkki',
       rerun: 'Aja syöte uudelleen',
+      copyLink: 'Kopioi linkki',
       expiryWarning: 'Huomio! Julkaisu on yli {{days}} päivää vanha.',
       dataNotAvailable: 'Joitakin julkaisutuloksia ei ehkä ole saatavilla, tarvittaessa suorita julkaisu uudelleen.',
       summary: 'Yhteenveto',

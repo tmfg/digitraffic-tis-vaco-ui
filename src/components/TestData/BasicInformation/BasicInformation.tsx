@@ -1,5 +1,4 @@
-import { AppContext, AppContextType } from '../../../AppContextProvider'
-import { useCallback, useContext, useEffect, useMemo } from 'react'
+import { useCallback, useEffect } from 'react'
 import { FdsDropdownOption } from '../../../../coreui-components/src/fds-dropdown'
 import { FdsInputChange } from '../../../../coreui-components/src/fds-input'
 import { generalListener, getNewFormErrorsState, getNewFormState } from '../../../util/form'
@@ -8,16 +7,10 @@ import { FdsDropdownComponent } from '../../fds/FdsDropdownComponent'
 import { FdsInputComponent } from '../../fds/FdsInputComponent'
 import { useTranslation } from 'react-i18next'
 import { FormSectionProps } from '../types'
-import { getCompanyFullName } from '../../../util/company'
-import { Context } from '../../../types/Context'
-import { Credential } from '../../../types/Credential.ts'
-import { FdsCheckboxComponent } from '../../fds/FdsCheckboxComponent.ts'
 
 interface BasicInformationProps extends FormSectionProps {
   formats: string[]
   isFetchInProgress: boolean
-  contexts: Context[]
-  credentials: Credential[]
 }
 
 const BasicInformation = ({
@@ -25,53 +18,15 @@ const BasicInformation = ({
   formErrors,
   formStateUpdateCallback,
   formats,
-  contexts,
-  isFetchInProgress,
-  credentials
+  isFetchInProgress
 }: BasicInformationProps) => {
   const { t, i18n } = useTranslation()
-  const appContext: AppContextType = useContext(AppContext)
-  const companyOptions: FdsDropdownOption<string>[] = useMemo(() => {
-    return appContext?.companies
-      ? appContext.companies.map((company) => {
-          return {
-            label: getCompanyFullName(company.name, company.businessId, t),
-            value: company.businessId
-          }
-        })
-      : []
-  }, [appContext.companies, t])
-  const credentialsOptions: FdsDropdownOption<string>[] = [
-    { label: '', value: '' },
-    ...credentials.map((credential: Credential) => ({
-      label: credential.name,
-      value: credential.publicId,
-    })),
-  ]
-  const contextOptions: FdsDropdownOption<string>[] = [
-    { label: '', value: '' },
-    ...contexts.map((context: Context) => ({
-      label: context.context,
-      value: context.context
-    })),
-  ]
   const formatOptions: FdsDropdownOption<string>[] = formats.map((format: string) => {
     return {
       label: i18n.exists('format:' + format.toLowerCase()) ? t('format:' + format.toLowerCase()) : format,
       value: format
     }
   })
-
-  useEffect(() => {
-    // Set default selected company if there is only one option
-    if (companyOptions.length === 1 && !formData.businessId) {
-      const newFormData = {
-        ...formData,
-        businessId: companyOptions[0].value
-      }
-      formStateUpdateCallback(newFormData, null)
-    }
-  }, [companyOptions, formData, formStateUpdateCallback])
 
   useEffect(() => {
     // When user selects new company, resetting format if it's no longer available for the new company
@@ -137,21 +92,11 @@ const BasicInformation = ({
     if (etagElement && etagElement.getAttribute('listener') !== 'true') {
       etagElement.addEventListener('change', useGeneralListener)
     }
-    const companyElement = document.querySelector('[id="company"]')
-    if (companyElement && companyElement.getAttribute('listener') !== 'true') {
-      companyElement.addEventListener('select', useGeneralListener)
-    }
-    const sendNotificationsElement = document.querySelector('[id="sendNotifications"]')
-    if (sendNotificationsElement && sendNotificationsElement.getAttribute('listener') !== 'true') {
-      sendNotificationsElement.addEventListener('check', useGeneralListener)
-    }
 
     return () => {
       feedNameElement?.removeEventListener('change', useGeneralListener)
       urlElement?.removeEventListener('change', useUrlListener)
       etagElement?.removeEventListener('change', useGeneralListener)
-      companyElement?.removeEventListener('select', useGeneralListener)
-      sendNotificationsElement?.removeEventListener('check', useGeneralListener)
     }
   }, [useGeneralListener, useUrlListener])
 
@@ -169,71 +114,9 @@ const BasicInformation = ({
     }
   }, [formats, useGeneralListener, useUrlListener])
 
-  useEffect(() => {
-    if (!contexts || contexts.length === 0) {
-      return
-    }
-    const contextsElement = document.querySelector('[id="context"]')
-    if (contextsElement && contextsElement.getAttribute('listener') !== 'true') {
-      contextsElement.addEventListener('select', useGeneralListener)
-    }
-
-    return () => {
-      contextsElement?.removeEventListener('select', useGeneralListener)
-    }
-  }, [contexts, useGeneralListener, useUrlListener])
-
-  useEffect(() => {
-    if (!credentials || credentials.length === 0 ) {
-      return
-    }
-    const credentialsElement = document.querySelector('[id = "credentials"]')
-    if (credentialsElement && credentialsElement.getAttribute('listener') !== 'true') {
-      credentialsElement.addEventListener('select', useGeneralListener)
-    }
-    return () => {
-      credentialsElement?.removeEventListener('select', useGeneralListener)
-    }
-  }, [credentials, useGeneralListener, useUrlListener])
-
   return (
     <div className={'form-section'}>
       <h5>{t('services:testData.form.section.basic')}</h5>
-
-      <div id={'company'} className={'input-wrapper'}>
-        <FdsDropdownComponent
-          name={'businessId'}
-          label={t('services:testData.form.company') + ' *'}
-          options={companyOptions}
-          message={(formErrors['businessId'] as string) || ''}
-          error={!!formErrors['businessId']}
-          value={formData.businessId ? companyOptions.filter((c) => c.value === formData.businessId)[0] : undefined}
-        />
-      </div>
-
-      {contexts && contexts.length > 0 && (
-        <div id={'context'} className={'input-wrapper'}>
-          <FdsDropdownComponent
-            name={'context'}
-            label={t('services:testData.form.context')}
-            options={contextOptions}
-            message={t('services:testData.form.contextInfo')}
-            value={formData.context ? contextOptions.filter((c) => c.value === formData.context)[0] : undefined}
-          />
-        </div>
-      )}
-
-      {credentials && credentials.length > 0 && (
-        <div id={'credentials'} className={'input-wrapper'}>
-          <FdsDropdownComponent
-            name={'credentials'}
-            label={t('services:testData.form.credentials')}
-            options={credentialsOptions}
-            message={t('services:testData.form.credentialsInfo')}
-            value={formData.credentials ? credentialsOptions.filter((c) => c.value === formData.credentials)[0] : undefined}
-          />
-        </div>
-      )}
 
       <div id={'feedName'} className={'input-wrapper'}>
         <FdsInputComponent
@@ -274,13 +157,6 @@ const BasicInformation = ({
           />
         </div>
       )}
-      <div id={'sendNotifications'} className={'input-wrapper'}>
-        <FdsCheckboxComponent
-          checked={formData.sendNotifications as boolean}
-          name={'sendNotifications'}
-          label={t('services:testData.form.sendNotifications')}
-        />
-      </div>
       {formatOptions.length == 0 && formData.businessId && !isFetchInProgress && (
         <div className={'error'}>{t('services:testData.form.noFormatsFound')}</div>
       )}

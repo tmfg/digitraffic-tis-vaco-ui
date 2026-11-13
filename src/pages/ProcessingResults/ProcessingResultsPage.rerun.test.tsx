@@ -15,9 +15,6 @@ vi.mock('../../hooks/auth', async (importOriginal) => ({
   ...(await importOriginal<typeof import('../../hooks/auth')>()),
   useAcquireToken: () => ['test-token']
 }))
-vi.mock('../../components/ProcessingResults/hooks', () => ({
-  useProcessingResultsPageState: () => [undefined]
-}))
 vi.mock('../../components/TestData/hooks.ts', () => ({
   useUserEmail: () => ['user@example.fi']
 }))

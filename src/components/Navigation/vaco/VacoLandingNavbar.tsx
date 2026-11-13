@@ -1,7 +1,7 @@
 import { FdsNavigationVariant } from '../../../../coreui-components/src/fds-navigation'
 import Navbar from '../Navbar'
 import { FdsNavigationItem } from '../../../../coreui-components/src/fds-navigation'
-import { aboutItem, getSelectedLocaleItem, loginItem, registerItem, supportItem, vacoItem } from './navbarItems'
+import { aboutItem, getSelectedLocaleItem, loginItem, myServicesItem, registerItem, supportItem, vacoItem } from './navbarItems'
 import { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import EnvironmentBar from '../../EnvironmentBar/EnvironmentBar'
@@ -18,6 +18,7 @@ const VacoLandingNavbar = () => {
         vacoItem(),
         aboutItem(t),
         supportItem(t),
+        myServicesItem(t),
         loginItem(t),
         registerItem(t),
         getSelectedLocaleItem(newLocaleCode, t)

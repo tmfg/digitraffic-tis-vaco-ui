@@ -1,7 +1,6 @@
 import './_report.scss'
 import { TaskReport } from '../../../types/EntryStateResource'
 import FindingsTable from './FindingsTable'
-import { useIsAuthenticated } from '@azure/msal-react'
 import Packages from './Packages.tsx'
 import { useTranslation } from 'react-i18next'
 import { useContext } from 'react'
@@ -15,7 +14,6 @@ interface InternalTaskReportProps {
 }
 
 const InternalTaskReport = ({ report }: InternalTaskReportProps) => {
-  const isAuthenticated = useIsAuthenticated()
   const { t, i18n } = useTranslation()
   const task = useContext(TaskContext)
 
@@ -45,7 +43,7 @@ const InternalTaskReport = ({ report }: InternalTaskReportProps) => {
       {report.findings && report.findings.length > 1 && (
         <FindingsTable aggregatedFindings={report.findings} taskName={report.name} />
       )}
-      {isAuthenticated && report.packages && report.packages.length > 0 && (
+      {report.packages && report.packages.length > 0 && (
         <Packages taskType={report.type} packages={report.packages} />
       )}
     </div>
