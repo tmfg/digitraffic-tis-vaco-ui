@@ -9,7 +9,7 @@ RUN mkdir -p sbom && GITHUB_SHA=${GITHUB_SHA} npm run sbom
 
 RUN npm run build
 
-FROM nginx:1.31.8-alpine3.24@sha256:e2d97c2b8c016f12c2f1a27d095685063b2f281c4edf2babfde6001cf4fb77a8
+FROM nginx:1.31.8-alpine3.24@sha256:713fc2ebfd92e8217db451477182ee91944b123d2b1ee9fd5a8c6e91ca6c3a11
 COPY --from=build /app/dist /var/www/html/ui
 
 # Embed SBOM
