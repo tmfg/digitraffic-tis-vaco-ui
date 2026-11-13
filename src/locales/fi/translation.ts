@@ -123,7 +123,13 @@ export const fi = {
             entur: 'NeTEx to GTFS Converter by Entur',
             stopsOnly: 'Muunna vain pysäkit'
           },
-          'gbfs.entur': 'GBFS Validator by Entur'
+          'gbfs.entur': 'GBFS Validator by Entur',
+          ssim: {
+            fintraffic: 'SSIM Validator by Fintraffic'
+          },
+          ssim2netex: {
+            fintraffic: 'SSIM to NeTEx converter by Fintraffic'
+          }
         },
         noFormatsFound: 'Dataformaatteja ja sääntöjä ei löytynyt',
         netex: {
@@ -236,8 +242,15 @@ export const fi = {
         url: 'URL',
         operators: 'Toimijat',
         lines: 'Linjat',
-        routesCount: 'Routes',
-        transportMode: 'Transport mode'
+        routesCount: 'Reitit',
+        transportMode: 'Kuljetusmuoto',
+        airlines: 'Lentoyhtiöt',
+        airports: 'Lentoasemat',
+        periodFrom: 'Alkaen',
+        periodTo: 'Kunnes',
+        flightCount: 'Lentojen määrä',
+        inboundFlightsCount: 'Saapuvien lentojen määrä',
+        outboundFlightsCount: 'Lähtevien lentojen määrä'
       },
       DownloadResponse: {
         not_modified: 'Sisältö ei ole muuttunut'
@@ -446,8 +459,9 @@ export const fi = {
       credentials: {
         section: {
           title: 'Tunnistautumistiedot',
-          description: 'Tunnistautumistietoihin voi tarvittaessa tallentaa lähdekohtaisen käyttäjätunnuksen ja salasanan (HTTP basic), jolla lähteen voi avata validoitavaksi. Avaamisen tunnistautumistieto tulee pyytää aineiston omistajalta.' +
-            ' URL-mallia käytetään tunnistetietojen määrittämiseen automaattisesti, jos syötteen URL vastaa tunnistetietojen URL-mallia. URL-malli on säännöllinen lauseke. Käytä tätä säännöllistä lauseketta pohjana lausekkeen määrittämiseen: (?<scheme>https?)://(?<domain>mydomain.fi+)(?<path>/[^?])?(\\?(?<params>.)',
+          description:
+            'Tunnistautumistietoihin voi tarvittaessa tallentaa lähdekohtaisen käyttäjätunnuksen ja salasanan (HTTP basic), jolla lähteen voi avata validoitavaksi. Avaamisen tunnistautumistieto tulee pyytää aineiston omistajalta.' +
+            ' URL-mallia käytetään tunnistetietojen määrittämiseen automaattisesti, jos syötteen URL vastaa tunnistetietojen URL-mallia. URL-malli on säännöllinen lauseke. Käytä tätä säännöllistä lauseketta pohjana lausekkeen määrittämiseen: (?<scheme>https?)://(?<domain>mydomain.fi+)(?<path>/[^?])?(\\?(?<params>.)'
         },
         actions: {
           create: 'Lisää uusi tunnistautumistieto',

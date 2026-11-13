@@ -121,7 +121,13 @@ export const en = {
             entur: 'NeTEx to GTFS Converter by Entur',
             stopsOnly: 'Convert only stops'
           },
-          'gbfs.entur': 'GBFS Validator by Entur'
+          'gbfs.entur': 'GBFS Validator by Entur',
+          ssim: {
+            fintraffic: 'SSIM Validator by Fintraffic'
+          },
+          ssim2netex: {
+            fintraffic: 'SSIM to NeTEx converter by Fintraffic'
+          }
         },
         noFormatsFound: 'No data formats and rules found for the chosen company',
         netex: {
@@ -223,20 +229,31 @@ export const en = {
           agencies: 'agencies',
           files: 'files',
           lines: 'lines',
-          operators: 'operators'
+          operators: 'operators',
+          airlines: 'airlines',
+          airports: 'airports'
         },
         showLessItem: {
           agencies: 'agencies',
           files: 'files',
           lines: 'lines',
-          operators: 'operators'
+          operators: 'operators',
+          airlines: 'airlines',
+          airports: 'airports'
         },
         id: 'ID',
         url: 'URL',
         operators: 'Operators included',
         lines: 'Lines',
         routesCount: 'Routes',
-        transportMode: 'Transport mode'
+        transportMode: 'Transport mode',
+        airlines: 'Airlines',
+        airports: 'Airports',
+        periodFrom: 'From',
+        periodTo: 'To',
+        flightCount: 'Flights count',
+        inboundFlightsCount: 'Inbound flights count',
+        outboundFlightsCount: 'Outbound flights count'
       },
       DownloadResponse: {
         not_modified: 'Content has not changed'
@@ -302,7 +319,8 @@ export const en = {
   format: {
     gtfs: 'GTFS',
     netex: 'NeTEx',
-    gbfs: 'GBFS'
+    gbfs: 'GBFS',
+    ssim: 'SSIM'
   },
   pagination: {
     content: {
@@ -444,10 +462,11 @@ export const en = {
       credentials: {
         section: {
           title: 'Credentials',
-          description: "Credentials can be saved for each source individually, including the username and password (HTTP basic)," +
-            " which can be used to open the source for validation. The credentials for opening the source should be requested from the owner of the material." +
+          description:
+            'Credentials can be saved for each source individually, including the username and password (HTTP basic),' +
+            ' which can be used to open the source for validation. The credentials for opening the source should be requested from the owner of the material.' +
             " URL pattern is used to automatically set credentials if entry's URL matches credential's URL pattern. The URL pattern is a regular expression. " +
-            " Use this regular expression as base for defining your own: (?<scheme>https?)://(?<domain>mydomain.fi+)(?<path>/[^?]*)?(\\\\?(?<params>.*))?",
+            ' Use this regular expression as base for defining your own: (?<scheme>https?)://(?<domain>mydomain.fi+)(?<path>/[^?]*)?(\\\\?(?<params>.*))?',
           name: 'credentials name'
         },
         actions: {
@@ -513,7 +532,6 @@ export const en = {
         InputFormatName: 'Input format name',
         count: 'count'
       }
-
     }
   },
   languages: {
