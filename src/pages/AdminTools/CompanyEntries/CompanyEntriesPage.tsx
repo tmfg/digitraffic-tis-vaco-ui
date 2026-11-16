@@ -90,7 +90,7 @@ const CompanyEntriesPage = () => {
           />
         </Pagination>
       )}
-      {allEntryRows && entriesToShow && entriesToShow.length === 0 && <div>{t('services:myData:noDataFound')}</div>}
+      {allEntryRows && entriesToShow?.length === 0 && <div>{t('services:myData:noDataFound')}</div>}
     </div>
   )
 }

@@ -85,7 +85,12 @@ const ProcessingResultsPage = () => {
     }
   }, [accessToken, ready, entryId])
 
-  const rerunEntry = (publicId: string, accessToken: string | null, setIsModalOpen: (status: boolean) => void, setEntryResource: (entry: EntryResource) => void) => {
+  const rerunEntry = (
+    publicId: string,
+    accessToken: string | null,
+    setIsModalOpen: (status: boolean) => void,
+    setEntryResource: (entry: EntryResource) => void
+  ) => {
     postRerunEntry(publicId, accessToken, setIsModalOpen, setEntryResource)
   }
 
@@ -117,119 +122,125 @@ const ProcessingResultsPage = () => {
       .catch((error) => console.error('Copying the link failed', error))
   }
 
-  const hasPackages= useMemo(() => {
+  const hasPackages = useMemo(() => {
     if (entryState === null) {
-      return undefined;
+      return undefined
     }
-    return entryState.data.reports.some((report) => report.packages.length > 0);
-
+    return entryState.data.reports.some((report) => report.packages.length > 0)
   }, [entryState])
 
   return (
     <div className={'page-content'}>
-      <>
-        {entryResource && isModalOpen && (
-          <SubmissionModal
-            publicId={entryResource.data.publicId}
-            email={email}
-            close={closeModal}
-            proceed={navigateToProcessingResults}
-            sendNotifications={entryResource.data.sendNotifications}
-          />
-        )}
-        <div style={{ display: 'flex', marginBottom: 0, alignItems: 'center', justifyContent: 'space-between' }}>
-          <h1 style={{ marginRight: '3rem' }}>
-            {t('services:processingResults:header')}
-            {bootstrap && entryState && (
-              <VacoBadge
-                style={{ width: '120px', marginLeft: '3rem' }}
-                bootstrap={bootstrap}
-                publicId={entryState.data.entry.data.publicId}
+      {entryResource && isModalOpen && (
+        <SubmissionModal
+          publicId={entryResource.data.publicId}
+          email={email}
+          close={closeModal}
+          proceed={navigateToProcessingResults}
+          sendNotifications={entryResource.data.sendNotifications}
+        />
+      )}
+      <div style={{ display: 'flex', marginBottom: 0, alignItems: 'center', justifyContent: 'space-between' }}>
+        <h1 style={{ marginRight: '3rem' }}>
+          {t('services:processingResults:header')}
+          {bootstrap && entryState && (
+            <VacoBadge
+              style={{ width: '120px', marginLeft: '3rem' }}
+              bootstrap={bootstrap}
+              publicId={entryState.data.entry.data.publicId}
+            />
+          )}
+        </h1>
+        <span className={'icon'}>
+          <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'flex-start' }}>
+            {entryState && hasAdminRole && (
+              <FdsButtonComponent
+                onClick={() =>
+                  rerunEntry(entryState.data.entry.data.publicId, accessToken, setIsModalOpen, setEntryResource)
+                }
+                icon="refresh-cw"
+                iconSize={FdsTokenSize2}
+                variant={FdsButtonVariant.secondary}
+                label={t('services:processingResults.rerun')}
               />
             )}
-          </h1>
-          <span className={'icon'}>
-            <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'flex-start' }}>
-              {entryState && hasAdminRole && (
+            {entryState && (
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                 <FdsButtonComponent
-                  onClick={() =>
-                    rerunEntry(entryState.data.entry.data.publicId, accessToken, setIsModalOpen, setEntryResource)
-                  }
-                  icon="refresh-cw"
+                  onClick={copyLinkToClipboard}
+                  slot="separated"
+                  icon="wand-2"
                   iconSize={FdsTokenSize2}
                   variant={FdsButtonVariant.secondary}
-                  label={t('services:processingResults.rerun')}
+                  label={t('services:processingResults:copyLink')}
                 />
-              )}
-              {entryState && (
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                  <FdsButtonComponent
-                    onClick={copyLinkToClipboard}
-                    slot="separated"
-                    icon="wand-2"
-                    iconSize={FdsTokenSize2}
-                    variant={FdsButtonVariant.secondary}
-                    label={t('services:processingResults:copyLink')}
-                  />
-                  {showLinkCopied && (
-                    <div style={{ marginTop: '12px', marginRight: '12px', color: '#1777F8', fontWeight: 700, marginLeft: '3px' }}>
-                      {t('common:copied')}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </span>
-        </div>
-          {isFetchInProgress && <LoadSpinner variant={SpinnerVariant.padded} />}
-          {entryState && (
-            <div>
-              <SubmittedData
-                entry={entryState.data.entry.data}
-                company={entryState.data.company}
-                credentials={credentials}
-                hasPackages={hasPackages} />
-
-              {!entryState.data.entry.data.completed && processingProgress !== 100 && !entryState.error && (
-                <Section hidable={false} titleKey={'services:processingResults:inProgress'}>
-                  <div style={{ marginBottom: '1.75rem' }}>
-                    {
-                      <Trans
-                        i18nKey="services:processingResults:progress"
-                        values={{ percentage: Math.round(processingProgress) }}
-                      ></Trans>
-                    }
-                  </div>
-                  <FdsButtonComponent
-                    variant={FdsButtonVariant.secondary}
-                    icon="refresh-cw"
-                    onClick={() => navigate(0)}
-                    label={t('common:refresh')}
-                  />
-                </Section>
-              )}
-
-              {entryState.data.summaries?.length > 0 ? (
-                <Section hidable={true} titleKey={'services:processingResults:summary'}>
-                  <Summary summaries={entryState.data.summaries} />
-                </Section>
-              ) : (
-                ''
-              )}
-
-              {entryState.data.reports.map((report) => {
-                return (
-                  <TaskContext.Provider
-                    key={'task-provider-report-' + report.name}
-                    value={entryState?.data.entry.data.tasks?.filter((t) => t.name === report.name)[0]}
+                {showLinkCopied && (
+                  <div
+                    style={{
+                      marginTop: '12px',
+                      marginRight: '12px',
+                      color: '#1777F8',
+                      fontWeight: 700,
+                      marginLeft: '3px'
+                    }}
                   >
-                    <Report key={'report-' + report.name} entry={entryState?.data.entry.data} report={report} />
-                  </TaskContext.Provider>
-                )
-              })}
-            </div>
+                    {t('common:copied')}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </span>
+      </div>
+      {isFetchInProgress && <LoadSpinner variant={SpinnerVariant.padded} />}
+      {entryState && (
+        <div>
+          <SubmittedData
+            entry={entryState.data.entry.data}
+            company={entryState.data.company}
+            credentials={credentials}
+            hasPackages={hasPackages}
+          />
+
+          {!entryState.data.entry.data.completed && processingProgress !== 100 && !entryState.error && (
+            <Section hidable={false} titleKey={'services:processingResults:inProgress'}>
+              <div style={{ marginBottom: '1.75rem' }}>
+                {
+                  <Trans
+                    i18nKey="services:processingResults:progress"
+                    values={{ percentage: Math.round(processingProgress) }}
+                  ></Trans>
+                }
+              </div>
+              <FdsButtonComponent
+                variant={FdsButtonVariant.secondary}
+                icon="refresh-cw"
+                onClick={() => navigate(0)}
+                label={t('common:refresh')}
+              />
+            </Section>
           )}
-        </>
+
+          {entryState.data.summaries?.length > 0 ? (
+            <Section hidable={true} titleKey={'services:processingResults:summary'}>
+              <Summary summaries={entryState.data.summaries} />
+            </Section>
+          ) : (
+            ''
+          )}
+
+          {entryState.data.reports.map((report) => {
+            return (
+              <TaskContext.Provider
+                key={'task-provider-report-' + report.name}
+                value={entryState?.data.entry.data.tasks?.filter((t) => t.name === report.name)[0]}
+              >
+                <Report key={'report-' + report.name} entry={entryState?.data.entry.data} report={report} />
+              </TaskContext.Provider>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }
