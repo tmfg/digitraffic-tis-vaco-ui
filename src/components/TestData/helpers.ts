@@ -7,7 +7,6 @@ import { InteractionStatus, IPublicClientApplication } from '@azure/msal-browser
 import { TFunction } from 'i18next'
 import { RulesetResource, RulesetType } from '../../types/Ruleset'
 import { validateFormData } from './validation'
-import { PublicValidationTest } from '../../types/PublicValidationTest'
 
 export const submitData = async (
   instance: IPublicClientApplication,
@@ -78,7 +77,7 @@ export const submitData = async (
 
   const requestBody: EntryRequest = {
     name: formData.feedName as string,
-    businessId: PublicValidationTest.businessId,
+    businessId: formData.businessId as string,
     url: formData.url as string,
     etag: formData.etag as string,
     format: (formData.format as string).toLowerCase(),

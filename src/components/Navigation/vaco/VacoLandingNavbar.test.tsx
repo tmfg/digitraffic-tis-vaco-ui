@@ -20,12 +20,13 @@ describe('Services menu for a visitor', () => {
     capturedItems.items = []
   })
 
-  it('is named "Palvelut" in Finnish and lists data delivery and test data', async () => {
+  it('is named "Palvelut" in Finnish and lists data delivery, test results and test data', async () => {
     await i18next.changeLanguage('fi')
     const item = myServicesItem(i18next.t)
 
     expect(item.label).toBe('Palvelut')
-    expect(item.dropDownItems?.map((i) => i.value)).toEqual(['/data', '/data/request'])
+    expect(item.dropDownItems?.map((i) => i.value)).toEqual(['/data', '/data/results', '/data/request'])
+    expect(item.dropDownItems?.map((i) => i.label)).toContain('Testi- ja validointitulokset')
   })
 
   it('is part of the landing navbar, which only visitors see', () => {
@@ -33,6 +34,13 @@ describe('Services menu for a visitor', () => {
 
     const services = capturedItems.items.find((i) => i.label === i18next.t('vaco:services'))
     expect(services).toBeDefined()
-    expect(services?.dropDownItems?.map((i) => i.value)).toEqual(['/data', '/data/request'])
+    expect(services?.dropDownItems?.map((i) => i.value)).toEqual(['/data', '/data/results', '/data/request'])
+  })
+
+  it('has no register item in the landing navbar', () => {
+    render(<VacoLandingNavbar />)
+
+    expect(capturedItems.items.find((i) => i.label === i18next.t('vaco:register'))).toBeUndefined()
+    expect(capturedItems.items.find((i) => i.label === i18next.t('vaco:login'))).toBeDefined()
   })
 })

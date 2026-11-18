@@ -1,7 +1,7 @@
 import { FdsIconType } from '../../../../coreui-components/src/fds-icon'
 import { FdsNavigationItem, FdsNavigationItemPosition } from '../../../../coreui-components/src/fds-navigation'
 import { TFunction } from 'i18next'
-import { createAccount, login } from '../../../hooks/auth'
+import { login } from '../../../hooks/auth'
 
 export const vacoItem = (): FdsNavigationItem => {
   return {
@@ -59,6 +59,10 @@ export const myServicesItem = (t: TFunction<'translation', undefined>): FdsNavig
         value: '/data'
       },
       {
+        label: t('vaco:testResults'),
+        value: '/data/results'
+      },
+      {
         label: t('vaco:testData'),
         value: '/data/request'
       }
@@ -106,14 +110,6 @@ export const loginItem = (t: TFunction<'translation', undefined>): FdsNavigation
   return {
     label: t('vaco:login'),
     value: login,
-    position: FdsNavigationItemPosition.right
-  }
-}
-
-export const registerItem = (t: TFunction<'translation', undefined>): FdsNavigationItem => {
-  return {
-    label: t('vaco:register'),
-    value: createAccount,
     position: FdsNavigationItemPosition.right
   }
 }

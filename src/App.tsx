@@ -8,6 +8,7 @@ import AppLayout from './AppLayout'
 import AuthRequiredPage from './pages/Error/AuthRequiredPage'
 import MyAccount from './pages/User/MyAccount'
 import DataDeliveryPage from './pages/AdminTools/DataDelivery/DataDeliveryPage'
+import TestResultsPage from './pages/TestResults/TestResultsPage'
 import CompanyEntriesPage from './pages/AdminTools/CompanyEntries/CompanyEntriesPage'
 import CompaniesPage from './pages/AdminTools/Companies/CompaniesPage'
 import CompanyInfoPage from './pages/AdminTools/CompanyInfo/CompanyInfoPage'
@@ -35,6 +36,10 @@ export const appChildRoutes: RouteObject[] = [
   {
     path: '/',
     element: <HomePage />
+  },
+  {
+    path: '/data/results',
+    element: <TestResultsPage />
   },
   {
     path: '/data/request',

@@ -15,8 +15,8 @@ test.describe(`Home Page, without authentication`, () => {
     await expect(page.getByRole('heading', { name: i18n.t('home:shortcuts') })).toBeVisible()
 
     // Shortcuts:
-    await expect(page.locator(shortcutCardSelector(i18n.t('vaco:login')))).toBeVisible()
-    await expect(page.locator(shortcutCardSelector(i18n.t('vaco:register')))).toBeVisible()
+    await expect(page.locator(shortcutCardSelector(i18n.t('vaco:login')))).toHaveCount(0)
+    await expect(page.locator(shortcutCardSelector(i18n.t('home:shortcut:testResults:label')))).toBeVisible()
     await expect(page.locator(shortcutCardSelector(i18n.t('home:shortcut:dataDelivery:label')))).toBeVisible()
     await expect(page.locator(shortcutCardSelector(i18n.t('home:shortcut:testData:label')))).toBeVisible()
     await expect(page.locator(`.item__label--bold >> span >> text=${i18n.t('vaco:vaco')}`)).toBeVisible()
@@ -29,7 +29,7 @@ test.describe(`Home Page, without authentication`, () => {
 
     await expect(page.locator(`span >> text=${i18n.t('vaco:support')}`)).toBeVisible()
     await expect(page.locator(`span >> text=${i18n.t('vaco:login')}`)).toBeVisible()
-    await expect(page.locator(`span >> text=${i18n.t('vaco:register')}`)).toBeVisible()
+    await expect(page.locator(`span >> text=${i18n.t('vaco:register')}`)).toHaveCount(0)
 
     await expect(page.locator(`span >> text=${i18n.t('locales:fi')}`)).toBeVisible()
     await page.locator(`span >> text=${i18n.t('locales:fi')}`).click()

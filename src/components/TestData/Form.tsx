@@ -1,6 +1,6 @@
 import './_form.scss'
 import { FdsAlertComponent } from '../fds/FdsAlertComponent'
-import { useCallback, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import { EntryResource } from '../../types/EntryResource'
 import { useMsal } from '@azure/msal-react'
 import { useTranslation } from 'react-i18next'
@@ -14,21 +14,29 @@ import BasicInformation from './BasicInformation/BasicInformation'
 import Rules from './Rules/Rules'
 import { FormError, FormData } from './types'
 import { PublicValidationTest } from '../../types/PublicValidationTest'
+import { AppContext } from '../../AppContextProvider'
 
 const Form = () => {
   const navigate = useNavigate()
   const { t } = useTranslation()
   const [accessToken, ready] = useOptionalAccessToken()
   const { instance, inProgress } = useMsal()
-  // Everyone submits to the public test company. The server ignores any other company, context, credentials or
-  // notification, so the form does not ask for them.
-  const [formData, setFormData] = useState<FormData>({
-    sendNotifications: false,
-    businessId: PublicValidationTest.businessId
-  })
+  const { companies } = useContext(AppContext)
+  const [formData, setFormData] = useState<FormData>({ sendNotifications: false })
+  // A signed-in user with companies chooses the company. A visitor, and a user without companies, submit to the
+  // public test company. The server ignores context, credentials and notifications, so the form does not ask for them.
+  const isSignedIn = accessToken !== null
+  const showCompany = isSignedIn && !!companies && companies.length > 0
+  const awaitsCompanies = isSignedIn && companies === undefined
+  let businessId: string | undefined = PublicValidationTest.businessId
+  if (awaitsCompanies) {
+    businessId = undefined
+  } else if (showCompany) {
+    businessId = formData.businessId
+  }
   const [formErrors, setFormErrors] = useState<FormError>({})
   const [formats, validationRules, conversionRules, isFetchInProgress] = useCompanyRulesFetch(
-    PublicValidationTest.businessId,
+    businessId,
     accessToken,
     ready
   )
@@ -71,6 +79,8 @@ const Form = () => {
           formStateUpdateCallback={updateFormState}
           formats={formats}
           isFetchInProgress={isFetchInProgress}
+          showCompany={showCompany}
+          selectedBusinessId={businessId}
         />
 
         <Rules
@@ -101,7 +111,7 @@ const Form = () => {
               submitData(
                 instance,
                 inProgress,
-                formData,
+                { ...formData, businessId },
                 setFormErrors,
                 setEntryResource,
                 setIsModalOpen,

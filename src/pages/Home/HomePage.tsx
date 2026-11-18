@@ -1,9 +1,6 @@
-import { useIsAuthenticated, useMsal } from '@azure/msal-react'
-import { createAccount, login } from '../../hooks/auth'
+import { useIsAuthenticated } from '@azure/msal-react'
 import { Shortcut } from '../../components/Shortcut/types'
 import ShortcutPanel from '../../components/Shortcut/ShortcutPanel'
-import LoginSvg from '../../assets/svg/login.svg'
-import NewUserSvg from '../../assets/svg/new_user.svg'
 import TestDataSvg from '../../assets/svg/test_data.svg'
 import DataDeliverySvg from '../../assets/svg/book_open_check.svg'
 import CompaniesSvg from '../../assets/svg/building.svg'
@@ -14,34 +11,10 @@ import { AppContext, AppContextType } from '../../AppContextProvider'
 
 const HomePage = () => {
   const isAuthenticated = useIsAuthenticated()
-  const { instance } = useMsal()
   const { t } = useTranslation()
   const appContext: AppContextType = useContext(AppContext)
   const [hasAdminRole, setHasAdminRole] = useState<boolean | undefined>(undefined)
   const [hasCompanyAdminRole, setHasCompanyAdminRole] = useState<boolean | undefined>(undefined)
-
-  const landingShortcuts: Shortcut[] = [
-    {
-      label: t('vaco:login'),
-      icon: <LoginSvg />,
-      to: '/',
-      onClick: () => {
-        login(instance).catch((error) => {
-          console.error('Login error', error)
-        })
-      },
-      description: t('home:shortcut:login:intro')
-    },
-    {
-      label: t('vaco:register'),
-      icon: <NewUserSvg />,
-      to: '/',
-      onClick: () => {
-        createAccount(instance)
-      },
-      description: t('home:shortcut:register:intro')
-    }
-  ]
 
   const publicShortcuts: Shortcut[] = [
     {
@@ -49,6 +22,12 @@ const HomePage = () => {
       to: '/data',
       icon: <DataDeliverySvg />,
       description: t('home:shortcut:dataDelivery:intro')
+    },
+    {
+      label: t('home:shortcut:testResults:label'),
+      to: '/data/results',
+      icon: <DataDeliverySvg />,
+      description: t('home:shortcut:testResults:intro')
     },
     {
       label: t('home:shortcut:testData:label'),
@@ -85,7 +64,7 @@ const HomePage = () => {
       </div>
 
       <h2>{t('home:shortcuts')}</h2>
-      <ShortcutPanel items={isAuthenticated ? publicShortcuts : [...landingShortcuts, ...publicShortcuts]} />
+      <ShortcutPanel items={publicShortcuts} />
       {isAuthenticated && (hasAdminRole || hasCompanyAdminRole) && <ShortcutPanel items={adminShortcuts} />}
     </div>
   )

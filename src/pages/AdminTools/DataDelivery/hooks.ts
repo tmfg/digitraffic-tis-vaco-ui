@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react'
 import { getHeaders, HttpClient } from '../../../HttpClient'
 import { CompanyLatestEntryResource } from '../../../types/DataDelivery'
 
-export const useDataDeliveryFetch = (accessToken: string | null, ready: boolean) => {
+export const useDataDeliveryFetch = (
+  accessToken: string | null,
+  ready: boolean,
+  path: string = '/api/ui/data-delivery'
+) => {
   const [data, setData] = useState<CompanyLatestEntryResource[] | null>(null)
   const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
 
@@ -10,7 +14,7 @@ export const useDataDeliveryFetch = (accessToken: string | null, ready: boolean)
     let ignore = false
     if (ready) {
       setIsFetchInProgress(true)
-      HttpClient.get('/api/ui/data-delivery', getHeaders(accessToken))
+      HttpClient.get(path, getHeaders(accessToken))
         .then((response) => {
           if (!ignore) {
             setData(response.data as CompanyLatestEntryResource[])
@@ -25,7 +29,7 @@ export const useDataDeliveryFetch = (accessToken: string | null, ready: boolean)
     return () => {
       ignore = true
     }
-  }, [accessToken, ready])
+  }, [accessToken, ready, path])
 
   return [data, isFetchInProgress] as const
 }

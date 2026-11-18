@@ -24,6 +24,27 @@ test.describe(`Public pages, without authentication`, () => {
     await page.locator(shortcutCardSelector(i18n.t('home:shortcut:dataDelivery:label'))).click()
 
     await expect(page.getByRole('heading', { name: i18n.t('admin:dataDelivery:header') })).toBeVisible()
+    await expect(page.getByText('Export CSV')).toHaveCount(0)
+    await expect(page.getByText(i18n.t('error:authRequired'))).toHaveCount(0)
+    expect(authorizationHeaders.length).toBeGreaterThan(0)
+    expect(authorizationHeaders.every((header) => header === undefined)).toBe(true)
+  })
+
+  test('Visitor opens the test and validation results from the home page', async ({ page, i18n }) => {
+    const authorizationHeaders: (string | undefined)[] = []
+    const ApiMockingPage = new APIMockingPage(page)
+    await ApiMockingPage.APIMocking()
+    await page.route('**/api/ui/data-delivery/test-results', async (route) => {
+      authorizationHeaders.push(route.request().headers()['authorization'])
+      await route.fulfill({ json: [] })
+    })
+    const ResourcesPage = new VacoResourcesPage(page)
+    await ResourcesPage.navigate()
+
+    await page.locator(shortcutCardSelector(i18n.t('home:shortcut:testResults:label'))).click()
+
+    await expect(page.getByRole('heading', { name: i18n.t('vaco:testResults') })).toBeVisible()
+    await expect(page.getByText('Export CSV')).toHaveCount(0)
     await expect(page.getByText(i18n.t('error:authRequired'))).toHaveCount(0)
     expect(authorizationHeaders.length).toBeGreaterThan(0)
     expect(authorizationHeaders.every((header) => header === undefined)).toBe(true)

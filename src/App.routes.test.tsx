@@ -18,6 +18,7 @@ describe('Old admin URLs', () => {
     msalTester = msalInitTester()
     server.use(
       http.get('http://localhost:8080/api/ui/data-delivery', () => HttpResponse.json([], { status: 200 })),
+      http.get('http://localhost:8080/api/ui/data-delivery/test-results', () => HttpResponse.json([], { status: 200 })),
       http.get('http://localhost:8080/api/ui/pages/company-entries/:businessId', () =>
         HttpResponse.json({ data: { entries: [] }, error: null, links: {} }, { status: 200 })
       )
@@ -47,6 +48,14 @@ describe('Old admin URLs', () => {
 
     expect(router.state.location.pathname).toBe('/data')
     expect(screen.getByText(i18next.t('admin:dataDelivery:header'))).toBeInTheDocument()
+  })
+
+  it('renders the test results page at /data/results', async () => {
+    await msalTester.isNotLogged()
+    const router = await renderAt('/data/results')
+
+    expect(router.state.location.pathname).toBe('/data/results')
+    expect(screen.getByText(i18next.t('vaco:testResults'))).toBeInTheDocument()
   })
 
   it('redirects the old company page and keeps the query string', async () => {

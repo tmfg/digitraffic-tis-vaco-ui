@@ -1,4 +1,5 @@
-import { useCallback, useEffect } from 'react'
+import { AppContext, AppContextType } from '../../../AppContextProvider'
+import { useCallback, useContext, useEffect, useMemo } from 'react'
 import { FdsDropdownOption } from '../../../../coreui-components/src/fds-dropdown'
 import { FdsInputChange } from '../../../../coreui-components/src/fds-input'
 import { generalListener, getNewFormErrorsState, getNewFormState } from '../../../util/form'
@@ -7,10 +8,13 @@ import { FdsDropdownComponent } from '../../fds/FdsDropdownComponent'
 import { FdsInputComponent } from '../../fds/FdsInputComponent'
 import { useTranslation } from 'react-i18next'
 import { FormSectionProps } from '../types'
+import { getCompanyFullName } from '../../../util/company'
 
 interface BasicInformationProps extends FormSectionProps {
   formats: string[]
   isFetchInProgress: boolean
+  showCompany: boolean
+  selectedBusinessId: string | undefined
 }
 
 const BasicInformation = ({
@@ -18,15 +22,39 @@ const BasicInformation = ({
   formErrors,
   formStateUpdateCallback,
   formats,
-  isFetchInProgress
+  isFetchInProgress,
+  showCompany,
+  selectedBusinessId
 }: BasicInformationProps) => {
   const { t, i18n } = useTranslation()
+  const appContext: AppContextType = useContext(AppContext)
+  const companyOptions: FdsDropdownOption<string>[] = useMemo(() => {
+    return appContext?.companies
+      ? appContext.companies.map((company) => {
+          return {
+            label: getCompanyFullName(company.name, company.businessId, t),
+            value: company.businessId
+          }
+        })
+      : []
+  }, [appContext.companies, t])
   const formatOptions: FdsDropdownOption<string>[] = formats.map((format: string) => {
     return {
       label: i18n.exists('format:' + format.toLowerCase()) ? t('format:' + format.toLowerCase()) : format,
       value: format
     }
   })
+
+  useEffect(() => {
+    // Set default selected company if there is only one option
+    if (showCompany && companyOptions.length === 1 && !formData.businessId) {
+      const newFormData = {
+        ...formData,
+        businessId: companyOptions[0].value
+      }
+      formStateUpdateCallback(newFormData, null)
+    }
+  }, [showCompany, companyOptions, formData, formStateUpdateCallback])
 
   useEffect(() => {
     // When user selects new company, resetting format if it's no longer available for the new company
@@ -93,12 +121,18 @@ const BasicInformation = ({
       etagElement.addEventListener('change', useGeneralListener)
     }
 
+    const companyElement = document.querySelector('[id="company"]')
+    if (companyElement && companyElement.getAttribute('listener') !== 'true') {
+      companyElement.addEventListener('select', useGeneralListener)
+    }
+
     return () => {
       feedNameElement?.removeEventListener('change', useGeneralListener)
       urlElement?.removeEventListener('change', useUrlListener)
       etagElement?.removeEventListener('change', useGeneralListener)
+      companyElement?.removeEventListener('select', useGeneralListener)
     }
-  }, [useGeneralListener, useUrlListener])
+  }, [useGeneralListener, useUrlListener, showCompany])
 
   useEffect(() => {
     if (!formats || formats.length === 0) {
@@ -117,6 +151,19 @@ const BasicInformation = ({
   return (
     <div className={'form-section'}>
       <h5>{t('services:testData.form.section.basic')}</h5>
+
+      {showCompany && (
+        <div id={'company'} className={'input-wrapper'}>
+          <FdsDropdownComponent
+            name={'businessId'}
+            label={t('services:testData.form.company') + ' *'}
+            options={companyOptions}
+            message={(formErrors['businessId'] as string) || ''}
+            error={!!formErrors['businessId']}
+            value={formData.businessId ? companyOptions.filter((c) => c.value === formData.businessId)[0] : undefined}
+          />
+        </div>
+      )}
 
       <div id={'feedName'} className={'input-wrapper'}>
         <FdsInputComponent
@@ -157,7 +204,7 @@ const BasicInformation = ({
           />
         </div>
       )}
-      {formatOptions.length == 0 && formData.businessId && !isFetchInProgress && (
+      {formatOptions.length == 0 && selectedBusinessId && !isFetchInProgress && (
         <div className={'error'}>{t('services:testData.form.noFormatsFound')}</div>
       )}
     </div>

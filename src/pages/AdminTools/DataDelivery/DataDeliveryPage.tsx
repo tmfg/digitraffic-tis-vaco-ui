@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { useContext } from 'react'
 import { useOptionalAccessToken } from '../../../hooks/optionalAccessToken'
 import { getHeaders, HttpClient } from '../../../HttpClient'
 import DataDeliveryView from '../../../components/DataDelivery/DataDeliveryView'
@@ -10,9 +11,13 @@ import { getCurrentTimestamp } from '../../../util/date'
 import { AxiosResponse } from 'axios'
 import { useDataDeliveryFetch } from './hooks'
 import LoadSpinner from '../../../components/Common/LoadSpinner/LoadSpinner'
+import { AppContext } from '../../../AppContextProvider'
+import { rolesContainVacoAdmin } from '../../../util/role'
 
 const DataDeliveryPage = () => {
   const { t, i18n } = useTranslation()
+  const appContext = useContext(AppContext)
+  const isAdmin = !!appContext.roles && rolesContainVacoAdmin(appContext.roles)
   const [accessToken, ready] = useOptionalAccessToken()
   const [data, isFetchInProgress] = useDataDeliveryFetch(accessToken, ready)
 
@@ -31,7 +36,7 @@ const DataDeliveryPage = () => {
     if (!ready) {
       return
     }
-    HttpClient.get('/api/ui/data-delivery/export?language=' + (i18n.resolvedLanguage || i18n.language), {
+    HttpClient.get('/api/ui/admin/data-delivery/export?language=' + (i18n.resolvedLanguage || i18n.language), {
       ...getHeaders(accessToken),
       responseType: 'blob'
     })
@@ -43,15 +48,17 @@ const DataDeliveryPage = () => {
     <div className={'page-content'}>
       <div style={{ display: 'flex', marginBottom: 0, alignItems: 'center', justifyContent: 'space-between' }}>
         <h1>{t('admin:dataDelivery:header')}</h1>
-        <FdsButtonComponent
-          onClick={exportCsv}
-          disabled={!ready}
-          slot="separated"
-          icon="download"
-          iconSize={FdsTokenSize2}
-          variant={FdsButtonVariant.secondary}
-          label={'Export CSV'}
-        />
+        {isAdmin && (
+          <FdsButtonComponent
+            onClick={exportCsv}
+            disabled={!ready}
+            slot="separated"
+            icon="download"
+            iconSize={FdsTokenSize2}
+            variant={FdsButtonVariant.secondary}
+            label={'Export CSV'}
+          />
+        )}
       </div>
       {isFetchInProgress && <LoadSpinner />}
       <DataDeliveryView data={data} />
