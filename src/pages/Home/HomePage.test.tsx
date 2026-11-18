@@ -41,8 +41,8 @@ describe('Home Page', () => {
     expect(screen.getByText(i18next.t('home:shortcut:testResults:label'))).toBeInTheDocument()
     expect(screen.getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual([
       '/data',
-      '/data/results',
-      '/data/request'
+      '/data/request',
+      '/data/results'
     ])
     // Data delivery and test data are open to visitors
     expect(screen.getByText(i18next.t('home:shortcut:testData:label'))).toBeInTheDocument()

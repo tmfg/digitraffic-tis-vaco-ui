@@ -53,6 +53,13 @@ describe('Data Delivery Page', () => {
     expect(authorizationHeaders[0]).toBeNull()
   })
 
+  it('shows the search form', async () => {
+    await msalTester.isNotLogged()
+    await renderPage()
+
+    expect(document.querySelector('#searchInput')).not.toBeNull()
+  })
+
   it('renders and fetches the deliveries with a token when user is logged in', async () => {
     await msalTester.isLogged()
     await renderPage()

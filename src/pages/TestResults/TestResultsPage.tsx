@@ -15,7 +15,7 @@ const TestResultsPage = () => {
     <div className={'page-content'}>
       <h1>{t('vaco:testResults')}</h1>
       {isFetchInProgress && <LoadSpinner />}
-      <DataDeliveryView data={data} />
+      <DataDeliveryView data={data} showSearch={false} />
     </div>
   )
 }

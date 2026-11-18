@@ -25,7 +25,7 @@ describe('Services menu for a visitor', () => {
     const item = myServicesItem(i18next.t)
 
     expect(item.label).toBe('Palvelut')
-    expect(item.dropDownItems?.map((i) => i.value)).toEqual(['/data', '/data/results', '/data/request'])
+    expect(item.dropDownItems?.map((i) => i.value)).toEqual(['/data', '/data/request', '/data/results'])
     expect(item.dropDownItems?.map((i) => i.label)).toContain('Testi- ja validointitulokset')
   })
 
@@ -34,7 +34,7 @@ describe('Services menu for a visitor', () => {
 
     const services = capturedItems.items.find((i) => i.label === i18next.t('vaco:services'))
     expect(services).toBeDefined()
-    expect(services?.dropDownItems?.map((i) => i.value)).toEqual(['/data', '/data/results', '/data/request'])
+    expect(services?.dropDownItems?.map((i) => i.value)).toEqual(['/data', '/data/request', '/data/results'])
   })
 
   it('has no register item in the landing navbar', () => {

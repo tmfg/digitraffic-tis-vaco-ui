@@ -61,6 +61,13 @@ describe('Test Results Page', () => {
     expect(authorizationHeaders.every((header) => header !== null)).toBe(true)
   })
 
+  it('has no search form', async () => {
+    await msalTester.isNotLogged()
+    await renderPage()
+
+    expect(document.querySelector('#searchInput')).toBeNull()
+  })
+
   it('has no export button', async () => {
     await msalTester.isNotLogged()
     await renderPage()

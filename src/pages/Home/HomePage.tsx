@@ -24,16 +24,16 @@ const HomePage = () => {
       description: t('home:shortcut:dataDelivery:intro')
     },
     {
-      label: t('home:shortcut:testResults:label'),
-      to: '/data/results',
-      icon: <DataDeliverySvg />,
-      description: t('home:shortcut:testResults:intro')
-    },
-    {
       label: t('home:shortcut:testData:label'),
       to: '/data/request',
       icon: <TestDataSvg />,
       description: t('home:shortcut:testData:intro')
+    },
+    {
+      label: t('home:shortcut:testResults:label'),
+      to: '/data/results',
+      icon: <DataDeliverySvg />,
+      description: t('home:shortcut:testResults:intro')
     }
   ]
 

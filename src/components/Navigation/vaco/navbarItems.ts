@@ -59,12 +59,12 @@ export const myServicesItem = (t: TFunction<'translation', undefined>): FdsNavig
         value: '/data'
       },
       {
-        label: t('vaco:testResults'),
-        value: '/data/results'
-      },
-      {
         label: t('vaco:testData'),
         value: '/data/request'
+      },
+      {
+        label: t('vaco:testResults'),
+        value: '/data/results'
       }
     ]
   }
