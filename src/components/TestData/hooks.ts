@@ -14,30 +14,48 @@ export const useCompanyRulesFetch = (
   const [conversionRules, setConversionRules] = useState<RulesetResource[]>([])
   const [formats, setFormats] = useState<string[]>([])
   const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
+  const [loadedBusinessId, setLoadedBusinessId] = useState<string | undefined>(undefined)
 
   useEffect(() => {
-    if (ready && selectedBusinessId) {
-      setIsFetchInProgress(true)
-      HttpClient.get(`/api/ui/rules?businessId=${selectedBusinessId}`, getHeaders(accessToken)).then(
-        (response) => {
-          setIsFetchInProgress(false)
-          const companyRules = response.data as RulesetResource[]
-          const availableValidationRules = companyRules.filter((rule) => rule.data.type === RulesetType.ValidationSyntax)
-          setValidationRules(availableValidationRules)
-          const availableConversionRules = companyRules.filter((rule) => rule.data.type === RulesetType.ConversionSyntax)
-          setConversionRules(availableConversionRules)
-          const availableFormats = getUniqueValues(availableValidationRules.map((rule) => rule.data.format)).sort()
-          setFormats(availableFormats)
-        },
-        (error) => {
-          setIsFetchInProgress(false)
-          return Promise.reject(error)
+    if (!(ready && selectedBusinessId)) {
+      return
+    }
+    // A response belongs to the company it was requested for. Once the selection changes, the cleanup marks it stale.
+    let stale = false
+    setValidationRules([])
+    setConversionRules([])
+    setFormats([])
+    setLoadedBusinessId(undefined)
+    setIsFetchInProgress(true)
+    HttpClient.get(`/api/ui/rules?businessId=${selectedBusinessId}`, getHeaders(accessToken)).then(
+      (response) => {
+        if (stale) {
+          return
         }
-      )
+        setIsFetchInProgress(false)
+        const companyRules = response.data as RulesetResource[]
+        const availableValidationRules = companyRules.filter((rule) => rule.data.type === RulesetType.ValidationSyntax)
+        setValidationRules(availableValidationRules)
+        const availableConversionRules = companyRules.filter((rule) => rule.data.type === RulesetType.ConversionSyntax)
+        setConversionRules(availableConversionRules)
+        const availableFormats = getUniqueValues(availableValidationRules.map((rule) => rule.data.format)).sort()
+        setFormats(availableFormats)
+        setLoadedBusinessId(selectedBusinessId)
+      },
+      (error) => {
+        if (!stale) {
+          setIsFetchInProgress(false)
+          setLoadedBusinessId(selectedBusinessId)
+        }
+        return Promise.reject(error)
+      }
+    )
+    return () => {
+      stale = true
     }
   }, [accessToken, ready, selectedBusinessId])
 
-  return [formats, validationRules, conversionRules, isFetchInProgress] as const
+  return [formats, validationRules, conversionRules, isFetchInProgress, loadedBusinessId] as const
 }
 
 export const useRulesForFormat = (selectedFormat: string | undefined, availableRules: RulesetResource[]) => {

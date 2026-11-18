@@ -160,7 +160,7 @@ const BasicInformation = ({
             options={companyOptions}
             message={(formErrors['businessId'] as string) || ''}
             error={!!formErrors['businessId']}
-            value={formData.businessId ? companyOptions.filter((c) => c.value === formData.businessId)[0] : undefined}
+            value={formData.businessId ? companyOptions.find((c) => c.value === formData.businessId) : undefined}
           />
         </div>
       )}
@@ -200,7 +200,7 @@ const BasicInformation = ({
             message={(formErrors.format as string) || ''}
             error={!!formErrors.format}
             // Providing value would show selected option in the drop-down list in a highlighted way
-            value={formData.format ? formatOptions.filter((c) => c.value === formData.format)[0] : undefined}
+            value={formData.format ? formatOptions.find((c) => c.value === formData.format) : undefined}
           />
         </div>
       )}

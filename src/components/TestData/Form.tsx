@@ -35,11 +35,12 @@ const Form = () => {
     businessId = formData.businessId
   }
   const [formErrors, setFormErrors] = useState<FormError>({})
-  const [formats, validationRules, conversionRules, isFetchInProgress] = useCompanyRulesFetch(
+  const [formats, validationRules, conversionRules, isFetchInProgress, loadedBusinessId] = useCompanyRulesFetch(
     businessId,
     accessToken,
     ready
   )
+  const rulesLoaded = businessId !== undefined && loadedBusinessId === businessId
   const [validationRulesForSelectedFormat] = useRulesForFormat(formData.format, validationRules)
   const [conversionRulesForSelectedFormat] = useRulesForFormat(formData.format, conversionRules)
   const [entryResource, setEntryResource] = useState<EntryResource | null>(null)
@@ -122,6 +123,7 @@ const Form = () => {
                 // TODO: show some alert
               )
             }}
+            disabled={!rulesLoaded}
             label={t('services:testData:form:submit')}
           />
         </div>

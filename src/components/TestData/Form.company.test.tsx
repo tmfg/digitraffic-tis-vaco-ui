@@ -47,6 +47,11 @@ vi.mock('../fds/FdsDropdownComponent', () => ({
   }
 }))
 
+vi.mock(
+  '../fds/FdsButtonComponent',
+  async () => (await import('../../test/unit/mocks/fdsComponents')).fdsComponentMocks.button
+)
+
 const company = (businessId: string, name: string): Company => ({
   businessId,
   name,
@@ -113,6 +118,32 @@ describe('Test Data Form company choice', () => {
     fireEvent.change(screen.getByLabelText(companyLabel()), { target: { value: '2222222-2' } })
     await waitFor(() => expect(rulesRequests).toContain('2222222-2'))
     expect(rulesRequests).not.toContain(PublicValidationTest.businessId)
+  })
+
+  it('keeps submit disabled until the rules of a newly selected company have loaded', async () => {
+    let releaseSecond: () => void = () => undefined
+    server.use(
+      http.get('http://localhost:8080/api/ui/rules', async ({ request }) => {
+        if (new URL(request.url).searchParams.get('businessId') === '2222222-2') {
+          await new Promise<void>((resolve) => {
+            releaseSecond = resolve
+          })
+        }
+        return HttpResponse.json([], { status: 200 })
+      })
+    )
+    await msalTester.isLogged()
+    await renderForm([company('1111111-1', 'First Oy'), company('2222222-2', 'Second Oy')])
+    const submit = () => screen.getByRole('button', { name: i18next.t('services:testData:form:submit') })
+
+    fireEvent.change(screen.getByLabelText(companyLabel()), { target: { value: '1111111-1' } })
+    await waitFor(() => expect(submit()).not.toHaveAttribute('aria-disabled', 'true'))
+
+    fireEvent.change(screen.getByLabelText(companyLabel()), { target: { value: '2222222-2' } })
+    await waitFor(() => expect(submit()).toHaveAttribute('aria-disabled', 'true'))
+
+    await act(async () => releaseSecond())
+    await waitFor(() => expect(submit()).not.toHaveAttribute('aria-disabled', 'true'))
   })
 
   it('preselects the only company of a logged-in user', async () => {
