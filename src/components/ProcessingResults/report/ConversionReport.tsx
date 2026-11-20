@@ -1,6 +1,5 @@
 import './_report.scss'
 import { TaskReport } from '../../../types/EntryStateResource'
-import { useIsAuthenticated } from '@azure/msal-react'
 import Packages from './Packages.tsx'
 import { Status } from '../../../types/Task'
 import LoadSpinner from '../../Common/LoadSpinner/LoadSpinner'
@@ -14,7 +13,6 @@ interface ConversionReportProps {
 }
 
 const ConversionReport = ({ report }: ConversionReportProps) => {
-  const isAuthenticated = useIsAuthenticated()
   const task = useContext(TaskContext)
 
   return (
@@ -26,7 +24,7 @@ const ConversionReport = ({ report }: ConversionReportProps) => {
       {report.findings && report.findings.length > 0 && (
         <FindingsTable aggregatedFindings={report.findings} taskName={report.name} />
       )}
-      {isAuthenticated && report.packages && report.packages.length > 0 && (
+      {report.packages && report.packages.length > 0 && (
         <Packages taskType={report.type} packages={report.packages} />
       )}
     </div>

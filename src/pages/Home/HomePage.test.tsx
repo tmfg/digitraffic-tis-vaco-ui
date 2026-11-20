@@ -35,10 +35,18 @@ describe('Home Page', () => {
     await msalTester.isNotLogged()
     await renderComponent()
     await msalTester.waitForRedirect()
-    expect(screen.getByText(i18next.t('vaco:login'))).toBeInTheDocument()
-    expect(screen.getByText(i18next.t('vaco:register'))).toBeInTheDocument()
-    expect(screen.queryByText(i18next.t('home:shortcut:testData:label'))).toBeNull()
-    expect(screen.queryByText(i18next.t('home:shortcut:myData:label'))).toBeNull()
+    // Test results are open to visitors, and there is no login or register shortcut
+    expect(screen.queryByText(i18next.t('vaco:login'))).toBeNull()
+    expect(screen.queryByText(i18next.t('vaco:register'))).toBeNull()
+    expect(screen.getByText(i18next.t('home:shortcut:testResults:label'))).toBeInTheDocument()
+    expect(screen.getAllByRole('link').map((link) => link.getAttribute('href'))).toEqual([
+      '/data',
+      '/data/request',
+      '/data/results'
+    ])
+    // Data delivery and test data are open to visitors
+    expect(screen.getByText(i18next.t('home:shortcut:testData:label'))).toBeInTheDocument()
+    expect(screen.getByText(i18next.t('home:shortcut:dataDelivery:label'))).toBeInTheDocument()
   })
 
   it('Home page renders correctly when user got logged in', async () => {
@@ -47,7 +55,7 @@ describe('Home Page', () => {
     await renderComponent()
     await msalTester.waitForRedirect()
     expect(screen.getByText(i18next.t('home:shortcut:testData:label'))).toBeInTheDocument()
-    expect(screen.getByText(i18next.t('home:shortcut:myData:label'))).toBeInTheDocument()
+    expect(screen.getByText(i18next.t('home:shortcut:dataDelivery:label'))).toBeInTheDocument()
     expect(screen.queryByText(i18next.t('vaco:login'))).toBeNull()
     expect(screen.queryByText(i18next.t('vaco:register'))).toBeNull()
   })

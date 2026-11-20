@@ -14,9 +14,10 @@ import { useSearchInputListener } from '../../hooks/searchInputListener'
 
 interface DataDeliveryProps {
   data: CompanyLatestEntryResource[] | null
+  showSearch?: boolean
 }
 
-const DataDeliveryView = ({ data }: DataDeliveryProps) => {
+const DataDeliveryView = ({ data, showSearch = true }: DataDeliveryProps) => {
   const bootstrap = useContext(EnvironmentContext)
   const { t } = useTranslation()
   const searchInputRef = useRef<HTMLDivElement | null>(null)
@@ -54,27 +55,29 @@ const DataDeliveryView = ({ data }: DataDeliveryProps) => {
 
   return (
     <>
-      <div className={'searchLatestEntries'}>
-        <form>
-          <div id={'searchInput'} ref={searchInputRef} className={'search-input'}>
-            <FdsInputComponent
-              clearable={true}
-              name={'searchWord'}
-              placeholder={t('admin:dataDelivery:searchWordPlaceholder')}
-              label={t('services:myData:searchWord')}
-            />
-          </div>
-          <div className={'search-button'}>
-            <FdsButtonComponent
-              onClick={(e) => {
-                e.preventDefault()
-                setRowsToShow(searchWord && allRows ? filterTableRowsBySearchWord(searchWord, allRows) : allRows)
-              }}
-              label={t('common:search')}
-            />
-          </div>
-        </form>
-      </div>
+      {showSearch && (
+        <div className={'searchLatestEntries'}>
+          <form>
+            <div id={'searchInput'} ref={searchInputRef} className={'search-input'}>
+              <FdsInputComponent
+                clearable={true}
+                name={'searchWord'}
+                placeholder={t('admin:dataDelivery:searchWordPlaceholder')}
+                label={t('services:myData:searchWord')}
+              />
+            </div>
+            <div className={'search-button'}>
+              <FdsButtonComponent
+                onClick={(e) => {
+                  e.preventDefault()
+                  setRowsToShow(searchWord && allRows ? filterTableRowsBySearchWord(searchWord, allRows) : allRows)
+                }}
+                label={t('common:search')}
+              />
+            </div>
+          </form>
+        </div>
+      )}
       {!allRows && ''}
       <h5 className={'header-wrapper__big'}></h5>
       {rowsToShow && rowsToShow.length > 0 && (

@@ -1,10 +1,6 @@
-import { useIsAuthenticated, useMsal } from '@azure/msal-react'
-import { createAccount, login } from '../../hooks/auth'
+import { useIsAuthenticated } from '@azure/msal-react'
 import { Shortcut } from '../../components/Shortcut/types'
 import ShortcutPanel from '../../components/Shortcut/ShortcutPanel'
-import LoginSvg from '../../assets/svg/login.svg'
-import NewUserSvg from '../../assets/svg/new_user.svg'
-import MyDataSvg from '../../assets/svg/my_data.svg'
 import TestDataSvg from '../../assets/svg/test_data.svg'
 import DataDeliverySvg from '../../assets/svg/book_open_check.svg'
 import CompaniesSvg from '../../assets/svg/building.svg'
@@ -15,57 +11,33 @@ import { AppContext, AppContextType } from '../../AppContextProvider'
 
 const HomePage = () => {
   const isAuthenticated = useIsAuthenticated()
-  const { instance } = useMsal()
   const { t } = useTranslation()
   const appContext: AppContextType = useContext(AppContext)
   const [hasAdminRole, setHasAdminRole] = useState<boolean | undefined>(undefined)
   const [hasCompanyAdminRole, setHasCompanyAdminRole] = useState<boolean | undefined>(undefined)
 
-  const landingShortcuts: Shortcut[] = [
+  const publicShortcuts: Shortcut[] = [
     {
-      label: t('vaco:login'),
-      icon: <LoginSvg />,
-      to: '/',
-      onClick: () => {
-        login(instance).catch((error) => {
-          console.error('Login error', error)
-        })
-      },
-      description: t('home:shortcut:login:intro')
-    },
-    {
-      label: t('vaco:register'),
-      icon: <NewUserSvg />,
-      to: '/',
-      onClick: () => {
-        createAccount(instance)
-      },
-      description: t('home:shortcut:register:intro')
-    }
-  ]
-
-  const userShortcuts: Shortcut[] = [
-    {
-      label: t('home:shortcut:myData:label'),
+      label: t('home:shortcut:dataDelivery:label'),
       to: '/data',
-      icon: <MyDataSvg />,
-      description: t('home:shortcut:myData:intro')
+      icon: <DataDeliverySvg />,
+      description: t('home:shortcut:dataDelivery:intro')
     },
     {
       label: t('home:shortcut:testData:label'),
       to: '/data/request',
       icon: <TestDataSvg />,
       description: t('home:shortcut:testData:intro')
+    },
+    {
+      label: t('home:shortcut:testResults:label'),
+      to: '/data/results',
+      icon: <DataDeliverySvg />,
+      description: t('home:shortcut:testResults:intro')
     }
   ]
 
   const adminShortcuts: Shortcut[] = [
-    {
-      label: t('home:shortcut:dataDelivery:label'),
-      to: '/admin/data-delivery',
-      icon: <DataDeliverySvg />,
-      description: t('home:shortcut:dataDelivery:intro')
-    } ,
     {
       label: t('home:shortcut:companies:label'),
       to: '/admin/companies',
@@ -92,7 +64,7 @@ const HomePage = () => {
       </div>
 
       <h2>{t('home:shortcuts')}</h2>
-      <ShortcutPanel items={isAuthenticated ? userShortcuts : landingShortcuts} />
+      <ShortcutPanel items={publicShortcuts} />
       {isAuthenticated && (hasAdminRole || hasCompanyAdminRole) && <ShortcutPanel items={adminShortcuts} />}
     </div>
   )

@@ -28,13 +28,13 @@ export const en = {
     privacy: 'Privacy Policy',
     support: 'Support',
     channels: 'Support channels',
-    services: 'My services',
+    services: 'Services',
     testData: 'Test and validate',
+    testResults: 'Test and validation results',
     myData: 'My data',
     user: 'My account',
     login: 'Log in',
     logout: 'Log out',
-    register: 'Register',
     redirecting: 'Redirecting...'
   },
   home: {
@@ -46,14 +46,6 @@ export const en = {
     },
     shortcuts: 'Shortcuts',
     shortcut: {
-      login: {
-        label: 'Log in',
-        intro: 'Log in to start using the service.'
-      },
-      register: {
-        label: 'Register',
-        intro: 'Create an account if you are new to the service.'
-      },
       testData: {
         label: 'Test your data',
         intro: 'Validate data, get compliance report and converted data.'
@@ -65,6 +57,10 @@ export const en = {
       dataDelivery: {
         label: 'Data delivery view',
         intro: "Overview of companies' latest published data"
+      },
+      testResults: {
+        label: 'Test and validation results',
+        intro: 'Latest results of test and validation submissions'
       },
       companies: {
         label: 'Manage companies',
@@ -145,8 +141,8 @@ export const en = {
     },
     processingResults: {
       header: 'Data publication results',
-      magicLink: 'Copy shareable link',
       rerun: 'Rerun entry',
+      copyLink: 'Copy link',
       expiryWarning: 'Note! The publication is older than {{days}} days.',
       dataNotAvailable: 'Some publication results may not be available, please publish your data again.',
       summary: 'Summary',

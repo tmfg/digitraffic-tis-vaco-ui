@@ -16,15 +16,10 @@ export const submitData = async (
   setEntryResource: (entry: EntryResource) => void,
   setIsModalOpen: (status: boolean) => void,
   translate: TFunction<'translation', undefined>,
-  rules: RulesetResource[],
-  email?: string | null
+  rules: RulesetResource[]
 ) => {
-  const tokenResult = await acquireToken(instance, inProgress)
-  if (!tokenResult) {
-    // TODO: At some point, show some error notification
-    return
-  }
-
+  // A visitor has no account and needs no token, because the endpoint is open.
+  const tokenResult = instance.getActiveAccount() ? await acquireToken(instance, inProgress) : undefined
   const selectedRules = rules.filter((rule) => formData['rule-' + rule.data.identifyingName])
   const errors = validateFormData(formData, translate, selectedRules)
   if (Object.keys(errors).length > 0) {
@@ -83,21 +78,15 @@ export const submitData = async (
   const requestBody: EntryRequest = {
     name: formData.feedName as string,
     businessId: formData.businessId as string,
-    credentials: formData.credentials as string,
     url: formData.url as string,
-    context: formData.context as string,
     etag: formData.etag as string,
     format: (formData.format as string).toLowerCase(),
     validations,
     conversions,
-    sendNotifications: formData.sendNotifications as boolean
+    sendNotifications: false
   }
 
-  if (email) {
-    requestBody.notifications = [email]
-  }
-
-  const { data } = await HttpClient.post('/api/ui/queue', requestBody, getHeaders(tokenResult.accessToken))
+  const { data } = await HttpClient.post('/api/ui/queue', requestBody, getHeaders(tokenResult?.accessToken))
   setEntryResource(data as EntryResource)
   setIsModalOpen(true)
 }

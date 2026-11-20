@@ -72,13 +72,6 @@ export const tokenRequest = (account: AccountInfo, clientId: string): RedirectRe
   }
 }
 
-export const createAccountRequest = (clientId: string): RedirectRequest => {
-  return {
-    scopes: [`api://${clientId}/VACO.App`],
-    prompt: 'create'
-  }
-}
-
 /**
  * Add here the scopes to request when obtaining an access token for MS Graph API. For more information, see:
  * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/resources-and-scopes.md

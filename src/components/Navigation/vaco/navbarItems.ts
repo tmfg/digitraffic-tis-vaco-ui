@@ -1,7 +1,7 @@
 import { FdsIconType } from '../../../../coreui-components/src/fds-icon'
 import { FdsNavigationItem, FdsNavigationItemPosition } from '../../../../coreui-components/src/fds-navigation'
 import { TFunction } from 'i18next'
-import { createAccount, login } from '../../../hooks/auth'
+import { login } from '../../../hooks/auth'
 
 export const vacoItem = (): FdsNavigationItem => {
   return {
@@ -55,12 +55,16 @@ export const myServicesItem = (t: TFunction<'translation', undefined>): FdsNavig
     value: '',
     dropDownItems: [
       {
-        label: t('vaco:myData'),
+        label: t('admin:dataDelivery:header'),
         value: '/data'
       },
       {
         label: t('vaco:testData'),
         value: '/data/request'
+      },
+      {
+        label: t('vaco:testResults'),
+        value: '/data/results'
       }
     ]
   }
@@ -71,10 +75,6 @@ export const adminToolsItem = (t: TFunction<'translation', undefined>): FdsNavig
     label: t('admin:tools'),
     value: '',
     dropDownItems: [
-      {
-        label: t('admin:dataDelivery:header'),
-        value: '/admin/data-delivery'
-      },
       {
         label: t('admin:companies:header'),
         value: '/admin/companies'
@@ -110,14 +110,6 @@ export const loginItem = (t: TFunction<'translation', undefined>): FdsNavigation
   return {
     label: t('vaco:login'),
     value: login,
-    position: FdsNavigationItemPosition.right
-  }
-}
-
-export const registerItem = (t: TFunction<'translation', undefined>): FdsNavigationItem => {
-  return {
-    label: t('vaco:register'),
-    value: createAccount,
     position: FdsNavigationItemPosition.right
   }
 }

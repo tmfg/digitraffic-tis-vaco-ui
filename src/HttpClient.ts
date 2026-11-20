@@ -2,8 +2,8 @@ import axios, { AxiosInstance } from 'axios'
 import { Bootstrap } from './types/Bootstrap.ts'
 
 /* istanbul ignore next 10 -- @preserve */
-export const getHeaders = (token: string) => {
-  return { headers: { Authorization: `Bearer ${token}` } }
+export const getHeaders = (token: string | null | undefined) => {
+  return token ? { headers: { Authorization: `Bearer ${token}` } } : { headers: {} }
 }
 
 let client: AxiosInstance

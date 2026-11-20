@@ -28,13 +28,13 @@ export const sv = {
     privacy: 'Dataskyddsbeskrivning',
     support: 'Support',
     channels: 'Kundtjänst',
-    services: 'Mina tjänster',
+    services: 'Tjänster',
     testData: 'Testa och validera',
+    testResults: 'Test- och valideringsresultat',
     myData: 'Egna datapublikationer',
     user: 'Mina uppgifter',
     login: 'Logga in',
     logout: 'Utloggning',
-    register: 'Registrera dig',
     redirecting: 'Omdirigeras...'
   },
   home: {
@@ -46,14 +46,6 @@ export const sv = {
     },
     shortcuts: 'Genvägar',
     shortcut: {
-      login: {
-        label: 'Logga in',
-        intro: 'Logga in för att börja använda tjänsten.'
-      },
-      register: {
-        label: 'Registrera dig',
-        intro: 'Skapa ett konto om tjänsten är ny för dig.'
-      },
       testData: {
         label: 'Testa dina data',
         intro: 'Validera data, hämta efterlevnadsrapport och konverterade data.'
@@ -66,6 +58,10 @@ export const sv = {
         label: 'Dataleveransvy',
         // TODO: needs proper translation!
         intro: 'Översikt över företagens senaste publicerade data'
+      },
+      testResults: {
+        label: 'Test- och valideringsresultat',
+        intro: 'Översikt över de senaste resultaten av test- och valideringsinlämningar'
       },
       companies: {
         label: 'Hantera företag',
@@ -145,8 +141,8 @@ export const sv = {
     },
     processingResults: {
       header: 'Datapublikationens resultat',
-      magicLink: 'Kopiera delbar länk',
       rerun: 'Omstartsmatning',
+      copyLink: 'Kopiera länk',
       expiryWarning: 'Observera! Publikationen är äldre än {{days}} dagar.',
       dataNotAvailable: 'Vissa publicering resultat kanske inte är tillgängliga, vänligen publicera dina data igen.',
       summary: 'Sammanfattning',

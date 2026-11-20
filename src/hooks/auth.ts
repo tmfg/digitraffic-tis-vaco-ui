@@ -6,7 +6,7 @@ import {
   InteractionStatus,
   IPublicClientApplication
 } from '@azure/msal-browser'
-import { createAccountRequest, loginRequest, tokenRequest } from '../authConfig'
+import { loginRequest, tokenRequest } from '../authConfig'
 import { Bootstrap } from '../types/Bootstrap'
 import { useIsAuthenticated, useMsal } from '@azure/msal-react'
 import { useEffect, useState } from 'react'
@@ -47,13 +47,6 @@ export const acquireToken = (
 /* istanbul ignore next 56 -- @preserve */
 export const login = (msalInstance: IPublicClientApplication) => {
   return msalInstance.loginRedirect(loginRequest(bootstrap.clientId))
-}
-
-/* istanbul ignore next 56 -- @preserve */
-export const createAccount = (msalInstance: IPublicClientApplication) => {
-  msalInstance.loginRedirect(createAccountRequest(bootstrap.clientId)).catch((error) => {
-    console.error('Account creation error', error)
-  })
 }
 
 /* istanbul ignore next 56 -- @preserve */

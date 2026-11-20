@@ -28,13 +28,13 @@ export const fi = {
     privacy: 'Tietosuojaseloste',
     support: 'Tuki',
     channels: 'Tukikanavat',
-    services: 'Omat palvelut',
+    services: 'Palvelut',
     testData: 'Testaa ja validoi',
+    testResults: 'Testi- ja validointitulokset',
     myData: 'Omat datajulkaisut',
     user: 'Omat tiedot',
     login: 'Kirjaudu',
     logout: 'Kirjaudu ulos',
-    register: 'Rekisteröidy',
     redirecting: 'Ohjataan uudelleen...'
   },
   home: {
@@ -46,14 +46,6 @@ export const fi = {
     },
     shortcuts: 'Pikavalinnat',
     shortcut: {
-      login: {
-        label: 'Kirjaudu',
-        intro: 'Aloita palvelun käyttö kirjautumalla sisään.'
-      },
-      register: {
-        label: 'Rekisteröidy',
-        intro: 'Luo tili, jos olet uusi käyttäjä.'
-      },
       testData: {
         label: 'Testaa datasi',
         intro: 'Validoi datasi, niin saat yhteensopivuusraportin ja konvertoidun datan.'
@@ -66,6 +58,10 @@ export const fi = {
         label: 'Datan toimitusnäkymä',
         // TODO: needs proper translation!
         intro: 'Katsaus yritysten viimeisimpiin julkaistuihin tietoihin'
+      },
+      testResults: {
+        label: 'Testi- ja validointitulokset',
+        intro: 'Katsaus testaus- ja validointitoimitusten viimeisimpiin tuloksiin'
       },
       companies: {
         label: 'Yritysten hallinta',
@@ -147,8 +143,8 @@ export const fi = {
     },
     processingResults: {
       header: 'Datajulkaisun tulokset',
-      magicLink: 'Kopioi jaettava linkki',
       rerun: 'Aja syöte uudelleen',
+      copyLink: 'Kopioi linkki',
       expiryWarning: 'Huomio! Julkaisu on yli {{days}} päivää vanha.',
       dataNotAvailable: 'Joitakin julkaisutuloksia ei ehkä ole saatavilla, tarvittaessa suorita julkaisu uudelleen.',
       summary: 'Yhteenveto',

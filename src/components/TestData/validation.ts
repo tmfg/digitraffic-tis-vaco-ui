@@ -10,6 +10,10 @@ export const validateFormData = (
 ) => {
   const errors: Map = {}
 
+  if (!formData.businessId) {
+    errors.businessId = translate('services:testData.form.companyRequired')
+  }
+
   if (!formData.url) {
     errors.url = translate('formValidation:isRequired', { value: 'URL' })
   } else if (!(formData.url.toString().startsWith('http://') || formData.url.toString().startsWith('https://'))) {
@@ -20,10 +24,6 @@ export const validateFormData = (
 
   if (!formData.format) {
     errors.format = translate('services:testData.form.formatRequired')
-  }
-
-  if (!formData.businessId) {
-    errors.businessId = translate('services:testData.form.companyRequired')
   }
 
   if (formData.format && selectedRules.length === 0) {
