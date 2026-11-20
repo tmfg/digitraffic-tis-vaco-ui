@@ -26,6 +26,7 @@ export interface AuthenticationDetails {
 }
 
 export class HttpBasicAuthenticationDetails implements AuthenticationDetails {
+  type: string
   userId: string
   password: string
 }
