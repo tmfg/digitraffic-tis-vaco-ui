@@ -1,7 +1,6 @@
 .entry-summary {
   display: table;
   width: 100%;
-  //border-spacing: 0 1rem;
 }
 
 .summary-header {
@@ -35,4 +34,5 @@
 .entry-summary .col {
   display: table-cell;
   padding-bottom: 18px;
+  padding-right: 36px;
 }
