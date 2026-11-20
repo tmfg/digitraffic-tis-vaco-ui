@@ -12,7 +12,8 @@ import { FdsButtonVariant } from '../../../coreui-components/src/fds-button.ts'
 import { FdsTokenSize2, FdsTokenSize21 } from '../../../coreui-css/lib'
 import { FdsInputComponent } from '../fds/FdsInputComponent.ts'
 import { FdsActionSheetComponent } from '../fds/FdsActionSheetComponent.ts'
-import { Credential, HttpBasicAuthenticationDetails, UpdateCredentialsRequest } from '../../types/Credential.ts'
+import { Credential } from '../../types/Credential.ts'
+import { buildCredentialsRequest } from './credentialsRequest.ts'
 import { generalListener } from '../../util/form.ts'
 import { Company } from '../../types/Company.ts'
 import { AuthenticationDetailsEditor } from './AuthenticationDetailsEditor.tsx'
@@ -98,19 +99,7 @@ const CredentialsFormModal = ({
           return
         }
 
-        const details: HttpBasicAuthenticationDetails = {
-          userId: formData.details_userId as string,
-          password: formData.details_password as string
-        }
-
-        const requestBody: UpdateCredentialsRequest = {
-          name: formData.name as string,
-          description: formData.description as string,
-          type: formData.type as string,
-          details: details,
-          owner: owner.businessId,
-          urlPattern: formData.urlPattern as string
-        }
+        const requestBody = buildCredentialsRequest(formData, owner.businessId)
 
         const httpRequest =
           mode === 'edit' && credential?.publicId !== undefined
