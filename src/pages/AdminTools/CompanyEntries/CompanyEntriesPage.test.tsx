@@ -269,6 +269,22 @@ describe('Company Entries Page title and company dropdown', () => {
     await waitFor(() => expect(title()).toBe('Foreign Oy (3333333-3)'))
   })
 
+  it('shows the not found title, no search form and no table on a 404 for an own company', async () => {
+    server.use(
+      http.get('http://localhost:8080/api/ui/pages/company-entries/:businessId', () =>
+        HttpResponse.json({ error: 'not found' }, { status: 404 })
+      )
+    )
+    await msalTester.isLogged()
+    await renderAt('/data/companies/1111111-1', [company('1111111-1', 'A Oy')])
+
+    await waitFor(() => expect(title()).toBe(i18next.t('services:myData:companyNotFound')))
+    expect(screen.queryByText(i18next.t('services:myData:find'))).toBeNull()
+    expect(screen.queryByText(i18next.t('services:myData:latest'))).toBeNull()
+    expect(screen.queryByText(i18next.t('services:myData:noDataFound'))).toBeNull()
+    expect(screen.queryByRole('table')).toBeNull()
+  })
+
   it('shows a dropdown for a user with two companies, and a selection opens the other company', async () => {
     await msalTester.isLogged()
     await renderAt('/data/companies/1111111-1', [company('1111111-1', 'A Oy'), company('2222222-2', 'B Oy')])

@@ -24,6 +24,7 @@ export const useCompanyEntriesFetch = (accessToken: string | null, ready: boolea
         .catch((error) => {
           if (isAxiosError(error) && error.response?.status === 404) {
             if (!ignore) {
+              setEntryData(null)
               setNotFound(true)
             }
           } else {

@@ -49,18 +49,18 @@ const CompanyEntriesView = () => {
 
   // Null while the company name is not known yet
   let title: string | null = null
-  if (businessId === PublicValidationTest.businessId && !companies?.length) {
+  if (notFound) {
+    title = t('services:myData:companyNotFound')
+  } else if (businessId === PublicValidationTest.businessId && !companies?.length) {
     title = t('vaco:testResults')
   } else if (ownCompany) {
     title = getCompanyFullName(ownCompany.name, ownCompany.businessId, t)
-  } else if (notFound) {
-    title = t('services:myData:companyNotFound')
   } else if (entryData) {
     title = getCompanyFullName(entryData.data.companyName, businessId, t)
   }
 
   // The search form and the table wait for the title, and never show for an unknown company
-  const showContent = title !== null && !(notFound && !ownCompany)
+  const showContent = title !== null && !notFound
 
   useEffect(() => {
     const element = companyDropdownRef.current
@@ -138,7 +138,7 @@ const CompanyEntriesView = () => {
         </>
       )}
       {isFetchInProgress && <LoadSpinner />}
-      {entriesToShow && entriesToShow.length > 0 && (
+      {!notFound && entriesToShow && entriesToShow.length > 0 && (
         <Pagination contentName={t('pagination:content:submissions')} tableTitle={'myData'} defaultItemsPerPage={25}>
           <Table
             tableTitle={'myData'}
@@ -149,7 +149,7 @@ const CompanyEntriesView = () => {
           />
         </Pagination>
       )}
-      {allEntryRows && entriesToShow?.length === 0 && <div>{t('services:myData:noDataFound')}</div>}
+      {!notFound && allEntryRows && entriesToShow?.length === 0 && <div>{t('services:myData:noDataFound')}</div>}
     </div>
   )
 }
