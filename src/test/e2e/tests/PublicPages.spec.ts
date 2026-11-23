@@ -39,6 +39,7 @@ test.describe(`Public pages, without authentication`, () => {
       await route.fulfill({
         json: {
           data: {
+            companyName: 'Public validation test',
             entries: [
               {
                 publicId: 'entry-public-id-1',

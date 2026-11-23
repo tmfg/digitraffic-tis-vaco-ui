@@ -60,7 +60,10 @@ describe('Company Entries Page', () => {
     server.use(
       http.get('http://localhost:8080/api/ui/pages/company-entries/:businessId', ({ request, params }) => {
         requests.push({ businessId: params.businessId as string, authorization: request.headers.get('Authorization') })
-        return HttpResponse.json({ data: { entries: [] }, error: null, links: {} }, { status: 200 })
+        return HttpResponse.json(
+          { data: { companyName: 'Fintraffic', entries: [] }, error: null, links: {} },
+          { status: 200 }
+        )
       })
     )
   })
@@ -75,7 +78,7 @@ describe('Company Entries Page', () => {
     await act(async () => {
       render(
         <MsalProvider instance={msalTester.client}>
-          <MemoryRouter initialEntries={['/data/companies/2942108-7?companyName=Fintraffic']}>
+          <MemoryRouter initialEntries={['/data/companies/2942108-7']}>
             <Routes>
               <Route path="/data/companies/:businessId" element={<CompanyEntriesPage />} />
             </Routes>
@@ -85,11 +88,114 @@ describe('Company Entries Page', () => {
     })
     await msalTester.waitForRedirect()
 
-    expect(screen.getByText(i18next.t('services:myData:find'))).toBeInTheDocument()
-    expect(screen.queryByText(i18next.t('error:authRequired'))).toBeNull()
+    await waitFor(() => expect(screen.getByText(i18next.t('services:myData:find'))).toBeInTheDocument())
     await waitFor(() => expect(requests).toHaveLength(1))
+    expect(screen.queryByText(i18next.t('error:authRequired'))).toBeNull()
     expect(requests[0].businessId).toBe('2942108-7')
     expect(requests[0].authorization).toBeNull()
+  })
+})
+
+const entriesResponse = (data: Record<string, unknown>) =>
+  http.get('http://localhost:8080/api/ui/pages/company-entries/:businessId', () =>
+    HttpResponse.json({ data: { entries: [], ...data }, error: null, links: {} }, { status: 200 })
+  )
+
+describe('Company Entries Page company name from the backend', () => {
+  let msalTester: MsalReactTester
+
+  beforeEach(() => {
+    initializeBootstrap(bootstrapParams)
+    msalTester = msalInitTester()
+  })
+
+  afterEach(() => {
+    resetTester(msalTester)
+  })
+
+  const renderVisitorAt = async (url: string) => {
+    await msalTester.isNotLogged()
+    await act(async () => {
+      render(
+        <MsalProvider instance={msalTester.client}>
+          <EnvironmentContext.Provider value={bootstrapParams}>
+            <AppContext.Provider value={{ companies: undefined, roles: undefined }}>
+              <MemoryRouter initialEntries={[url]}>
+                <Routes>
+                  <Route path="/data/companies/:businessId" element={<CompanyEntriesPage />} />
+                </Routes>
+              </MemoryRouter>
+            </AppContext.Provider>
+          </EnvironmentContext.Provider>
+        </MsalProvider>
+      )
+    })
+    await msalTester.waitForRedirect()
+  }
+
+  const heading = () => screen.queryByRole('heading', { level: 1 })
+
+  // UT20
+  it('shows the name from the response and shows no title text while the fetch runs', async () => {
+    let release: () => void = () => {}
+    const gate = new Promise<void>((resolve) => {
+      release = resolve
+    })
+    server.use(
+      http.get('http://localhost:8080/api/ui/pages/company-entries/:businessId', async () => {
+        await gate
+        return HttpResponse.json(
+          { data: { companyName: 'Foreign Oy', entries: [] }, error: null, links: {} },
+          { status: 200 }
+        )
+      })
+    )
+
+    await renderVisitorAt('/data/companies/3333333-3')
+
+    expect(heading()?.textContent ?? '').toBe('')
+    expect(screen.queryByText(i18next.t('services:myData:find'))).toBeNull()
+    expect(screen.queryByRole('textbox')).toBeNull()
+
+    await act(async () => {
+      release()
+    })
+
+    await waitFor(() => expect(heading()?.textContent).toBe('Foreign Oy (3333333-3)'))
+    expect(screen.getByText(i18next.t('services:myData:find'))).toBeInTheDocument()
+  })
+
+  // UT21
+  it('shows the not found title and no search form on a 404 response', async () => {
+    server.use(
+      http.get('http://localhost:8080/api/ui/pages/company-entries/:businessId', () =>
+        HttpResponse.json({ error: 'not found' }, { status: 404 })
+      )
+    )
+
+    await renderVisitorAt('/data/companies/0000000-0')
+
+    await waitFor(() => expect(heading()?.textContent).toBe(i18next.t('services:myData:companyNotFound')))
+    expect(heading()?.textContent).toBe('Yritystä ei löytynyt')
+    expect(screen.queryByText(i18next.t('services:myData:find'))).toBeNull()
+    expect(screen.queryByText(i18next.t('services:myData:noDataFound'))).toBeNull()
+  })
+
+  // UT22 is in the data delivery helpers test.
+
+  // UT23
+  it('shows the business id alone when the response has no company name or a null one', async () => {
+    server.use(entriesResponse({}))
+    await renderVisitorAt('/data/companies/4444444-4')
+    await waitFor(() => expect(screen.getByText(i18next.t('services:myData:find'))).toBeInTheDocument())
+    await waitFor(() => expect(heading()?.textContent).toBe('4444444-4'))
+  })
+
+  it('shows the business id alone when the company name is null', async () => {
+    server.use(entriesResponse({ companyName: null }))
+    await renderVisitorAt('/data/companies/4444444-4')
+    await waitFor(() => expect(screen.getByText(i18next.t('services:myData:find'))).toBeInTheDocument())
+    await waitFor(() => expect(heading()?.textContent).toBe('4444444-4'))
   })
 })
 
@@ -155,11 +261,12 @@ describe('Company Entries Page title and company dropdown', () => {
     expect(title()).toBe('A Oy (1111111-1)')
   })
 
-  it('keeps the title from the URL on a company that is not the own company', async () => {
+  it('takes the title from the response on a company that is not the own company, and ignores the URL', async () => {
+    server.use(entriesResponse({ companyName: 'Foreign Oy' }))
     await msalTester.isLogged()
-    await renderAt('/data/companies/3333333-3?companyName=Foreign%20Oy', [company('1111111-1', 'A Oy')])
+    await renderAt('/data/companies/3333333-3?companyName=Spoof', [company('1111111-1', 'A Oy')])
 
-    expect(title()).toBe('Foreign Oy (3333333-3)')
+    await waitFor(() => expect(title()).toBe('Foreign Oy (3333333-3)'))
   })
 
   it('shows a dropdown for a user with two companies, and a selection opens the other company', async () => {
@@ -234,7 +341,7 @@ describe('Company Entries Page title and company dropdown', () => {
 
   it('shows no dropdown on a company that is not the own company', async () => {
     await msalTester.isLogged()
-    await renderAt('/data/companies/3333333-3?companyName=Foreign%20Oy', [
+    await renderAt('/data/companies/3333333-3', [
       company('1111111-1', 'A Oy'),
       company('2222222-2', 'B Oy')
     ])

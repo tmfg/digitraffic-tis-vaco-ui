@@ -9,7 +9,7 @@ import { FdsDropdownOption } from '../../../../coreui-components/src/fds-dropdow
 import '../_mydata.scss'
 import '../../../components/Common/SearchPanel/_search-panel.scss'
 import Pagination from '../../../components/Common/Pagination/Pagination'
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { AppContext } from '../../../AppContextProvider'
 import { PublicValidationTest } from '../../../types/PublicValidationTest'
 import { EnvironmentContext } from '../../../EnvironmentProvider.tsx'
@@ -26,15 +26,13 @@ const CompanyEntriesView = () => {
   const bootstrap = useContext(EnvironmentContext)
   const { t } = useTranslation()
   const { businessId } = useParams()
-  const [entryData, isFetchInProgress] = useCompanyEntriesFetch(accessToken, ready, businessId)
+  const [entryData, isFetchInProgress, notFound] = useCompanyEntriesFetch(accessToken, ready, businessId)
   const searchInputRef = useRef<HTMLDivElement | null>(null)
   const [searchWord] = useSearchInputListener(searchInputRef, entryData)
   const [allEntryRows, setAllEntryRows] = useState<TableItem[][] | null>(null)
   // Null helps to make a distinction between data not being fetched yet or api actually returning no data (an empty array)
   const [entriesToShow, setEntriesToShow] = useState<TableItem[][] | null>(null)
   const headerItems: HeaderItem[] = getTableHeaders(t)
-  const [searchParams] = useSearchParams()
-  const companyName = searchParams.get('companyName')
   const navigate = useNavigate()
   const { companies } = useContext(AppContext)
   const ownCompany = companies?.find((company) => company.businessId === businessId)
@@ -49,14 +47,20 @@ const CompanyEntriesView = () => {
   const showCompanyDropdown = ownCompany !== undefined && companyOptions.length >= 2
   const companyDropdownRef = useRef<HTMLDivElement | null>(null)
 
-  let title: string
+  // Null while the company name is not known yet
+  let title: string | null = null
   if (businessId === PublicValidationTest.businessId && !companies?.length) {
     title = t('vaco:testResults')
   } else if (ownCompany) {
     title = getCompanyFullName(ownCompany.name, ownCompany.businessId, t)
-  } else {
-    title = getCompanyFullName(companyName, businessId, t)
+  } else if (notFound) {
+    title = t('services:myData:companyNotFound')
+  } else if (entryData) {
+    title = getCompanyFullName(entryData.data.companyName, businessId, t)
   }
+
+  // The search form and the table wait for the title, and never show for an unknown company
+  const showContent = title !== null && !(notFound && !ownCompany)
 
   useEffect(() => {
     const element = companyDropdownRef.current
@@ -102,33 +106,37 @@ const CompanyEntriesView = () => {
           />
         </div>
       )}
-      <h4 style={{ marginTop: '2.5rem' }} className={'header-wrapper__small'}>
-        {t('services:myData:find')}
-      </h4>
-      <div className={'search-panel'}>
-        <form>
-          <div id={'searchInput'} ref={searchInputRef} className={'search-input'}>
-            <FdsInputComponent
-              clearable={true}
-              name={'searchWord'}
-              placeholder={t('services:myData:searchWordPlaceholder')}
-              label={t('services:myData:searchWord')}
-            />
+      {showContent && (
+        <>
+          <h4 style={{ marginTop: '2.5rem' }} className={'header-wrapper__small'}>
+            {t('services:myData:find')}
+          </h4>
+          <div className={'search-panel'}>
+            <form>
+              <div id={'searchInput'} ref={searchInputRef} className={'search-input'}>
+                <FdsInputComponent
+                  clearable={true}
+                  name={'searchWord'}
+                  placeholder={t('services:myData:searchWordPlaceholder')}
+                  label={t('services:myData:searchWord')}
+                />
+              </div>
+              <div className={'search-button'}>
+                <FdsButtonComponent
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setEntriesToShow(
+                      searchWord && allEntryRows ? filterTableRowsBySearchWord(searchWord, allEntryRows) : allEntryRows
+                    )
+                  }}
+                  label={t('common:search')}
+                />
+              </div>
+            </form>
           </div>
-          <div className={'search-button'}>
-            <FdsButtonComponent
-              onClick={(e) => {
-                e.preventDefault()
-                setEntriesToShow(
-                  searchWord && allEntryRows ? filterTableRowsBySearchWord(searchWord, allEntryRows) : allEntryRows
-                )
-              }}
-              label={t('common:search')}
-            />
-          </div>
-        </form>
-      </div>
-      <h5 className={'header-wrapper__big'}>{t('services:myData:latest')}</h5>
+          <h5 className={'header-wrapper__big'}>{t('services:myData:latest')}</h5>
+        </>
+      )}
       {isFetchInProgress && <LoadSpinner />}
       {entriesToShow && entriesToShow.length > 0 && (
         <Pagination contentName={t('pagination:content:submissions')} tableTitle={'myData'} defaultItemsPerPage={25}>

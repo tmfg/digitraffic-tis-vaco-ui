@@ -275,6 +275,7 @@ export const en = {
         status: 'Status'
       },
       noDataFound: 'No data found',
+      companyNotFound: 'Company not found',
       noResultsFound: ' No results found'
     }
   },

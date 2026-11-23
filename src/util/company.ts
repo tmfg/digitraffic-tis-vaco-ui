@@ -2,10 +2,13 @@ import { TFunction } from 'i18next'
 import { PublicValidationTest } from '../types/PublicValidationTest'
 
 export const getCompanyFullName = (
-  companyName: string | null,
+  companyName: string | null | undefined,
   businessId: string | undefined,
   t: TFunction<'translation', undefined>
 ) => {
+  if (!companyName) {
+    return businessId ?? ''
+  }
   return companyName !== PublicValidationTest.companyName
     ? `${companyName} (${businessId})`
     : t('publicValidationTest:companyName')
