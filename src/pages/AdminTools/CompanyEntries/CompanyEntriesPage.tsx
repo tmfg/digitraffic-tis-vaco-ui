@@ -21,7 +21,7 @@ import { getCompanyFullName } from '../../../util/company'
 import { EntrySummary } from '../../../types/EntryResource.ts'
 import { filterTableRowsBySearchWord, getTableHeaders, getTableRow } from './helpers.ts'
 
-const CompanyEntriesPage = () => {
+const CompanyEntriesView = () => {
   const [accessToken, ready] = useOptionalAccessToken()
   const bootstrap = useContext(EnvironmentContext)
   const { t } = useTranslation()
@@ -144,6 +144,12 @@ const CompanyEntriesPage = () => {
       {allEntryRows && entriesToShow?.length === 0 && <div>{t('services:myData:noDataFound')}</div>}
     </div>
   )
+}
+
+// The view is keyed by company, so that switching company never shows the entries of the previous one
+const CompanyEntriesPage = () => {
+  const { businessId } = useParams()
+  return <CompanyEntriesView key={businessId} />
 }
 
 export default CompanyEntriesPage

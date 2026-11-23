@@ -21,20 +21,21 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
   useEffect(() => {
     let ignore = false
     if (accessToken && !ignore && !companies) {
-      HttpClient.get('/api/me', getHeaders(accessToken)).then(
-        (response) => {
+      HttpClient.get('/api/me', getHeaders(accessToken))
+        .then((response) => {
           const responseData: CompaniesResource = response.data as CompaniesResource
           if (responseData) {
             const companiesData: Company[] = responseData.data.companies
             setCompanies(companiesData)
           }
-        },
-        (error) => {
+        })
+        .catch((error) => {
           // Without a company list a signed-in user is treated as a user with no company
           console.error('Failed to fetch /me data', error)
-          setCompanies([])
-        }
-      )
+          if (!ignore) {
+            setCompanies([])
+          }
+        })
     }
     return () => {
       ignore = true

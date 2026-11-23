@@ -11,6 +11,7 @@ import { bootstrapParams, msalInitTester, resetTester } from '../../../test/unit
 import { server } from '../../../test/unit/mocks/server'
 import { initializeBootstrap } from '../../../hooks/auth'
 import { AppContext } from '../../../AppContextProvider'
+import { EnvironmentContext } from '../../../EnvironmentProvider'
 import { Company } from '../../../types/Company'
 
 interface DropdownProps {
@@ -118,9 +119,11 @@ describe('Company Entries Page title and company dropdown', () => {
     await act(async () => {
       render(
         <MsalProvider instance={msalTester.client}>
-          <AppContext.Provider value={{ companies, roles: undefined }}>
-            <RouterProvider router={router} />
-          </AppContext.Provider>
+          <EnvironmentContext.Provider value={bootstrapParams}>
+            <AppContext.Provider value={{ companies, roles: undefined }}>
+              <RouterProvider router={router} />
+            </AppContext.Provider>
+          </EnvironmentContext.Provider>
         </MsalProvider>
       )
     })
@@ -170,6 +173,49 @@ describe('Company Entries Page title and company dropdown', () => {
     })
 
     await waitFor(() => expect(router.state.location.pathname).toBe('/data/companies/2222222-2'))
+  })
+
+  it('does not show the entries of the previous company after switching when the new fetch fails', async () => {
+    let failedRequests = 0
+    server.use(
+      http.get('http://localhost:8080/api/ui/pages/company-entries/:businessId', ({ params }) => {
+        if (params.businessId === '1111111-1') {
+          return HttpResponse.json(
+            {
+              data: {
+                entries: [
+                  {
+                    publicId: 'entry-of-a',
+                    name: 'Feed of company A',
+                    status: 'success',
+                    format: 'gtfs',
+                    created: '2026-01-01T10:00:00Z',
+                    started: null,
+                    completed: null
+                  }
+                ]
+              },
+              error: null,
+              links: {}
+            },
+            { status: 200 }
+          )
+        }
+        failedRequests++
+        return HttpResponse.json({ error: 'boom' }, { status: 500 })
+      })
+    )
+    await msalTester.isLogged()
+    await renderAt('/data/companies/1111111-1', [company('1111111-1', 'A Oy'), company('2222222-2', 'B Oy')])
+    await waitFor(() => expect(screen.getByText('Feed of company A')).toBeInTheDocument())
+
+    await act(async () => {
+      fireEvent.change(companyDropdown() as HTMLElement, { target: { value: '2222222-2' } })
+    })
+
+    await waitFor(() => expect(failedRequests).toBe(1))
+    expect(router.state.location.pathname).toBe('/data/companies/2222222-2')
+    expect(screen.queryByText('Feed of company A')).toBeNull()
   })
 
   it('shows no dropdown for a visitor', async () => {
