@@ -30,8 +30,9 @@ const AppContextProvider = ({ children }: AppContextProviderProps) => {
           }
         },
         (error) => {
+          // Without a company list a signed-in user is treated as a user with no company
           console.error('Failed to fetch /me data', error)
-          return Promise.reject(error)
+          setCompanies([])
         }
       )
     }

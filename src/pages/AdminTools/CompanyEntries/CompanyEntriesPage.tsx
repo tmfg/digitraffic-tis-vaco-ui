@@ -1,13 +1,17 @@
 import { useTranslation } from 'react-i18next'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { useOptionalAccessToken } from '../../../hooks/optionalAccessToken'
 import Table, { HeaderItem, TableItem } from '../../../components/Common/Table/Table'
 import { FdsButtonComponent } from '../../../components/fds/FdsButtonComponent'
+import { FdsDropdownComponent } from '../../../components/fds/FdsDropdownComponent'
 import { FdsInputComponent } from '../../../components/fds/FdsInputComponent'
+import { FdsDropdownOption } from '../../../../coreui-components/src/fds-dropdown'
 import '../_mydata.scss'
 import '../../../components/Common/SearchPanel/_search-panel.scss'
 import Pagination from '../../../components/Common/Pagination/Pagination'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
+import { AppContext } from '../../../AppContextProvider'
+import { PublicValidationTest } from '../../../types/PublicValidationTest'
 import { EnvironmentContext } from '../../../EnvironmentProvider.tsx'
 import VacoBadge from '../../../components/Common/VacoBadge/VacoBadge.tsx'
 import { useCompanyEntriesFetch } from './hooks'
@@ -31,6 +35,43 @@ const CompanyEntriesPage = () => {
   const headerItems: HeaderItem[] = getTableHeaders(t)
   const [searchParams] = useSearchParams()
   const companyName = searchParams.get('companyName')
+  const navigate = useNavigate()
+  const { companies } = useContext(AppContext)
+  const ownCompany = companies?.find((company) => company.businessId === businessId)
+  const companyOptions: FdsDropdownOption<string>[] = useMemo(
+    () =>
+      (companies ?? []).map((company) => ({
+        label: getCompanyFullName(company.name, company.businessId, t),
+        value: company.businessId
+      })),
+    [companies, t]
+  )
+  const showCompanyDropdown = ownCompany !== undefined && companyOptions.length >= 2
+  const companyDropdownRef = useRef<HTMLDivElement | null>(null)
+
+  let title: string
+  if (businessId === PublicValidationTest.businessId && !companies?.length) {
+    title = t('vaco:testResults')
+  } else if (ownCompany) {
+    title = getCompanyFullName(ownCompany.name, ownCompany.businessId, t)
+  } else {
+    title = getCompanyFullName(companyName, businessId, t)
+  }
+
+  useEffect(() => {
+    const element = companyDropdownRef.current
+    if (!showCompanyDropdown || !element) {
+      return
+    }
+    const onSelect = (e: Event) => {
+      const selected = (e as CustomEvent<{ value?: string }>).detail?.value
+      if (selected && selected !== businessId) {
+        void navigate('/data/companies/' + selected)
+      }
+    }
+    element.addEventListener('select', onSelect)
+    return () => element.removeEventListener('select', onSelect)
+  }, [showCompanyDropdown, businessId, navigate])
 
   useEffect(() => {
     if (bootstrap && entryData && entryData.data) {
@@ -50,7 +91,17 @@ const CompanyEntriesPage = () => {
 
   return (
     <div className={'page-content'}>
-      <h1>{getCompanyFullName(companyName, businessId, t)}</h1>
+      <h1>{title}</h1>
+      {showCompanyDropdown && (
+        <div ref={companyDropdownRef} className={'input-wrapper'}>
+          <FdsDropdownComponent
+            name={'businessId'}
+            label={t('services:testData.form.company')}
+            options={companyOptions}
+            value={companyOptions.find((option) => option.value === businessId)}
+          />
+        </div>
+      )}
       <h4 style={{ marginTop: '2.5rem' }} className={'header-wrapper__small'}>
         {t('services:myData:find')}
       </h4>
