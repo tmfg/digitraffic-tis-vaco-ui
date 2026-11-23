@@ -59,4 +59,14 @@ describe('Home Page', () => {
     expect(screen.queryByText(i18next.t('vaco:login'))).toBeNull()
     expect(screen.queryByText(i18next.t('vaco:register'))).toBeNull()
   })
+
+  it('Home page names the /data/results shortcut "Omat datajulkaisut" when user got logged in', async () => {
+    await i18next.changeLanguage('fi')
+    await msalTester.isLogged()
+    await renderComponent()
+    await msalTester.waitForRedirect()
+    expect(screen.getByText('Omat datajulkaisut')).toBeInTheDocument()
+    expect(screen.getByText('Tarkista aiemmat datajulkaisusi.')).toBeInTheDocument()
+    expect(screen.queryByText('Testi- ja validointitulokset')).toBeNull()
+  })
 })
