@@ -83,7 +83,7 @@ const EntriesSearchTable = ({ entries, isFetchInProgress, showSearch, hideEntrie
         </>
       )}
       {isFetchInProgress && <LoadSpinner />}
-      {!hideEntries && entriesToShow && entriesToShow.length > 0 && (
+      {!hideEntries && !!entriesToShow?.length && (
         <Pagination contentName={t('pagination:content:submissions')} tableTitle={'myData'} defaultItemsPerPage={25}>
           <Table
             tableTitle={'myData'}
