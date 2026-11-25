@@ -1,10 +1,9 @@
-import { ReactNode, useRef } from 'react'
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import { MsalReactTester } from 'msal-react-tester'
 import { createMemoryRouter, MemoryRouter, Route, RouterProvider, Routes } from 'react-router-dom'
 import { MsalProvider } from '@azure/msal-react'
 import { http, HttpResponse } from 'msw'
-import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest'
+import { describe, beforeEach, afterEach, it, expect } from 'vitest'
 import i18next from 'i18next'
 import CompanyEntriesPage from './CompanyEntriesPage'
 import { bootstrapParams, msalInitTester, resetTester } from '../../../test/unit/vitestSetup'
@@ -13,39 +12,6 @@ import { initializeBootstrap } from '../../../hooks/auth'
 import { AppContext } from '../../../AppContextProvider'
 import { EnvironmentContext } from '../../../EnvironmentProvider'
 import { Company } from '../../../types/Company'
-
-interface DropdownProps {
-  name: string
-  label?: string
-  options: { label: string; value: string }[]
-}
-
-// Emits the same bubbling CustomEvent('select') that the real fds-dropdown dispatches
-vi.mock('../../../components/fds/FdsDropdownComponent', () => ({
-  FdsDropdownComponent: ({ name, label, options }: DropdownProps): ReactNode => {
-    const ref = useRef<HTMLDivElement | null>(null)
-    return (
-      <div ref={ref}>
-        <select
-          aria-label={label}
-          value=""
-          onChange={(e) =>
-            ref.current?.dispatchEvent(
-              new CustomEvent('select', { bubbles: true, detail: { name, value: e.currentTarget.value } })
-            )
-          }
-        >
-          <option value="" />
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div>
-    )
-  }
-}))
 
 const company = (businessId: string, name: string): Company => ({ businessId, name, publish: false, roles: [] })
 
@@ -285,17 +251,12 @@ describe('Company Entries Page title and company dropdown', () => {
     expect(screen.queryByRole('table')).toBeNull()
   })
 
-  it('shows a dropdown for a user with two companies, and a selection opens the other company', async () => {
+  // UT18
+  it('shows no dropdown for a user with two companies on an own company', async () => {
     await msalTester.isLogged()
     await renderAt('/data/companies/1111111-1', [company('1111111-1', 'A Oy'), company('2222222-2', 'B Oy')])
 
-    const dropdown = companyDropdown()
-    expect(dropdown).not.toBeNull()
-    await act(async () => {
-      fireEvent.change(dropdown as HTMLElement, { target: { value: '2222222-2' } })
-    })
-
-    await waitFor(() => expect(router.state.location.pathname).toBe('/data/companies/2222222-2'))
+    expect(companyDropdown()).toBeNull()
   })
 
   it('does not show the entries of the previous company after switching when the new fetch fails', async () => {
@@ -333,7 +294,7 @@ describe('Company Entries Page title and company dropdown', () => {
     await waitFor(() => expect(screen.getByText('Feed of company A')).toBeInTheDocument())
 
     await act(async () => {
-      fireEvent.change(companyDropdown() as HTMLElement, { target: { value: '2222222-2' } })
+      await router.navigate('/data/companies/2222222-2')
     })
 
     await waitFor(() => expect(failedRequests).toBe(1))
