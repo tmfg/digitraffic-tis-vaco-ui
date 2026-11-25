@@ -2,47 +2,36 @@ import { FdsNavigationVariant } from '../../../../coreui-components/src/fds-navi
 import Navbar from '../Navbar'
 import { FdsNavigationItem } from '../../../../coreui-components/src/fds-navigation'
 import { aboutItem, getSelectedLocaleItem, loginItem, myServicesItem, supportItem, vacoItem } from './navbarItems'
-import { useCallback, useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import EnvironmentBar from '../../EnvironmentBar/EnvironmentBar'
 
 const VacoLandingNavbar = () => {
-  const [userNavbarItems, setUserNavbarItems] = useState<FdsNavigationItem[]>([])
   const { i18n, t } = useTranslation()
+  const selectedLocaleCode = i18n.resolvedLanguage || i18n.language
 
-  const languageSelectionCallback = useCallback(
-    (newLocaleCode: string) => {
-      // This 't' from a hook has to be used because that's the only way to have
-      // these translation updated with user's actual selected language and not the default one
-      const vacoNavbarItems: FdsNavigationItem[] = [
-        vacoItem(),
-        aboutItem(t),
-        supportItem(t),
-        myServicesItem(t),
-        loginItem(t),
-        getSelectedLocaleItem(newLocaleCode, t)
-      ]
-      setUserNavbarItems(vacoNavbarItems)
-    },
-    [t]
+  // A 't' function translates to the language of the render that created it,
+  // so the items are built again from the current 't' when the language changes.
+  const navbarItems: FdsNavigationItem[] = useMemo(
+    () => [
+      vacoItem(),
+      aboutItem(t),
+      supportItem(t),
+      myServicesItem(t),
+      loginItem(t),
+      getSelectedLocaleItem(selectedLocaleCode, t)
+    ],
+    [t, selectedLocaleCode]
   )
-
-  useEffect(() => {
-    if (userNavbarItems.length === 0) {
-      const selectedLocaleCode = i18n.resolvedLanguage || i18n.language
-      languageSelectionCallback(selectedLocaleCode)
-    }
-  }, [i18n, languageSelectionCallback, userNavbarItems])
 
   return (
     <>
       <Navbar
         variant={FdsNavigationVariant.secondary}
-        items={userNavbarItems}
+        items={navbarItems}
         barIndex={1}
-        selectedItem={userNavbarItems[0]}
+        selectedItem={navbarItems[0]}
         isSelectedItemStatic={false}
-        languageSelectionCallback={languageSelectionCallback}
       />
       <EnvironmentBar />
     </>

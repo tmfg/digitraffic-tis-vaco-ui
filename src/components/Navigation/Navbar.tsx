@@ -14,7 +14,6 @@ interface NavbarProps {
   selectedItem: FdsNavigationItem
   children?: React.ReactNode
   isSelectedItemStatic?: boolean
-  languageSelectionCallback?: (newLocaleCode: string) => void
 }
 
 const Navbar = ({
@@ -23,8 +22,7 @@ const Navbar = ({
   variant,
   selectedItem: initialSelectedItem,
   children,
-  isSelectedItemStatic,
-  languageSelectionCallback
+  isSelectedItemStatic
 }: NavbarProps) => {
   const navigate = useNavigate()
   const location = useLocation()
@@ -36,12 +34,9 @@ const Navbar = ({
     async (value: string) => {
       const newLocaleCode = value.split('/')[2]
       await i18n.changeLanguage(newLocaleCode)
-      if (languageSelectionCallback) {
-        languageSelectionCallback(newLocaleCode)
-      }
       localStorage.setItem(localStorageKey, newLocaleCode)
     },
-    [languageSelectionCallback, i18n]
+    [i18n]
   )
 
   const useSelectListener: EventListenerOrEventListenerObject = useCallback(

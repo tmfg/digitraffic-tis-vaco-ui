@@ -37,4 +37,25 @@ test.describe(`Home Page, without authentication`, () => {
     await expect(page.locator(`li >> text=${i18n.t('locales:sv')}`)).toBeVisible()
     await expect(page.locator(`li >> text=${i18n.t('locales:fi')}`)).toHaveCount(2)
   })
+
+  test('Test landing page contents are visible after a language change', async ({ page, i18n }) => {
+    const ApiMockingPage = new APIMockingPage(page)
+    await ApiMockingPage.APIMocking()
+    const ResourcesPage = new VacoResourcesPage(page)
+    await ResourcesPage.navigate()
+
+    const finnish = i18n.getFixedT('fi')
+    const english = i18n.getFixedT('en')
+    await expect(page.locator(`span >> text=${finnish('vaco:support')}`)).toBeVisible()
+    await expect(page.locator(`span >> text=${finnish('vaco:services')}`)).toBeVisible()
+
+    await page.locator(`span >> text=${finnish('locales:fi')}`).click()
+    await page.locator(`li >> text=${finnish('locales:en')}`).click()
+
+    // No reload: the menu bar must show the new language at once
+    await expect(page.locator(`span >> text=${english('vaco:support')}`)).toBeVisible()
+    await expect(page.locator(`span >> text=${english('vaco:services')}`)).toBeVisible()
+    await expect(page.locator(`span >> text=${finnish('vaco:support')}`)).toHaveCount(0)
+    await expect(page.locator(`span >> text=${finnish('vaco:services')}`)).toHaveCount(0)
+  })
 })
