@@ -22,6 +22,10 @@ export const getBusinessId = (businessId: string) => {
   return businessId !== PublicValidationTest.businessId ? businessId : ''
 }
 
+/** True when the list holds a company other than the public validation test company. */
+export const hasOwnCompany = (companies: { businessId: string }[] | undefined) =>
+  (companies ?? []).some((company) => company.businessId !== PublicValidationTest.businessId)
+
 const BUSINESS_ID_FORMAT = /^\d{7}-\d$/
 
 const BUSINESS_ID_WEIGHTS = [7, 9, 10, 5, 8, 4, 2]
