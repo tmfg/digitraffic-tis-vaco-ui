@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import Table, { HeaderItem, TableItem } from '../../../components/Common/Table/Table'
 import { FdsButtonComponent } from '../../../components/fds/FdsButtonComponent'
 import { FdsInputComponent } from '../../../components/fds/FdsInputComponent'
-import '../_mydata.scss'
+import './_entries-search-table.scss'
 import '../../../components/Common/SearchPanel/_search-panel.scss'
 import Pagination from '../../../components/Common/Pagination/Pagination'
 import { EnvironmentContext } from '../../../EnvironmentProvider.tsx'
@@ -53,7 +53,7 @@ const EntriesSearchTable = ({ entries, isFetchInProgress, showSearch, hideEntrie
     <>
       {showSearch && (
         <>
-          <h4 style={{ marginTop: '2.5rem' }} className={'header-wrapper__small'}>
+          <h4 className={'entries-search-table__search-heading'}>
             {t('services:myData:find')}
           </h4>
           <div className={'search-panel'}>
@@ -79,7 +79,7 @@ const EntriesSearchTable = ({ entries, isFetchInProgress, showSearch, hideEntrie
               </div>
             </form>
           </div>
-          <h5 className={'header-wrapper__big'}>{t('services:myData:latest')}</h5>
+          <h5 className={'entries-search-table__latest-heading'}>{t('services:myData:latest')}</h5>
         </>
       )}
       {isFetchInProgress && <LoadSpinner />}

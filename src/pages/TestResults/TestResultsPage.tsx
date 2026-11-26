@@ -9,7 +9,7 @@ import EntriesSearchTable from '../AdminTools/CompanyEntries/EntriesSearchTable'
 import { EntryResource, EntrySummary } from '../../types/EntryResource'
 import { PublicValidationTest } from '../../types/PublicValidationTest'
 
-const useOwnEntriesFetch = (accessToken: string) => {
+const useMyDataEntriesFetch = (accessToken: string) => {
   const [entries, setEntries] = useState<EntrySummary[] | null>(null)
   const [isFetchInProgress, setIsFetchInProgress] = useState<boolean>(false)
 
@@ -41,9 +41,9 @@ const useOwnEntriesFetch = (accessToken: string) => {
 }
 
 /** The latest entries of the companies of the logged-in user, with the search form. */
-const OwnEntriesView = ({ accessToken }: { accessToken: string }) => {
+const MyDataView = ({ accessToken }: { accessToken: string }) => {
   const { t } = useTranslation()
-  const [entries, isFetchInProgress] = useOwnEntriesFetch(accessToken)
+  const [entries, isFetchInProgress] = useMyDataEntriesFetch(accessToken)
 
   return (
     <div className={'page-content'}>
@@ -71,7 +71,7 @@ const TestResultsPage = () => {
   if (accessToken === null || !hasOwnCompany) {
     return <Navigate to={'/data/companies/' + PublicValidationTest.businessId} replace />
   }
-  return <OwnEntriesView accessToken={accessToken} />
+  return <MyDataView accessToken={accessToken} />
 }
 
 export default TestResultsPage
