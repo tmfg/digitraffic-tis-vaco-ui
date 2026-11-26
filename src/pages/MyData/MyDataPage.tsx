@@ -12,7 +12,7 @@ const useMyDataEntriesFetch = (accessToken: string) => {
   useEffect(() => {
     let ignore = false
     setIsFetchInProgress(true)
-    HttpClient.get('/api/ui/entries?full=false', getHeaders(accessToken))
+    void HttpClient.get('/api/ui/entries?full=false', getHeaders(accessToken))
       .then((response) => {
         if (!ignore) {
           setEntries((response.data as EntryResource[]).map((resource) => resource.data))
