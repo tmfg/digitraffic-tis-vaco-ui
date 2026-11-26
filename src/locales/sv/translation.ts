@@ -271,6 +271,7 @@ export const sv = {
         status: 'Status'
       },
       noDataFound: 'Inga data hittades',
+      companyNotFound: 'Företaget hittades inte',
       noResultsFound: 'Inga resultat hittades'
     }
   },

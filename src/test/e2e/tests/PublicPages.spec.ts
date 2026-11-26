@@ -34,17 +34,38 @@ test.describe(`Public pages, without authentication`, () => {
     const authorizationHeaders: (string | undefined)[] = []
     const ApiMockingPage = new APIMockingPage(page)
     await ApiMockingPage.APIMocking()
-    await page.route('**/api/ui/data-delivery/test-results', async (route) => {
+    await page.route('**/api/ui/pages/company-entries/public-validation-test-id', async (route) => {
       authorizationHeaders.push(route.request().headers()['authorization'])
-      await route.fulfill({ json: [] })
+      await route.fulfill({
+        json: {
+          data: {
+            companyName: 'Public validation test',
+            entries: [
+              {
+                publicId: 'entry-public-id-1',
+                name: 'Mocked test feed',
+                context: null,
+                status: 'success',
+                format: 'gtfs',
+                created: '2026-11-20T10:00:00.000',
+                started: '2026-11-20T10:00:01.000',
+                completed: '2026-11-20T10:01:00.000'
+              }
+            ]
+          },
+          error: null,
+          links: {}
+        }
+      })
     })
     const ResourcesPage = new VacoResourcesPage(page)
     await ResourcesPage.navigate()
 
     await page.locator(shortcutCardSelector(i18n.t('home:shortcut:testResults:label'))).click()
 
-    await expect(page.getByRole('heading', { name: i18n.t('vaco:testResults') })).toBeVisible()
-    await expect(page.getByText('Export CSV')).toHaveCount(0)
+    await expect(page).toHaveURL(/\/data\/companies\/public-validation-test-id$/)
+    await expect(page.getByRole('heading', { level: 1, name: i18n.t('vaco:testResults') })).toBeVisible()
+    await expect(page.getByText('Mocked test feed')).toBeVisible()
     await expect(page.getByText(i18n.t('error:authRequired'))).toHaveCount(0)
     expect(authorizationHeaders.length).toBeGreaterThan(0)
     expect(authorizationHeaders.every((header) => header === undefined)).toBe(true)

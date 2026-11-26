@@ -35,7 +35,7 @@ const VacoAuthenticatedNavbar = () => {
 
   const languageSelectionCallback = useCallback(
     (newLocaleCode: string) => {
-      const vacoNavbarItems: FdsNavigationItem[] = [vacoItem(), aboutItem(t), supportItem(t), myServicesItem(t)]
+      const vacoNavbarItems: FdsNavigationItem[] = [vacoItem(), aboutItem(t), supportItem(t), myServicesItem(t, true)]
       if (hasAdminRole || hasCompanyAdminRole) {
         vacoNavbarItems.push(adminToolsItem(t))
       }

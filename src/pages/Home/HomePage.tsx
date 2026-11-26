@@ -30,10 +30,10 @@ const HomePage = () => {
       description: t('home:shortcut:testData:intro')
     },
     {
-      label: t('home:shortcut:testResults:label'),
+      label: isAuthenticated ? t('services:myData:header') : t('home:shortcut:testResults:label'),
       to: '/data/results',
       icon: <DataDeliverySvg />,
-      description: t('home:shortcut:testResults:intro')
+      description: isAuthenticated ? t('home:shortcut:myData:intro') : t('home:shortcut:testResults:intro')
     }
   ]
 

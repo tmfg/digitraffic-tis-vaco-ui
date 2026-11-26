@@ -1,28 +1,30 @@
 import { act, render, screen, waitFor } from '@testing-library/react'
 import { MsalReactTester } from 'msal-react-tester'
-import { MemoryRouter } from 'react-router-dom'
 import { MsalProvider } from '@azure/msal-react'
+import { createMemoryRouter, RouterProvider } from 'react-router-dom'
 import { http, HttpResponse } from 'msw'
 import { describe, beforeEach, afterEach, it, expect } from 'vitest'
 import i18next from 'i18next'
-import TestResultsPage from './TestResultsPage'
+import { appChildRoutes } from '../../App'
+import { AppContext } from '../../AppContextProvider'
+import { Company } from '../../types/Company'
 import { bootstrapParams, msalInitTester, resetTester } from '../../test/unit/vitestSetup'
 import { server } from '../../test/unit/mocks/server'
 import { initializeBootstrap } from '../../hooks/auth'
 
-describe('Test Results Page', () => {
+const company = (businessId: string, name: string): Company => ({ businessId, name, publish: false, roles: [] })
+
+describe('Test results page', () => {
   let msalTester: MsalReactTester
-  let authorizationHeaders: (string | null)[]
 
   beforeEach(() => {
     initializeBootstrap(bootstrapParams)
     msalTester = msalInitTester()
-    authorizationHeaders = []
     server.use(
-      http.get('http://localhost:8080/api/ui/data-delivery/test-results', ({ request }) => {
-        authorizationHeaders.push(request.headers.get('Authorization'))
-        return HttpResponse.json([], { status: 200 })
-      })
+      http.get('http://localhost:8080/api/ui/data-delivery', () => HttpResponse.json([], { status: 200 })),
+      http.get('http://localhost:8080/api/ui/pages/company-entries/:businessId', () =>
+        HttpResponse.json({ data: { entries: [] }, error: null, links: {} }, { status: 200 })
+      )
     )
   })
 
@@ -30,48 +32,77 @@ describe('Test Results Page', () => {
     resetTester(msalTester)
   })
 
-  const renderPage = async () => {
+  const renderAt = async (companies: Company[] | undefined) => {
+    const router = createMemoryRouter(appChildRoutes, { initialEntries: ['/data', '/data/results'], initialIndex: 1 })
     await act(async () => {
       render(
         <MsalProvider instance={msalTester.client}>
-          <MemoryRouter>
-            <TestResultsPage />
-          </MemoryRouter>
+          <AppContext.Provider value={{ companies, roles: undefined }}>
+            <RouterProvider router={router} />
+          </AppContext.Provider>
         </MsalProvider>
       )
     })
     await msalTester.waitForRedirect()
+    return router
   }
 
-  it('fetches the test results without a token when user is not logged in', async () => {
+  it('sends a visitor to the public validation test company', async () => {
     await msalTester.isNotLogged()
-    await renderPage()
+    const router = await renderAt(undefined)
 
-    expect(screen.getByText(i18next.t('vaco:testResults'))).toBeInTheDocument()
-    expect(screen.queryByText(i18next.t('error:authRequired'))).toBeNull()
-    await waitFor(() => expect(authorizationHeaders).toHaveLength(1))
-    expect(authorizationHeaders[0]).toBeNull()
+    expect(router.state.location.pathname).toBe('/data/companies/public-validation-test-id')
   })
 
-  it('fetches the test results with a token when user is logged in', async () => {
+  it('sends a logged-in user without a company to the public validation test company', async () => {
     await msalTester.isLogged()
-    await renderPage()
+    const router = await renderAt([])
 
-    await waitFor(() => expect(authorizationHeaders.length).toBeGreaterThan(0))
-    expect(authorizationHeaders.every((header) => header !== null)).toBe(true)
+    expect(router.state.location.pathname).toBe('/data/companies/public-validation-test-id')
   })
 
-  it('has no search form', async () => {
-    await msalTester.isNotLogged()
-    await renderPage()
+  it('sends a logged-in user whose only company is the public validation test company to that company', async () => {
+    await msalTester.isLogged()
+    const router = await renderAt([company('public-validation-test-id', 'Public validation test')])
 
-    expect(document.querySelector('#searchInput')).toBeNull()
+    expect(router.state.location.pathname).toBe('/data/companies/public-validation-test-id')
   })
 
-  it('has no export button', async () => {
-    await msalTester.isNotLogged()
-    await renderPage()
+  it('keeps a logged-in user with companies on the results route and shows the own publications page', async () => {
+    let entriesRequests = 0
+    server.use(
+      http.get('http://localhost:8080/api/ui/entries', ({ request }) => {
+        entriesRequests++
+        expect(new URL(request.url).searchParams.get('full')).toBe('false')
+        return HttpResponse.json([], { status: 200 })
+      })
+    )
+    await msalTester.isLogged()
+    const router = await renderAt([company('2222222-2', 'B Oy'), company('1111111-1', 'A Oy')])
 
-    expect(screen.queryByText('Export CSV')).toBeNull()
+    expect(router.state.location.pathname).toBe('/data/results')
+    expect(screen.getByRole('heading', { level: 1 }).textContent).toBe(i18next.t('services:myData:header'))
+    await waitFor(() => expect(entriesRequests).toBe(1))
+  })
+
+  it('waits with the load spinner while the companies of a logged-in user load', async () => {
+    await msalTester.isLogged()
+    const router = await renderAt(undefined)
+
+    expect(router.state.location.pathname).toBe('/data/results')
+    expect(document.querySelector('svg.spinner')).not.toBeNull()
+    expect(screen.queryByRole('heading', { level: 1 })).toBeNull()
+  })
+
+  it('replaces the history entry, so back does not return to the results route', async () => {
+    await msalTester.isNotLogged()
+    const router = await renderAt(undefined)
+    expect(router.state.location.pathname).toBe('/data/companies/public-validation-test-id')
+
+    await act(async () => {
+      await router.navigate(-1)
+    })
+
+    expect(router.state.location.pathname).toBe('/data')
   })
 })

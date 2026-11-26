@@ -8,6 +8,7 @@ export interface Resource<D> {
 }
 
 export interface CompanyEntriesPage {
+  companyName?: string | null
   entries: EntrySummary[]
 }
 

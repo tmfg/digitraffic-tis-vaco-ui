@@ -2,10 +2,13 @@ import { TFunction } from 'i18next'
 import { PublicValidationTest } from '../types/PublicValidationTest'
 
 export const getCompanyFullName = (
-  companyName: string | null,
+  companyName: string | null | undefined,
   businessId: string | undefined,
   t: TFunction<'translation', undefined>
 ) => {
+  if (!companyName) {
+    return businessId ?? ''
+  }
   return companyName !== PublicValidationTest.companyName
     ? `${companyName} (${businessId})`
     : t('publicValidationTest:companyName')
@@ -18,6 +21,10 @@ export const getCompanyName = (companyName: string | undefined, t: TFunction<'tr
 export const getBusinessId = (businessId: string) => {
   return businessId !== PublicValidationTest.businessId ? businessId : ''
 }
+
+/** True when the list holds a company other than the public validation test company. */
+export const hasOwnCompany = (companies: { businessId: string }[] | undefined) =>
+  (companies ?? []).some((company) => company.businessId !== PublicValidationTest.businessId)
 
 const BUSINESS_ID_FORMAT = /^\d{7}-\d$/
 

@@ -65,11 +65,7 @@ export const getTableRow = (
     {
       name: 'companyName',
       value: getCompanyName(companyLatestEntryResource.data.companyName, t),
-      href:
-        '/data/companies/' +
-        companyLatestEntryResource.data.businessId +
-        '?companyName=' +
-        companyLatestEntryResource.data.companyName,
+      href: '/data/companies/' + companyLatestEntryResource.data.businessId,
       colSpan: 2,
       plainValue: getCompanyName(companyLatestEntryResource.data.companyName, t)
     },

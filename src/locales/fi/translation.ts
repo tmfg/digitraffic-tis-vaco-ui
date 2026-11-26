@@ -272,6 +272,7 @@ export const fi = {
         status: 'Tila'
       },
       noDataFound: 'Dataa ei löytynyt',
+      companyNotFound: 'Yritystä ei löytynyt',
       noResultsFound: 'Tuloksia ei löytynyt'
     }
   },

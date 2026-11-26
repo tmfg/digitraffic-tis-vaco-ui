@@ -49,7 +49,10 @@ export const supportItem = (t: TFunction<'translation', undefined>): FdsNavigati
   }
 }
 
-export const myServicesItem = (t: TFunction<'translation', undefined>): FdsNavigationItem => {
+export const myServicesItem = (
+  t: TFunction<'translation', undefined>,
+  isAuthenticated = false
+): FdsNavigationItem => {
   return {
     label: t('vaco:services'),
     value: '',
@@ -63,7 +66,7 @@ export const myServicesItem = (t: TFunction<'translation', undefined>): FdsNavig
         value: '/data/request'
       },
       {
-        label: t('vaco:testResults'),
+        label: isAuthenticated ? t('services:myData:header') : t('vaco:testResults'),
         value: '/data/results'
       }
     ]
